@@ -1,0 +1,41 @@
+
+
+
+Placeholder/defaults
+
+Single banner - "Banner content", blank
+Multiple banners - "Banner content", blank
+Modal - "Place modal content here.", blank
+
+Dynamic variables we can access:
+
+Background image(s) for banner
+Straight text for banner
+Link(s) for banner
+Link(s) position for banner
+Link(s) sizes for banner
+
+Background image(s) for modal
+Straight text for modal
+Link(s) for modal
+Link(s) position for modal
+Link(s) sizes for modal
+
+Only one modal can be visible at one time so can it be recycled among campaigns?
+
+Can campaigns provide data 
+
+
+design templates
+Ex. condition/promo/expire/details
+condition text treatment
+promo text treatment
+expire text treatment
+details text treatment
+
+Maybe add text boxes for free-form text styling and ids
+Requirements:
+font-sizes
+font-weights
+text stacking
+text wrapping

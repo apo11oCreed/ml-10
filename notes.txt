@@ -89,3 +89,44 @@ Create inline messages for each breakpoint. Each one will display breakpoint and
 breakpoints:
 992px
 768px
+
+
+BRAND
+PY
+EY
+LK
+TL
+
+BANNER(s)
+
+Layout
+one banner - align left
+one banner - align right
+one banner - full width
+more than one banner
+
+breakpoints
+
+pattern (styling)
+
+text input
+
+image(s) input
+
+background-color
+
+link input
+
+
+
+MODAL
+
+breakpoints
+
+pattern (styling)
+
+text input
+
+image(s) input
+
+link input

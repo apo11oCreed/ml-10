@@ -213,3 +213,23 @@ section.section-offer img {
 		box-shadow: 0 12px 9px -9px #aaa;
 	}
 }
+
+/* nc styles */
+
+#mlTen fieldset {
+	border-style: groove;
+	border-color: threedface;
+	border-image: initial;
+	padding: .35em .625em .75em;
+    margin: 0 2px;
+    border: 1px solid silver;
+}
+
+#mlTen legend {
+	border-bottom:none;
+	padding: 2rem;
+}
+
+.required {
+	color:red;
+}

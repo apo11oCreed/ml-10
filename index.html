@@ -80,6 +80,207 @@
                 </section>
             </div>
         </div>
+        <!-- requirements -->
+        <main id="mlTen"
+              class="container">
+            <section class="row">
+                <form action=""
+                      class="col-xs-12">
+                    <fieldset class="row">
+                        <legend>
+                            <h2>Global Attributes</h2>
+                        </legend>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <fieldset>
+                                        <legend>Brand</legend>
+                                        <label for="layoutType">Choose a brand:</label>
+                                        <!-- This will aid in determining some of the properties/values for the remaining options -->
+                                        <select name="layout"
+                                                id="">
+                                            <option value="select">-- select --</option>
+                                            <option value="paulaYoung">Paula Young</option>
+                                            <option value="especiallyYours">Especially Yours</option>
+                                            <option value="theLook">The Look</option>
+                                            <option value="wig">Wig</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xs-6">
+                                    <fieldset>
+                                        <legend>Breakpoints</legend>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <h4>Visible on Desktop?<span class="required">*</span></span></h4><label
+                                                       for="bpDesktopYes">Yes</label>
+                                                <input id="bpDesktopYes"
+                                                       name="bpDesktop"
+                                                       type="radio"
+                                                       value="yes"
+                                                       required>
+                                                <label for="bpDesktopNo">No</label>
+                                                <input id="bpDesktopNo"
+                                                       name="bpDesktop"
+                                                       type="radio"
+                                                       value="no">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <h4>Visible on Mobile?<span class="required">*</span></span></h4><label
+                                                       for="bpMobileYes">Yes</label>
+                                                <input id="bpMobileYes"
+                                                       name="bpMobile"
+                                                       type="radio"
+                                                       value="yes"
+                                                       required>
+                                                <label for="bpDesktopNo">No</label>
+                                                <input id="bpDesktopNo"
+                                                       name="bpMobile"
+                                                       type="radio"
+                                                       value="no">
+                                            </div>
+
+                                        </div>
+                                </div>
+                    </fieldset>
+                    </div>
+                    </div>
+                    </fieldset>
+                    <fieldset class="row">
+                        <legend>
+                            <h2>Banner Properties</h2>
+                        </legend>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <fieldset>
+                                        <legend>Layout type</legend>
+                                        <label for="layoutType">Choose a layout type:</label>
+                                        <select name="layout"
+                                                id="layoutType">
+                                            <option value="select">-- select --</option>
+                                            <option value="oneBannerAlignLeft">One banner - align left</option>
+                                            <option value="oneBannerAlignRight">One banner - align right</option>
+                                            <option value="oneBannerfullWidth">One banner - full width</option>
+                                            <option value="moreThanOneBannerSplit">More than one banner - split</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <fieldset>
+                                        <legend>Pattern</legend>
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <label for="patternOne">Pattern 1</label>
+                                                <input id="patternOne"
+                                                       name="pattern"
+                                                       type="radio">
+                                            </div>
+                                            <div class="col-xs-9"><img src="img/Annotation 2020-07-29 155536.png"
+                                                     alt=""></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <label for="patternTwo">Pattern 2</label>
+                                                <input id="patternTwo"
+                                                       name="pattern"
+                                                       type="radio">
+                                            </div>
+                                            <div class="col-xs-9"><img src="img/Annotation 2020-07-29 155620.png"
+                                                     alt=""></div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <fieldset>
+                                        <legend>Content</legend>
+                                        <div class="row">
+                                            <div class="col-xs-6"><label for="offerBold1">Offer Text 1 (Bold)</label>
+                                                <input id="offerBold1"
+                                                       placeholder="free"
+                                                       type="text"></div>
+                                            <div class="col-xs-6"><label for="offerReg1">Offer Text 2 (Regular)</label>
+                                                <input id="offerReg1"
+                                                       placeholder="standard"
+                                                       type="text"></div>
+
+                                            <div class="col-xs-6"><label for="offerBold2">Offer Text 3 (Bold)</label>
+                                                <input id="offerBold2"
+                                                       placeholder="shipping!"
+                                                       type="text"></div>
+
+
+                                            <div class="col-xs-6"><label for="conditionReg1">Condition Text 1
+                                                    (Regular)</label>
+                                                <input id="conditionReg1"
+                                                       placeholder="on $50 or more"
+                                                       type="text"></div>
+
+                                            <div class="col-xs-6"><label for="detailsReg1">Details Text 1
+                                                    (Regular)</label>
+                                                <input id="detailsReg1"
+                                                       placeholder="details>>"
+                                                       type="text"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6"><label for="bgDesktop">Desktop background
+                                                    image</label>
+                                                <input id="bgDesktop"
+                                                       placeholder="*.png,.gif,.jpg"
+                                                       type="text"></div>
+                                            <div class="col-xs-6"><label for="bgMobile">Mobile background image</label>
+                                                <input id="bgMobile"
+                                                       placeholder="*.png,.gif,.jpg"
+                                                       type="text"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12"><label for="bgColor">Background color</label>
+                                                <input id="bgColor"
+                                                       placeholder="rbg or hex"
+                                                       type="text"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <label for="onClick">Choose the OnClick behavior:</label>
+                                                <select name="layout"
+                                                        id="onClick">
+                                                    <option value="select">-- select --</option>
+                                                    <option value="fireModal">Fire modal</option>
+                                                    <option value="linkToPage">Link to page</option>
+                                                    <option value="linkToAnchor">Link to anchor</option>
+                                                    <option value="doNothing">Do nothing
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12"><label for="offerLink">Offer Link</label>
+                                                <input id="offerLink"
+                                                       placeholder="/category/wigs/all-wigs.do"
+                                                       type="text"></div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <h2 class="row">Modal</h2>
+                    <fieldset class="row">
+
+                    </fieldset>
+                    <button type="submit">Export HTML/CSS</button>
+                    <button type="reset">Reset</button>
+                </form>
+            </section>
+        </main>
     </body>
 
 </html>

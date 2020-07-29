@@ -1,0 +1,215 @@
+body {
+	background-color: #efefef;
+}
+
+.faux-website-container {
+	width: 100%;
+	background-color: #fff;
+	min-height: 100vh;
+}
+
+.faux-website-container .container {
+	width: 100%;
+}
+
+.instrCont {
+	margin-bottom: 20px;
+}
+
+.instrCont h1 {
+	text-align: center;
+}
+
+.instrCont h4 {
+	margin-top: 4px;
+	text-decoration: underline;
+}
+
+.instrCont select,
+.instrCont select option,
+.instrCont input {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+.instrCont .wide {
+	width: 100%;
+	max-width: 100%;
+}
+
+.instrCont textarea {
+	resize: vertical;
+	padding: 8px;
+}
+
+.instrCont input[type=radio],
+.instrCont label {
+	display: inline;
+}
+
+.optCont {
+	display: table;
+}
+
+.optCont .opt-cell.rightAlign {
+	text-align: right;
+}
+
+.optCont .opt-cell.cntr {
+	text-align: center;
+}
+
+.optCont span.showhide {
+	font-size: 200%;
+	display: none;
+}
+
+.optCont:first-of-type {
+	border-right: 2px solid #aaa;
+}
+
+.optCont .opt-row {
+	display: table-row;
+}
+
+.optCont .opt-cell {
+	display: table-cell;
+	padding: 4px;
+	vertical-align: middle;
+}
+
+.optCont .opt-cell.clabel {
+	font-weight: bold;
+}
+
+.optCont .opt-cell.cheading span,
+.optCont .opt-cell.clabel span {
+	vertical-align: middle;
+}
+
+.optCont select[disabled],
+.optCont button[disabled] {
+	color: #aaa;
+}
+
+.optCont .opt-cell.disabled {
+	color: #aaa;
+}
+
+.optCont span.help {
+	cursor: pointer;
+	font-size: 150%;
+	margin-top: -3px;
+	margin-left: 6px;
+}
+
+.input-group.notfound:after {
+	content: "\e014";
+	font-family: "Glyphicons Halflings";
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	z-index: 1001;
+}
+
+.input-group.found:after {
+	content: "\e013";
+	font-family: "Glyphicons Halflings";
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	z-index: 1001;
+}
+
+.noSeeCode {
+	display: none;
+}
+
+.modal textarea {
+	width: 100%;
+	height: 300px;
+}
+
+/* Website specific CSS */
+
+section.pyh-ad-outer {
+	margin: 0;
+	padding-left: initial;
+	padding-right:initial
+}
+
+.py-shadow-b {
+	box-shadow: 0 12px 9px -9px #aaa;
+}
+
+section.pyh-ad-outer.no-gap {
+ margin: 2px 0 0 0;
+}
+
+.adMove {
+	position: absolute;
+	clip: rect(1px 1px 1px 1px);
+	clip: rect(1px, 1px, 1px, 1px);
+	-webkit-clip-path: inset(0px 0px 99.9% 99.9%);
+	clip-path: inset(0px 0px 99.9% 99.9%);
+	overflow: hidden;
+	height: 1px;
+	width: 1px;
+	padding: 0;
+	border: 0;
+}
+
+@media screen and (min-width:992px) {
+	.faux-website-container {
+		width: 992px;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width:991px) {
+	.optCont:first-of-type {
+		border-right: none;
+	}
+	.optCont:last-of-type h4 {
+		margin-top: 20px;
+	}
+	.optCont .opt-row.chide {
+		display: none;
+	}
+	.optCont span.showhide {
+		display: inline;
+	}
+}
+
+@media screen and (max-width:575px) {
+	.faux-website-container .container {
+		padding: 0;
+	}
+}
+
+/* START */
+section.section-offer {
+	position: relative;
+	width: 100%;
+}
+
+section.section-offer h2 {
+	margin: 0;
+}
+
+section.section-offer img {
+	height: auto;
+	width: 100%;
+}
+
+@media screen and (min-width:576px) {
+	section.py-shadow-b-lrg {
+		box-shadow: 0 12px 9px -9px #aaa;
+	}
+}
+
+@media screen and (max-width:575px) {
+	section.py-shadow-b-sml {
+		box-shadow: 0 12px 9px -9px #aaa;
+	}
+}

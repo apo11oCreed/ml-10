@@ -39,3 +39,53 @@ font-sizes
 font-weights
 text stacking
 text wrapping
+
+How long is the copy?
+What are the character limits?
+
+FACEBOOK
+Feed ad character limits
+
+Text: 125 characters.
+Headline: 25 characters.
+Link description: 30 characters.
+
+Carousel ad character limits
+
+Text: 125 characters.
+Headline: 40 characters.
+Link description: 20 characters (optional on Instant Articles).
+
+Instant article ad character limits
+
+Headline: 25 characters.
+Link description: 30 characters.
+
+Audience Network ad character limits
+
+Text: 125 characters.
+Headline: 25 characters.
+Link description (optional): 30 characters.
+
+Sponsored message ad character limits
+
+Text: 125 characters.
+Headline: 25 characters.
+Link description: 30 characters.
+
+Facebook messenger character limits
+
+Text: 125 characters.
+Headline: 25 characters.
+
+Facebook Collection character limits
+
+Text: 90 characters.
+Headline: 25 characters.
+
+IDEA:
+Create inline messages for each breakpoint. Each one will display breakpoint and character limit.
+
+breakpoints:
+992px
+768px

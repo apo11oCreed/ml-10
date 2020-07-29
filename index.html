@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Offer Creation Tool v2</title>
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, maximum-scale=1">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+                crossorigin="anonymous"></script>
+        <!-- Bootstrap -->
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                crossorigin="anonymous"></script>
+        <!-- Offer Stylesheet and JS -->
+        <link rel="stylesheet"
+              href="css/sectionoffer.css">
+        <script src="js/sectionoffer.js"></script>
+
+        <style>
+            /* 1. Place the 2 breakpoint images in the same location as this file
+ * 2. Change the background-image urls to the image filenames (in the 
+ * e.g. background-image: url( offer-image-large.jpg );
+ * 3. Change the offer text 
+*/
+
+            section.section-offer a {
+                /*	background-image: url( https://services.scdirect.net/scripts/images/test-962.png );*/
+            }
+
+            @media screen and (max-width:575px) {
+                /*	section.section-offer a {
+		background-image: url( https://services.scdirect.net/scripts/images/test-575.png );
+	}*/
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div class="faux-website-container">
+            <div class="container">
+                <section class="section-offer pyh-ad-outer py-shadow-b no-gap clearfix"
+                         role="region">
+                    <a href="#">
+                        <h2>
+                            <picture>
+                                <source media="(min-width: 576px)"
+                                        srcset="https://services.scdirect.net/scripts/images/test-962.png">
+                                <source media="(max-width: 575px)"
+                                        srcset="https://services.scdirect.net/scripts/images/test-575.png">
+                                <img id="section-offer-img"
+                                     src="https://services.scdirect.net/scripts/images/test-962.png"
+                                     alt="Offer Heading"
+                                     aria-describedby="offer-description"
+                                     data-srcset="https://services.scdirect.net/scripts/images/test-575.png">
+                            </picture>
+                        </h2>
+                    </a>
+                    <div id="offer-description">
+                        <div class="body adMove">
+                            Offer Sub Text Description
+                        </div>
+                        <div class="coupon adMove">
+                            Coupon Code: 123456
+                        </div>
+                    </div>
+                    <script>
+                        if (window.innerWidth <= 575) {
+                            var offerImg = document.getElementById("section-offer-img");
+                            if (offerImg.currentSrc !== offerImg.getAttribute("data-srcset"))
+                                offerImg.src = offerImg.getAttribute("data-srcset");
+                        }
+                    </script>
+                </section>
+            </div>
+        </div>
+    </body>
+
+</html>

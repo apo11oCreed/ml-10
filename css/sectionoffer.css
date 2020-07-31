@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
 body {
 	background-color: #efefef;
 }
@@ -216,6 +217,22 @@ section.section-offer img {
 
 /* nc styles */
 
+#mlTen label {
+	font-weight:400;
+}
+
+/* #mlTen :focus {
+	border:red 1px solid!important;
+} */
+
+
+
+#mlTen hr{
+	height: 0px;
+    border: 1px transparent solid;
+    box-shadow: 0px 1px 0px rgba(0,0,0,0.125);
+}
+
 #mlTen fieldset {
 	border-style: groove;
 	border-color: threedface;
@@ -227,9 +244,92 @@ section.section-offer img {
 
 #mlTen legend {
 	border-bottom:none;
-	padding: 2rem;
+	padding: 2rem 2rem 0 2rem;
+	margin-bottom:0;
+}
+
+#mlTen ::placeholder {
+	opacity:0.5;
 }
 
 .required {
 	color:red;
+}
+
+.error{
+	display:none;
+}
+
+.notfound + .error{
+	display:block;
+}
+
+fieldset#breakpoints h5 {
+	display:inline-block;
+}
+
+fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
+	margin-right:1rem;
+}
+
+.enter-text-banner.flex-it{
+	flex-direction:row;
+	display:-webkit-box;
+	display:-ms-flexbox;
+	display:flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: row;
+			flex-direction: row;
+			justify-content: center;
+}
+
+.enter-text-banner.flex-it > div input {
+	border-left:none;
+	border-right:1px solid black;
+	border-top:none;
+	border-bottom:none;
+}
+
+.enter-text-banner.flex-it > div:nth-child(1) > input {
+	border-left:1px solid black;
+}
+
+.text-render.flex-it {
+	display:-webkit-box;
+	display:-ms-flexbox;
+	display:flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: row;
+			flex-direction: row;
+			align-content:center;
+}
+
+.row.text-render span.dynamic {
+	display:flex;
+	align-items:center;
+	text-transform:uppercase;
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+.enter-text-modal.flex-it{
+	display:-webkit-box;
+	display:-ms-flexbox;
+	display:flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: column;
+			flex-direction: column;
+			justify-content:space-between;
+}
+
+.enter-text-modal.flex-it textarea{
+	width:100%;
+	max-width:100%;
+	resize:vertical;
+}
+
+#modalDefs .example-modal img {
+	box-shadow:5px 5px 10px rgba(0,0,0,0.25);
 }

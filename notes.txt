@@ -121,8 +121,6 @@ link input
 
 MODAL
 
-breakpoints
-
 pattern (styling)
 
 text input

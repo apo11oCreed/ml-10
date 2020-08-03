@@ -23,6 +23,7 @@
         <script src="js/sectionoffer.js"></script>
         <script src="js/script.js"></script>
 
+
         <style>
             /* 1. Place the 2 breakpoint images in the same location as this file
  * 2. Change the background-image urls to the image filenames (in the 
@@ -46,11 +47,14 @@
     <body>
         <div class="faux-website-container">
             <div class="container">
-                <section class="section-offer pyh-ad-outer py-shadow-b no-gap clearfix"
+                <!-- <section class="section-offer pyh-ad-outer py-shadow-b no-gap clearfix"
+                         role="region"> -->
+                <section class="section-offer row"
                          role="region">
                     <a href="#">
-                        <h2>
-                            <picture>
+                        <div class="section-offer-content col-xs-12">
+                            <h2>
+                                <!-- <picture>
                                 <source media="(min-width: 576px)"
                                         srcset="https://services.scdirect.net/scripts/images/test-962.png">
                                 <source media="(max-width: 575px)"
@@ -60,8 +64,15 @@
                                      alt="Offer Heading"
                                      aria-describedby="offer-description"
                                      data-srcset="https://services.scdirect.net/scripts/images/test-575.png">
-                            </picture>
-                        </h2>
+                            </picture> -->
+                                <div class="row text-render">
+
+                                    <div class="col-xs-12">
+                                        <span class="dynamic"></span>
+                                    </div>
+                                </div>
+                            </h2>
+                        </div>
                     </a>
                     <div id="offer-description">
                         <div class="body adMove">
@@ -81,7 +92,9 @@
                 </section>
             </div>
         </div>
+
         <!-- requirements -->
+
         <header class="container">
             <div class="row">
                 <h1 class="col-xs-12">Offer Creation Tool v3</h1>
@@ -92,9 +105,7 @@
         </header>
         <main id="mlTen"
               class="container">
-
             <section class="row">
-
                 <form action=""
                       class="col-xs-12">
                     <fieldset id="globalProperties"
@@ -111,14 +122,14 @@
                                         </legend>
                                         <label for="brand">Choose a brand:<span class="required">*</span></label>
                                         <!-- This will aid in determining some of the properties/values for the remaining options -->
-                                        <select name="brand"
-                                                id="brand"
+                                        <select name="brands"
+                                                id="brands"
                                                 required>
                                             <option value="">-- select --</option>
-                                            <option value="paulaYoung">Paula Young</option>
-                                            <option value="especiallyYours">Especially Yours</option>
-                                            <option value="theLook">The Look</option>
-                                            <option value="wig">Wig</option>
+                                            <option value="py">Paula Young</option>
+                                            <option value="ey">Especially Yours</option>
+                                            <option value="tl">The Look</option>
+                                            <option value="wg">Wig</option>
                                         </select>
                                     </fieldset>
                                 </div>
@@ -134,7 +145,6 @@
                                                            name="bpDesktop"
                                                            type="radio"
                                                            value="yes"
-                                                           required
                                                            checked>
                                                     <label for="bpDesktopNo">No</label>
                                                     <input id="bpDesktopNo"
@@ -148,7 +158,6 @@
                                                        name="bpMobile"
                                                        type="radio"
                                                        value="yes"
-                                                       required
                                                        checked>
                                                 <label for="bpMobileNo">No</label>
                                                 <input id="bpMobileNo"
@@ -209,31 +218,65 @@
                                         <!-- These fields are dependent on the pattern selection(s) -->
                                         <span class="dynamic"></span>
                                         <div class="row">
-                                            <h4 class="col-xs-12">Enter the background details.</h4>
-                                            <div class="col-xs-3"><label for="bgDesktop">Desktop background
-                                                    image:</label></div>
-                                            <div class="col-xs-2">
-                                                <input id="bgDesktop"
-                                                       class="imgaddress"
-                                                       placeholder="*.png,*.gif,*.jpg"
-                                                       type="text"></div>
-                                            <div class="col-xs-3 error">Image not found</div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-3"><label for="bgMobile">Mobile background image:</label>
+                                            <div class="col-xs-12">
+                                                <h4>Enter the background details.</h4>
                                             </div>
-                                            <div class="col-xs-2">
-                                                <input id="bgMobile"
-                                                       class="imgaddress"
-                                                       placeholder="*.png,*.gif,*.jpg"
-                                                       type="text"></div>
-                                            <div class="col-xs-3 error">Image not found</div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-3"><label for="bgColor">Background color:</label><span
-                                                      class="required">*</span></div>
-                                            <div class="col-xs-2">
+                                            <div class="col-xs-3"><label for="bpDesktopYes">Local</label>
+                                                <input id="local1"
+                                                       name="lorr1"
+                                                       type="radio"
+                                                       value="local"
+                                                       checked></div>
+                                            <div class="col-xs-3"><label for="bpDesktopYes">Remote</label>
+                                                <input id="remote1"
+                                                       name="lorr1"
+                                                       type="radio"
+                                                       value="remote"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+
+                                                <div class="row">
+                                                    <div class="col-xs-2"><label for="bgDesktop">Image 1
+                                                            (962x420):</label></div>
+                                                    <div class="col-xs-6 input-group1">
+                                                        <span class="input-group-addon1"
+                                                              id="img2label">Enter local filename</span>
+                                                        <input id="bgDesktop"
+                                                               class="bgimgaddress form-control1"
+                                                               placeholder="desktop*.png,*.gif,*.jpg"
+                                                               type="text"
+                                                               name="bgDesktop"></div>
+                                                    <div class="col-xs-3 error"
+                                                         hidden>Image not found</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-2"><label for="bgMobile">Image 2
+                                                            (575x683):</label>
+                                                    </div>
+                                                    <div class="col-xs-6 input-group1">
+                                                        <span class="input-group-addon1"
+                                                              id="img2label">Enter local filename</span>
+                                                        <input id="bgMobile"
+                                                               class="bgimgaddress form-control1"
+                                                               placeholder="mobile*.png,*.gif,*.jpg"
+                                                               type="text"
+                                                               name="bgMobile"></div>
+                                                    <div class="col-xs-3 error"
+                                                         hidden>Image not found</div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-2"><label for="bgColor">Background
+                                                    color:</label><span class="required">*</span></div>
+                                            <div class="col-xs-3">
                                                 <input id="bgColor"
+                                                       class="bgcolor"
                                                        placeholder="rbg(250,250,250)"
                                                        type="text"
                                                        required></div>
@@ -256,12 +299,6 @@
                                                 </select></div>
                                         </div>
                                         <div class="row onclickbehavior">
-                                            <div class="col-xs-12">
-                                                <span class="dynamic"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row text-render">
-
                                             <div class="col-xs-12">
                                                 <span class="dynamic"></span>
                                             </div>

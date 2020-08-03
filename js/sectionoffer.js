@@ -210,7 +210,7 @@ function buttonBehave() {
                 }
                 else {
                     //					$( this ).siblings( "span.input-group-addon" ).text( "/images/1AB1/" + $( "select[name='brandSel']" ).val() + "/HomePage/" );
-                    $(this).siblings("span.input-group-addon").text("/images/evergage/global/");
+                    $(this).siblings("span.input-group-addon").text("/images/evergage/");
                     $(this).val("").attr("placeholder", "Enter Filename...");
                 }
             });

@@ -15,7 +15,8 @@ $(document).ready(function () {
         var alertM = `
 		<div class="alert alert-success" role="alert">
 			<a href="#" class="alert-link">${type} Copied!</a>
-		</div>`;
+        </div>`;
+        console.log(type);
         $(".modal-body:visible").prepend(alertM);
         setTimeout(function () { $(".modal-body .alert").remove(); }, 3000);
     });

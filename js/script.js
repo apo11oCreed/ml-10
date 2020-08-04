@@ -1,4 +1,4 @@
-var bannerObj = {};
+
 
 var patterns = {
     "oneBannerfullWidth": [
@@ -226,11 +226,25 @@ var patternOptionsHTML,
     selectDesktopImg,
     selectMobileImg,
     selectBgColor,
-    resourceState;
+    resourceOrigin;
 
 $(document).ready(function () {
 
     buttonBehave1();
+
+    // event listener - copy to clipboard
+    // $(document).on("click", "button.copy", function () {
+    //     $(".modal textarea").select();
+    //     document.execCommand('copy');
+    //     $(".modal textarea").blur();
+    //     var type = $(".modal:visible .modal-title").text().split(" ")[0];
+    //     var alertM = `
+    // 	<div class="alert alert-success" role="alert">
+    // 		<a href="#" class="alert-link">${type} Copied!</a>
+    // 	</div>`;
+    //     $(".modal-body:visible").prepend(alertM);
+    //     setTimeout(function () { $(".modal-body .alert").remove(); }, 3000);
+    // });
 
     $('fieldset#patterns > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
 
@@ -249,7 +263,204 @@ $(document).ready(function () {
             var size = 575;
         $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
     });
+
+    $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", true);
 });
+
+function buttonBehave1() {
+
+    $('button#form-reset').on('click', function () {
+        $('span.dynamic').html('');
+        selectOnClickBehavior = '';
+        selectBrand = '';
+        selectLayoutType = '';
+        selectedPattern = '';
+        selectDesktopImg = '';
+        selectMobileImg = '';
+        selectBgColor = '';
+        resourceOrigin = '';
+    });
+
+    // $('select#brands').on('change', function () {
+    //     selectBrand = $('#brands :selected').val();
+    // });
+
+    $('select#layoutDropDown, select#onClickBehavior, select#brands').on('change', function () {
+        var selectMenu = $(this).attr('name');
+        if (selectMenu == 'layoutDropDown') {
+            displayPatterns($(':selected', this).val());
+        } else if (selectMenu == 'onClickBehavior') {
+            displayOnClickBehavior($(':selected', this).val());
+            $('textarea[id="modalBody"]').on('change', validate);
+        } else {
+            selectBrand = $('#brands :selected').val();
+        }
+    });
+
+    $('input[name="bpDesktop"],input[name="bpMobile"]').on('click', function () {
+        var namespace = $(this).attr('name').substr(2),
+            radiobp = $('fieldset#breakpoints input:checked'),
+            bpNoArray = [];
+
+        radiobp.each(function () {
+            if ($(this).val() == 'no') {
+                bpNoArray.push($(this).val());
+            }
+        });
+
+        if (bpNoArray.length > 1) {
+            $('[name="lorr1"]').closest('.row').addClass("disabled");
+            $('input#bgbpDesktop,input#bgMobile').closest('.row').addClass("disabled");
+        } else if ($(this).val() == 'no') {
+            $('input#bg' + namespace).prop({ 'disabled': true, 'required': false });
+            $('input#bg' + namespace).closest('.row').addClass("disabled");
+            $('[name="lorr1"]').closest('.row').removeClass("disabled");
+        } else {
+            $('input#bg' + namespace).prop({ 'disabled': false, 'required': true });
+            $('input#bg' + namespace).closest('.row').removeClass("disabled");
+            $('[name="lorr1"]').closest('.row').removeClass("disabled");
+        }
+
+    });
+
+    // On radio button change
+    $("input[name='lorr1']").on("change", function () {
+
+        resourceOrigin = $(this).val();
+
+        if (resourceOrigin == "local") {
+            // Disable 'Brand'/'Export'
+            // $(".opt-row.brand .clabel").addClass("disabled");
+            // $(".opt-row.brand select").attr("disabled", "disabled");
+
+            $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
+                var curr = $(this).val();
+                if (curr !== "")
+                    $(this).attr("data-remote", curr);
+
+                if ($(this).data("local"))
+                    $(this).val($(this).data("local"));
+
+                $(this).siblings("span.input-group-addon1").text("Enter local filename");
+                if ($(this).attr("name") == "bgDesktop")
+                    var size = 962;
+                else
+                    var size = 575;
+                $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
+            });
+        } else if (resourceOrigin == "remote") {
+            // Enable 'Brand'/'Export'
+            // $(".opt-row.brand .clabel").removeClass("disabled");
+            // $(".opt-row.brand select").removeAttr("disabled");
+
+            $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
+                var curr = $(this).val();
+                if (curr !== "") {
+                    $(this).attr("data-local", curr);
+                }
+
+                if ($(this).data("remote")) {
+                    $(this).val($(this).data("remote"));
+                }
+
+                if ($("select[name='brands']").val() == "") {
+                    $(this).val("").attr("placeholder", "Select a brand");
+                    $(this).siblings("span.input-group-addon1").text("Enter remote filename");
+                } else {
+                    $(this).siblings("span.input-group-addon1").text("/images/evergage/" + selectBrand + "/");
+                    $(this).val("").attr("placeholder", "Enter Filename...");
+                }
+            });
+        }
+
+        $(".input-group1").removeClass("found notfound");
+    });
+
+    $("select[name='brands']").on("change", function () {
+        if (resourceOrigin == 'remote') {
+            $("input[name='lorr1']").trigger("change");
+            $(".input-group1").removeClass("found notfound");
+        }
+    });
+
+    $("button").on("click", function () {
+        var type = $(this).attr("name");
+        exportCode1(type);
+    });
+
+    $("span.help1").on("click", function () {
+        var helpMsg = "";
+        switch ($(this).data("help")) {
+            case "desktop": helpMsg = 'For local testing, place a 962x430px image in the same directory as this HTML file and enter the filename here <i style="font-style:serif;color:#a1a1a1; ">(png,gif,jpg)</i>.<br>For remote testing, place a 962x430px image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"';
+                break;
+            case "mobile": helpMsg = 'For local testing, place a 575x683px image in the same directory as this HTML file and enter the filename here <i style="font-style:serif;color:#a1a1a1; ">(png,gif,jpg)</i>.<br>For remote testing, place a 575x683px image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"';
+                break;
+            case "required": helpMsg = 'Whether this text is required for this offer. Certain text cannot be omitted.';
+            default: break;
+        }
+
+        msgBox1(helpMsg, "Help");
+    });
+
+    $('input, select, textarea').filter('[required]:visible').on("change", validate);
+
+    $("input, select, textarea").on("change", function () {
+        // Test the left hand inputs
+        var left1 = 0;
+        var right1 = 1;
+        $(".optCont:first-of-type input.required").each(function () {
+            if (!$(this).is(":checked"))
+                return;
+            var sel = $(this).attr("name");
+            var value = $(this).parents(".opt-row").contents().find("[name='" + sel + "']:not(.required)").val();
+            if (value == "")
+                left1 = 1;
+        });
+        // Test the right hand inputs
+        // MUST be set to Remote!
+        if ($("input[name='lorr1']:checked").val() == "remote") {
+            if ($("input#bgDesktop").val() !== "" && $("input#bgMobile").val() !== "" && $("select[name='brand']").val() !== "")
+                right1 = 0;
+        }
+
+        if (!left1 && !right1) {
+            $(".opt-row.export .clabel").removeClass("disabled");
+            $(".opt-row.export button").removeAttr("disabled");
+        }
+        else {
+            $(".opt-row.export .clabel").addClass("disabled");
+            $(".opt-row.export button").attr("disabled", "disabled");
+        }
+
+        // Update href if link checkbox checked
+        if ($("input[type='text'][name='href']").val() !== "" && $("select[name='brand']").val() !== "") {
+            if ($("input[type='checkbox'][name='linktest']").is(":checked")) {
+                $("section.section-offer a").attr({
+                    "href": websiteURL1() + $("input[type='text'][name='href']").val(),
+                    "target": "_blank"
+                });
+            }
+            else {
+                $("section.section-offer a").attr("href", "#").removeAttr("target");
+            }
+        }
+    });
+
+    // imgaddress
+    $(".bgimgaddress").on({
+        focus: function () {
+            $(this).parent().removeClass("found notfound");
+            if ($(this).parent().next().attr('hidden', false)) {
+                $(this).parent().next().attr('hidden', true);
+            }
+        },
+        focusout: function () {
+            if (!($(this).val() == 0)) {
+                checkImageExists1(this, $(this).val());
+            }
+        }
+    });
+}
 
 function displayPatterns(el1) {
     $('fieldset#patterns > span.dynamic,fieldset#content > span.dynamic, .row.text-render span.dynamic').html('');
@@ -300,7 +511,7 @@ function displayCopyFields(el1, el2) {
         copyFields += ' <div><label for="copy' + (i + 1) + '">' + patternCopy[i].field + '</label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
     }
 
-    $('fieldset#content > span.dynamic').append('<div class="row"><h4 class="col-xs-12">Enter your copy for Pattern ' + (el2 + 1) + '</h4><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row enter-text-banner flex-it">' + copyFields + '</div><br><div class="row"><span class="col-xs-12" style="text-align:right"><button id="render-text-reset" type="reset">Reset Copy</button></span></div><hr>');
+    $('fieldset#content > span.dynamic').append('<div class="row"><h4 class="col-xs-12">Enter your copy for Pattern ' + (el2 + 1) + '</h4><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row enter-text-banner flex-it">' + copyFields + '</div><br><div class="row"><span class="col-xs-12" style="text-align:right"><button id="render-text-reset" type="reset" name="resettext">Reset Copy</button></span></div><hr>');
 
     renderedTextInputs = document.querySelectorAll('fieldset#content > span.dynamic input');
     renderedTextInputs.forEach(function (currentValue, index) {
@@ -318,7 +529,7 @@ function renderCopyFields(el1, el2) {
 function displayOnClickBehavior(el1) {
     $('.row.onclickbehavior span.dynamic').html('');
 
-    var modalHTML = '<fieldset id="modalDefs" class="row"> <legend> <h3>Modal</h3> </legend> <div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header<span class="required">*</span></label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50" required></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalExpires">Modal Expires<span class="required">*</span></label> <br><input id="modalExpires" name="modalExpires" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50" required></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h4>Example Modal</h4> <img src="https://www.paulayoung.com/images/evergage/py/lightbox/sitewide-c07.gif" alt="Example modal"> </span> </div></fieldset>',
+    var modalHTML = '<fieldset id="modalDefs" class="row"> <legend> <h3>Modal</h3> </legend> <div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalExpires">Modal Expires</label> <br><input id="modalExpires" name="modalExpires" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h4>Example Modal</h4> <img src="https://www.paulayoung.com/images/evergage/py/lightbox/sitewide-c07.gif" alt="Example modal"> </span> </div></fieldset>',
         linkHMTL = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to another page:<span class="required">*</span></label></div><div class="col-xs-2"> <input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" required></div></div>',
         linkAnchorHTML = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to a location on the same page:<span class="required">*</span></label></div><div class="col-xs-2"> <input id="offerLink" placeholder="#anchor" type="text" required></div></div>',
         doNothing = '<br><p>This will be a static banner.</p>',
@@ -339,161 +550,6 @@ function displayOnClickBehavior(el1) {
 
     $('.row.onclickbehavior span.dynamic').append(behavior);
 
-}
-
-function buttonBehave1() {
-
-    $('button#form-reset').on('click', function () {
-        $('span.dynamic').html('');
-        selectOnClickBehavior = '';
-        selectBrand = '';
-        selectLayoutType = '';
-        selectedPattern = '';
-        selectDesktopImg = '';
-        selectMobileImg = '';
-        selectBgColor = '',
-            resourceState = '';
-    });
-
-    $('select#brands').on('change', function () {
-        selectBrand = $('#brands :selected').val();
-    });
-
-    $('input[name="bpDesktop"],input[name="bpMobile"]').on('click', function () {
-        var namespace = $(this).attr('name').substr(2);
-        if ($(this).val() == 'no') {
-            $('input#bg' + namespace).prop('disabled', true);
-            $('input#bg' + namespace).parent().addClass("disabled");
-        } else {
-            $('input#bg' + namespace).prop('disabled', false);
-            $('input#bg' + namespace).parent().removeClass("disabled");
-        }
-    });
-
-    $('select#layoutDropDown, select#onClickBehavior').on('change', function () {
-        var selectMenu = $(this).attr('name');
-        if (selectMenu == 'layoutDropDown') {
-            displayPatterns($(':selected', this).val());
-        } else {
-            displayOnClickBehavior($(':selected', this).val());
-        }
-
-    });
-
-    // On radio button change
-    $("input[name='lorr1']").on("change", function () {
-        resourceState = $(this).val();
-        //console.log(resourceState);
-        if (resourceState == "local") {
-            // Disable 'Brand'/'Export'
-            // $(".opt-row.brand .clabel").addClass("disabled");
-            // $(".opt-row.brand select").attr("disabled", "disabled");
-
-            $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
-                var curr = $(this).val();
-                if (curr !== "")
-                    $(this).attr("data-remote", curr);
-
-                if ($(this).data("local"))
-                    $(this).val($(this).data("local"));
-
-                $(this).siblings("span.input-group-addon1").text("Enter local filename");
-                if ($(this).attr("name") == "bgDesktop")
-                    var size = 962;
-                else
-                    var size = 575;
-                $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
-            });
-        }
-        else if (resourceState == "remote") {
-            // Enable 'Brand'/'Export'
-            $(".opt-row.brand .clabel").removeClass("disabled");
-            $(".opt-row.brand select").removeAttr("disabled");
-
-            $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
-                var curr = $(this).val();
-                if (curr !== "")
-                    $(this).attr("data-local", curr);
-
-                if ($(this).data("remote"))
-                    $(this).val($(this).data("remote"));
-
-                if ($("select[name='brands']").val() == "") {
-                    $(this).val("").attr("placeholder", "Select a brand");
-                    $(this).siblings("span.input-group-addon1").text("Enter remote filename");
-                }
-                else {
-                    $(this).siblings("span.input-group-addon1").text("/images/evergage/" + selectBrand + "/");
-                    $(this).val("").attr("placeholder", "Enter Filename...");
-                }
-            });
-        }
-        $(".input-group1").removeClass("found notfound");
-    });
-
-    $("select[name='brands']").on("change", function () {
-        if (resourceState == 'remote') {
-            $("input[name='lorr1']").trigger("change");
-            $(".input-group1").removeClass("found notfound");
-        }
-    });
-
-    $("input, select, textarea").on("change", function () {
-        // Test the left hand inputs
-        var left = 0;
-        var right = 1;
-        $(".optCont:first-of-type input.required").each(function () {
-            if (!$(this).is(":checked"))
-                return;
-            var sel = $(this).attr("name");
-            var value = $(this).parents(".opt-row").contents().find("[name='" + sel + "']:not(.required)").val();
-            if (value == "")
-                left = 1;
-        });
-        // Test the right hand inputs
-        // MUST be set to Remote!
-        if ($("input[name='lorr1']:checked").val() == "remote") {
-            if ($("input#img1").val() !== "" && $("input#img2").val() !== "" && $("select[name='brand']").val() !== "")
-                right = 0;
-        }
-
-        if (!left && !right) {
-            $(".opt-row.export .clabel").removeClass("disabled");
-            $(".opt-row.export button").removeAttr("disabled");
-        }
-        else {
-            $(".opt-row.export .clabel").addClass("disabled");
-            $(".opt-row.export button").attr("disabled", "disabled");
-        }
-
-        // Update href if link checkbox checked
-        if ($("input[type='text'][name='href']").val() !== "" && $("select[name='brand']").val() !== "") {
-            if ($("input[type='checkbox'][name='linktest']").is(":checked")) {
-                $("section.section-offer a").attr({
-                    "href": websiteURL1() + $("input[type='text'][name='href']").val(),
-                    "target": "_blank"
-                });
-            }
-            else {
-                $("section.section-offer a").attr("href", "#").removeAttr("target");
-            }
-        }
-    });
-
-
-    $(".bgimgaddress").on({
-        focus: function () {
-            $(this).parent().removeClass("found notfound");
-            if ($(this).parent().next().attr('hidden', false)) {
-                $(this).parent().next().attr('hidden', true);
-            }
-        },
-        focusout: function () {
-            if (!($(this).val() == 0)) {
-                checkImageExists1(this, $(this).val());
-            }
-        }
-    });
 }
 
 function websiteURL1() {
@@ -518,16 +574,14 @@ function websiteURL1() {
 function imgURL1(el, flag) {
     var domain = websiteURL1();
     var fpath = $(el).siblings(".input-group-addon1").text();
-    if (fpath == "Enter local filename"){
+    if (fpath == "Enter local filename") {
         fpath = "";
     }
-        
+
     var fname = $(el).val();
     if (flag) {
-        console.log(domain + fpath + fname);
         return domain + fpath + fname;
     } else {
-        console.log(fpath + fname);
         return fpath + fname;
     }
 
@@ -535,12 +589,11 @@ function imgURL1(el, flag) {
 
 function checkImageExists1(el, url) {
     var img = new Image();
-    //$(el).parent().removeClass("found notfound");
 
     img.onload = function () {
         $(el).parent().addClass("found");
         $(el).parent().next().prop('hidden', true);
-        reDraw();
+        reDraw1();
     };
     img.onerror = function () {
         $(el).parent().addClass("notfound");
@@ -548,23 +601,27 @@ function checkImageExists1(el, url) {
     };
 
     img.src = imgURL1(el, true);
-    console.log(img.src);
 }
 
-function reDraw() {
-    // Update the background-image URLs
-    var img1src = imgURL1($(".bgimgaddress[name='bgDesktop']"), true);
-    var img2src = imgURL1($(".bgimgaddress[name='bgMobile']"), true);
-
-    // source 962
-    $("picture source[media*='576']").attr("srcset", img1src);
-    // source 575
-    $("picture source[media*='575']").attr("srcset", img2src);
-    // default src and data-srcset
-    $("img#section-offer-img").attr("src", img1src).attr("data-srcset", img2src);
+function exportCode1(type) {
+    switch (type) {
+        case "html": htmlExport();
+            break;
+        case "css": styleExport();
+            break;
+        default: break;
+    }
 }
 
-function htmlExport() {
+function styleExport1() {
+    // Form the CSS
+    var css = `section.section-offer { position: relative; width: 100%; } section.section-offer h2 { margin: 0; } section.section-offer img { height: auto; width: 100%; } @media screen and (min-width:576px) { section.py-shadow-b-lrg { box-shadow: 0 12px 9px -9px #aaa; } } @media screen and (max-width:575px) { section.py-shadow-b-sml { box-shadow: 0 12px 9px -9px #aaa; } }`;
+    var html = "<textarea>" + css + "</textarea>";
+    html += '<div class="faux-footer"><button class="copy btn btn-default">Copy To Clipboard</button></div>';
+    msgBox(html, "CSS Export");
+}
+
+function htmlExport1() {
     // Clone the html to a non visible area
     $("body").append("<div class='noSeeCode'></div>");
     $(".faux-website-container .container section").clone().appendTo(".noSeeCode");
@@ -574,14 +631,14 @@ function htmlExport() {
     $(".noSeeCode img#section-offer-img").attr("alt", $("input[type='text'][name='heading']").val().replace(/'/g, "").replace(/"/g, ""));
 
     // Img
-    var img1src = imgURL1($(".imgaddress[name='img1']"), false);
-    var img2src = imgURL1($(".imgaddress[name='img2']"), false);
+    var bgDesktopsrc = imgURL1($(".imgaddress[name='bgDesktop']"), false);
+    var bgMobilesrc = imgURL1($(".imgaddress[name='bgMobile']"), false);
     // source 962
-    $(".noSeeCode picture source[media*='576']").attr("srcset", img1src);
+    $(".noSeeCode picture source[media*='576']").attr("srcset", bgDesktopsrc);
     // source 575
-    $(".noSeeCode picture source[media*='575']").attr("srcset", img2src);
+    $(".noSeeCode picture source[media*='575']").attr("srcset", bgMobilesrc);
     // default src and data-srcset
-    $(".noSeeCode img#section-offer-img").attr("src", img1src).attr("data-srcset", img2src);
+    $(".noSeeCode img#section-offer-img").attr("src", bgDesktopsrc).attr("data-srcset", bgMobilesrc);
 
     // Body
     if ($("input[type='checkbox'][name='body']:checked").length == 1)
@@ -618,4 +675,92 @@ function htmlExport() {
 
     // Destroy noSeeCode element
     $(".noSeeCode").remove();
+}
+
+function msgBox1(msg, title) {
+    if (!title) title = "";
+    var html = `
+	<div id="msgBox" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">${title}</h4>
+				</div>
+				<div class="modal-body">
+					${msg}
+				</div>
+			</div>
+		</div>
+	</div>`;
+
+    $("body").append(html);
+    $("#msgBox").modal("show");
+}
+
+function reDraw1() {
+    // Update the background-image URLs
+    var bgDesktopsrc = imgURL1($(".bgimgaddress[name='bgDesktop']"), true);
+    var bgMobilesrc = imgURL1($(".bgimgaddress[name='bgMobile']"), true);
+
+    // source 962
+    $("picture source[media*='576']").attr("srcset", bgDesktopsrc);
+    // source 575
+    $("picture source[media*='575']").attr("srcset", bgMobilesrc);
+    // default src and data-srcset
+    $("img#section-offer-img").attr("src", bgDesktopsrc).attr("data-srcset", bgMobilesrc);
+}
+
+function escapeHTML1(text) {
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+}
+
+function validate() {
+
+    var valids = [];
+
+    var allRequireds = document.querySelectorAll(':required');
+
+    for (var j = 0; j < allRequireds.length; j++) {
+
+        if (allRequireds[j].value == '') {
+            valids.push(Number(j) + ':' + allRequireds[j].getAttribute('name'));
+        }
+    }
+
+
+
+    if (valids.length > 0) {
+        $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", true);
+
+    }
+    else {
+        $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", false);
+
+    }
+}
+
+function bannerObject(el1) {
+    var obj;
+
+    obj = {
+        patternOptionsHTML: '',
+        selectOnClickBehavior: '',
+        selectBrand: '',
+        selectLayoutType: '',
+        selectedPattern: '',
+        selectDesktopImg: '',
+        selectMobileImg: '',
+        selectBgColor: '',
+        resourceOrigin: ''
+    }
+
+    return obj;
 }

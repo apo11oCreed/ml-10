@@ -54,17 +54,17 @@
                     <a href="#">
                         <div class="section-offer-content col-xs-12">
                             <h2>
-                                <!-- <picture>
-                                <source media="(min-width: 576px)"
-                                        srcset="https://services.scdirect.net/scripts/images/test-962.png">
-                                <source media="(max-width: 575px)"
-                                        srcset="https://services.scdirect.net/scripts/images/test-575.png">
-                                <img id="section-offer-img"
-                                     src="https://services.scdirect.net/scripts/images/test-962.png"
-                                     alt="Offer Heading"
-                                     aria-describedby="offer-description"
-                                     data-srcset="https://services.scdirect.net/scripts/images/test-575.png">
-                            </picture> -->
+                                <picture>
+                                    <source media="(min-width: 576px)"
+                                            srcset="https://services.scdirect.net/scripts/images/test-962.png">
+                                    <source media="(max-width: 575px)"
+                                            srcset="https://services.scdirect.net/scripts/images/test-575.png">
+                                    <img id="section-offer-img"
+                                         src="https://services.scdirect.net/scripts/images/test-962.png"
+                                         alt="Offer Heading"
+                                         aria-describedby="offer-description"
+                                         data-srcset="https://services.scdirect.net/scripts/images/test-575.png">
+                                </picture>
                                 <div class="row text-render">
 
                                     <div class="col-xs-12">
@@ -239,21 +239,29 @@
                                             <div class="col-xs-12">
 
                                                 <div class="row">
-                                                    <div class="col-xs-2"><label for="bgDesktop">Image 1
-                                                            <i style="font-style:serif;color:#a1a1a1; ">(png,gif,jpg)</i>:</label></div>
+                                                    <div class="col-xs-3"><label for="bgDesktop">Image for desktop
+                                                            breakpoint <span
+                                                                  class="help1 glyphicon glyphicon-question-sign"
+                                                                  data-help="desktop"
+                                                                  aria-hidden="true"></span>:</label>
+                                                    </div>
                                                     <div class="col-xs-6 input-group1">
                                                         <span class="input-group-addon1"
                                                               id="img2label">Enter local filename</span>
                                                         <input id="bgDesktop"
                                                                class="bgimgaddress form-control1"
                                                                type="text"
-                                                               name="bgDesktop"></div>
+                                                               name="bgDesktop"
+                                                               required></div>
                                                     <div class="col-xs-3 error"
                                                          hidden>Image not found</div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-xs-2"><label for="bgMobile">Image 2
-                                                        <i style="font-style:serif;color:#a1a1a1; ">(png,gif,jpg)</i>:</label>
+                                                    <div class="col-xs-3"><label for="bgMobile">Image for mobile
+                                                            breakpoint <span
+                                                                  class="help1 glyphicon glyphicon-question-sign"
+                                                                  data-help="mobile"
+                                                                  aria-hidden="true"></span>:</label>
                                                     </div>
                                                     <div class="col-xs-6 input-group1">
                                                         <span class="input-group-addon1"
@@ -261,7 +269,8 @@
                                                         <input id="bgMobile"
                                                                class="bgimgaddress form-control1"
                                                                type="text"
-                                                               name="bgMobile"></div>
+                                                               name="bgMobile"
+                                                               required></div>
                                                     <div class="col-xs-3 error"
                                                          hidden>Image not found</div>
                                                 </div>
@@ -270,13 +279,29 @@
 
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-2"><label for="bgColor">Background
+                                            <div class="col-xs-3"><label for="bgColor">Background
                                                     color:</label><span class="required">*</span></div>
-                                            <div class="col-xs-3">
-                                                <input id="bgColor"
+                                            <div class="col-xs-6 input-group1"><span class="input-group-addon1"
+                                                      id="img2label">RGB</span>
+                                                <input id="r"
                                                        class="bgcolor"
-                                                       placeholder="rbg(250,250,250)"
-                                                       type="text"
+                                                       placeholder="250"
+                                                       type="number"
+                                                       width="10"
+                                                       minlength="3"
+                                                       maxlength="3"
+                                                       required><input id="g"
+                                                       class="bgcolor"
+                                                       placeholder="250"
+                                                       type="number"
+                                                       width="10"
+                                                       maxlength="3"
+                                                       required><input id="b"
+                                                       class="bgcolor"
+                                                       placeholder="250"
+                                                       type="number"
+                                                       width="10"
+                                                       maxlength="3"
                                                        required></div>
                                         </div>
                                         <hr>
@@ -307,9 +332,13 @@
                         </div>
                     </fieldset>
                     <br>
-                    <button type="submit">Export HTML/CSS</button>
+                    <button type="submit"
+                            name="exporthtml">Export HTML</button>
+                    <button type="submit"
+                            name="exportcss">Export CSS</button>
                     <button id="form-reset"
-                            type="reset">Reset</button>
+                            type="reset"
+                            name="resetall">Reset</button>
                 </form>
             </section>
         </main>

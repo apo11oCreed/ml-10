@@ -251,7 +251,7 @@ section.section-offer img {
 }
 
 .disabled {
-		opacity:0.5
+		display:none;
 }
 
 .input-group-addon1 {
@@ -342,8 +342,12 @@ textarea {
     border-bottom-left-radius: 0;
 }
 
-input.bgimgaddress, input.bgcolor {
+input.bgimgaddress {
 	width:100%;
+}
+input.bgcolor {
+	display:inline-block;
+	width:33.33%;
 }
 .input-group1{
 	position: relative;

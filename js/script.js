@@ -233,6 +233,22 @@ $(document).ready(function () {
     buttonBehave1();
 
     $('fieldset#patterns > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
+
+    $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
+        var curr = $(this).val();
+        if (curr !== "")
+            $(this).attr("data-remote", curr);
+
+        if ($(this).data("local"))
+            $(this).val($(this).data("local"));
+
+        $(this).siblings("span.input-group-addon1").text("Enter local filename");
+        if ($(this).attr("name") == "bgDesktop")
+            var size = 962;
+        else
+            var size = 575;
+        $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
+    });
 });
 
 function displayPatterns(el1) {
@@ -502,8 +518,10 @@ function websiteURL1() {
 function imgURL1(el, flag) {
     var domain = websiteURL1();
     var fpath = $(el).siblings(".input-group-addon1").text();
-    if (fpath == "Local")
+    if (fpath == "Enter local filename"){
         fpath = "";
+    }
+        
     var fname = $(el).val();
     if (flag) {
         console.log(domain + fpath + fname);

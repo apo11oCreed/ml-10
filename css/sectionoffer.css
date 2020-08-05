@@ -355,7 +355,7 @@ input.bgimgaddress {
 }
 input.bgcolor {
 	display:inline-block;
-	width:33.33%;
+	width:100%;
 }
 .input-group1{
 	position: relative;

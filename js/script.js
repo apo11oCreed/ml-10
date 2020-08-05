@@ -232,6 +232,10 @@ $(document).ready(function () {
 
     buttonBehave1();
 
+    $(document).on("hidden.bs.modal", ".modal", function () {
+        $(this).remove();
+    });
+
     // event listener - copy to clipboard
     // $(document).on("click", "button.copy", function () {
     //     $(".modal textarea").select();
@@ -389,7 +393,10 @@ function buttonBehave1() {
     // });
 
     $('input#r,input#g,input#b').on('input', function () {
-        var code = $(this).val();
+        var message = '',
+            code = $(this).val(),
+            id = $(this).attr('id');
+
         if (Number(code) > 250) {
             $(this).addClass('error');
             $(this).parent().next('.error').html('Max value is 250');
@@ -417,9 +424,12 @@ function buttonBehave1() {
                 break;
             case "mobile": helpMsg = 'For local testing, place a 575x683px image in the same directory as this HTML file and enter the filename here <i style="font-style:serif;color:#a1a1a1; ">(png,gif,jpg)</i>.<br>For remote testing, place a 575x683px image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"';
                 break;
+            case "rgb": helpMsg = 'Enter a number value between the range of 0-250 for each of the RGB fields.';
+                break;
             case "required": helpMsg = 'Whether this text is required for this offer. Certain text cannot be omitted.';
             default: break;
         }
+        console.log(helpMsg);
 
         msgBox1(helpMsg, "Help");
     });
@@ -700,9 +710,9 @@ function htmlExport1() {
 }
 
 function msgBox1(msg, title) {
+    console.log(`${msg}`);
     if (!title) title = "";
-    var html = `
-	<div id="msgBox" class="modal fade" tabindex="-1" role="dialog">
+    var html = `<div id="msgBox" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">

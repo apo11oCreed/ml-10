@@ -269,6 +269,8 @@ $(document).ready(function () {
 
 function buttonBehave1() {
 
+    //$('input, select, textarea').filter('[required]:visible').on("change", validate);
+
     $('button#form-reset').on('click', function () {
         $('span.dynamic').html('');
         selectOnClickBehavior = '';
@@ -291,14 +293,12 @@ function buttonBehave1() {
             displayPatterns($(':selected', this).val());
         } else if (selectMenu == 'onClickBehavior') {
             displayOnClickBehavior($(':selected', this).val());
-            //console.log($(':selected', this).val());
-            // if ($(':selected', this).val() == 'fireModal') {
-            //$(this).on('change', validate);
-            $('.row.onclickbehavior span.dynamic input').filter('[required]:visible').on('keyup', validate);
-            //}
-            //
         } else {
             selectBrand = $('#brands :selected').val();
+            if (resourceOrigin == 'remote') {
+                $("input[name='lorr1']").trigger("change");
+                $(".input-group1").removeClass("found notfound");
+            }
         }
     });
 
@@ -381,12 +381,29 @@ function buttonBehave1() {
         $(".input-group1").removeClass("found notfound");
     });
 
-    $("select[name='brands']").on("change", function () {
-        if (resourceOrigin == 'remote') {
-            $("input[name='lorr1']").trigger("change");
-            $(".input-group1").removeClass("found notfound");
+    // $("select[name='brands']").on("change", function () {
+    //     if (resourceOrigin == 'remote') {
+    //         $("input[name='lorr1']").trigger("change");
+    //         $(".input-group1").removeClass("found notfound");
+    //     }
+    // });
+
+    $('input#r,input#g,input#b').on('input', function () {
+        var code = $(this).val();
+        if (Number(code) > 250) {
+            $(this).addClass('error');
+            $(this).parent().next('.error').html('Max value is 250');
+            $(this).parent().next('.error').attr('hidden', false);
+        } else if (Number(code) < 0) {
+            $(this).addClass('error');
+            $(this).parent().next('.error').html('Min value is 0');
+            $(this).parent().next('.error').attr('hidden', false);
+        } else {
+            $(this).removeClass('error');
+            $(this).parent().next('.error').html('');
+            $(this).parent().next('.error').attr('hidden', true);
         }
-    });
+    })
 
     $("button").on("click", function () {
         var type = $(this).attr("name");
@@ -406,8 +423,6 @@ function buttonBehave1() {
 
         msgBox1(helpMsg, "Help");
     });
-
-    $('input, select, textarea').filter('[required]:visible').on("change", validate);
 
     $("input, select, textarea").on("change", function () {
         // Test the left hand inputs
@@ -449,6 +464,7 @@ function buttonBehave1() {
                 $("section.section-offer a").attr("href", "#").removeAttr("target");
             }
         }
+        validate();
     });
 
     // imgaddress
@@ -499,12 +515,6 @@ function displayPatterns(el1) {
         $('fieldset#content > span.dynamic, .row.text-render span.dynamic').html('');
         displayCopyFields(layoutSelected, $(this).data('index'));
     });
-
-    $('button#render-text-reset').on('click', function (e) {
-        e.preventDefault();
-        $('.enter-text-banner.flex-it input').val('');
-        $('.row.text-render span.dynamic span').html('');
-    });
 }
 
 
@@ -516,7 +526,7 @@ function displayCopyFields(el1, el2) {
         copyFields += ' <div><label for="copy' + (i + 1) + '">' + patternCopy[i].field + '</label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
     }
 
-    $('fieldset#content > span.dynamic').append('<div class="row"><h4 class="col-xs-12">Enter your copy for Pattern ' + (el2 + 1) + '</h4><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row enter-text-banner flex-it">' + copyFields + '</div><br><div class="row"><span class="col-xs-12" style="text-align:right"><button id="render-text-reset" type="reset" name="resettext">Reset Copy</button></span></div><hr>');
+    $('fieldset#content > span.dynamic').append('<div class="row"><h4 class="col-xs-12">Enter your copy for Pattern ' + (el2 + 1) + '</h4><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row enter-text-banner flex-it">' + copyFields + '</div><br><hr>');
 
     renderedTextInputs = document.querySelectorAll('fieldset#content > span.dynamic input');
     renderedTextInputs.forEach(function (currentValue, index) {
@@ -542,7 +552,7 @@ function displayOnClickBehavior(el1) {
 
     var modalHTML = '<fieldset id="modalDefs" class="row"> <legend> <h3>Modal</h3> </legend> <div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalExpires">Modal Expires</label> <br><input id="modalExpires" name="modalExpires" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h4>Example Modal</h4> <img src="https://www.paulayoung.com/images/evergage/py/lightbox/sitewide-c07.gif" alt="Example modal"> </span> </div></fieldset>',
         linkHMTL = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to another page:<span class="required">*</span></label></div><div class="col-xs-2"> <input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" required></div></div>',
-        linkAnchorHTML = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to a location on the same page:<span class="required">*</span></label></div><div class="col-xs-2"> <input id="offerLink" placeholder="#anchor" type="text" required></div></div>',
+        linkAnchorHTML = '<br><div class="row"> <div class="col-xs-3"><label for="anchorLink">Link to a location on the same page:<span class="required">*</span></label></div><div class="col-xs-2"> <input id="anchorLink" placeholder="#anchor" type="text" required></div></div>',
         doNothing = '<br><p>This will be a static banner.</p>',
         link,
         behavior = '';
@@ -561,6 +571,7 @@ function displayOnClickBehavior(el1) {
 
     $('.row.onclickbehavior span.dynamic').append(behavior);
 
+    $('.row.onclickbehavior span.dynamic input,.row.onclickbehavior span.dynamic textarea').on('change', validate);
 }
 
 function websiteURL1() {
@@ -735,26 +746,25 @@ function escapeHTML1(text) {
 
 function validate() {
 
-    var valids = [];
+    var invalids = [],
+        valids = [];
 
-    var allRequireds = document.querySelectorAll(':required');
+    var allRequireds = $(':required');
 
     for (var j = 0; j < allRequireds.length; j++) {
-
         if (allRequireds[j].value == '') {
-            valids.push(Number(j) + ':' + allRequireds[j].getAttribute('name'));
+            invalids.push(Number(j) + ':' + allRequireds[j].getAttribute('id'));
+        } else {
+            valids.push(Number(j) + ':' + allRequireds[j].getAttribute('id'));
         }
     }
 
-
-
-    if (valids.length > 0) {
-        $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", true);
-
+    if (invalids.length < 1) {
+        $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", false);
     }
     else {
-        $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", false);
 
+        $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", true);
     }
 }
 

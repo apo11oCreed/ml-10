@@ -246,6 +246,14 @@ section.section-offer img {
 	opacity:0.5;
 }
 
+input.error {
+	border:1px solid red;
+}
+
+input.error:focus {
+	outline-color:red;
+}
+
 .required {
 	color:red;
 }

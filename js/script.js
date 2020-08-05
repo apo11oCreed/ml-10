@@ -218,15 +218,15 @@ var brands = {
     }]
 }
 
-var patternOptionsHTML,
-    selectOnClickBehavior,
+var selectOnClickBehavior,
     selectBrand,
     selectLayoutType,
     selectedPattern,
     selectDesktopImg,
     selectMobileImg,
     selectBgColor,
-    resourceOrigin;
+    resourceOrigin,
+    adderHTML = '<div class="adder col-xs-6"><div class="row-fluid"><p>Add<br>another<br>banner!</p></div></div>';
 
 $(document).ready(function () {
 
@@ -235,6 +235,8 @@ $(document).ready(function () {
     $(document).on("hidden.bs.modal", ".modal", function () {
         $(this).remove();
     });
+
+    insertAdder();
 
     // event listener - copy to clipboard
     // $(document).on("click", "button.copy", function () {
@@ -250,7 +252,7 @@ $(document).ready(function () {
     //     setTimeout(function () { $(".modal-body .alert").remove(); }, 3000);
     // });
 
-    $('fieldset#patterns > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
+    $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
 
     $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
         var curr = $(this).val();
@@ -267,8 +269,6 @@ $(document).ready(function () {
             var size = 575;
         $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
     });
-
-    $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", true);
 });
 
 function buttonBehave1() {
@@ -294,7 +294,14 @@ function buttonBehave1() {
     $('select#layoutDropDown, select#onClickBehavior, select#brands').on('change', function () {
         var selectMenu = $(this).attr('name');
         if (selectMenu == 'layoutDropDown') {
-            displayPatterns($(':selected', this).val());
+            $('div#samples > span.dynamic,div#content > span.dynamic, .row.text-render span.dynamic').html('');
+            if ($(':selected', this).val() == 'moreThanOneBannerSplit') {
+                displayMultiPatternForm($(':selected', this).val());
+            } else if ($(':selected', this).val() != '') {
+                displaySinglePatternForm($(':selected', this).val());
+            } else {
+                $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
+            }
         } else if (selectMenu == 'onClickBehavior') {
             displayOnClickBehavior($(':selected', this).val());
         } else {
@@ -412,7 +419,7 @@ function buttonBehave1() {
         }
     })
 
-    $("button").on("click", function () {
+    $("button[name='exporthtml'],button[name='exportcss']").on("click", function () {
         var type = $(this).attr("name");
         exportCode1(type);
     });
@@ -436,44 +443,44 @@ function buttonBehave1() {
 
     $("input, select, textarea").on("change", function () {
         // Test the left hand inputs
-        var left1 = 0;
-        var right1 = 1;
-        $(".optCont:first-of-type input.required").each(function () {
-            if (!$(this).is(":checked"))
-                return;
-            var sel = $(this).attr("name");
-            var value = $(this).parents(".opt-row").contents().find("[name='" + sel + "']:not(.required)").val();
-            if (value == "")
-                left1 = 1;
-        });
+        // var left1 = 0;
+        // var right1 = 1;
+        // $(".optCont:first-of-type input.required").each(function () {
+        //     if (!$(this).is(":checked"))
+        //         return;
+        //     var sel = $(this).attr("name");
+        //     var value = $(this).parents(".opt-row").contents().find("[name='" + sel + "']:not(.required)").val();
+        //     if (value == "")
+        //         left1 = 1;
+        // });
         // Test the right hand inputs
         // MUST be set to Remote!
-        if ($("input[name='lorr1']:checked").val() == "remote") {
-            if ($("input#bgDesktop").val() !== "" && $("input#bgMobile").val() !== "" && $("select[name='brand']").val() !== "")
-                right1 = 0;
-        }
+        // if ($("input[name='lorr1']:checked").val() == "remote") {
+        //     if ($("input#bgDesktop").val() !== "" && $("input#bgMobile").val() !== "" && $("select[name='brand']").val() !== "")
+        //         right1 = 0;
+        // }
 
-        if (!left1 && !right1) {
-            $(".opt-row.export .clabel").removeClass("disabled");
-            $(".opt-row.export button").removeAttr("disabled");
-        }
-        else {
-            $(".opt-row.export .clabel").addClass("disabled");
-            $(".opt-row.export button").attr("disabled", "disabled");
-        }
+        // if (!left1 && !right1) {
+        //     $(".opt-row.export .clabel").removeClass("disabled");
+        //     $(".opt-row.export button").removeAttr("disabled");
+        // }
+        // else {
+        //     $(".opt-row.export .clabel").addClass("disabled");
+        //     $(".opt-row.export button").attr("disabled", "disabled");
+        // }
 
         // Update href if link checkbox checked
-        if ($("input[type='text'][name='href']").val() !== "" && $("select[name='brand']").val() !== "") {
-            if ($("input[type='checkbox'][name='linktest']").is(":checked")) {
-                $("section.section-offer a").attr({
-                    "href": websiteURL1() + $("input[type='text'][name='href']").val(),
-                    "target": "_blank"
-                });
-            }
-            else {
-                $("section.section-offer a").attr("href", "#").removeAttr("target");
-            }
-        }
+        // if ($("input[type='text'][name='href']").val() !== "" && $("select[name='brand']").val() !== "") {
+        //     if ($("input[type='checkbox'][name='linktest']").is(":checked")) {
+        //         $("section.section-offer a").attr({
+        //             "href": websiteURL1() + $("input[type='text'][name='href']").val(),
+        //             "target": "_blank"
+        //         });
+        //     }
+        //     else {
+        //         $("section.section-offer a").attr("href", "#").removeAttr("target");
+        //     }
+        // }
         validate();
     });
 
@@ -493,9 +500,9 @@ function buttonBehave1() {
     });
 }
 
-function displayPatterns(el1) {
-    $('fieldset#patterns > span.dynamic,fieldset#content > span.dynamic, .row.text-render span.dynamic').html('');
-    var layoutSelected;
+function displaySinglePatternForm(el1) {
+    var layoutSelected,
+        patternOptionsHTML = '';
 
     switch (el1) {
         case "oneBannerAlignLeft": layoutSelected = patterns.oneBannerAlignLeft;
@@ -509,22 +516,25 @@ function displayPatterns(el1) {
         default: break;
     }
 
-    if (el1 !== 'select') {
-        for (item in layoutSelected) {
-            patternOptionsHTML = '<div class="row"> <div class="col-xs-12"> <label for="patternsHalfWidth' + (Number(item) + 1) + '">Pattern ' + (Number(item) + 1) + '</label><input data-index="' + Number(item) + '" id="patternsHalfWidth' + (Number(item) + 1) + '" name="pattern" type="radio"> </div></div><div class="row"><div class="col-xs-12"><img src="' + layoutSelected[item].img + '" alt=""></div></div>';
-            $('fieldset#patterns > span.dynamic').append(patternOptionsHTML);
-        };
-    } else {
-        $('fieldset#patterns > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
-    }
 
-    $('fieldset#patterns input').first().prop('checked', true);
-    displayCopyFields(layoutSelected, $('fieldset#patterns input').first().data('index'));
+    for (item in layoutSelected) {
+        patternOptionsHTML += '<div class="row"> <div class="col-xs-12"> <label for="pattern_' + (Number(item) + 1) + '_' + el1 + '">Pattern ' + (Number(item) + 1) + '</label><input data-index="' + Number(item) + '" id="pattern_' + (Number(item) + 1) + '" name="pattern" type="radio"> </div></div><div class="row"><div class="col-xs-12"><img src="' + layoutSelected[item].img + '" alt=""></div></div>';
+
+    };
+    $('div#samples > span.dynamic').append('<h4>Patterns</h4>' + patternOptionsHTML);
+
+
+    $('div#samples input').first().prop('checked', true);
+    displayCopyFields(layoutSelected, $('div#samples input').first().data('index'));
 
     $('input[name="pattern"]').on('click', function () {
-        $('fieldset#content > span.dynamic, .row.text-render span.dynamic').html('');
+        $('div#content > span.dynamic, .row.text-render span.dynamic').html('');
         displayCopyFields(layoutSelected, $(this).data('index'));
     });
+}
+
+function displayMultiPatternForm(el1) {
+    console.log('here we go');
 }
 
 
@@ -533,12 +543,13 @@ function displayCopyFields(el1, el2) {
         copyFields = '';
 
     for (var i = 0; i < patternCopy.length; i++) {
-        copyFields += ' <div><label for="copy' + (i + 1) + '">' + patternCopy[i].field + '</label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
+        // copyFields += ' <div><label for="copy' + (i + 1) + '">' + patternCopy[i].field + '</label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
+        copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
     }
 
-    $('fieldset#content > span.dynamic').append('<div class="row"><h4 class="col-xs-12">Enter your copy for Pattern ' + (el2 + 1) + '</h4><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row enter-text-banner flex-it">' + copyFields + '</div><br><hr>');
+    $('div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + (el2 + 1) + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row enter-text-banner flex-it">' + copyFields + '</div><br>');
 
-    renderedTextInputs = document.querySelectorAll('fieldset#content > span.dynamic input');
+    renderedTextInputs = document.querySelectorAll('div#content > span.dynamic input');
     renderedTextInputs.forEach(function (currentValue, index) {
         $('.row.text-render span.dynamic').append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + '"></span>&nbsp;');
         renderCopyFields(currentValue, index);
@@ -637,9 +648,9 @@ function checkImageExists1(el, url) {
 
 function exportCode1(type) {
     switch (type) {
-        case "html": htmlExport();
+        case "exporthtml": htmlExport1();
             break;
-        case "css": styleExport();
+        case "exportcss": styleExport1();
             break;
         default: break;
     }
@@ -704,6 +715,8 @@ function htmlExport1() {
     var text = $(".modal textarea").val();
     text = text.replace(/(?:(?:\r\n|\r|\n)\s*){2}/gm, "");
     $(".modal textarea").val(text);
+
+    console.log($(".noSeeCode"));
 
     // Destroy noSeeCode element
     $(".noSeeCode").remove();
@@ -794,4 +807,12 @@ function bannerObject(el1) {
     }
 
     return obj;
+}
+
+function insertAdder() {
+    var dataInstance = $('[data-instance]');
+    for (var z = 0; z < dataInstance.length; z++) {
+        $(dataInstance[z]).attr('data-instance', z);
+    }
+    $(dataInstance).parent().append(adderHTML);
 }

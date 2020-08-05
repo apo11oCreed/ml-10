@@ -178,48 +178,72 @@
                             <h2>Banner Properties</h2>
                         </legend>
                         <div class="col-xs-12">
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <fieldset id="layouts">
-                                        <legend>
-                                            <h3>Layout</h3>
-                                        </legend>
-                                        <label for="layoutDropDown">Choose a layout type:<span
-                                                  class="required">*</span></label>
-                                        <select name="layoutDropDown"
-                                                id="layoutDropDown"
-                                                required>
-                                            <option value="">-- select --</option>
-                                            <option value="oneBannerAlignLeft">One banner - align left</option>
-                                            <option value="oneBannerAlignRight">One banner - align right</option>
-                                            <option value="oneBannerfullWidth">One banner - full width</option>
-                                            <option value="moreThanOneBannerSplit">More than one banner - split</option>
-                                        </select>
-                                    </fieldset>
-                                </div>
+                            <div class="row"><span data-instance>
+                                    <div class="col-xs-6">
+                                        <div class="row-fluid">
+                                            <fieldset id="layouts">
+                                                <legend>
+                                                    <h3>Layout</h3>
+                                                </legend>
+                                                <label for="layoutDropDown">Choose a layout type:<span
+                                                          class="required">*</span></label>
+                                                <select name="layoutDropDown"
+                                                        id="layoutDropDown"
+                                                        required>
+                                                    <option value="">-- select --</option>
+                                                    <option value="oneBannerAlignLeft">One banner - align left</option>
+                                                    <option value="oneBannerAlignRight">One banner - align right
+                                                    </option>
+                                                    <option value="oneBannerfullWidth">One banner - full width</option>
+                                                    <option value="moreThanOneBannerSplit">More than one banner - split
+                                                    </option>
+                                                </select>
+                                            </fieldset>
+                                            <fieldset id="patterns">
+                                                <legend>
+                                                    <h3>Content</h3>
+                                                </legend>
+                                                <div id="samples">
+                                                    <span class="dynamic"></span>
+                                                </div>
+                                                <div id="content">
+                                                    <!-- These fields are dependent on the pattern selection(s) -->
+                                                    <span class="dynamic"></span>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </span>
                             </div>
                             <!-- Pattern options may be dependent on breakpoint selection(s) -->
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-xs-12">
                                     <fieldset id="patterns">
                                         <legend>
-                                            <h3>Copy Pattern</h3>
+                                            <h3>Content</h3>
                                         </legend>
-                                        <span class="dynamic"></span>
+                                        <span data-instance>
+                                            <div id="samples">
+                                                <span class="dynamic"></span>
+                                            </div>
+                                            <hr>
+                                            <div id="content"> -->
+                            <!-- These fields are dependent on the pattern selection(s) -->
+                            <!-- <span class="dynamic"></span>
+                                            </div>
+                                        </span>
                                     </fieldset>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="row">
                                 <div class="col-xs-12">
                                     <fieldset id="content">
                                         <legend>
-                                            <h3>Content</h3>
+                                            <h3>Background</h3>
                                         </legend>
-                                        <!-- These fields are dependent on the pattern selection(s) -->
-                                        <span class="dynamic"></span>
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <h4>Enter the background details.</h4>
+                                                <h5>Enter the background details.</h5>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -341,10 +365,12 @@
                         </div>
                     </fieldset>
                     <br>
-                    <button type="submit"
-                            name="exporthtml">Export HTML</button>
-                    <button type="submit"
-                            name="exportcss">Export CSS</button>
+                    <button type="button"
+                            name="exporthtml"
+                            disabled>Export HTML</button>
+                    <button type="button"
+                            name="exportcss"
+                            disabled>Export CSS</button>
                     <button id="form-reset"
                             type="reset"
                             name="resetall">Reset</button>

@@ -217,6 +217,10 @@ section.section-offer img {
 
 /* nc styles */
 
+#mlTen h5{
+	font-weight:700;
+}
+
 #mlTen label {
 	font-weight:400;
 }
@@ -463,4 +467,30 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 
 .faux-website-container {
 	min-height: unset;
+}
+
+.adder.col-xs-6 .row-fluid {
+	padding-top:15%;
+}
+
+.adder.col-xs-6:after {content:'&nbsp;';
+	display:block;
+	position:absolute;
+	left:0;
+	top:0;
+	color:transparent;
+	background-color:red;
+	opacity:0.0;
+	transition: opacity 0.5s;width: 100%;
+    height: 100%;
+}
+
+.adder.col-xs-6:hover:after {
+	
+	opacity:0.75;
+	
+}
+
+.adder p {
+	text-align:center;
 }

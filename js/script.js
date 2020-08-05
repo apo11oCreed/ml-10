@@ -291,7 +291,12 @@ function buttonBehave1() {
             displayPatterns($(':selected', this).val());
         } else if (selectMenu == 'onClickBehavior') {
             displayOnClickBehavior($(':selected', this).val());
-            $('textarea[id="modalBody"]').on('change', validate);
+            //console.log($(':selected', this).val());
+            // if ($(':selected', this).val() == 'fireModal') {
+            //$(this).on('change', validate);
+            $('.row.onclickbehavior span.dynamic input').filter('[required]:visible').on('keyup', validate);
+            //}
+            //
         } else {
             selectBrand = $('#brands :selected').val();
         }
@@ -521,9 +526,15 @@ function displayCopyFields(el1, el2) {
 }
 
 function renderCopyFields(el1, el2) {
-    $(el1).on('keypress', function (event) {
-        $('.row.text-render span.dynamic span#text-render-' + el2).append(String.fromCharCode(event.which));
-    })
+    $(el1).on('input', function (event) {
+        var value = $(el1).val(),
+            value1 = $('.row.text-render span.dynamic span#text-render-' + el2).text();
+        if (value != value1) {
+            $('.row.text-render span.dynamic span#text-render-' + el2).text(value);
+        } else {
+            $('.row.text-render span.dynamic span#text-render-' + el2).append(String.fromCharCode(event.which));
+        }
+    });
 }
 
 function displayOnClickBehavior(el1) {

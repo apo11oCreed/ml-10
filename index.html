@@ -133,27 +133,45 @@
                                         </select>
                                     </fieldset>
                                 </div>
+                                <!-- <div class="col-xs-4">
+                                    <fieldset id="quantity">
+                                        <legend>
+                                            <h3>Quantity</h3>
+                                        </legend>
+                                        <label for="numberOfBanners">Select number of banners:<span
+                                                  class="required">*</span></label> -->
+                                <!-- This will aid in determining some of the properties/values for the remaining options -->
+                                <!-- <select name="numberOfBanners"
+                                                id="numberOfBanners"
+                                                required>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </fieldset>
+                                </div> -->
                                 <div class="col-xs-6">
                                     <fieldset id="breakpoints">
                                         <legend>
                                             <h3>Breakpoints</h3>
                                         </legend>
                                         <div class="row">
-                                            <div class="col-xs-6"><span style="display:inline-block;"><label
-                                                           for="bpDesktopYes">Visible on Desktop? Yes</label>
-                                                    <input id="bpDesktopYes"
-                                                           name="bpDesktop"
-                                                           type="radio"
-                                                           value="yes"
-                                                           checked>
-                                                    <label for="bpDesktopNo">No</label>
-                                                    <input id="bpDesktopNo"
-                                                           name="bpDesktop"
-                                                           type="radio"
-                                                           value="no">
+                                            <div class="col-xs-6"><label for="bpDesktopYes">Desktop? Yes</label>
+                                                <input id="bpDesktopYes"
+                                                       name="bpDesktop"
+                                                       type="radio"
+                                                       value="yes"
+                                                       checked>
+                                                <label for="bpDesktopNo">No</label>
+                                                <input id="bpDesktopNo"
+                                                       name="bpDesktop"
+                                                       type="radio"
+                                                       value="no">
                                             </div>
                                             <div class="col-xs-6">
-                                                <label for="bpMobileYes">Visible on Mobile? Yes</label>
+                                                <label for="bpMobileYes">Mobile? Yes</label>
                                                 <input id="bpMobileYes"
                                                        name="bpMobile"
                                                        type="radio"
@@ -164,206 +182,25 @@
                                                        name="bpMobile"
                                                        type="radio"
                                                        value="no">
+                                                </span>
                                             </div>
 
-                                        </div>
-                                </div>
-                    </fieldset>
-                    </div>
-                    </div>
-                    </fieldset>
-                    <fieldset id="bannerProperties"
-                              class="row">
-                        <legend>
-                            <h2>Banner Properties</h2>
-                        </legend>
-                        <div class="col-xs-12">
-                            <div class="row"><span data-instance>
-                                    <div class="col-xs-6">
-                                        <div class="row-fluid">
-                                            <fieldset id="layouts">
-                                                <legend>
-                                                    <h3>Layout</h3>
-                                                </legend>
-                                                <label for="layoutDropDown">Choose a layout type:<span
-                                                          class="required">*</span></label>
-                                                <select name="layoutDropDown"
-                                                        id="layoutDropDown"
-                                                        required>
-                                                    <option value="">-- select --</option>
-                                                    <option value="oneBannerAlignLeft">One banner - align left</option>
-                                                    <option value="oneBannerAlignRight">One banner - align right
-                                                    </option>
-                                                    <option value="oneBannerfullWidth">One banner - full width</option>
-                                                    <option value="moreThanOneBannerSplit">More than one banner - split
-                                                    </option>
-                                                </select>
-                                            </fieldset>
-                                            <fieldset id="patterns">
-                                                <legend>
-                                                    <h3>Content</h3>
-                                                </legend>
-                                                <div id="samples">
-                                                    <span class="dynamic"></span>
-                                                </div>
-                                                <div id="content">
-                                                    <!-- These fields are dependent on the pattern selection(s) -->
-                                                    <span class="dynamic"></span>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </span>
-                            </div>
-                            <!-- Pattern options may be dependent on breakpoint selection(s) -->
-                            <!-- <div class="row">
-                                <div class="col-xs-12">
-                                    <fieldset id="patterns">
-                                        <legend>
-                                            <h3>Content</h3>
-                                        </legend>
-                                        <span data-instance>
-                                            <div id="samples">
-                                                <span class="dynamic"></span>
-                                            </div>
-                                            <hr>
-                                            <div id="content"> -->
-                            <!-- These fields are dependent on the pattern selection(s) -->
-                            <!-- <span class="dynamic"></span>
-                                            </div>
-                                        </span>
-                                    </fieldset>
-                                </div>
-                            </div> -->
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <fieldset id="content">
-                                        <legend>
-                                            <h3>Background</h3>
-                                        </legend>
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <h5>Enter the background details.</h5>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-3"><label for="bpDesktopYes">Local</label>
-                                                <input id="local1"
-                                                       name="lorr1"
-                                                       type="radio"
-                                                       value="local"
-                                                       checked></div>
-                                            <div class="col-xs-3"><label for="bpDesktopYes">Remote</label>
-                                                <input id="remote1"
-                                                       name="lorr1"
-                                                       type="radio"
-                                                       value="remote"></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12">
-
-                                                <div class="row">
-                                                    <div class="col-xs-3"><label for="bgDesktop">Image for desktop
-                                                            breakpoint <span
-                                                                  class="help1 glyphicon glyphicon-question-sign"
-                                                                  data-help="desktop"
-                                                                  aria-hidden="true"></span>:<span
-                                                                  class="required">*</span></label>
-                                                    </div>
-                                                    <div class="col-xs-6 input-group1">
-                                                        <span class="input-group-addon1"
-                                                              id="img2label">Enter local filename</span>
-                                                        <input id="bgDesktop"
-                                                               class="bgimgaddress form-control1"
-                                                               type="text"
-                                                               name="bgDesktop"
-                                                               required></div>
-                                                    <div class="col-xs-3 error"
-                                                         hidden>Image not found</div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xs-3"><label for="bgMobile">Image for mobile
-                                                            breakpoint <span
-                                                                  class="help1 glyphicon glyphicon-question-sign"
-                                                                  data-help="mobile"
-                                                                  aria-hidden="true"></span>:<span
-                                                                  class="required">*</span></label>
-                                                    </div>
-                                                    <div class="col-xs-6 input-group1">
-                                                        <span class="input-group-addon1"
-                                                              id="img2label">Enter local filename</span>
-                                                        <input id="bgMobile"
-                                                               class="bgimgaddress form-control1"
-                                                               type="text"
-                                                               name="bgMobile"
-                                                               required></div>
-                                                    <div class="col-xs-3 error"
-                                                         hidden>Image not found</div>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-3"><label for="bgColor">Background
-                                                    color <span class="help1 glyphicon glyphicon-question-sign"
-                                                          data-help="rgb"
-                                                          aria-hidden="true"></span>:</label><span
-                                                      class="required">*</span></div>
-                                            <div class="col-xs-6 input-group1"><span class="input-group-addon1"
-                                                      id="img2label">R</span>
-                                                <input id="r"
-                                                       class="bgcolor"
-                                                       placeholder="###"
-                                                       type="number"
-                                                       width="10"
-                                                       minlength="3"
-                                                       maxlength="3"
-                                                       required><span class="input-group-addon1"
-                                                      id="img2label">G</span><input id="g"
-                                                       class="bgcolor"
-                                                       placeholder="###"
-                                                       type="number"
-                                                       width="10"
-                                                       maxlength="3"
-                                                       required><span class="input-group-addon1"
-                                                      id="img2label">B</span><input id="b"
-                                                       class="bgcolor"
-                                                       placeholder="###"
-                                                       type="number"
-                                                       width="10"
-                                                       maxlength="3"
-                                                       required></div>
-                                            <div class="col-xs-3 error"
-                                                 hidden></div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-xs-3">
-                                                <label for="onClickBehavior">OnClick behavior:<span
-                                                          class="required">*</span></label></div>
-                                            <div class="col-xs-2">
-                                                <select name="onClickBehavior"
-                                                        id="onClickBehavior"
-                                                        required>
-                                                    <option value="">-- select --</option>
-                                                    <option value="fireModal">Fire modal</option>
-                                                    <option value="linkToPage">Link to page</option>
-                                                    <option value="linkToAnchor">Link to anchor</option>
-                                                    <option value="doNothing">Do nothing
-                                                    </option>
-                                                </select></div>
-                                        </div>
-                                        <div class="row onclickbehavior">
-                                            <div class="col-xs-12">
-                                                <span class="dynamic"></span>
-                                            </div>
                                         </div>
                                     </fieldset>
                                 </div>
                             </div>
                         </div>
                     </fieldset>
+                    <div id="bannerTabs"
+                         class="row">
+                        <div class="col-xs-12"><br><span class="dynamic">
+                                <div class="row-fluid flex-it"></div>
+                            </span>
+
+                        </div>
+                    </div>
+                    <span class="dynamic"></span>
+
                     <br>
                     <button type="button"
                             name="exporthtml"

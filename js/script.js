@@ -1,199 +1,180 @@
-
-
-var patterns = {
-    "oneBannerfullWidth": [
+var patterns = [{
+    "img": "img/fullwidth-1.png",
+    "copy": [
         {
-            "img": "img/fullwidth-1.png",
-            "copy": [
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 24px",
-                    "styles": "font-weight:regular;font-size:24px;"
-                },
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:regular;font-size:12px;"
-                }
-            ]
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
         },
         {
-            "img": "img/fullwidth-2.png",
-            "copy": [
-                {
-                    "field": "Reg 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:regular;font-size:24px;"
-                },
-                {
-                    "field": "Reg 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:regular;font-size:12px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:regular;font-size:12px;"
-                }
-            ]
-        }
-    ],
-    "oneBannerAlignLeft": [
-        {
-            "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-            "copy": [
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 24px",
-                    "styles": "font-weight:regular;font-size:24px;"
-                },
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:regular;font-size:12px;"
-                }
-            ]
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
         },
         {
-            "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-            "copy": [
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 24px",
-                    "styles": "font-weight:regular;font-size:24px;"
-                },
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:regular;font-size:12px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:regular;font-size:12px;"
-                }
-            ]
-        }
-    ],
-    "oneBannerAlignRight": [
-        {
-            "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-            "copy": [
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 24px",
-                    "styles": "font-weight:regular;font-size:24px;"
-                },
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:regular;font-size:12px;"
-                }
-            ]
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
         },
         {
-            "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-            "copy": [
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 24px",
-                    "styles": "font-weight:regular;font-size:24px;"
-                },
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:regular;font-size:12px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:regular;font-size:12px;"
-                }
-            ]
-        }
-    ],
-    "moreThanOneBannerSplit": [
-        {
-            "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-            "copy": [
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                }
-            ]
-        },
-        {
-            "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-            "copy": [
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Bold 24px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                },
-                {
-                    "field": "Reg 12px",
-                    "styles": "font-weight:bold;font-size:24px;"
-                }
-            ]
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
         }
     ]
-}
+}, {
+    "img": "img/fullwidth-2.png",
+    "copy": [
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }
+    ]
+}, {
+    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+    "copy": [
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }
+    ]
+}, {
+    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+    "copy": [
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }
+    ]
+}, {
+    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+    "copy": [
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }
+    ]
+}, {
+    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+    "copy": [
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }
+    ]
+}, {
+    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+    "copy": [
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }
+    ]
+}, {
+    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+    "copy": [
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }
+    ]
+}];
 
 var brands = {
     "paulayoung": [{
@@ -226,54 +207,44 @@ var selectOnClickBehavior,
     selectMobileImg,
     selectBgColor,
     resourceOrigin,
-    adderHTML = '<div class="adder col-xs-6"><div class="row-fluid"><p>Add<br>another<br>banner!</p></div></div>';
+    qty,
+    maxBannerNumber = 4,
+    minBannerNumber = 1;
+
+function contentSections(index) {
+    var contentWithId = '<fieldset id="props' + index + '" class="row banner-properties"> <legend> <h2>Banner ' + (index + 1) + ' Properties</h2> </legend> <div class="col-xs-12"> <span class="dynamic"></span> <div class="row"> <div class="col-xs-12"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout" name="chooseLayout">Choose a layout</button> </fieldset> <fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="content"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgDesktop" class="bgimgaddress form-control1" type="text" name="bgDesktop" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgMobile" class="bgimgaddress form-control1" type="text" name="bgMobile" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><hr> <div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
+    return contentWithId;
+};
+
+function randomId(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+};
+
+var initalId = randomId(1000, 9999);
+
+var initialSection = '<fieldset id="props' + initalId + '" class="row banner-properties show"> <legend> <h2>Banner ' + initalId + ' Properties</h2> </legend> <div class="col-xs-12"> <span class="dynamic"></span> <div class="row"> <div class="col-xs-12"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout" name="chooseLayout">Choose a layout</button> </fieldset> <fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="content"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgDesktop" class="bgimgaddress form-control1" type="text" name="bgDesktop" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgMobile" class="bgimgaddress form-control1" type="text" name="bgMobile" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><hr> <div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
+
+var initialTab = '<span id="tabbs' + initalId + '" style="display:block;text-align:center;" class="col-xs-3"><button type="button" class="subtract-button" onClick="subtractBanner(this)">-</button><button  class="banner-tabs" type="button">Banner ' + initalId + '</button><button type="button" class="add-button" onClick="addBanner(this)">+</button><span>';
 
 $(document).ready(function () {
-
-    buttonBehave1();
 
     $(document).on("hidden.bs.modal", ".modal", function () {
         $(this).remove();
     });
 
-    insertAdder();
+    //$('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
 
-    // event listener - copy to clipboard
-    // $(document).on("click", "button.copy", function () {
-    //     $(".modal textarea").select();
-    //     document.execCommand('copy');
-    //     $(".modal textarea").blur();
-    //     var type = $(".modal:visible .modal-title").text().split(" ")[0];
-    //     var alertM = `
-    // 	<div class="alert alert-success" role="alert">
-    // 		<a href="#" class="alert-link">${type} Copied!</a>
-    // 	</div>`;
-    //     $(".modal-body:visible").prepend(alertM);
-    //     setTimeout(function () { $(".modal-body .alert").remove(); }, 3000);
-    // });
+    // Add initial tab
+    $('#bannerTabs span.dynamic .row-fluid.flex-it').append(initialTab);
+    $('button.subtract-button').attr('hidden', true);
 
-    $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
+    // Add initial banner prop section
+    $('form > span.dynamic').append(initialSection);
 
-    $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
-        var curr = $(this).val();
-        if (curr !== "")
-            $(this).attr("data-remote", curr);
-
-        if ($(this).data("local"))
-            $(this).val($(this).data("local"));
-
-        $(this).siblings("span.input-group-addon1").text("Enter local filename");
-        if ($(this).attr("name") == "bgDesktop")
-            var size = 962;
-        else
-            var size = 575;
-        $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
-    });
+    buttonBehave1();
 });
 
 function buttonBehave1() {
-
-    //$('input, select, textarea').filter('[required]:visible').on("change", validate);
 
     $('button#form-reset').on('click', function () {
         $('span.dynamic').html('');
@@ -285,124 +256,108 @@ function buttonBehave1() {
         selectMobileImg = '';
         selectBgColor = '';
         resourceOrigin = '';
+        qty = '';
     });
 
-    // $('select#brands').on('change', function () {
-    //     selectBrand = $('#brands :selected').val();
-    // });
+    // dropdown events
 
-    $('select#layoutDropDown, select#onClickBehavior, select#brands').on('change', function () {
+    $('select#brands, select#numberOfBanners, select#onClickBehavior').on('change', function () {
         var selectMenu = $(this).attr('name');
-        if (selectMenu == 'layoutDropDown') {
-            $('div#samples > span.dynamic,div#content > span.dynamic, .row.text-render span.dynamic').html('');
-            if ($(':selected', this).val() == 'moreThanOneBannerSplit') {
-                displayMultiPatternForm($(':selected', this).val());
-            } else if ($(':selected', this).val() != '') {
-                displaySinglePatternForm($(':selected', this).val());
-            } else {
-                $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
-            }
-        } else if (selectMenu == 'onClickBehavior') {
-            displayOnClickBehavior($(':selected', this).val());
-        } else {
+
+        if (selectMenu == 'brands') {
             selectBrand = $('#brands :selected').val();
             if (resourceOrigin == 'remote') {
                 $("input[name='lorr1']").trigger("change");
                 $(".input-group1").removeClass("found notfound");
+                $(".input-group1").next('.error').attr('hidden', true);
             }
-        }
-    });
-
-    $('input[name="bpDesktop"],input[name="bpMobile"]').on('click', function () {
-        var namespace = $(this).attr('name').substr(2),
-            radiobp = $('fieldset#breakpoints input:checked'),
-            bpNoArray = [];
-
-        radiobp.each(function () {
-            if ($(this).val() == 'no') {
-                bpNoArray.push($(this).val());
-            }
-        });
-
-        if (bpNoArray.length > 1) {
-            $('[name="lorr1"]').closest('.row').addClass("disabled");
-            $('input#bgbpDesktop,input#bgMobile').closest('.row').addClass("disabled");
-        } else if ($(this).val() == 'no') {
-            $('input#bg' + namespace).prop({ 'disabled': true, 'required': false });
-            $('input#bg' + namespace).closest('.row').addClass("disabled");
-            $('[name="lorr1"]').closest('.row').removeClass("disabled");
+        } else if (selectMenu == 'numberOfBanners') {
+            $('#bannerTabs span.dynamic').html('');
+            $('form > span.dynamic').html('');
+            qty = $(':selected', this).val();
+            var test = document.querySelectorAll('fieldset');
+            bannerForms(qty, test.length);
         } else {
-            $('input#bg' + namespace).prop({ 'disabled': false, 'required': true });
-            $('input#bg' + namespace).closest('.row').removeClass("disabled");
-            $('[name="lorr1"]').closest('.row').removeClass("disabled");
+            displayOnClickBehavior($(':selected', this).val());
+        }
+    });
+
+    $('input[name="bpDesktop"],input[name="bpMobile"],input[name="lorr1"]').on('change', function () {
+        var radioMenu = $(this).attr('name');
+
+        if (radioMenu == 'bpDesktop' || radioMenu == 'bpMobile') {
+            var namespace = $(this).attr('name').substr(2),
+                radiobp = $('fieldset#breakpoints input:checked'),
+                bpNoArray = [];
+
+            radiobp.each(function () {
+                if ($(this).val() == 'no') {
+                    bpNoArray.push($(this).val());
+                }
+            });
+
+            if (bpNoArray.length > 1) {
+                $('[name="lorr1"]').closest('.row').addClass("disabled");
+                $('input#bgDesktop,input#bgMobile').closest('.row').addClass("disabled");
+            } else if ($(this).val() == 'no') {
+                $('input#bg' + namespace).prop({ 'disabled': true, 'required': false });
+                $('input#bg' + namespace).closest('.row').addClass("disabled");
+                $('[name="lorr1"]').closest('.row').removeClass("disabled");
+            } else {
+                $('input#bg' + namespace).prop({ 'disabled': false, 'required': true });
+                $('input#bg' + namespace).closest('.row').removeClass("disabled");
+                $('[name="lorr1"]').closest('.row').removeClass("disabled");
+            }
+        } else {
+            resourceOrigin = $(this).val();
+
+            if (resourceOrigin == "local") {
+
+                $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
+                    var curr = $(this).val();
+                    if (curr !== "")
+                        $(this).attr("data-remote", curr);
+
+                    if ($(this).data("local"))
+                        $(this).val($(this).data("local"));
+
+                    $(this).siblings("span.input-group-addon1").text("Enter local filename");
+                    if ($(this).attr("name") == "bgDesktop")
+                        var size = 962;
+                    else
+                        var size = 575;
+                    $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
+                });
+            } else if (resourceOrigin == "remote") {
+
+                $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
+                    var curr = $(this).val();
+                    if (curr !== "") {
+                        $(this).attr("data-local", curr);
+                    }
+
+                    if ($(this).data("remote")) {
+                        $(this).val($(this).data("remote"));
+                    }
+
+                    if ($("select[name='brands']").val() == "") {
+                        $(this).val("").attr("placeholder", "Select a brand");
+                        $(this).siblings("span.input-group-addon1").text("Enter remote filename");
+                    } else {
+                        $(this).siblings("span.input-group-addon1").text("/images/evergage/" + selectBrand + "/");
+                        $(this).val("").attr("placeholder", "Enter Filename...");
+                    }
+                });
+            }
+
+            $(".input-group1").removeClass("found notfound");
+            $(".input-group1").next('.error').attr('hidden', true);
         }
 
     });
-
-    // On radio button change
-    $("input[name='lorr1']").on("change", function () {
-
-        resourceOrigin = $(this).val();
-
-        if (resourceOrigin == "local") {
-            // Disable 'Brand'/'Export'
-            // $(".opt-row.brand .clabel").addClass("disabled");
-            // $(".opt-row.brand select").attr("disabled", "disabled");
-
-            $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
-                var curr = $(this).val();
-                if (curr !== "")
-                    $(this).attr("data-remote", curr);
-
-                if ($(this).data("local"))
-                    $(this).val($(this).data("local"));
-
-                $(this).siblings("span.input-group-addon1").text("Enter local filename");
-                if ($(this).attr("name") == "bgDesktop")
-                    var size = 962;
-                else
-                    var size = 575;
-                $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
-            });
-        } else if (resourceOrigin == "remote") {
-            // Enable 'Brand'/'Export'
-            // $(".opt-row.brand .clabel").removeClass("disabled");
-            // $(".opt-row.brand select").removeAttr("disabled");
-
-            $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
-                var curr = $(this).val();
-                if (curr !== "") {
-                    $(this).attr("data-local", curr);
-                }
-
-                if ($(this).data("remote")) {
-                    $(this).val($(this).data("remote"));
-                }
-
-                if ($("select[name='brands']").val() == "") {
-                    $(this).val("").attr("placeholder", "Select a brand");
-                    $(this).siblings("span.input-group-addon1").text("Enter remote filename");
-                } else {
-                    $(this).siblings("span.input-group-addon1").text("/images/evergage/" + selectBrand + "/");
-                    $(this).val("").attr("placeholder", "Enter Filename...");
-                }
-            });
-        }
-
-        $(".input-group1").removeClass("found notfound");
-    });
-
-    // $("select[name='brands']").on("change", function () {
-    //     if (resourceOrigin == 'remote') {
-    //         $("input[name='lorr1']").trigger("change");
-    //         $(".input-group1").removeClass("found notfound");
-    //     }
-    // });
 
     $('input#r,input#g,input#b').on('input', function () {
-        var message = '',
-            code = $(this).val(),
-            id = $(this).attr('id');
+        var code = $(this).val();
 
         if (Number(code) > 250) {
             $(this).addClass('error');
@@ -419,9 +374,28 @@ function buttonBehave1() {
         }
     })
 
-    $("button[name='exporthtml'],button[name='exportcss']").on("click", function () {
-        var type = $(this).attr("name");
-        exportCode1(type);
+    $("button[name='exporthtml'],button[name='exportcss'],button[name='chooseLayout']").on("click", function () {
+        console.log('test');
+        var type = $(this).attr("name"),
+            layoutRadioMsg = '';
+        if (type == 'chooseLayout') {
+            console.log('test');
+            for (var k = 0; k < patterns.length; k++) {
+                if (k !== patterns.length - 1) {
+                    layoutRadioMsg += '<div class="row"><div class="col-xs-12"><label for="' + k + '">Pattern ' + Number(k + 1) + '</label>&nbsp;&nbsp;<input id="' + k + '" name="pattern" type="radio" value="' + k + '">&nbsp;&nbsp;<img src="' + patterns[k].img + '"></div></div><br>';
+                } else {
+                    layoutRadioMsg += '<div class="row"><div class="col-xs-12"><label for="' + k + '">Pattern ' + Number(k + 1) + '</label>&nbsp;&nbsp;<input id="' + k + '" name="pattern" type="radio" value="' + k + '">&nbsp;&nbsp;<img src="' + patterns[k].img + '"></div></div>';
+                }
+            }
+            msgBoxFullWidth('<div class="container">' + layoutRadioMsg + '</div>', 'Choose a Layout Type');
+            $('input[name="pattern"]').first().prop('checked', true);
+
+            $('input[name="pattern"]').on('change', function () {
+                displayContentForm($('input[name="pattern"]:checked').val());
+            });
+        } else {
+            exportCode1(type);
+        }
     });
 
     $("span.help1").on("click", function () {
@@ -441,46 +415,8 @@ function buttonBehave1() {
         msgBox1(helpMsg, "Help");
     });
 
+    // Run a search on all user fields and validate requirements have been met
     $("input, select, textarea").on("change", function () {
-        // Test the left hand inputs
-        // var left1 = 0;
-        // var right1 = 1;
-        // $(".optCont:first-of-type input.required").each(function () {
-        //     if (!$(this).is(":checked"))
-        //         return;
-        //     var sel = $(this).attr("name");
-        //     var value = $(this).parents(".opt-row").contents().find("[name='" + sel + "']:not(.required)").val();
-        //     if (value == "")
-        //         left1 = 1;
-        // });
-        // Test the right hand inputs
-        // MUST be set to Remote!
-        // if ($("input[name='lorr1']:checked").val() == "remote") {
-        //     if ($("input#bgDesktop").val() !== "" && $("input#bgMobile").val() !== "" && $("select[name='brand']").val() !== "")
-        //         right1 = 0;
-        // }
-
-        // if (!left1 && !right1) {
-        //     $(".opt-row.export .clabel").removeClass("disabled");
-        //     $(".opt-row.export button").removeAttr("disabled");
-        // }
-        // else {
-        //     $(".opt-row.export .clabel").addClass("disabled");
-        //     $(".opt-row.export button").attr("disabled", "disabled");
-        // }
-
-        // Update href if link checkbox checked
-        // if ($("input[type='text'][name='href']").val() !== "" && $("select[name='brand']").val() !== "") {
-        //     if ($("input[type='checkbox'][name='linktest']").is(":checked")) {
-        //         $("section.section-offer a").attr({
-        //             "href": websiteURL1() + $("input[type='text'][name='href']").val(),
-        //             "target": "_blank"
-        //         });
-        //     }
-        //     else {
-        //         $("section.section-offer a").attr("href", "#").removeAttr("target");
-        //     }
-        // }
         validate();
     });
 
@@ -500,54 +436,25 @@ function buttonBehave1() {
     });
 }
 
-function displaySinglePatternForm(el1) {
-    var layoutSelected,
-        patternOptionsHTML = '';
+function displayContentForm(el1) {
 
-    switch (el1) {
-        case "oneBannerAlignLeft": layoutSelected = patterns.oneBannerAlignLeft;
-            break;
-        case "oneBannerAlignRight": layoutSelected = patterns.oneBannerAlignRight;
-            break;
-        case "oneBannerfullWidth": layoutSelected = patterns.oneBannerfullWidth;
-            break;
-        case "moreThanOneBannerSplit": layoutSelected = patterns.moreThanOneBannerSplit;
-            break;
-        default: break;
-    }
-
-
-    for (item in layoutSelected) {
-        patternOptionsHTML += '<div class="row"> <div class="col-xs-12"> <label for="pattern_' + (Number(item) + 1) + '_' + el1 + '">Pattern ' + (Number(item) + 1) + '</label><input data-index="' + Number(item) + '" id="pattern_' + (Number(item) + 1) + '" name="pattern" type="radio"> </div></div><div class="row"><div class="col-xs-12"><img src="' + layoutSelected[item].img + '" alt=""></div></div>';
-
-    };
-    $('div#samples > span.dynamic').append('<h4>Patterns</h4>' + patternOptionsHTML);
-
-
-    $('div#samples input').first().prop('checked', true);
-    displayCopyFields(layoutSelected, $('div#samples input').first().data('index'));
-
-    $('input[name="pattern"]').on('click', function () {
-        $('div#content > span.dynamic, .row.text-render span.dynamic').html('');
-        displayCopyFields(layoutSelected, $(this).data('index'));
-    });
-}
-
-function displayMultiPatternForm(el1) {
-    console.log('here we go');
-}
-
-
-function displayCopyFields(el1, el2) {
-    var patternCopy = el1[el2].copy,
+    $('div#samples > span.dynamic').html('');
+    $('div#content > span.dynamic').html('');
+    $('.row.text-render span.dynamic').html('');
+    var layoutSelected = patterns[el1],
+        visualIndex = Number(el1) + 1,
+        patternOptionHTML = '<h4>Pattern ' + visualIndex + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
+        patternCopy = layoutSelected.copy,
         copyFields = '';
 
     for (var i = 0; i < patternCopy.length; i++) {
-        // copyFields += ' <div><label for="copy' + (i + 1) + '">' + patternCopy[i].field + '</label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
         copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
     }
 
-    $('div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + (el2 + 1) + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row enter-text-banner flex-it">' + copyFields + '</div><br>');
+    $('div#samples > span.dynamic').append(patternOptionHTML);
+    $('div#copy > span.dynamic').append(copyFields);
+
+    $('div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row enter-text-banner flex-it">' + copyFields + '</div><br>');
 
     renderedTextInputs = document.querySelectorAll('div#content > span.dynamic input');
     renderedTextInputs.forEach(function (currentValue, index) {
@@ -723,10 +630,29 @@ function htmlExport1() {
 }
 
 function msgBox1(msg, title) {
-    console.log(`${msg}`);
     if (!title) title = "";
     var html = `<div id="msgBox" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">${title}</h4>
+				</div>
+				<div class="modal-body">
+					${msg}
+				</div>
+			</div>
+		</div>
+	</div>`;
+
+    $("body").append(html);
+    $("#msgBox").modal("show");
+}
+
+function msgBoxFullWidth(msg, title) {
+    if (!title) title = "";
+    var html = `<div id="msgBox" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="width:100%" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -770,9 +696,8 @@ function escapeHTML1(text) {
 function validate() {
 
     var invalids = [],
-        valids = [];
-
-    var allRequireds = $(':required');
+        valids = [],
+        allRequireds = $(':required');
 
     for (var j = 0; j < allRequireds.length; j++) {
         if (allRequireds[j].value == '') {
@@ -786,7 +711,6 @@ function validate() {
         $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", false);
     }
     else {
-
         $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", true);
     }
 }
@@ -795,7 +719,8 @@ function bannerObject(el1) {
     var obj;
 
     obj = {
-        patternOptionsHTML: '',
+        contentSections: contentSections(el1),
+        patternOptionsHTML: test,
         selectOnClickBehavior: '',
         selectBrand: '',
         selectLayoutType: '',
@@ -806,13 +731,65 @@ function bannerObject(el1) {
         resourceOrigin: ''
     }
 
-    return obj;
+    return obj.contentSections;
 }
 
-function insertAdder() {
-    var dataInstance = $('[data-instance]');
-    for (var z = 0; z < dataInstance.length; z++) {
-        $(dataInstance[z]).attr('data-instance', z);
+function addBanner(el1) {
+    var tabs = $('.banner-tabs'),
+        newId = randomId(1000, 9999);;
+    console.log(tabs.length);
+
+    $('#bannerTabs .col-xs-12 span.dynamic .row-fluid.flex-it').append('<span id="tabbs' + newId + '" style="display:block;text-align:center;" class="col-xs-3"><button type="button" class="subtract-button" onClick="subtractBanner(this)">-</button><button class="banner-tabs" type="button">Banner ' + newId + '</button><button type="button" class="add-button" onClick="addBanner(this)">+</button>');
+
+    tabs = $('.banner-tabs');
+
+    if (tabs.length > minBannerNumber) {
+
+        $('button.add-button').removeAttr('hidden');
+        $('button.subtract-button').removeAttr('hidden');
+    } else if (tabs.length > maxBannerNumber - 1) {
+        $('button.add-button').attr('hidden', true);
+        $('button.subtract-button').removeAttr('hidden');
     }
-    $(dataInstance).parent().append(adderHTML);
 }
+
+
+function subtractBanner(el1) {
+    var tabs = $('.banner-tabs');
+    console.log(el1);
+
+    $(el1).closest('span').remove();
+
+    tabs = $('.banner-tabs');
+
+    if (tabs.length > minBannerNumber) {
+        $('[onClick="subractBanner(this)"]').removeAttr('hidden');
+    } else {
+        $('[onClick="subractBanner(this)"]').attr('hidden', true);
+    }
+}
+
+// function bannerForms(el1, el2) {
+//     var tabs = '';
+//     var test = document.querySelectorAll('.banner-properties');
+//     console.log(test);
+//     $('fieldset.banner-properties').removeClass('show');
+//     for (var q = 0; q < el1; q++) {
+//         tabs += '<button id="tabbs' + q + '" class="col-xs-3 banner-tabs" type="button">Banner Message ' + Number(q + 1) + '</button>';
+//         $('form > span.dynamic').append(bannerObject(q));
+//     }
+
+
+
+
+//     console.log(el2);
+
+//     $('#bannerTabs span.dynamic').append('<br><div class="row-fluid flex-it">' + tabs + '</div>');
+//     $('fieldset.banner-properties').first().addClass('show');
+
+//     $('button.banner-tabs').on('click', function () {
+//         var namespace = $(this).attr('id').substr(5);
+//         $('fieldset.banner-properties').removeClass('show');
+//         $('fieldset#props' + namespace).addClass('show');
+//     });
+// }

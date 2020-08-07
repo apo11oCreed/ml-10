@@ -462,9 +462,11 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 .faux-website-container {
 	min-height: unset;
 }
+#bannerTabs span[id*="tabbs"] {
+	display:flex;
+}
 
 #bannerTabs .banner-tabs {
-	text-align:center;
 	padding-left:2rem;
 	padding-right:2rem;
 }

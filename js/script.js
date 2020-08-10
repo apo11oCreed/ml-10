@@ -205,13 +205,21 @@ var selectOnClickBehavior,
     selectedPattern,
     selectDesktopImg,
     selectMobileImg,
-    selectBgColor,
-    resourceOrigin,
-    qty,
-    maxBannerNumber = 4,
-    minBannerNumber = 1;
+    selectBgColor;
 
-var bannerTabsLegend='<legend><h3>Banners (max ' + maxBannerNumber + ')</h3></legend><p>Click on the "[ Banner #### ]" button to display the form. Click on the "+" button to add another banner. Click on the "-" button to remove a banner.</p></div></div><hr>';
+var globalSettings = {
+    selectBrand: 'py',
+    breakPoints: {
+        desktop: 'yes',
+        mobile: 'yes'
+    },
+    bgDesktopPlaceholder: 'Demo-image-962.png',
+    bgMobilePlaceholder: 'Demo-image-575.png',
+    maxBannerNumber: 4,
+    minBannerNumber: 1
+}
+
+var bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber + ')</h3></legend><p>Click on the "[ Banner #### ]" button to display the form. Click on the "+" button to add another banner. Click on the "-" button to remove a banner.</p></div></div><hr>';
 
 $(document).ready(function () {
 
@@ -221,94 +229,82 @@ $(document).ready(function () {
 
     // $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
 
-    var idInit=randomId(1000, 9999);
+    var idInit = randomId(1000, 9999);
 
     // Add initial tab
     $('#bannerTabs').prepend(bannerTabsLegend);
-    $('#bannerTabs span.dynamic').append('<div class="row-fluid flex-it">' + bannerTab(idInit) + '</div>');
-    $('form > span.dynamic').append(bannerProps(idInit));
-    $('fieldset#props' + idInit + ', button.banner-tabs').addClass('show');
+    $('#bannerTabs span.dynamic').append('<div class="row-fluid flex-it"></div>');
+
+    var o = new bannerObj(idInit);
+    o.render();
+    //$('fieldset#props' + idInit + ', button.banner-tabs').addClass('show');
     $('button.subtract-button').attr('hidden', true);
 
-    buttonBehave1(idInit);
+    //buttonBehave1(idInit);
 
     $('button#form-reset').on('click', function () {
-        var idInit=randomId(1000, 9999);
-        $('span.dynamic').html('');
-        $('#bannerTabs span.dynamic').append('<div class="row-fluid flex-it">' + bannerTab(idInit) + '</div>');
+        $('form > span.dynamic').html('');
+        $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it').html('');
+        var o = new bannerObj(randomId(1000, 9999));
+        o.render();
         $('button.subtract-button').attr('hidden', true);
-        $('form > span.dynamic').append(bannerProps(idInit));
-        selectOnClickBehavior = '';
-        selectBrand = '';
-        selectLayoutType = '';
-        selectedPattern = '';
-        selectDesktopImg = '';
-        selectMobileImg = '';
-        selectBgColor = '';
-        resourceOrigin = '';
     });
 });
 
-function buttonBehave1(id) {
-    var bannerFieldSet='fieldset#props' + id;
-    console.log(id);
+function buttonBehave1(thisBanner) {
 
     // dropdown events
-
-    $('select#brands, select#numberOfBanners, select#onClickBehavior').on('change', function () {
+    $('select#brands,  select#onClickBehavior').on('change', function () {
         var selectMenu = $(this).attr('name');
 
         if (selectMenu == 'brands') {
-            selectBrand = $('#brands :selected').val();
-            if (resourceOrigin == 'remote') {
-                $(bannerFieldSet + " input[name='lorr1']").trigger("change");
+            globalSettings.selectBrand = $('#brands :selected').val();
+            if (thisBanner.resourceOrigin == 'remote') {
+                $('input[name="lorr1_' + thisBanner.id + '"]').trigger("change");
                 $(".input-group1").removeClass("found notfound");
                 $(".input-group1").next('.error').attr('hidden', true);
             }
-        } else if (selectMenu == 'numberOfBanners') {
-            $('#bannerTabs span.dynamic').html('');
-            $('form > span.dynamic').html('');
-            qty = $(':selected', this).val();
-            var test = document.querySelectorAll('fieldset');
-            bannerForms(qty, test.length);
         } else {
             displayOnClickBehavior($(':selected', this).val());
         }
     });
 
-    $('input[name="bpDesktop"],input[name="bpMobile"],' + bannerFieldSet + ' input[name="lorr1"]').on('change', function () {
-        console.log('test');
-        var radioMenu = $(this).attr('name');
+    $('input[name="bpDesktop"],input[name="bpMobile"],input[name="lorr1_' + thisBanner.id + '"]').on('change', function () {
 
-        if (radioMenu == 'bpDesktop' || radioMenu == 'bpMobile') {
-            var namespace = $(this).attr('name').substr(2),
-                radiobp = $('fieldset#breakpoints input:checked'),
-                bpNoArray = [];
+        var type = $(this).attr('name');
 
-            radiobp.each(function () {
-                if ($(this).val() == 'no') {
-                    bpNoArray.push($(this).val());
+        if (type == 'bpDesktop' || type == 'bpMobile') {
+            var breakPointNegatoryArray = [],
+                namespace = $(this).attr('name').substr(2);
+
+            thisBanner.breakPoints.desktop = $('fieldset#breakpoints input[name="bpDesktop"]:checked').val();
+            thisBanner.breakPoints.mobile = $('fieldset#breakpoints input[name="bpMobile"]:checked').val();
+
+            for (x in Object.values(thisBanner.breakPoints)) {
+                if (Object.values(thisBanner.breakPoints)[x] == 'no') {
+                    breakPointNegatoryArray.push(Object.values(thisBanner.breakPoints)[x]);
                 }
-            });
+            }
 
-            if (bpNoArray.length > 1) {
-                $('[name="lorr1"]').closest('.row').addClass("disabled");
+            if (breakPointNegatoryArray.length > 1) {
+                $('input[name="lorr1_' + thisBanner.id + '"]').closest('.row').addClass("disabled");
                 $('input#bgDesktop,input#bgMobile').closest('.row').addClass("disabled");
+                $('input#bgDesktop,input#bgMobile').prop({ 'disabled': true, 'required': false });
             } else if ($(this).val() == 'no') {
                 $('input#bg' + namespace).prop({ 'disabled': true, 'required': false });
                 $('input#bg' + namespace).closest('.row').addClass("disabled");
-                $('[name="lorr1"]').closest('.row').removeClass("disabled");
+                $('input[name="lorr1_' + thisBanner.id + '"]').closest('.row').removeClass("disabled");
             } else {
                 $('input#bg' + namespace).prop({ 'disabled': false, 'required': true });
                 $('input#bg' + namespace).closest('.row').removeClass("disabled");
-                $('[name="lorr1"]').closest('.row').removeClass("disabled");
+                $('input[name="lorr1_' + thisBanner.id + '"]').closest('.row').removeClass("disabled");
             }
         } else {
-            resourceOrigin = $(this).val();
+            thisBanner.resourceOrigin = $(this).val();
 
-            if (resourceOrigin == "local") {
+            if (thisBanner.resourceOrigin == "local") {
 
-                $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
+                $("fieldset#props" + thisBanner.id + " input[name='bgDesktop'],fieldset#props" + thisBanner.id + " input[name='bgMobile']").each(function () {
                     var curr = $(this).val();
                     if (curr !== "")
                         $(this).attr("data-remote", curr);
@@ -316,16 +312,16 @@ function buttonBehave1(id) {
                     if ($(this).data("local"))
                         $(this).val($(this).data("local"));
 
-                    $(this).siblings("span.input-group-addon1").text("Enter local filename");
+                    $(this).siblings("fieldset#props" + thisBanner.id + " span.input-group-addon1").text("Enter local filename");
                     if ($(this).attr("name") == "bgDesktop")
-                        var size = 962;
+                        var size = globalSettings.bgDesktopPlaceholder;
                     else
-                        var size = 575;
-                    $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
+                        var size = globalSettings.bgMobilePlaceholder;
+                    $(this).val("").attr("placeholder", size);
                 });
-            } else if (resourceOrigin == "remote") {
+            } else if (thisBanner.resourceOrigin == "remote") {
 
-                $("input[name='bgDesktop'], input[name='bgMobile']").each(function () {
+                $("fieldset#props" + thisBanner.id + " input[name='bgDesktop'],fieldset#props" + thisBanner.id + " input[name='bgMobile']").each(function () {
                     var curr = $(this).val();
                     if (curr !== "") {
                         $(this).attr("data-local", curr);
@@ -337,9 +333,9 @@ function buttonBehave1(id) {
 
                     if ($("select[name='brands']").val() == "") {
                         $(this).val("").attr("placeholder", "Select a brand");
-                        $(this).siblings("span.input-group-addon1").text("Enter remote filename");
+                        $(this).siblings("fieldset#props" + thisBanner.id + " span.input-group-addon1").text("Enter remote filename");
                     } else {
-                        $(this).siblings("span.input-group-addon1").text("/images/evergage/" + selectBrand + "/");
+                        $(this).siblings("fieldset#props" + thisBanner.id + " span.input-group-addon1").text("/images/evergage/" + globalSettings.selectBrand + "/");
                         $(this).val("").attr("placeholder", "Enter Filename...");
                     }
                 });
@@ -349,6 +345,7 @@ function buttonBehave1(id) {
             $(".input-group1").next('.error').attr('hidden', true);
         }
 
+        console.log(thisBanner);
     });
 
     $('input#r,input#g,input#b').on('input', function () {
@@ -370,11 +367,11 @@ function buttonBehave1(id) {
     })
 
     $("button[name='exporthtml'],button[name='exportcss'],button[name='chooseLayout']").on("click", function () {
-        
+
         var type = $(this).attr("name"),
             layoutRadioMsg = '';
         if (type == 'chooseLayout') {
-            
+
             for (var k = 0; k < patterns.length; k++) {
                 if (k !== patterns.length - 1) {
                     layoutRadioMsg += '<div class="row"><div class="col-xs-12"><label for="' + k + '">Pattern ' + Number(k + 1) + '</label>&nbsp;&nbsp;<input id="' + k + '" name="pattern" type="radio" value="' + k + '">&nbsp;&nbsp;<img src="' + patterns[k].img + '"></div></div><br>';
@@ -410,9 +407,9 @@ function buttonBehave1(id) {
         msgBox1(helpMsg, "Help");
     });
 
-    // Run a search on all user fields and validate requirements have been met
+    // Run a search on all user fields and confirmAllRequiredMet requirements have been met
     $("input, select, textarea").on("change", function () {
-        validate();
+        confirmAllRequiredMet();
     });
 
     // imgaddress
@@ -494,7 +491,7 @@ function displayOnClickBehavior(el1) {
 
     $('.row.onclickbehavior span.dynamic').append(behavior);
 
-    $('.row.onclickbehavior span.dynamic input,.row.onclickbehavior span.dynamic textarea').on('change', validate);
+    $('.row.onclickbehavior span.dynamic input,.row.onclickbehavior span.dynamic textarea').on('change', confirmAllRequiredMet);
 }
 
 function websiteURL1() {
@@ -688,7 +685,11 @@ function escapeHTML1(text) {
     return text.replace(/[&<>"']/g, function (m) { return map[m]; });
 }
 
-function validate() {
+function randomId(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+};
+
+function confirmAllRequiredMet() {
 
     var invalids = [],
         valids = [],
@@ -710,84 +711,91 @@ function validate() {
     }
 }
 
-function bannerObject(el1) {
+function showBanner(el1) {
+    var thisId = $(el1).closest('span').attr('id').substr(5);
+
+    $('fieldset[id*="props"],button.banner-tabs').removeClass('show');
+    $('fieldset#props' + thisId + ',button.banner-tabs').addClass('show');
+
+    buttonBehave1(bannerObj(thisId));
+}
+
+function addBanner(el1) {
+    var tabs = $('.banner-tabs'),
+        newId = randomId(1000, 9999),
+        o;
+
+    // Dedup
+    for (var h = 0; h < tabs.length; h++) {
+        if (newId == $(tabs[h]).closest('span').attr('id')) {
+            newId = randomId(1000, 9999);
+            o = new bannerObj(newId);
+        } else {
+            o = new bannerObj(newId);
+        }
+    }
+
+    o.render();
+
+    if (o.visibleIndex($('.banner-tabs')) == globalSettings.maxBannerNumber) {
+        $('button.add-button').attr('hidden', true);
+    }
+}
+
+function removeBanner(el1) {
+    var tabs,
+        thisId = $(el1).closest('span').attr('id').substr(5);
+
+    $('span#tabbs' + thisId).remove();
+    $('fieldset#props' + thisId).remove();
+
+    $('button.add-button').attr('hidden', false);
+
+    tabs = $('.banner-tabs');
+
+    if (tabs.length == globalSettings.minBannerNumber) {
+        $('button.subtract-button').attr('hidden', true);
+    }
+}
+
+function bannerObj(el1) {
     var obj;
 
     obj = {
-        patternOptionsHTML: '',
-        selectOnClickBehavior: '',
-        selectBrand: '',
-        selectLayoutType: '',
-        selectedPattern: '',
-        selectDesktopImg: '',
-        selectMobileImg: '',
-        selectBgColor: '',
-        resourceOrigin: '',
-        form: bannerProps(el1),
-        tab: bannerTab(el1)
+        id: Number(el1),
+        breakPoints: {
+            desktop: 'yes',
+            mobile: 'yes'
+        },
+        onClickBehavior: 'doNothing',
+        resourceOrigin: 'local',
+        layout: '',
+        remoteBuild: false,
+        localBuild: true,
+        visibleIndex: function (e1) {
+            var tabs = e1.length;
+            return tabs;
+        },
+        bannerFormHTML: bannerFormHTML(el1),
+        bannerTabsHTML: bannerTabsHTML(el1),
+        render: function () {
+            // this.buttonBehave(this);
+            $('#props' + this.id + ' input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
+            $('form > span.dynamic').append(this.bannerFormHTML);
+            $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it').append(this.bannerTabsHTML);
+            $('button.subtract-button').attr('hidden', false);
+        }
     }
 
     return obj;
 }
 
-function addBanner(el1) {
-    var tabs=$('.banner-tabs'),
-    newId = randomId(1000, 9999);
-
-    // Dedup
-    for(var h=0;h<tabs.length;h++){
-        if(newId==$(tabs[h]).closest('span').attr('id')){
-            newId = randomId(1000, 9999);
-        }
-    }
-    
-    $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it').append(bannerObject(newId).tab);
-    $('form > span.dynamic').append(bannerProps(newId));
-    
-    $('button.subtract-button').attr('hidden',false);
-
-    tabs = $('.banner-tabs');
-
-    if (tabs.length == maxBannerNumber) {
-        $('button.add-button').attr('hidden', true);
-    }
-}
-
-function subtractBanner(el1) {
-    var tabs,
-    thisId=$(el1).closest('span').attr('id').substr(5);
-
-    $('span#tabbs' + thisId).remove();
-    $('fieldset#props' + thisId).remove();
-
-    $('button.add-button').attr('hidden',false);
-
-    tabs = $('.banner-tabs');
-
-    if (tabs.length == minBannerNumber) {
-        $('button.subtract-button').attr('hidden',true);
-    }
-}
-
-function showBanner(el1) {
-    var thisId=$(el1).closest('span').attr('id').substr(5);
-
-    $('fieldset[id*="props"],button.banner-tabs').removeClass('show');
-    $('fieldset#props' + thisId + ',button.banner-tabs').addClass('show');
-
-    buttonBehave1(thisId);
-}
-
-function randomId(min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
-};
-
-function bannerProps(el1){
-    var html='<fieldset id="props' + el1 + '" class="row banner-properties"> <legend> <h2>Banner ' + el1 + ' Properties</h2> </legend> <div class="col-xs-12"> <span class="dynamic"></span> <div class="row"> <div class="col-xs-12"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout" name="chooseLayout">Choose a layout</button> </fieldset> <fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="content"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgDesktop" class="bgimgaddress form-control1" type="text" name="bgDesktop" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgMobile" class="bgimgaddress form-control1" type="text" name="bgMobile" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><hr> <div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
+function bannerFormHTML(el1) {
+    var html = '<fieldset id="props' + el1 + '" class="row banner-properties"> <legend> <h2>Banner ' + el1 + ' Properties</h2> </legend> <div class="col-xs-12"> <span class="dynamic"></span> <div class="row"> <div class="col-xs-12"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout" name="chooseLayout">Choose a layout</button> </fieldset> <fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="content"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1_' + el1 + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1_' + el1 + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgDesktop" class="bgimgaddress form-control1" type="text" name="bgDesktop" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgMobile" class="bgimgaddress form-control1" type="text" name="bgMobile" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><hr> <div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
     return html;
 }
 
-function bannerTab(el1){
-    var html='<span id="tabbs' + el1 + '" class="col-xs-3"><button type="button" class="subtract-button" onClick="subtractBanner(this)">-</button><button type="button" class="banner-tabs" name="bannertab" onClick="showBanner(this)">Banner ' + el1 + '</button><button type="button" class="add-button" onClick="addBanner(this)">+</button><span>';
+function bannerTabsHTML(el1) {
+    var html = '<span id="tabbs' + el1 + '" class="col-xs-3"><button type="button" class="subtract-button" onClick="removeBanner(this)">-</button><button type="button" class="banner-tabs" name="bannertab" onClick="showBanner(this)">Banner ' + el1 + '</button><button type="button" class="add-button" onClick="addBanner(this)">+</button><span>';
     return html;
 }

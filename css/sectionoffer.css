@@ -464,12 +464,36 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 }
 #bannerTabs span[id*="tabbs"] {
 	display:flex;
+	flex-direction:column;
 	justify-content: center;
+}
+
+#bannerTabs span[id*="tabbs"] span.controls-add-subtract {
+	display:flex;
+	flex-direction:row;
+	justify-content: flex-end;
+}
+
+#bannerTabs span[id*="tabbs"] span.controls-add-subtract button {
+	opacity:0.0;
+	pointer-events:none;
+	transition: opacity 0.115s ease-in-out;
+}
+
+#bannerTabs span[id*="tabbs"]:hover span.controls-add-subtract button {
+	opacity:1.0;
+	pointer-events:auto;
 }
 
 #bannerTabs .banner-tabs {
 	padding-left:2rem;
 	padding-right:2rem;
+}
+
+#bannerTabs .banner-tabs.show{
+	background-color:rgb(250,250,250);
+	background-color:rgba(250,250,250,1.0);
+	font-weight:700;
 }
 
 .banner-properties {

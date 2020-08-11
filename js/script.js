@@ -1,6 +1,294 @@
-var patterns = [{
-    "img": "img/fullwidth-1.png",
-    "copy": [{
+// var patterns = {
+//     "1": [{
+//         "pattern": "One Banner Layout",
+//         "img": "img/fullwidth-1.png",
+//         "copy": [{
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 24px",
+//             "styles": "font-weight:regular;font-size:24px;"
+//         }, {
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:regular;font-size:12px;"
+//         }]
+//     }, {
+//         "pattern": "One Banner Layout",
+//         "img": "img/fullwidth-2.png",
+//         "copy": [{
+//             "field": "Reg 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         },
+//         {
+//             "field": "Bold 24px",
+//             "styles": "font-weight:regular;font-size:24px;"
+//         },
+//         {
+//             "field": "Reg 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         },
+//         {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:regular;font-size:12px;"
+//         },
+//         {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:regular;font-size:12px;"
+//         }
+//         ]
+//     }
+//     ],
+//     "2": [{
+//         "pattern": "Two Banners Layout",
+//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+//         "copy": [{
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         },
+//         {
+//             "field": "Reg 24px",
+//             "styles": "font-weight:regular;font-size:24px;"
+//         },
+//         {
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         },
+//         {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:regular;font-size:12px;"
+//         }
+//         ]
+//     }, {
+//         "pattern": "Two Banners Layout",
+//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+//         "copy": [{
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         },
+//         {
+//             "field": "Reg 24px",
+//             "styles": "font-weight:regular;font-size:24px;"
+//         },
+//         {
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         },
+//         {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:regular;font-size:12px;"
+//         },
+//         {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:regular;font-size:12px;"
+//         }]
+//     }, {
+//         "pattern": "Two Banners Layout",
+//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+//         "copy": [{
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 24px",
+//             "styles": "font-weight:regular;font-size:24px;"
+//         }, {
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:regular;font-size:12px;"
+//         }]
+//     }, {
+//         "pattern": "Two Banners Layout",
+//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+//         "copy": [{
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 24px",
+//             "styles": "font-weight:regular;font-size:24px;"
+//         }, {
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:regular;font-size:12px;"
+//         }, {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:regular;font-size:12px;"
+//         }
+//         ]
+//     }, {
+//         "pattern": "Two Banners Layout",
+//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+//         "copy": [{
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }]
+//     }, {
+//         "pattern": "Two Banners Layout",
+//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+//         "copy": [{
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Bold 24px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }, {
+//             "field": "Reg 12px",
+//             "styles": "font-weight:bold;font-size:24px;"
+//         }]
+//     }]
+// };
+
+var patterns = {
+    "1": [{
+        "pattern": "One Banner Layout",
+        "img": "img/fullwidth-1.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        }, {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }]
+    }, {
+        "pattern": "One Banner Layout",
+        "img": "img/fullwidth-2.png",
+        "copy": [{
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }
+        ]
+    }
+    ],
+    "2": [{
+        "pattern": "Two Banner Layout",
+        "img": "img/fullwidth-1.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        }, {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }]
+    }, {
+        "pattern": "Two Banner Layout",
+        "img": "img/fullwidth-2.png",
+        "copy": [{
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }
+        ]
+    }
+    ],
+    "3": [{
+        "pattern": "Three Banner Layout",
+        "img": "img/fullwidth-1.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        }, {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }]
+    }, {
+        "pattern": "Three Banner Layout",
+        "img": "img/fullwidth-2.png",
+        "copy": [{
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }
+        ]
+    }
+    ],
+    "4": [{
+        "pattern": "Four Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+        "copy": [{
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
         },
@@ -16,52 +304,11 @@ var patterns = [{
             "field": "Reg 12px",
             "styles": "font-weight:regular;font-size:12px;"
         }
-    ]
-}, {
-    "img": "img/fullwidth-2.png",
-    "copy": [{
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
-            "field": "Bold 24px",
-            "styles": "font-weight:regular;font-size:24px;"
-        },
-        {
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
-        }
-    ]
-}, {
-    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-    "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
-        },
-        {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
-        }
-    ]
-}, {
-    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-    "copy": [{
+        ]
+    }, {
+        "pattern": "Four Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+        "copy": [{
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
         },
@@ -80,93 +327,80 @@ var patterns = [{
         {
             "field": "Reg 12px",
             "styles": "font-weight:regular;font-size:12px;"
-        }
-    ]
-}, {
-    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-    "copy": [{
+        }]
+    }, {
+        "pattern": "Four Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+        "copy": [{
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Reg 24px",
             "styles": "font-weight:regular;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Reg 12px",
             "styles": "font-weight:regular;font-size:12px;"
-        }
-    ]
-}, {
-    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-    "copy": [{
+        }]
+    }, {
+        "pattern": "Four Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+        "copy": [{
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Reg 24px",
             "styles": "font-weight:regular;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Reg 12px",
             "styles": "font-weight:regular;font-size:12px;"
-        },
-        {
+        }, {
             "field": "Reg 12px",
             "styles": "font-weight:regular;font-size:12px;"
         }
-    ]
-}, {
-    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-    "copy": [{
+        ]
+    }, {
+        "pattern": "Four Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+        "copy": [{
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Reg 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Reg 12px",
             "styles": "font-weight:bold;font-size:24px;"
-        }
-    ]
-}, {
-    "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-    "copy": [{
+        }]
+    }, {
+        "pattern": "Four Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+        "copy": [{
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Reg 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Reg 12px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
             "field": "Reg 12px",
             "styles": "font-weight:bold;font-size:24px;"
-        }
-    ]
-}];
+        }]
+    }]
+};
 
 var brands = {
     "paulayoung": [{
@@ -197,19 +431,25 @@ var globalSettings = {
         desktop: 'yes',
         mobile: 'yes'
     },
+    layoutMenu: 1,
     bgDesktopPlaceholder: 'Demo-image-962.png',
     bgMobilePlaceholder: 'Demo-image-575.png',
-    maxBannerNumber: function(el){
-        return el.length/2;
+    maxBannerNumber: function (el) {
+        var qty = 0;
+        for (items in patterns) {
+            qty++;
+        }
+        return qty;
     },
-    minBannerNumber: 1
+    minBannerNumber: 1,
+    ordinals: []
 }
 
-var bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the "[ Banner #### ]" button to display the form. Click on the "+" button to add another banner. Click on the "-" button to remove a banner.</p></div></div><hr>';
+var bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the [ <span style="font-weight:700;">Banner ####</span> ] button to display the form. Hover over [ <span style="font-weight:700;">Banner ####</span> ] button(s) to view all controls. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another banner. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a banner. <span style="text-transform:uppercase;">Note</span>: Changes to number of banners will require new selections of layout patterns for all previously assigned.</p></div></div><hr>';
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-    $(document).on("hidden.bs.modal", ".modal", function() {
+    $(document).on("hidden.bs.modal", ".modal", function () {
         $(this).remove();
     });
 
@@ -220,14 +460,13 @@ $(document).ready(function() {
     // Add initial tab
     $('#bannerTabs span.dynamic').append('<div class="row-fluid flex-it"></div>');
 
-    var o = new bannerObj(idInit);
-    o.render();
-    //$('fieldset#props' + idInit + ', button.banner-tabs').addClass('show');
+    var z = new bannerObj(idInit, 0);
+    z.render();
+
     $('button.subtract-button').attr('hidden', true);
 
-    $('button#form-reset').on('click', function() {
-        $('form > span.dynamic').html('');
-        $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it').html('');
+    $('button#form-reset').on('click', function () {
+        $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it,form > span.dynamic').html('');
         var z = new bannerObj(randomId(1000, 9999));
         z.render();
         $('button.subtract-button').attr('hidden', true);
@@ -237,7 +476,7 @@ $(document).ready(function() {
 function buttonBehave1(thisBanner) {
 
     // dropdown events
-    $('select#brands,  select#onClickBehavior').on('change', function() {
+    $('select#brands,  select#onClickBehavior').on('change', function () {
         var selectMenu = $(this).attr('name');
 
         if (selectMenu == 'brands') {
@@ -252,7 +491,8 @@ function buttonBehave1(thisBanner) {
         }
     });
 
-    $('input[name="bpDesktop"],input[name="bpMobile"],input[name="lorr1_' + thisBanner.id + '"]').on('change', function() {
+    // radio events
+    $('input[name="bpDesktop"],input[name="bpMobile"],input[name="lorr1_' + thisBanner.id + '"]').on('change', function () {
 
         var type = $(this).attr('name');
 
@@ -296,7 +536,7 @@ function buttonBehave1(thisBanner) {
 
             if (thisBanner.resourceOrigin == "local") {
 
-                $("fieldset#props" + thisBanner.id + " input[name='bgDesktop'],fieldset#props" + thisBanner.id + " input[name='bgMobile']").each(function() {
+                $("fieldset#props" + thisBanner.id + " input[name='bgDesktop'],fieldset#props" + thisBanner.id + " input[name='bgMobile']").each(function () {
                     var curr = $(this).val();
                     if (curr !== "")
                         $(this).attr("data-remote", curr);
@@ -313,7 +553,7 @@ function buttonBehave1(thisBanner) {
                 });
             } else if (thisBanner.resourceOrigin == "remote") {
 
-                $("fieldset#props" + thisBanner.id + " input[name='bgDesktop'],fieldset#props" + thisBanner.id + " input[name='bgMobile']").each(function() {
+                $("fieldset#props" + thisBanner.id + " input[name='bgDesktop'],fieldset#props" + thisBanner.id + " input[name='bgMobile']").each(function () {
                     var curr = $(this).val();
                     if (curr !== "") {
                         $(this).attr("data-local", curr);
@@ -338,7 +578,8 @@ function buttonBehave1(thisBanner) {
         }
     });
 
-    $('input#r,input#g,input#b').on('input', function() {
+    // background-color events
+    $('input#r,input#g,input#b').on('input', function () {
         var code = $(this).val();
 
         if (Number(code) > 250) {
@@ -353,29 +594,43 @@ function buttonBehave1(thisBanner) {
             $(this).removeClass('error');
             $(this).parent().next('.error').html('');
             $(this).parent().next('.error').attr('hidden', true);
+            thisBanner.bgColor.r = $('input#r').val();
+            thisBanner.bgColor.g = $('input#g').val();
+            thisBanner.bgColor.b = $('input#b').val();
+            console.log(thisBanner);
         }
     })
 
-    $("button[name='exporthtml'],button[name='exportcss'],fieldset#props" + thisBanner.id + " button[name='chooseLayout']").on("click", function() {
+    // button events
+    $("button[name='exporthtml'],button[name='exportcss'],fieldset#props" + thisBanner.id + " button[name='chooseLayout']").on("click", function () {
 
         var type = $(this).attr("name"),
-            layoutRadioMsg = '';
-        if (type == 'chooseLayout') {
+            menu;
 
-            for (var k = 0; k < patterns.length; k++) {
-                if (k !== patterns.length - 1) {
-                    layoutRadioMsg += '<div class="row"><div class="col-xs-12"><label for="' + k + '">Pattern ' + Number(k + 1) + '</label>&nbsp;&nbsp;<input id="' + k + '" name="pattern" type="radio" value="' + k + '">&nbsp;&nbsp;<img src="' + patterns[k].img + '"></div></div><br>';
-                } else {
-                    layoutRadioMsg += '<div class="row"><div class="col-xs-12"><label for="' + k + '">Pattern ' + Number(k + 1) + '</label>&nbsp;&nbsp;<input id="' + k + '" name="pattern" type="radio" value="' + k + '">&nbsp;&nbsp;<img src="' + patterns[k].img + '"></div></div>';
-                }
+        if (type == 'chooseLayout') {
+            console.log(globalSettings.layoutMenu);
+            if (globalSettings.layoutMenu == 1) {
+                menu = chooseLayoutMenuBuilder(["1", "2", "3", "4"]);
+                msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner.id);
+            } else if (globalSettings.layoutMenu == 2) {
+                menu = chooseLayoutMenuBuilder(["2"]);
+                msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner.id);
+            } else if (globalSettings.layoutMenu == 3) {
+                menu = chooseLayoutMenuBuilder(["3"]);
+                msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner.id);
+            } else if (globalSettings.layoutMenu == 4) {
+                menu = chooseLayoutMenuBuilder(["4"]);
+                msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner.id);
+            } else {
+                alert('Layout patterns not available for this number of banners.');
             }
-            msgBox1('<div class="container">' + layoutRadioMsg + '</div>', 'Choose a Layout Type', thisBanner.id);
+
         } else {
             exportCode1(type);
         }
     });
 
-    $("span.help1").on("click", function() {
+    $("span.help1").on("click", function () {
         var helpMsg = "";
         switch ($(this).data("help")) {
             case "desktop":
@@ -397,20 +652,20 @@ function buttonBehave1(thisBanner) {
         msgBox1(helpMsg, "Help");
     });
 
-    // Run a search on all user fields and confirmAllRequiredMet requirements have been met
-    $("input, select, textarea").on("change", function() {
+    // validation event
+    $("input, select, textarea").on("change", function () {
         confirmAllRequiredMet();
     });
 
     // imgaddress
     $(".bgimgaddress").on({
-        focus: function() {
+        focus: function () {
             $(this).parent().removeClass("found notfound");
             if ($(this).parent().next().attr('hidden', false)) {
                 $(this).parent().next().attr('hidden', true);
             }
         },
-        focusout: function() {
+        focusout: function () {
             if (!($(this).val() == 0)) {
                 checkImageExists1(this, $(this).val());
             }
@@ -418,77 +673,22 @@ function buttonBehave1(thisBanner) {
     });
 }
 
-function displayContentForm(el1, el2) {
-    console.log(el1);
-    console.log(el2);
+function chooseLayoutMenuBuilder(layoutsArray) {
 
-    $('fieldset#props' + el2 + ' div#samples > span.dynamic').html('');
-    $('fieldset#props' + el2 + ' div#content > span.dynamic').html('');
-    $('.row.text-render span.dynamic').html('');
-    var layoutSelected = patterns[el1],
-        visualIndex = Number(el1) + 1,
-        patternOptionHTML = '<h4>Pattern ' + visualIndex + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
-        patternCopy = layoutSelected.copy,
-        copyFields = '';
+    var layoutRadioMsg = '';
+    for (var q = 0; q < layoutsArray.length; q++) {
 
-    for (var i = 0; i < patternCopy.length; i++) {
-        copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
-    }
+        layoutRadioMsg += '<h2>' + patterns[layoutsArray[q]][0].pattern + '</h2>';
 
-    $('fieldset#props' + el2 + ' div#samples > span.dynamic').append(patternOptionHTML);
-    //$('div#copy > span.dynamic').append(copyFields);
-
-    $('fieldset#props' + el2 + ' div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row enter-text-banner flex-it">' + copyFields + '</div><br>');
-
-    renderedTextInputs = document.querySelectorAll('fieldset#props' + el2 + ' div#content > span.dynamic input');
-    renderedTextInputs.forEach(function(currentValue, index) {
-        $('.row.text-render span.dynamic').append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + '"></span>&nbsp;');
-        renderCopyFields(currentValue, index);
-    });
-}
-
-function renderCopyFields(el1, el2) {
-    $(el1).on('input', function(event) {
-        var value = $(el1).val(),
-            value1 = $('.row.text-render span.dynamic span#text-render-' + el2).text();
-        if (value != value1) {
-            $('.row.text-render span.dynamic span#text-render-' + el2).text(value);
-        } else {
-            $('.row.text-render span.dynamic span#text-render-' + el2).append(String.fromCharCode(event.which));
+        for (var k = 0; k < patterns[layoutsArray[q]].length; k++) {
+            if (k !== patterns.length - 1) {
+                layoutRadioMsg += '<div class="row"><div class="col-xs-12"><label for="' + k + '">Pattern ' + Number(k + 1) + '</label>&nbsp;&nbsp;<input data-family-pattern="' + patterns[layoutsArray[q]][0].pattern + '" data-family-code="' + layoutsArray[q] + '" id="' + k + '" name="pattern" type="radio" value="' + k + '">&nbsp;&nbsp;<img src="' + patterns[layoutsArray[q]][k].img + '"></div></div><br>';
+            } else {
+                layoutRadioMsg += '<div class="row"><div class="col-xs-12"><label for="' + k + '">Pattern ' + Number(k + 1) + '</label>&nbsp;&nbsp;<input data-family-pattern="' + patterns[layoutsArray[q]][0].pattern + '" data-family-code="' + layoutsArray[q] + '" id="' + k + '" name="pattern" type="radio" value="' + k + '">&nbsp;&nbsp;<img src="' + patterns[layoutsArray[q]][k].img + '"></div></div>';
+            }
         }
-    });
-}
-
-function displayOnClickBehavior(el1) {
-    $('.row.onclickbehavior span.dynamic').html('');
-
-    var modalHTML = '<fieldset id="modalDefs" class="row"> <legend> <h3>Modal</h3> </legend> <div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalExpires">Modal Expires</label> <br><input id="modalExpires" name="modalExpires" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h4>Example Modal</h4> <img src="https://www.paulayoung.com/images/evergage/py/lightbox/sitewide-c07.gif" alt="Example modal"> </span> </div></fieldset>',
-        linkHMTL = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to another page:<span class="required">*</span></label></div><div class="col-xs-2"> <input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" required></div></div>',
-        linkAnchorHTML = '<br><div class="row"> <div class="col-xs-3"><label for="anchorLink">Link to a location on the same page:<span class="required">*</span></label></div><div class="col-xs-2"> <input id="anchorLink" placeholder="#anchor" type="text" required></div></div>',
-        doNothing = '<br><p>This will be a static banner.</p>',
-        link,
-        behavior = '';
-
-    switch (el1) {
-        case 'fireModal':
-            behavior = modalHTML;
-            break;
-        case 'linkToPage':
-            behavior = linkHMTL;
-            break;
-        case 'linkToAnchor':
-            behavior = linkAnchorHTML;
-            break;
-        case 'doNothing':
-            behavior = doNothing;
-            break;
-        default:
-            break;
     }
-
-    $('.row.onclickbehavior span.dynamic').append(behavior);
-
-    $('.row.onclickbehavior span.dynamic input,.row.onclickbehavior span.dynamic textarea').on('change', confirmAllRequiredMet);
+    return layoutRadioMsg;
 }
 
 function websiteURL1() {
@@ -534,12 +734,12 @@ function imgURL1(el, flag) {
 function checkImageExists1(el, url) {
     var img = new Image();
 
-    img.onload = function() {
+    img.onload = function () {
         $(el).parent().addClass("found");
         $(el).parent().next().prop('hidden', true);
         reDraw1();
     };
-    img.onerror = function() {
+    img.onerror = function () {
         $(el).parent().addClass("notfound");
         $(el).parent().next().prop('hidden', false);
     };
@@ -659,8 +859,8 @@ function msgBox1(msg, title, id) {
 
         $('input[name="pattern"]').first().prop('checked', true);
 
-        $('#msgBox').on('hide.bs.modal', function(e) {
-            displayContentForm($('input[name="pattern"]:checked').val(), thisId);
+        $('#msgBox').on('hide.bs.modal', function (e) {
+            displayContentForm($('input[name="pattern"]:checked'), thisId);
         });
     } else {
         $("#msgBox").removeClass('full-width');
@@ -688,7 +888,7 @@ function escapeHTML1(text) {
         '"': '&quot;',
         "'": '&#039;'
     };
-    return text.replace(/[&<>"']/g, function(m) {
+    return text.replace(/[&<>"']/g, function (m) {
         return map[m];
     });
 }
@@ -696,6 +896,77 @@ function escapeHTML1(text) {
 function randomId(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 };
+
+function displayContentForm(el1, el2) {
+
+    $('fieldset#props' + el2 + ' div#samples > span.dynamic').html('');
+    $('fieldset#props' + el2 + ' div#content > span.dynamic').html('');
+
+    $('.row.text-render span.dynamic').html('');
+    var layoutSelected = patterns[el1.data('family-code')][el1.attr('id')],
+        visualIndex = Number(el1.attr('id')) + 1,
+        patternOptionHTML = '<h4>Pattern ' + visualIndex + ' of ' + el1.data('family-pattern') + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
+        patternCopy = layoutSelected.copy,
+        copyFields = '';
+
+    for (var i = 0; i < patternCopy.length; i++) {
+        copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
+    }
+
+    $('fieldset#props' + el2 + ' div#samples > span.dynamic').append(patternOptionHTML);
+
+    $('fieldset#props' + el2 + ' div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + el1.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
+
+    renderedTextInputs = document.querySelectorAll('fieldset#props' + el2 + ' div#content > span.dynamic input');
+    renderedTextInputs.forEach(function (currentValue, index) {
+        $('.row.text-render span.dynamic').append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + '"></span>&nbsp;');
+        renderCopyFields(currentValue, index);
+    });
+}
+
+function renderCopyFields(el1, el2) {
+    $(el1).on('input', function (event) {
+        var value = $(el1).val(),
+            value1 = $('.row.text-render span.dynamic span#text-render-' + el2).text();
+        if (value != value1) {
+            $('.row.text-render span.dynamic span#text-render-' + el2).text(value);
+        } else {
+            $('.row.text-render span.dynamic span#text-render-' + el2).append(String.fromCharCode(event.which));
+        }
+    });
+}
+
+function displayOnClickBehavior(el1) {
+    $('.row.onclickbehavior span.dynamic').html('');
+
+    var modalHTML = '<fieldset id="modalDefs" class="row"> <legend> <h3>Modal</h3> </legend> <div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalExpires">Modal Expires</label> <br><input id="modalExpires" name="modalExpires" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h4>Example Modal</h4> <img src="https://www.paulayoung.com/images/evergage/py/lightbox/sitewide-c07.gif" alt="Example modal"> </span> </div></fieldset>',
+        linkHMTL = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to another page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required></div></div>',
+        linkAnchorHTML = '<br><div class="row"> <div class="col-xs-3"><label for="anchorLink">Link to point on same page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="anchorLink" placeholder="#anchor" type="text" required></div></div>',
+        doNothing = '<br><p>This will be a static banner.</p>',
+        link,
+        behavior = '';
+
+    switch (el1) {
+        case 'fireModal':
+            behavior = modalHTML;
+            break;
+        case 'linkToPage':
+            behavior = linkHMTL;
+            break;
+        case 'linkToAnchor':
+            behavior = linkAnchorHTML;
+            break;
+        case 'doNothing':
+            behavior = doNothing;
+            break;
+        default:
+            break;
+    }
+
+    $('.row.onclickbehavior span.dynamic').append(behavior);
+
+    $('.row.onclickbehavior span.dynamic input,.row.onclickbehavior span.dynamic textarea').on('change', confirmAllRequiredMet);
+}
 
 function confirmAllRequiredMet() {
 
@@ -722,9 +993,10 @@ function showBanner(el1) {
     var thisId = $(el1).closest('span').attr('id').substr(5);
 
     $('fieldset[id*="props"],button.banner-tabs').removeClass('show');
-    $('fieldset#props' + thisId + ',button.banner-tabs').addClass('show');
+    $('fieldset#props' + thisId).addClass('show');
+    $(el1).addClass('show');
 
-    buttonBehave1(bannerObj(thisId));
+    buttonBehave1(bannerObj(thisId, $(el1).closest('span').data('ordinal')));
 }
 
 function addBanner(el1) {
@@ -736,47 +1008,66 @@ function addBanner(el1) {
     for (var h = 0; h < tabs.length; h++) {
         if (idNew == $(tabs[h]).closest('span').attr('id')) {
             idNew = randomId(1000, 9999);
-            z = new bannerObj(idNew);
+            z = new bannerObj(idNew, tabs.length);
         } else {
-            z = new bannerObj(idNew);
+            z = new bannerObj(idNew, tabs.length);
         }
     }
+    $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
+    $('div#content > span.dynamic').html('');
 
     z.render();
+
+    globalSettings.layoutMenu = Number(tabs.length);
 
     if (z.visibleIndex($('.banner-tabs')) == globalSettings.maxBannerNumber(patterns)) {
         $('button.add-button').attr('hidden', true);
     }
+
+    globalSettings.ordinals = [];
+    $('[data-ordinal]').each(function () {
+        globalSettings.ordinals.push($(this).data('ordinal'));
+    });
 }
 
 function removeBanner(el1) {
     var tabs,
-        idKill = $(el1).closest('span').attr('id').substr(5);
+        idKill = $(el1).closest('span[id*="tabbs"]').attr('id').substr(5);
 
     $('span#tabbs' + idKill).remove();
     $('fieldset#props' + idKill).remove();
+    $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
+    $('div#content > span.dynamic').html('');
 
     $('button.add-button').attr('hidden', false);
 
     tabs = $('.banner-tabs');
+    globalSettings.layoutMenu = Number(tabs.length);
 
     if (tabs.length == globalSettings.minBannerNumber) {
         $('button.subtract-button').attr('hidden', true);
     }
+
+    globalSettings.ordinals = [];
+    $('[data-ordinal]').each(function () {
+        globalSettings.ordinals.push($(this).data('ordinal'));
+    });
 }
 
-function bannerObj(el1) {
+function bannerObj(el1, el2) {
     var obj;
 
     obj = {
-        id: Number(el1),
+        id: el1,
         breakPoints: {
             desktop: 'yes',
             mobile: 'yes'
         },
-        bannerFormHTML: bannerFormHTML(el1),
-        bannerTabsHTML: bannerTabsHTML(el1),
-        layout: patterns[0],
+        visibleIndex: function (e1) {
+            var tabs = e1.length;
+            return tabs;
+        },
+        ordinal: el2,
         resourceOrigin: 'local',
         remoteBuild: false,
         localBuild: true,
@@ -788,15 +1079,10 @@ function bannerObj(el1) {
             'b': 174
         },
         onClickBehavior: 'doNothing',
-        visibleIndex: function(e1) {
-            var tabs = e1.length;
-            return tabs;
-        },
-        render: function() {
-            // this.buttonBehave(this);
+        render: function () {
             $('#props' + this.id + ' input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
-            $('form > span.dynamic').append(this.bannerFormHTML);
-            $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it').append(this.bannerTabsHTML);
+            $('form > span.dynamic').append(bannerFormHTML(this.id, this.ordinal));
+            $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it').append(bannerTabsHTML(this.id, this.ordinal));
             $('button.subtract-button').attr('hidden', false);
         }
     }
@@ -804,12 +1090,12 @@ function bannerObj(el1) {
     return obj;
 }
 
-function bannerFormHTML(el1) {
+function bannerFormHTML(el1, el2) {
     var html = '<fieldset id="props' + el1 + '" class="row banner-properties"> <legend> <h2>Banner ' + el1 + ' Properties</h2> </legend> <div class="col-xs-12"> <span class="dynamic"></span> <div class="row"> <div class="col-xs-12"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1 + '" name="chooseLayout">Choose a layout</button> </fieldset> <fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="content"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1_' + el1 + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1_' + el1 + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgDesktop" class="bgimgaddress form-control1" type="text" name="bgDesktop" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgMobile" class="bgimgaddress form-control1" type="text" name="bgMobile" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><hr> <div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
     return html;
 }
 
-function bannerTabsHTML(el1) {
-    var html = '<span id="tabbs' + el1 + '" class="col-xs-3"><button type="button" class="subtract-button" onClick="removeBanner(this)">-</button><button type="button" class="banner-tabs" name="bannertab" onClick="showBanner(this)">Banner ' + el1 + '</button><button type="button" class="add-button" onClick="addBanner(this)">+</button><span>';
+function bannerTabsHTML(el1, el2) {
+    var html = '<span id="tabbs' + el1 + '" class="col-xs-3" data-ordinal="' + el2 + '"><span class="controls-add-subtract"><button type="button" class="subtract-button" onClick="removeBanner(this)" style="color:red;">x</button><button type="button" class="add-button" onClick="addBanner(this)"style="color:green;">+</button></span><button type="button" class="banner-tabs" name="bannertab" onClick="showBanner(this)">Banner ' + el1 + '</button><span>';
     return html;
 }

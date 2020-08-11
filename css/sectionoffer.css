@@ -478,3 +478,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 .banner-properties.show {
 	display:block;
 }
+
+#msgBox.full-width .modal-dialog {
+	width:100%;
+}

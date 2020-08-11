@@ -464,6 +464,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 }
 #bannerTabs span[id*="tabbs"] {
 	display:flex;
+	justify-content: center;
 }
 
 #bannerTabs .banner-tabs {

@@ -199,11 +199,13 @@ var globalSettings = {
     },
     bgDesktopPlaceholder: 'Demo-image-962.png',
     bgMobilePlaceholder: 'Demo-image-575.png',
-    maxBannerNumber: 4,
+    maxBannerNumber: function(el){
+        return el.length/2;
+    },
     minBannerNumber: 1
 }
 
-var bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber + ')</h3></legend><p>Click on the "[ Banner #### ]" button to display the form. Click on the "+" button to add another banner. Click on the "-" button to remove a banner.</p></div></div><hr>';
+var bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the "[ Banner #### ]" button to display the form. Click on the "+" button to add another banner. Click on the "-" button to remove a banner.</p></div></div><hr>';
 
 $(document).ready(function() {
 
@@ -742,7 +744,7 @@ function addBanner(el1) {
 
     z.render();
 
-    if (z.visibleIndex($('.banner-tabs')) == globalSettings.maxBannerNumber) {
+    if (z.visibleIndex($('.banner-tabs')) == globalSettings.maxBannerNumber(patterns)) {
         $('button.add-button').attr('hidden', true);
     }
 }

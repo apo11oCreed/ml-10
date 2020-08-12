@@ -709,8 +709,8 @@ function buttonBehave1(thisBanner) {
                         $(this).val("").attr("placeholder", "Select a brand");
                         $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("Enter remote filename");
                     } else {
-                        $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("/images/evergage/" + globalSettings.selectBrand + "/");
                         $(this).val("").attr("placeholder", "Enter Filename...");
+                        $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("/images/evergage/" + globalSettings.selectBrand + "/");
                     }
                 });
             }
@@ -744,7 +744,7 @@ function buttonBehave1(thisBanner) {
 
     // button events
     $("button[name='exporthtml'],button[name='exportcss'],fieldset#props" + id + " button[name='chooseLayout']").on("click", function () {
-
+        console.log(thisBanner);
 
         var type = $(this).attr("name"),
             menu;
@@ -769,6 +769,8 @@ function buttonBehave1(thisBanner) {
         } else {
             exportCode1(type);
         }
+
+        console.log(thisBanner);
     });
 
     $("span.help1").on("click", function () {
@@ -808,7 +810,7 @@ function buttonBehave1(thisBanner) {
         },
         focusout: function () {
             if (!($(this).val() == 0)) {
-                checkImageExists1(this, $(this).val());
+                checkImageExists1(this, $(this).val(), fileOrigin);
             }
         }
     });
@@ -856,8 +858,14 @@ function websiteURL1() {
     return url;
 }
 
-function imgURL1(el, flag) {
-    var domain = websiteURL1();
+function imgURL1(el, flag, origin) {
+    var domain;
+    if (origin == 'local') {
+        domain = '';
+    } else {
+        domain = websiteURL1();
+    }
+
     var fpath = $(el).siblings(".input-group-addon1").text();
     if (fpath == "Enter local filename") {
         fpath = "";
@@ -872,7 +880,7 @@ function imgURL1(el, flag) {
 
 }
 
-function checkImageExists1(el, url) {
+function checkImageExists1(el, url, origin) {
     var img = new Image();
 
     img.onload = function () {
@@ -885,7 +893,7 @@ function checkImageExists1(el, url) {
         $(el).parent().next().prop('hidden', false);
     };
 
-    img.src = imgURL1(el, true);
+    img.src = imgURL1(el, true, origin);
 }
 
 function exportCode1(type) {
@@ -906,7 +914,7 @@ function styleExport1() {
     var css = `section.section-offer { position: relative; width: 100%; } section.section-offer h2 { margin: 0; } section.section-offer img { height: auto; width: 100%; } @media screen and (min-width:576px) { section.py-shadow-b-lrg { box-shadow: 0 12px 9px -9px #aaa; } } @media screen and (max-width:575px) { section.py-shadow-b-sml { box-shadow: 0 12px 9px -9px #aaa; } }`;
     var html = "<textarea>" + css + "</textarea>";
     html += '<div class="faux-footer"><button class="copy btn btn-default">Copy To Clipboard</button></div>';
-    msgBox(html, "CSS Export");
+    msgBox1(html, "CSS Export");
 }
 
 function htmlExport1() {
@@ -916,7 +924,7 @@ function htmlExport1() {
 
     // Change out all the dummy sections for user input
     // Heading
-    $(".noSeeCode img#section-offer-img").attr("alt", $("input[type='text'][name='heading']").val().replace(/'/g, "").replace(/"/g, ""));
+    //$(".noSeeCode img#section-offer-img").attr("alt", $("input[type='text'][name='heading']").val().replace(/'/g, "").replace(/"/g, ""));
 
     // Img
     var bgDesktopsrc = imgURL1($(".imgaddress[name='bgDesktop']"), false);
@@ -952,7 +960,7 @@ function htmlExport1() {
     // Remove href target
     $(".noSeeCode a").removeAttr("target");
 
-    var html = "<textarea>" + escapeHTML($(".noSeeCode")[0].innerHTML) + "</textarea>";
+    var html = "<textarea>" + escapeHTML1($(".noSeeCode")[0].innerHTML) + "</textarea>";
     html += '<div class="faux-footer"><button class="copy btn btn-default">Copy To Clipboard</button></div>';
     msgBox1(html, "HTML Export");
 
@@ -970,8 +978,8 @@ function htmlExport1() {
 function msgBox1(msg, title, banner) {
     var thisId;
 
-    if (typeof id !== 'undefined') {
-        thisId = id;
+    if (typeof banner !== 'undefined') {
+        thisId = banner.id;
     } else {
         thisId = '0000';
     }
@@ -995,13 +1003,13 @@ function msgBox1(msg, title, banner) {
     $("body").append(html);
     $("#msgBox").modal("show");
 
-    if (banner.id != '0000') {
+    if (thisId != '0000') {
         $("#msgBox").addClass('full-width');
 
         $('input[name="pattern"]').first().prop('checked', true);
 
         $('#msgBox').on('hide.bs.modal', function (e) {
-            displayContentForm($('input[name="pattern"]:checked'), banner.id, banner.ordinal);
+            displayContentForm($('input[name="pattern"]:checked'), banner);
         });
     } else {
         $("#msgBox").removeClass('full-width');
@@ -1038,13 +1046,13 @@ function randomId(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 };
 
-function displayContentForm(el1, el2, el3) {
+function displayContentForm(el1, el2) {
     // console.log(el1);
     // console.log(el2);
     // console.log(el3);
 
-    $('fieldset#props' + el2 + ' div#samples > span.dynamic').html('');
-    $('fieldset#props' + el2 + ' div#content > span.dynamic').html('');
+    $('fieldset#props' + el2.id + ' div#samples > span.dynamic').html('');
+    $('fieldset#props' + el2.id + ' div#content > span.dynamic').html('');
 
     $('.row.text-render span.dynamic').html('');
     var layoutSelected = patterns[el1.data('family-code')][el1.attr('id')],
@@ -1057,13 +1065,13 @@ function displayContentForm(el1, el2, el3) {
         copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
     }
 
-    $('fieldset#props' + el2 + ' div#samples > span.dynamic').append(patternOptionHTML);
+    $('fieldset#props' + el2.id + ' div#samples > span.dynamic').append(patternOptionHTML);
 
-    $('fieldset#props' + el2 + ' div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + el1.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
+    $('fieldset#props' + el2.id + ' div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + el1.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
 
-    $('.row.text-render span.dynamic').append('<div id="' + el2 + '" data-ordinal="' + el3 + '"></div>');
+    $('.row.text-render span.dynamic').append('<div id="' + el2.id + '" data-ordinal="' + el2.ordinal + '"></div>');
 
-    renderedTextInputs = document.querySelectorAll('fieldset#props' + el2 + ' div#content > span.dynamic input');
+    renderedTextInputs = document.querySelectorAll('fieldset#props' + el2.id + ' div#content > span.dynamic input');
 
     renderedTextInputs.forEach(function (currentValue, index) {
         $('.row.text-render span.dynamic div').append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + '"></span>&nbsp;');

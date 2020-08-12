@@ -202,8 +202,51 @@ var patterns = {
     }
     ],
     "2": [{
-        "pattern": "Two Banner Layout",
-        "img": "img/fullwidth-1.png",
+        "pattern": "Two Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }
+        ]
+    }, {
+        "pattern": "Two Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }]
+    }, {
+        "pattern": "Two Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
@@ -218,34 +261,107 @@ var patterns = {
             "styles": "font-weight:regular;font-size:12px;"
         }]
     }, {
-        "pattern": "Two Banner Layout",
-        "img": "img/fullwidth-2.png",
+        "pattern": "Two Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
             "field": "Bold 24px",
-            "styles": "font-weight:regular;font-size:24px;"
-        },
-        {
-            "field": "Reg 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        }, {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
             "field": "Reg 12px",
             "styles": "font-weight:regular;font-size:12px;"
-        },
-        {
+        }, {
             "field": "Reg 12px",
             "styles": "font-weight:regular;font-size:12px;"
         }
         ]
-    }
-    ],
+    }, {
+        "pattern": "Two Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 12px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }]
+    }, {
+        "pattern": "Two Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 12px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 12px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }]
+    }],
     "3": [{
-        "pattern": "Three Banner Layout",
-        "img": "img/fullwidth-1.png",
+        "pattern": "Three Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }
+        ]
+    }, {
+        "pattern": "Three Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        },
+        {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        },
+        {
+            "field": "Reg 12px",
+            "styles": "font-weight:regular;font-size:12px;"
+        }]
+    }, {
+        "pattern": "Three Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
             "styles": "font-weight:bold;font-size:24px;"
@@ -260,31 +376,61 @@ var patterns = {
             "styles": "font-weight:regular;font-size:12px;"
         }]
     }, {
-        "pattern": "Three Banner Layout",
-        "img": "img/fullwidth-2.png",
+        "pattern": "Three Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
             "field": "Bold 24px",
-            "styles": "font-weight:regular;font-size:24px;"
-        },
-        {
-            "field": "Reg 24px",
             "styles": "font-weight:bold;font-size:24px;"
-        },
-        {
+        }, {
+            "field": "Reg 24px",
+            "styles": "font-weight:regular;font-size:24px;"
+        }, {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
             "field": "Reg 12px",
             "styles": "font-weight:regular;font-size:12px;"
-        },
-        {
+        }, {
             "field": "Reg 12px",
             "styles": "font-weight:regular;font-size:12px;"
         }
         ]
-    }
-    ],
+    }, {
+        "pattern": "Three Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 12px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }]
+    }, {
+        "pattern": "Three Banners Layout",
+        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
+        "copy": [{
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Bold 24px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 12px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }, {
+            "field": "Reg 12px",
+            "styles": "font-weight:bold;font-size:24px;"
+        }]
+    }],
     "4": [{
         "pattern": "Four Banners Layout",
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
@@ -401,48 +547,48 @@ var patterns = {
         }]
     }]
 },
-brands = {
-    "paulayoung": [{
-        "baseUrl": "https://www.paulayoung.com",
-        "evergagePath": 'py'
-    }],
-    "especiallyyours": [{
-        "baseUrl": "https://www.especiallyyours.com",
-        "evergagePath": 'ey'
-    }],
-    "thelook": [{
-        "baseUrl": "https://www.thelook.fashion",
-        "evergagePath": 'tl'
-    }],
-    "wig": [{
-        "baseUrl": "https://www.wig.com",
-        "evergagePath": 'wg'
-    }],
-    "beyondextensions": [{
-        "baseUrl": "https://www.beyondextensions.com",
-        "evergagePath": 'be'
-    }]
-},
-globalSettings = {
-    selectBrand: 'py',
-    breakPoints: {
-        desktop: 'yes',
-        mobile: 'yes'
+    brands = {
+        "paulayoung": [{
+            "baseUrl": "https://www.paulayoung.com",
+            "evergagePath": 'py'
+        }],
+        "especiallyyours": [{
+            "baseUrl": "https://www.especiallyyours.com",
+            "evergagePath": 'ey'
+        }],
+        "thelook": [{
+            "baseUrl": "https://www.thelook.fashion",
+            "evergagePath": 'tl'
+        }],
+        "wig": [{
+            "baseUrl": "https://www.wig.com",
+            "evergagePath": 'wg'
+        }],
+        "beyondextensions": [{
+            "baseUrl": "https://www.beyondextensions.com",
+            "evergagePath": 'be'
+        }]
     },
-    layoutMenu: 1,
-    bgDesktopPlaceholder: 'Demo-image-962.png',
-    bgMobilePlaceholder: 'Demo-image-575.png',
-    maxBannerNumber: function (el) {
-        var qty = 0;
-        for (items in patterns) {
-            qty++;
-        }
-        return qty;
+    globalSettings = {
+        selectBrand: 'py',
+        breakPoints: {
+            desktop: 'yes',
+            mobile: 'yes'
+        },
+        layoutMenu: 1,
+        bgDesktopPlaceholder: 'Demo-image-962.png',
+        bgMobilePlaceholder: 'Demo-image-575.png',
+        maxBannerNumber: function (el) {
+            var qty = 0;
+            for (items in patterns) {
+                qty++;
+            }
+            return qty;
+        },
+        minBannerNumber: 1,
+        ordinals: []
     },
-    minBannerNumber: 1,
-    ordinals: []
-},
-bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the [ <span style="font-weight:700;">Banner ####</span> ] button to display the form. Hover over [ <span style="font-weight:700;">Banner ####</span> ] button(s) to view all controls. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another banner. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a banner. <span style="text-transform:uppercase;">Note</span>: Changes to number of banners will require new selections of layout patterns for all previously assigned.</p></div></div><hr>';
+    bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the [ <span style="font-weight:700;">Banner ####</span> ] button to display the form. Hover over [ <span style="font-weight:700;">Banner ####</span> ] button(s) to view all controls. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another banner. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a banner. <span style="text-transform:uppercase;">Note</span>: Changes to number of banners will require new selections of layout patterns for all previously assigned.</p></div></div><hr>';
 
 $(document).ready(function () {
 
@@ -461,38 +607,43 @@ $(document).ready(function () {
 
     $('button#form-reset').on('click', function () {
         $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it,form > span.dynamic').html('');
-        bannerInit = new bannerObj(randomId(1000, 9999),0);
+        bannerInit = new bannerObj(randomId(1000, 9999), 0);
         bannerInit.render();
         $('button.subtract-button').attr('hidden', true);
     });
 });
 
 function buttonBehave1(thisBanner) {
+    var id = thisBanner.id,
+        fileOrigin = thisBanner.fileOrigin;
 
     // dropdown events
-    $('select#brands,fieldset#props' + thisBanner.id + ' select#onClickBehavior').on('change', function () {
+    $('select#brands,fieldset#props' + id + ' select#onClickBehavior').on('change', function () {
         var type = $(this).attr('name');
 
         if (type == 'brands') {
             globalSettings.selectBrand = $(':selected', this).val();
-            if (thisBanner.resourceOrigin == 'remote') {
-                $('fieldset#props' + thisBanner.id + ' input[name="lorr1_' + thisBanner.id + '"]').trigger("change");
+            if (fileOrigin == 'remote') {
+                $('fieldset#props' + id + ' input[name="lorr1_' + id + '"]').trigger("change");
             }
         } else {
-            displayOnClickBehavior($(':selected', this).val(),thisBanner);
+            console.log(id);
+            console.log(globalSettings.layoutMenu);
+            displayOnClickBehavior($(':selected', this).val(), thisBanner);
         }
     });
 
     // radio events
-    $('input[name="bpDesktop"],input[name="bpMobile"],fieldset#props' + thisBanner.id + ' input[name="lorr1_' + thisBanner.id + '"]').on('change', function () {
-        var type = $(this).attr('name');
+    $('input[name="bpDesktop_' + id + '"],input[name="bpMobile_' + id + '"],fieldset#props' + id + ' input[name="lorr1_' + id + '"]').on('change', function () {
+        var type = $(this).attr('name'),
+            regexr = /Desktop|Mobile/,
+            namespace = regexr.exec(type);
 
-        if (type == 'bpDesktop' || type == 'bpMobile') {
-            var breakPointNegatoryArray = [],
-                namespace = $(this).attr('name').substr(2);
+        if (namespace == 'Desktop' || namespace == 'Mobile') {
+            var breakPointNegatoryArray = [];
 
-            thisBanner.breakPoints.desktop = $('fieldset#breakpoints input[name="bpDesktop"]:checked').val();
-            thisBanner.breakPoints.mobile = $('fieldset#breakpoints input[name="bpMobile"]:checked').val();
+            thisBanner.breakPoints.desktop = $('fieldset#breakpoints input[name*="bpDesktop_' + id + '"]:checked').val();
+            thisBanner.breakPoints.mobile = $('fieldset#breakpoints input[name="bpMobile_' + id + '"]:checked').val();
 
             for (x in Object.values(thisBanner.breakPoints)) {
                 if (Object.values(thisBanner.breakPoints)[x] == 'no') {
@@ -501,33 +652,33 @@ function buttonBehave1(thisBanner) {
             }
 
             if (breakPointNegatoryArray.length > 1) {
-                $('fieldset#props' + thisBanner.id + ' input[name="lorr1"]').closest('.row').addClass("disabled");
-                $('fieldset#props' + thisBanner.id + ' input#bgDesktop,fieldset#props' + thisBanner.id + ' input#bgMobile').closest('.row').addClass("disabled");
-                $('fieldset#props' + thisBanner.id + ' input#bgDesktop,fieldset#props' + thisBanner.id + ' input#bgMobile').prop({
+                $('input[name="lorr1_' + id + '"]').closest('.row').addClass("disabled");
+                $('input[name="bgDesktop_' + id + '"],input[name="bgMobile_' + id + '"]').closest('.row').addClass("disabled");
+                $('input[name="bgDesktop_' + id + '"],input[name="bgMobile_' + id + '"]').prop({
                     'disabled': true,
                     'required': false
                 });
             } else if ($(this).val() == 'no') {
-                $('fieldset#props' + thisBanner.id + ' input#bg' + namespace).prop({
+                $('input[name*="bg' + namespace + '_' + id + '"]').prop({
                     'disabled': true,
                     'required': false
                 });
-                $('fieldset#props' + thisBanner.id + ' input#bg' + namespace).closest('.row').addClass("disabled");
-                $('fieldset#props' + thisBanner.id + ' input[name="lorr1"]').closest('.row').removeClass("disabled");
+                $('input[name*="bg' + namespace + '_' + id + '"]').closest('.row').addClass("disabled");
+                $('input[name="lorr1_' + id + '"]').closest('.row').removeClass("disabled");
             } else {
-                $('fieldset#props' + thisBanner.id + ' input#bg' + namespace).prop({
+                $('input[name*="bg' + namespace + '"]').prop({
                     'disabled': false,
                     'required': true
                 });
-                $('fieldset#props' + thisBanner.id + ' input#bg' + namespace).closest('.row').removeClass("disabled");
-                $('fieldset#props' + thisBanner.id + ' input[name="lorr1"]').closest('.row').removeClass("disabled");
+                $('input[name*="bg' + namespace + '_' + id + '"]').closest('.row').removeClass("disabled");
+                $('input[name="lorr1_' + id + '"]').closest('.row').removeClass("disabled");
             }
         } else {
-            thisBanner.resourceOrigin = $(this).val();
+            fileOrigin = $(this).val();
 
-            if (thisBanner.resourceOrigin == "local") {
+            if (fileOrigin == "local") {
 
-                $("fieldset#props" + thisBanner.id + " input[name='bgDesktop'],fieldset#props" + thisBanner.id + " input[name='bgMobile']").each(function () {
+                $("input[name='bgDesktop_" + id + "'],input[name='bgMobile_" + id + "']").each(function () {
                     var curr = $(this).val();
                     if (curr !== "")
                         $(this).attr("data-remote", curr);
@@ -535,16 +686,16 @@ function buttonBehave1(thisBanner) {
                     if ($(this).data("local"))
                         $(this).val($(this).data("local"));
 
-                    $(this).siblings("fieldset#props" + thisBanner.id + " span.input-group-addon1").text("Enter local filename");
+                    $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("Enter local filename");
                     if ($(this).attr("name") == "bgDesktop")
                         var size = globalSettings.bgDesktopPlaceholder;
                     else
                         var size = globalSettings.bgMobilePlaceholder;
                     $(this).val("").attr("placeholder", size);
                 });
-            } else if (thisBanner.resourceOrigin == "remote") {
+            } else if (fileOrigin == "remote") {
 
-                $("fieldset#props" + thisBanner.id + " input[name='bgDesktop'],fieldset#props" + thisBanner.id + " input[name='bgMobile']").each(function () {
+                $("input[name='bgDesktop_" + id + "'],input[name='bgMobile_" + id + "']").each(function () {
                     var curr = $(this).val();
                     if (curr !== "") {
                         $(this).attr("data-local", curr);
@@ -556,9 +707,9 @@ function buttonBehave1(thisBanner) {
 
                     if ($("select[name='brands']").val() == "") {
                         $(this).val("").attr("placeholder", "Select a brand");
-                        $(this).siblings("fieldset#props" + thisBanner.id + " span.input-group-addon1").text("Enter remote filename");
+                        $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("Enter remote filename");
                     } else {
-                        $(this).siblings("fieldset#props" + thisBanner.id + " span.input-group-addon1").text("/images/evergage/" + globalSettings.selectBrand + "/");
+                        $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("/images/evergage/" + globalSettings.selectBrand + "/");
                         $(this).val("").attr("placeholder", "Enter Filename...");
                     }
                 });
@@ -570,7 +721,7 @@ function buttonBehave1(thisBanner) {
     });
 
     // background-color events
-    $('input#r,input#g,input#b').on('input', function () {
+    $('input[name="r"],input[name="g"],input[name="b"]').on('input', function () {
         var code = $(this).val();
 
         if (Number(code) > 250) {
@@ -592,22 +743,23 @@ function buttonBehave1(thisBanner) {
     })
 
     // button events
-    $("button[name='exporthtml'],button[name='exportcss'],fieldset[id*='props'] button[name='chooseLayout']").on("click", function () {
+    $("button[name='exporthtml'],button[name='exportcss'],fieldset#props" + id + " button[name='chooseLayout']").on("click", function () {
+
 
         var type = $(this).attr("name"),
             menu;
 
         if (type == 'chooseLayout') {
-            if (globalSettings.layoutMenu == 1) {
+            if (globalSettings.layoutMenu === 1) {
                 menu = chooseLayoutMenuBuilder(["1", "2", "3", "4"]);
                 msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
-            } else if (globalSettings.layoutMenu == 2) {
+            } else if (globalSettings.layoutMenu === 2) {
                 menu = chooseLayoutMenuBuilder(["2"]);
                 msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
-            } else if (globalSettings.layoutMenu == 3) {
+            } else if (globalSettings.layoutMenu === 3) {
                 menu = chooseLayoutMenuBuilder(["3"]);
                 msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
-            } else if (globalSettings.layoutMenu == 4) {
+            } else if (globalSettings.layoutMenu === 4) {
                 menu = chooseLayoutMenuBuilder(["4"]);
                 msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
             } else {
@@ -636,7 +788,7 @@ function buttonBehave1(thisBanner) {
             default:
                 break;
         }
-        console.log(helpMsg);
+        // console.log(helpMsg);
 
         msgBox1(helpMsg, "Help");
     });
@@ -802,14 +954,14 @@ function htmlExport1() {
 
     var html = "<textarea>" + escapeHTML($(".noSeeCode")[0].innerHTML) + "</textarea>";
     html += '<div class="faux-footer"><button class="copy btn btn-default">Copy To Clipboard</button></div>';
-    msgBox(html, "HTML Export");
+    msgBox1(html, "HTML Export");
 
     // Clean up any empty lines in the textarea
     var text = $(".modal textarea").val();
     text = text.replace(/(?:(?:\r\n|\r|\n)\s*){2}/gm, "");
     $(".modal textarea").val(text);
 
-    console.log($(".noSeeCode"));
+    // console.log($(".noSeeCode"));
 
     // Destroy noSeeCode element
     $(".noSeeCode").remove();
@@ -887,6 +1039,9 @@ function randomId(min, max) {
 };
 
 function displayContentForm(el1, el2, el3) {
+    // console.log(el1);
+    // console.log(el2);
+    // console.log(el3);
 
     $('fieldset#props' + el2 + ' div#samples > span.dynamic').html('');
     $('fieldset#props' + el2 + ' div#content > span.dynamic').html('');
@@ -928,34 +1083,36 @@ function renderCopyFields(el1, el2) {
     });
 }
 
-function displayOnClickBehavior(el1,el2) {
-    $('.row.onclickbehavior span.dynamic').html('');
+function displayOnClickBehavior(el1, el2) {
+    $('fieldset#props' + el2.id + ' .row.onclickbehavior span.dynamic').html('');
 
-    var modalHTML = '<fieldset id="modalDefs" class="row"> <legend> <h3>Modal</h3> </legend> <div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalExpires">Modal Expires</label> <br><input id="modalExpires" name="modalExpires" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h4>Example Modal</h4> <img src="https://www.paulayoung.com/images/evergage/py/lightbox/sitewide-c07.gif" alt="Example modal"> </span> </div></fieldset>',
+    var modalHTML = '<div class="row-fluid"><h4>Modal</h4><hr><div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalExpires">Modal Expires</label> <br><input id="modalExpires" name="modalExpires" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h5>Example Modal</h5> <img src="img/Annotation%202020-08-12%20142838.png" alt="Example modal"> </span> </div></div>',
         linkHMTL = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to another page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required></div></div>',
         linkAnchorHTML = '<br><div class="row"> <div class="col-xs-3"><label for="anchorLink">Link to point on same page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="anchorLink" placeholder="#anchor" type="text" required></div></div>',
         doNothing = '<br><p>This will be a static banner.</p>';
 
     switch (el1) {
         case 'fireModal':
-            el2.onClickBehavior = modalHTML;
+            el2.onClickBehaviorHTML = modalHTML;
             break;
         case 'linkToPage':
-            el2.onClickBehavior = linkHMTL;
+            el2.onClickBehaviorHTML = linkHMTL;
             break;
         case 'linkToAnchor':
-            el2.onClickBehavior = linkAnchorHTML;
+            el2.onClickBehaviorHTML = linkAnchorHTML;
             break;
         case 'doNothing':
-            el2.onClickBehavior = doNothing;
+            el2.onClickBehaviorHTML = doNothing;
             break;
         default:
             break;
     }
 
-    $('fieldset#props' + el2.id + ' .row.onclickbehavior span.dynamic').append(el2.onClickBehavior);
+    $('fieldset#props' + el2.id + ' .row.onclickbehavior span.dynamic').append(el2.onClickBehaviorHTML);
 
-    $('fieldset#props' + el2.id + ' .row.onclickbehavior span.dynamic input,fieldset#props' + el2.id + ' .row.onclickbehavior span.dynamic textarea').on('change', confirmAllRequiredMet);
+    $("input, select, textarea").on("change", function () {
+        confirmAllRequiredMet();
+    });
 }
 
 function confirmAllRequiredMet() {
@@ -987,6 +1144,7 @@ function showBanner(el1) {
     $(el1).addClass('show');
 
     buttonBehave1(bannerObj(thisId, $(el1).closest('span').data('ordinal')));
+    console.log(globalSettings.layoutMenu);
 }
 
 function addBanner(el1) {
@@ -1020,6 +1178,7 @@ function addBanner(el1) {
     $('[data-ordinal]').each(function () {
         globalSettings.ordinals.push($(this).data('ordinal'));
     });
+    console.log(globalSettings.layoutMenu);
 }
 
 function removeBanner(el1) {
@@ -1044,6 +1203,7 @@ function removeBanner(el1) {
     $('[data-ordinal]').each(function () {
         globalSettings.ordinals.push($(this).data('ordinal'));
     });
+    console.log(globalSettings.layoutMenu);
 }
 
 function bannerObj(el1, el2) {
@@ -1060,7 +1220,7 @@ function bannerObj(el1, el2) {
             return tabs;
         },
         ordinal: el2,
-        resourceOrigin: 'local',
+        fileOrigin: 'local',
         remoteBuild: false,
         localBuild: true,
         bgImageDesktop: '',
@@ -1070,8 +1230,10 @@ function bannerObj(el1, el2) {
             'g': 117,
             'b': 174
         },
-        onClickBehavior: 'doNothing',
+        onClickBehaviorHTML: '',
         render: function () {
+            $('fieldset#props' + this.id + ' input[name="bpDesktop_' + this.id + '"]').first().prop('checked', true);
+            $('fieldset#props' + this.id + ' input[name="bpMobile_' + this.id + '"]').first().prop('checked', true);
             $('input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
             $('form > span.dynamic').append(bannerFormHTML(this));
             $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it').append(bannerTabsHTML(this));
@@ -1083,7 +1245,7 @@ function bannerObj(el1, el2) {
 }
 
 function bannerFormHTML(el1) {
-    var html = '<fieldset id="props' + el1.id + '" class="row banner-properties"> <legend> <h2>Banner ' + el1.id + ' Properties</h2> </legend> <div class="col-xs-12"> <span class="dynamic"></span> <div class="row"> <div class="col-xs-12"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset> <fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="content"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgDesktop" class="bgimgaddress form-control1" type="text" name="bgDesktop" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgMobile" class="bgimgaddress form-control1" type="text" name="bgMobile" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><hr> <div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
+    var html = '<fieldset id="props' + el1.id + '" class="row banner-properties"> <legend> <h2>Banner ' + el1.id + ' Properties</h2> </legend> <div class="col-xs-12"><div class="row"> <div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div><div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes">Desktop? Yes</label> <input id="bpDesktopYes" name="bpDesktop_' + el1.id + '" type="radio" value="yes" checked> <label for="bpDesktopNo">No</label> <input id="bpDesktopNo" name="bpDesktop_' + el1.id + '" type="radio" value="no"> </div><div class="col-xs-6"> <label for="bpMobileYes">Mobile? Yes</label> <input id="bpMobileYes" name="bpMobile_' + el1.id + '" type="radio" value="yes" checked> <label for="bpMobileNo">No</label> <input id="bpMobileNo" name="bpMobile_' + el1.id + '" type="radio" value="no"> </span> </div></div></fieldset></div></div></div> <div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="background"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgDesktop" class="bgimgaddress form-control1" type="text" name="bgDesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgMobile" class="bgimgaddress form-control1" type="text" name="bgMobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div><div class="row"><div class="col-xs-12"><fieldset id="clickbehavior"><legend><h3>Click Behavior</h3></legend><div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
     return html;
 }
 

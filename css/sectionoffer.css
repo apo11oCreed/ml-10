@@ -217,6 +217,11 @@ section.section-offer img {
 
 /* nc styles */
 
+section.section-offer {
+	position: relative;
+	width: auto;
+}
+
 #mlTen h5{
 	font-weight:700;
 }
@@ -418,7 +423,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	border-left:1px solid black;
 }
 
-.text-render.flex-it {
+.row.text-render span.dynamic {
 	display:-webkit-box;
 	display:-ms-flexbox;
 	display:flex;
@@ -428,14 +433,11 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 			flex-direction: row;
 			align-content:center;
 			position:absolute;
-}
-
-.row.text-render span.dynamic {
-	display:flex;
 	align-items:center;
 	text-transform:uppercase;
 	font-family: 'Roboto Condensed', sans-serif;
 	justify-content: space-around;
+	width:100%;
 }
 
 .enter-text-modal.flex-it{
@@ -462,25 +464,25 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 .faux-website-container {
 	min-height: unset;
 }
-#bannerTabs span[id*="tabbs"] {
+#bannerTabs [id*="tabbs"] {
 	display:flex;
 	flex-direction:column;
 	justify-content: center;
 }
 
-#bannerTabs span[id*="tabbs"] span.controls-add-subtract {
+#bannerTabs [id*="tabbs"] span.controls-add-subtract {
 	display:flex;
 	flex-direction:row;
 	justify-content: flex-end;
 }
 
-#bannerTabs span[id*="tabbs"] span.controls-add-subtract button {
+#bannerTabs [id*="tabbs"] span.controls-add-subtract button {
 	opacity:0.0;
 	pointer-events:none;
 	transition: opacity 0.115s ease-in-out;
 }
 
-#bannerTabs span[id*="tabbs"]:hover span.controls-add-subtract button {
+#bannerTabs [id*="tabbs"]:hover span.controls-add-subtract button {
 	opacity:1.0;
 	pointer-events:auto;
 }
@@ -488,12 +490,48 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 #bannerTabs .banner-tabs {
 	padding-left:2rem;
 	padding-right:2rem;
+	width:100%;
 }
 
 #bannerTabs .banner-tabs.show{
 	background-color:rgb(250,250,250);
 	background-color:rgba(250,250,250,1.0);
 	font-weight:700;
+}
+
+#bannerTabs [id*="tabbs"] span.controls-ordinals{
+	display: flex;
+    justify-content: center;
+}
+
+#bannerTabs [id*="tabbs"] button.controls-ordinals.left{
+	opacity:0.0;
+	pointer-events:none;
+	transition: opacity 0.115s ease-in-out;
+}
+
+#bannerTabs [id*="tabbs"]:first-of-type button.controls-ordinals.left{
+display:none;
+}
+
+#bannerTabs [id*="tabbs"]:hover button.controls-ordinals.left{
+	opacity:1.0;
+	pointer-events:auto;
+}
+
+#bannerTabs [id*="tabbs"] button.controls-ordinals.right{
+	opacity:0.0;
+	pointer-events:none;
+	transition: opacity 0.115s ease-in-out;
+}
+
+#bannerTabs [id*="tabbs"]:last-of-type button.controls-ordinals.right{
+	display:none;
+}
+
+#bannerTabs [id*="tabbs"]:hover button.controls-ordinals.right{
+	opacity:1.0;
+	pointer-events:auto;
 }
 
 .banner-properties {

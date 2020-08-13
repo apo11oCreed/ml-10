@@ -571,10 +571,6 @@ var patterns = {
     },
     globalSettings = {
         selectBrand: 'py',
-        breakPoints: {
-            desktop: 'yes',
-            mobile: 'yes'
-        },
         layoutMenu: 1,
         bgDesktopPlaceholder: 'Demo-image-962.png',
         bgMobilePlaceholder: 'Demo-image-575.png',
@@ -810,9 +806,25 @@ function buttonBehave1(thisBanner) {
         },
         focusout: function () {
             if (!($(this).val() == 0)) {
-                checkImageExists1(this, $(this).val(), fileOrigin);
+                checkImageExists1(this, $(this).val(), thisBanner);
             }
         }
+    });
+
+    // Drop Shadow
+    $("select[name='dShadow']").on("change", function () {
+        $("section.section-offer").removeClass("py-shadow-b py-shadow-b-lrg py-shadow-b-sml");
+        var shadow = "py-shadow-b";
+
+        switch ($(this).val()) {
+            case "1": shadow = "py-shadow-b-lrg";
+                break;
+            case "2": shadow = "py-shadow-b-sml";
+                break;
+            case "3": shadow = "";
+        }
+
+        $("section.section-offer").addClass(shadow);
     });
 }
 
@@ -835,7 +847,7 @@ function chooseLayoutMenuBuilder(layoutsArray) {
 }
 
 function websiteURL1() {
-    var brand = $("select[name='brands']").val();
+    var brand = globalSettings.selectBrand;
     var url = "";
 
     switch (brand) {
@@ -858,14 +870,8 @@ function websiteURL1() {
     return url;
 }
 
-function imgURL1(el, flag, origin) {
-    var domain;
-    if (origin == 'local') {
-        domain = '';
-    } else {
-        domain = websiteURL1();
-    }
-
+function imgURL1(el, flag) {
+    var domain = websiteURL1();
     var fpath = $(el).siblings(".input-group-addon1").text();
     if (fpath == "Enter local filename") {
         fpath = "";
@@ -873,27 +879,30 @@ function imgURL1(el, flag, origin) {
 
     var fname = $(el).val();
     if (flag) {
+        console.log(domain + fpath + fname);
         return domain + fpath + fname;
     } else {
+        console.log(fpath + fname);
         return fpath + fname;
     }
 
 }
 
-function checkImageExists1(el, url, origin) {
+function checkImageExists1(el, url, banner) {
     var img = new Image();
 
     img.onload = function () {
         $(el).parent().addClass("found");
         $(el).parent().next().prop('hidden', true);
-        reDraw1();
+        reDraw1(banner);
     };
     img.onerror = function () {
         $(el).parent().addClass("notfound");
+        console.log('test');
         $(el).parent().next().prop('hidden', false);
     };
 
-    img.src = imgURL1(el, true, origin);
+    img.src = imgURL1(el, true);
 }
 
 function exportCode1(type) {
@@ -1016,10 +1025,12 @@ function msgBox1(msg, title, banner) {
     }
 }
 
-function reDraw1() {
+function reDraw1(el1) {
     // Update the background-image URLs
-    var bgDesktopsrc = imgURL1($(".bgimgaddress[name='bgDesktop']"), true);
-    var bgMobilesrc = imgURL1($(".bgimgaddress[name='bgMobile']"), true);
+    var bgDesktopsrc = imgURL1($(".bgimgaddress[name='bgDesktop_" + el1.id + "']"), true);
+    console.log('redraw');
+    var bgMobilesrc = imgURL1($(".bgimgaddress[name='bgMobile_" + el1.id + "']"), true);
+    console.log('redraw');
 
     // source 962
     $("picture source[media*='576']").attr("srcset", bgDesktopsrc);
@@ -1094,7 +1105,7 @@ function renderCopyFields(el1, el2) {
 function displayOnClickBehavior(el1, el2) {
     $('fieldset#props' + el2.id + ' .row.onclickbehavior span.dynamic').html('');
 
-    var modalHTML = '<div class="row-fluid"><h4>Modal</h4><hr><div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalExpires">Modal Expires</label> <br><input id="modalExpires" name="modalExpires" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h5>Example Modal</h5> <img src="img/Annotation%202020-08-12%20142838.png" alt="Example modal"> </span> </div></div>',
+    var modalHTML = '<div class="row-fluid"><h4>Modal</h4><hr><div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalExpires">Modal Expires</label> <br><input id="modalExpires" name="modalExpires" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h5>Example Modal</h5> <img src="img/test.png" alt="Example modal"> </span> </div></div>',
         linkHMTL = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to another page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required></div></div>',
         linkAnchorHTML = '<br><div class="row"> <div class="col-xs-3"><label for="anchorLink">Link to point on same page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="anchorLink" placeholder="#anchor" type="text" required></div></div>',
         doNothing = '<br><p>This will be a static banner.</p>';

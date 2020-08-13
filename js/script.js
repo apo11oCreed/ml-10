@@ -572,6 +572,8 @@ var patterns = {
     globalSettings = {
         selectBrand: 'py',
         layoutMenu: 1,
+        desktopmediaquery: '(min-width:768px)',
+        mobilemediaquery: '(max-width:767px)',
         bgDesktopPlaceholder: 'Demo-image-962.png',
         bgMobilePlaceholder: 'Demo-image-575.png',
         maxBannerNumber: function (el) {
@@ -584,7 +586,8 @@ var patterns = {
         minBannerNumber: 1,
         ordinals: []
     },
-    bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the [ <span style="font-weight:700;">Banner ####</span> ] button to display the form. Hover over [ <span style="font-weight:700;">Banner ####</span> ] button(s) to view all controls. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another banner. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a banner. <span style="text-transform:uppercase;">Note</span>: Changes to number of banners will require new selections of layout patterns for all previously assigned.</p></div></div><hr>';
+    bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the [ <span style="font-weight:700;">Banner ####</span> ] button to display the form. Hover over [ <span style="font-weight:700;">Banner ####</span> ] button(s) to view all controls. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another banner. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a banner. <span style="text-transform:uppercase;">Note</span>: Changes to number of banners will require new selections of layout patterns for all previously assigned.</p></div></div><hr>',
+    deviceTypeRegex = /Desktop|Mobile/;
 
 $(document).ready(function () {
 
@@ -611,7 +614,7 @@ $(document).ready(function () {
 
 function buttonBehave1(thisBanner) {
     var id = thisBanner.id,
-        fileOrigin = thisBanner.fileOrigin;
+        state = thisBanner.state;
 
     // dropdown events
     $('select#brands,fieldset#props' + id + ' select#onClickBehavior').on('change', function () {
@@ -619,31 +622,28 @@ function buttonBehave1(thisBanner) {
 
         if (type == 'brands') {
             globalSettings.selectBrand = $(':selected', this).val();
-            if (fileOrigin == 'remote') {
+            if (state == 'remote') {
                 $('fieldset#props' + id + ' input[name="lorr1_' + id + '"]').trigger("change");
             }
         } else {
-            console.log(id);
-            console.log(globalSettings.layoutMenu);
             displayOnClickBehavior($(':selected', this).val(), thisBanner);
         }
     });
 
     // radio events
-    $('input[name="bpDesktop_' + id + '"],input[name="bpMobile_' + id + '"],fieldset#props' + id + ' input[name="lorr1_' + id + '"]').on('change', function () {
+    $('input[name="bpDesktop_' + id + '"],input[name="bpMobile_' + id + '"],input[name="lorr1_' + id + '"]').on('change', function () {
         var type = $(this).attr('name'),
-            regexr = /Desktop|Mobile/,
-            namespace = regexr.exec(type);
+            namespace = deviceTypeRegex.exec(type);
 
         if (namespace == 'Desktop' || namespace == 'Mobile') {
             var breakPointNegatoryArray = [];
 
-            thisBanner.breakPoints.desktop = $('fieldset#breakpoints input[name*="bpDesktop_' + id + '"]:checked').val();
-            thisBanner.breakPoints.mobile = $('fieldset#breakpoints input[name="bpMobile_' + id + '"]:checked').val();
+            Number($('fieldset#breakpoints input[name="bpDesktop_' + id + '"]:checked').val()) ? thisBanner.css.devicetype.desktop.visible = true : thisBanner.css.devicetype.desktop.visible = false;
+            Number($('fieldset#breakpoints input[name="bpMobile_' + id + '"]:checked').val()) ? thisBanner.css.devicetype.mobile.visible = true : thisBanner.css.devicetype.mobile.visible = false;
 
-            for (x in Object.values(thisBanner.breakPoints)) {
-                if (Object.values(thisBanner.breakPoints)[x] == 'no') {
-                    breakPointNegatoryArray.push(Object.values(thisBanner.breakPoints)[x]);
+            for (key in thisBanner.css.devicetype) {
+                if (thisBanner.css.devicetype[key].visible == false) {
+                    breakPointNegatoryArray.push(false);
                 }
             }
 
@@ -654,27 +654,33 @@ function buttonBehave1(thisBanner) {
                     'disabled': true,
                     'required': false
                 });
-            } else if ($(this).val() == 'no') {
-                $('input[name*="bg' + namespace + '_' + id + '"]').prop({
+            } else if ($(this).val() == '0') {
+                $('input[name="bg' + namespace + '_' + id + '"]').prop({
                     'disabled': true,
                     'required': false
                 });
-                $('input[name*="bg' + namespace + '_' + id + '"]').closest('.row').addClass("disabled");
+                $('input[name="bg' + namespace + '_' + id + '"]').closest('.row').addClass("disabled");
                 $('input[name="lorr1_' + id + '"]').closest('.row').removeClass("disabled");
             } else {
                 $('input[name*="bg' + namespace + '"]').prop({
                     'disabled': false,
                     'required': true
                 });
-                $('input[name*="bg' + namespace + '_' + id + '"]').closest('.row').removeClass("disabled");
+                $('input[name="bg' + namespace + '_' + id + '"]').closest('.row').removeClass("disabled");
                 $('input[name="lorr1_' + id + '"]').closest('.row').removeClass("disabled");
             }
+
         } else {
-            fileOrigin = $(this).val();
+            state = $(this).val();
 
-            if (fileOrigin == "local") {
+            if (state == "local") {
+                // Disable 'Brand'/'Export'
+                // $(".opt-row.brand .clabel").addClass("disabled");
+                // $("fieldset#brand select").attr("disabled", "disabled");
 
-                $("input[name='bgDesktop_" + id + "'],input[name='bgMobile_" + id + "']").each(function () {
+                thisBanner.state = "local";
+
+                $("input[name*='bg']").each(function () {
                     var curr = $(this).val();
                     if (curr !== "")
                         $(this).attr("data-remote", curr);
@@ -683,15 +689,18 @@ function buttonBehave1(thisBanner) {
                         $(this).val($(this).data("local"));
 
                     $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("Enter local filename");
-                    if ($(this).attr("name") == "bgDesktop")
-                        var size = globalSettings.bgDesktopPlaceholder;
+                    if ($(this).attr("name") == "bpDesktop_" + id)
+                        var size = 962;
                     else
-                        var size = globalSettings.bgMobilePlaceholder;
-                    $(this).val("").attr("placeholder", size);
+                        var size = 575
+                    $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
                 });
-            } else if (fileOrigin == "remote") {
 
-                $("input[name='bgDesktop_" + id + "'],input[name='bgMobile_" + id + "']").each(function () {
+            } else if (state == "remote") {
+
+                thisBanner.state = "remote";
+
+                $("input[name*='bg']").each(function () {
                     var curr = $(this).val();
                     if (curr !== "") {
                         $(this).attr("data-local", curr);
@@ -732,15 +741,17 @@ function buttonBehave1(thisBanner) {
             $(this).removeClass('error');
             $(this).parent().next('.error').html('');
             $(this).parent().next('.error').attr('hidden', true);
-            thisBanner.bgColor.r = $('input#r').val();
-            thisBanner.bgColor.g = $('input#g').val();
-            thisBanner.bgColor.b = $('input#b').val();
+
+            for (key in thisBanner.css.background) {
+                thisBanner.css.background[key].bgColor.r = $('input#r_' + id).val();
+                thisBanner.css.background[key].bgColor.g = $('input#g_' + id).val();
+                thisBanner.css.background[key].bgColor.b = $('input#b_' + id).val();
+            }
         }
     })
 
     // button events
     $("button[name='exporthtml'],button[name='exportcss'],fieldset#props" + id + " button[name='chooseLayout']").on("click", function () {
-        console.log(thisBanner);
 
         var type = $(this).attr("name"),
             menu;
@@ -767,6 +778,7 @@ function buttonBehave1(thisBanner) {
         }
 
         console.log(thisBanner);
+        console.log(globalSettings);
     });
 
     $("span.help1").on("click", function () {
@@ -879,27 +891,38 @@ function imgURL1(el, flag) {
 
     var fname = $(el).val();
     if (flag) {
-        console.log(domain + fpath + fname);
         return domain + fpath + fname;
     } else {
-        console.log(fpath + fname);
         return fpath + fname;
     }
 
 }
 
 function checkImageExists1(el, url, banner) {
-    var img = new Image();
+    var img = new Image(),
+        type = deviceTypeRegex.exec($(el).attr('id'));
 
     img.onload = function () {
         $(el).parent().addClass("found");
         $(el).parent().next().prop('hidden', true);
         reDraw1(banner);
+
+        if (type == 'Desktop') {
+            banner.css.background.desktop.bgImageDesktop = img.src;
+        } else {
+            banner.css.background.mobile.bgImageMobile = img.src;
+        }
     };
     img.onerror = function () {
         $(el).parent().addClass("notfound");
         console.log('test');
         $(el).parent().next().prop('hidden', false);
+
+        if (type == 'Desktop') {
+            banner.css.background.desktop.bgImageDesktop = '';
+        } else {
+            banner.css.background.mobile.bgImageMobile = '';
+        }
     };
 
     img.src = imgURL1(el, true);
@@ -936,8 +959,8 @@ function htmlExport1() {
     //$(".noSeeCode img#section-offer-img").attr("alt", $("input[type='text'][name='heading']").val().replace(/'/g, "").replace(/"/g, ""));
 
     // Img
-    var bgDesktopsrc = imgURL1($(".imgaddress[name='bgDesktop']"), false);
-    var bgMobilesrc = imgURL1($(".imgaddress[name='bgMobile']"), false);
+    var bgDesktopsrc = imgURL1($(".imgaddress[name*='bgDesktop_']"), false);
+    var bgMobilesrc = imgURL1($(".imgaddress[name*='bgMobile_']"), false);
     // source 962
     $(".noSeeCode picture source[media*='576']").attr("srcset", bgDesktopsrc);
     // source 575
@@ -1058,9 +1081,6 @@ function randomId(min, max) {
 };
 
 function displayContentForm(el1, el2) {
-    // console.log(el1);
-    // console.log(el2);
-    // console.log(el3);
 
     $('fieldset#props' + el2.id + ' div#samples > span.dynamic').html('');
     $('fieldset#props' + el2.id + ' div#content > span.dynamic').html('');
@@ -1163,7 +1183,6 @@ function showBanner(el1) {
     $(el1).addClass('show');
 
     buttonBehave1(bannerObj(thisId, $(el1).closest('span').data('ordinal')));
-    console.log(globalSettings.layoutMenu);
 }
 
 function addBanner(el1) {
@@ -1197,7 +1216,6 @@ function addBanner(el1) {
     $('[data-ordinal]').each(function () {
         globalSettings.ordinals.push($(this).data('ordinal'));
     });
-    console.log(globalSettings.layoutMenu);
 }
 
 function removeBanner(el1) {
@@ -1222,7 +1240,6 @@ function removeBanner(el1) {
     $('[data-ordinal]').each(function () {
         globalSettings.ordinals.push($(this).data('ordinal'));
     });
-    console.log(globalSettings.layoutMenu);
 }
 
 function bannerObj(el1, el2) {
@@ -1230,26 +1247,42 @@ function bannerObj(el1, el2) {
 
     obj = {
         id: el1,
-        breakPoints: {
-            desktop: 'yes',
-            mobile: 'yes'
+        css: {
+            devicetype: {
+                desktop: {
+                    visible: true,
+                    mediaquery: globalSettings.desktopmediaquery
+                },
+                mobile: {
+                    visible: true,
+                    mediaquery: globalSettings.mobilemediaquery
+                }
+            },
+            background: {
+                desktop: {
+                    bgImageDesktop: '',
+                    bgColor: {
+                        r: 184,
+                        g: 117,
+                        b: 174
+                    }
+                },
+                mobile: {
+                    bgImageMobile: '',
+                    bgColor: {
+                        r: 184,
+                        g: 117,
+                        b: 174
+                    }
+                }
+            },
+            ordinal: el2
         },
         visibleIndex: function (e1) {
             var tabs = e1.length;
             return tabs;
         },
-        ordinal: el2,
-        fileOrigin: 'local',
-        remoteBuild: false,
-        localBuild: true,
-        bgImageDesktop: '',
-        bgImageMobile: '',
-        bgColor: {
-            'r': 184,
-            'g': 117,
-            'b': 174
-        },
-        onClickBehaviorHTML: '',
+        onClickBehaviorHTML: '<br><p>This will be a static banner.</p>',
         render: function () {
             $('fieldset#props' + this.id + ' input[name="bpDesktop_' + this.id + '"]').first().prop('checked', true);
             $('fieldset#props' + this.id + ' input[name="bpMobile_' + this.id + '"]').first().prop('checked', true);
@@ -1257,14 +1290,14 @@ function bannerObj(el1, el2) {
             $('form > span.dynamic').append(bannerFormHTML(this));
             $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it').append(bannerTabsHTML(this));
             $('button.subtract-button').attr('hidden', false);
-        }
+        },
+        state: 'local'
     }
-
     return obj;
 }
 
 function bannerFormHTML(el1) {
-    var html = '<fieldset id="props' + el1.id + '" class="row banner-properties"> <legend> <h2>Banner ' + el1.id + ' Properties</h2> </legend> <div class="col-xs-12"><div class="row"> <div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div><div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes">Desktop? Yes</label> <input id="bpDesktopYes" name="bpDesktop_' + el1.id + '" type="radio" value="yes" checked> <label for="bpDesktopNo">No</label> <input id="bpDesktopNo" name="bpDesktop_' + el1.id + '" type="radio" value="no"> </div><div class="col-xs-6"> <label for="bpMobileYes">Mobile? Yes</label> <input id="bpMobileYes" name="bpMobile_' + el1.id + '" type="radio" value="yes" checked> <label for="bpMobileNo">No</label> <input id="bpMobileNo" name="bpMobile_' + el1.id + '" type="radio" value="no"> </span> </div></div></fieldset></div></div></div> <div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="background"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgDesktop" class="bgimgaddress form-control1" type="text" name="bgDesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgMobile" class="bgimgaddress form-control1" type="text" name="bgMobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div><div class="row"><div class="col-xs-12"><fieldset id="clickbehavior"><legend><h3>Click Behavior</h3></legend><div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
+    var html = '<fieldset id="props' + el1.id + '" class="row banner-properties"> <legend> <h2>Banner ' + el1.id + ' Properties</h2> </legend> <div class="col-xs-12"><div class="row"> <div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div><div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes">Desktop? Yes</label> <input id="bpDesktopYes" name="bpDesktop_' + el1.id + '" type="radio" value="1" checked> <label for="bpDesktopNo">No</label> <input id="bpDesktopNo" name="bpDesktop_' + el1.id + '" type="radio" value="0"> </div><div class="col-xs-6"> <label for="bpMobileYes">Mobile? Yes</label> <input id="bpMobileYes" name="bpMobile_' + el1.id + '" type="radio" value="1" checked> <label for="bpMobileNo">No</label> <input id="bpMobileNo" name="bpMobile_' + el1.id + '" type="radio" value="0"> </span> </div></div></fieldset></div></div></div> <div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="background"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop_' + el1.id + '">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgDesktop_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgDesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile_' + el1.id + '">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgMobile_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgMobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div><div class="row"><div class="col-xs-12"><fieldset id="clickbehavior"><legend><h3>Click Behavior</h3></legend><div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
     return html;
 }
 

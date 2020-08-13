@@ -570,7 +570,7 @@ var patterns = {
         }]
     },
     globalSettings = {
-        selectBrand: 'py',
+        selectBrand: '',
         layoutMenu: 1,
         desktopmediaquery: '(min-width:768px)',
         mobilemediaquery: '(max-width:767px)',
@@ -678,7 +678,7 @@ function buttonBehave1(thisBanner) {
                 // $(".opt-row.brand .clabel").addClass("disabled");
                 // $("fieldset#brand select").attr("disabled", "disabled");
 
-                thisBanner.state = "local";
+                //thisBanner.state = "local";
 
                 $("input[name*='bg']").each(function () {
                     var curr = $(this).val();
@@ -688,7 +688,7 @@ function buttonBehave1(thisBanner) {
                     if ($(this).data("local"))
                         $(this).val($(this).data("local"));
 
-                    $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("Enter local filename");
+                    $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("Local");
                     if ($(this).attr("name") == "bpDesktop_" + id)
                         var size = 962;
                     else
@@ -698,7 +698,7 @@ function buttonBehave1(thisBanner) {
 
             } else if (state == "remote") {
 
-                thisBanner.state = "remote";
+                //thisBanner.state = "remote";
 
                 $("input[name*='bg']").each(function () {
                     var curr = $(this).val();
@@ -712,7 +712,7 @@ function buttonBehave1(thisBanner) {
 
                     if ($("select[name='brands']").val() == "") {
                         $(this).val("").attr("placeholder", "Select a brand");
-                        $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("Enter remote filename");
+                        $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("Remote");
                     } else {
                         $(this).val("").attr("placeholder", "Enter Filename...");
                         $(this).siblings("fieldset#props" + id + " span.input-group-addon1").text("/images/evergage/" + globalSettings.selectBrand + "/");
@@ -817,7 +817,7 @@ function buttonBehave1(thisBanner) {
             }
         },
         focusout: function () {
-            if (!($(this).val() == 0)) {
+            if ($(this).val() != '') {
                 checkImageExists1(this, $(this).val(), thisBanner);
             }
         }
@@ -885,14 +885,16 @@ function websiteURL1() {
 function imgURL1(el, flag) {
     var domain = websiteURL1();
     var fpath = $(el).siblings(".input-group-addon1").text();
-    if (fpath == "Enter local filename") {
+    if (fpath == "Local") {
         fpath = "";
     }
 
     var fname = $(el).val();
     if (flag) {
+        console.log(flag);
         return domain + fpath + fname;
     } else {
+        console.log(flag);
         return fpath + fname;
     }
 
@@ -915,7 +917,6 @@ function checkImageExists1(el, url, banner) {
     };
     img.onerror = function () {
         $(el).parent().addClass("notfound");
-        console.log('test');
         $(el).parent().next().prop('hidden', false);
 
         if (type == 'Desktop') {
@@ -1297,7 +1298,7 @@ function bannerObj(el1, el2) {
 }
 
 function bannerFormHTML(el1) {
-    var html = '<fieldset id="props' + el1.id + '" class="row banner-properties"> <legend> <h2>Banner ' + el1.id + ' Properties</h2> </legend> <div class="col-xs-12"><div class="row"> <div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div><div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes">Desktop? Yes</label> <input id="bpDesktopYes" name="bpDesktop_' + el1.id + '" type="radio" value="1" checked> <label for="bpDesktopNo">No</label> <input id="bpDesktopNo" name="bpDesktop_' + el1.id + '" type="radio" value="0"> </div><div class="col-xs-6"> <label for="bpMobileYes">Mobile? Yes</label> <input id="bpMobileYes" name="bpMobile_' + el1.id + '" type="radio" value="1" checked> <label for="bpMobileNo">No</label> <input id="bpMobileNo" name="bpMobile_' + el1.id + '" type="radio" value="0"> </span> </div></div></fieldset></div></div></div> <div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="background"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop_' + el1.id + '">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgDesktop_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgDesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile_' + el1.id + '">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Enter local filename</span> <input id="bgMobile_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgMobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div><div class="row"><div class="col-xs-12"><fieldset id="clickbehavior"><legend><h3>Click Behavior</h3></legend><div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
+    var html = '<fieldset id="props' + el1.id + '" class="row banner-properties"> <legend> <h2>Banner ' + el1.id + ' Properties</h2> </legend> <div class="col-xs-12"><div class="row"> <div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div><div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes">Desktop? Yes</label> <input id="bpDesktopYes" name="bpDesktop_' + el1.id + '" type="radio" value="1" checked> <label for="bpDesktopNo">No</label> <input id="bpDesktopNo" name="bpDesktop_' + el1.id + '" type="radio" value="0"> </div><div class="col-xs-6"> <label for="bpMobileYes">Mobile? Yes</label> <input id="bpMobileYes" name="bpMobile_' + el1.id + '" type="radio" value="1" checked> <label for="bpMobileNo">No</label> <input id="bpMobileNo" name="bpMobile_' + el1.id + '" type="radio" value="0"> </span> </div></div></fieldset></div></div></div> <div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="background"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop_' + el1.id + '">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgDesktop_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgDesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile_' + el1.id + '">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgMobile_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgMobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div><div class="row"><div class="col-xs-12"><fieldset id="clickbehavior"><legend><h3>Click Behavior</h3></legend><div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
     return html;
 }
 

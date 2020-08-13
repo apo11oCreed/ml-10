@@ -423,7 +423,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	border-left:1px solid black;
 }
 
-.row.text-render span.dynamic {
+.text-render span.dynamic {
 	display:-webkit-box;
 	display:-ms-flexbox;
 	display:flex;

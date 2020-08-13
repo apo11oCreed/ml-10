@@ -164,39 +164,39 @@ var patterns = {
         "img": "img/fullwidth-1.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }]
     }, {
         "pattern": "One Banner Layout",
         "img": "img/fullwidth-2.png",
         "copy": [{
             "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Bold 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         },
         {
             "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }
         ]
     }
@@ -206,19 +206,19 @@ var patterns = {
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         },
         {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }
         ]
     }, {
@@ -226,58 +226,58 @@ var patterns = {
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         },
         {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }]
     }, {
         "pattern": "Two Banners Layout",
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }]
     }, {
         "pattern": "Two Banners Layout",
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }
         ]
     }, {
@@ -285,35 +285,35 @@ var patterns = {
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }]
     }, {
         "pattern": "Two Banners Layout",
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }]
     }],
     "3": [{
@@ -321,19 +321,19 @@ var patterns = {
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         },
         {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }
         ]
     }, {
@@ -341,58 +341,58 @@ var patterns = {
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         },
         {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }]
     }, {
         "pattern": "Three Banners Layout",
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }]
     }, {
         "pattern": "Three Banners Layout",
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }
         ]
     }, {
@@ -400,35 +400,35 @@ var patterns = {
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }]
     }, {
         "pattern": "Three Banners Layout",
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }]
     }],
     "4": [{
@@ -436,19 +436,19 @@ var patterns = {
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         },
         {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }
         ]
     }, {
@@ -456,58 +456,58 @@ var patterns = {
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         },
         {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         },
         {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }]
     }, {
         "pattern": "Four Banners Layout",
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }]
     }, {
         "pattern": "Four Banners Layout",
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px;"
+            "styles": "font-weight:regular;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px;"
+            "styles": "font-weight:regular;font-size:12px"
         }
         ]
     }, {
@@ -515,35 +515,35 @@ var patterns = {
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }]
     }, {
         "pattern": "Four Banners Layout",
         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
         "copy": [{
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }, {
             "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px;"
+            "styles": "font-weight:bold;font-size:24px"
         }]
     }]
 },
@@ -617,7 +617,7 @@ function buttonBehave1(thisBanner) {
         state = thisBanner.state;
 
     // dropdown events
-    $('select#brands,fieldset#props' + id + ' select#onClickBehavior').on('change', function () {
+    $('select[name="brands"],fieldset#props' + id + ' select[name="onClickBehavior"]').on('change', function () {
         var type = $(this).attr('name');
 
         if (type == 'brands') {
@@ -638,8 +638,8 @@ function buttonBehave1(thisBanner) {
         if (namespace == 'Desktop' || namespace == 'Mobile') {
             var breakPointNegatoryArray = [];
 
-            Number($('fieldset#breakpoints input[name="bpDesktop_' + id + '"]:checked').val()) ? thisBanner.css.devicetype.desktop.visible = true : thisBanner.css.devicetype.desktop.visible = false;
-            Number($('fieldset#breakpoints input[name="bpMobile_' + id + '"]:checked').val()) ? thisBanner.css.devicetype.mobile.visible = true : thisBanner.css.devicetype.mobile.visible = false;
+            Number($('input[name="bpDesktop_' + id + '"]:checked').val()) ? thisBanner.css.devicetype.desktop.visible = true : thisBanner.css.devicetype.desktop.visible = false;
+            Number($('input[name="bpMobile_' + id + '"]:checked').val()) ? thisBanner.css.devicetype.mobile.visible = true : thisBanner.css.devicetype.mobile.visible = false;
 
             for (key in thisBanner.css.devicetype) {
                 if (thisBanner.css.devicetype[key].visible == false) {
@@ -747,6 +747,10 @@ function buttonBehave1(thisBanner) {
                 thisBanner.css.background[key].bgColor.g = $('input#g_' + id).val();
                 thisBanner.css.background[key].bgColor.b = $('input#b_' + id).val();
             }
+        }
+
+        if ($('.text-render > span.dynamic > #' + thisBanner.id)) {
+            $('.text-render > span.dynamic > #' + thisBanner.id).css({ 'background-color': thisBanner.css.background.desktop.latestrgb });
         }
     })
 
@@ -1037,11 +1041,13 @@ function msgBox1(msg, title, banner) {
     $("#msgBox").modal("show");
 
     if (thisId != '0000') {
-        $("#msgBox").addClass('full-width');
+        var previousPattern = banner.
+            $("#msgBox").addClass('full-width');
 
         $('input[name="pattern"]').first().prop('checked', true);
 
         $('#msgBox').on('hide.bs.modal', function (e) {
+
             displayContentForm($('input[name="pattern"]:checked'), banner);
         });
     } else {
@@ -1081,15 +1087,15 @@ function randomId(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 };
 
-function displayContentForm(el1, el2) {
+function displayContentForm(patternSelected, banner) {
 
-    $('fieldset#props' + el2.id + ' div#samples > span.dynamic').html('');
-    $('fieldset#props' + el2.id + ' div#content > span.dynamic').html('');
+    $('fieldset#props' + banner.id + ' div#samples > span.dynamic').html('');
+    $('fieldset#props' + banner.id + ' div#content > span.dynamic').html('');
 
-    $('.row.text-render span.dynamic').html('');
-    var layoutSelected = patterns[el1.data('family-code')][el1.attr('id')],
-        visualIndex = Number(el1.attr('id')) + 1,
-        patternOptionHTML = '<h4>Pattern ' + visualIndex + ' of ' + el1.data('family-pattern') + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
+    // $('.text-render span.dynamic').html('');
+    var layoutSelected = patterns[patternSelected.data('family-code')][patternSelected.attr('id')],
+        visualIndex = Number(patternSelected.attr('id')) + 1,
+        patternOptionHTML = '<h4>Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
         patternCopy = layoutSelected.copy,
         copyFields = '';
 
@@ -1097,58 +1103,60 @@ function displayContentForm(el1, el2) {
         copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
     }
 
-    $('fieldset#props' + el2.id + ' div#samples > span.dynamic').append(patternOptionHTML);
+    $('fieldset#props' + banner.id + ' div#samples > span.dynamic').append(patternOptionHTML);
 
-    $('fieldset#props' + el2.id + ' div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + el1.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
+    $('fieldset#props' + banner.id + ' div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
 
-    $('.row.text-render span.dynamic').append('<div id="' + el2.id + '" data-ordinal="' + el2.ordinal + '"></div>');
+    $('.text-render span.dynamic').append('<div id="' + banner.id + '" data-ordinal="' + banner.ordinal + '" style="background-color: ' + banner.css.background.desktop.latestrgb + '"></div>');
 
-    renderedTextInputs = document.querySelectorAll('fieldset#props' + el2.id + ' div#content > span.dynamic input');
+    renderedTextInputs = document.querySelectorAll('fieldset#props' + banner.id + ' div#content > span.dynamic input');
 
     renderedTextInputs.forEach(function (currentValue, index) {
-        $('.row.text-render span.dynamic div').append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + '"></span>&nbsp;');
-        renderCopyFields(currentValue, index);
+
+        $('.text-render span.dynamic div#' + banner.id).append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>&nbsp;');
+        renderCopyFields(currentValue, index, banner);
     });
 }
 
-function renderCopyFields(el1, el2) {
-    $(el1).on('input', function (event) {
-        var value = $(el1).val(),
-            value1 = $('.row.text-render span.dynamic span#text-render-' + el2).text();
+function renderCopyFields(thisInput, inputIndex, banner) {
+    $(thisInput).on('input', function (event) {
+
+        var value = $(thisInput).val(),
+            value1 = $('.text-render span.dynamic div#' + banner.id + ' span#text-render-' + inputIndex).text();
         if (value != value1) {
-            $('.row.text-render span.dynamic span#text-render-' + el2).text(value);
+            $('.text-render span.dynamic div#' + banner.id + ' span#text-render-' + inputIndex).text(value);
         } else {
-            $('.row.text-render span.dynamic span#text-render-' + el2).append(String.fromCharCode(event.which));
+            $('.text-render span.dynamic div#' + banner.id + ' span#text-render-' + inputIndex).append(String.fromCharCode(event.which));
         }
     });
 }
 
-function displayOnClickBehavior(el1, el2) {
-    $('fieldset#props' + el2.id + ' .row.onclickbehavior span.dynamic').html('');
+function displayOnClickBehavior(behaviorSelected, banner) {
+    $('fieldset#props' + banner.id + ' .row.onclickbehavior span.dynamic').html('');
 
     var modalHTML = '<div class="row-fluid"><h4>Modal</h4><hr><div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalExpires">Modal Expires</label> <br><input id="modalExpires" name="modalExpires" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h5>Example Modal</h5> <img src="img/test.png" alt="Example modal"> </span> </div></div>',
         linkHMTL = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to another page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required></div></div>',
         linkAnchorHTML = '<br><div class="row"> <div class="col-xs-3"><label for="anchorLink">Link to point on same page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="anchorLink" placeholder="#anchor" type="text" required></div></div>',
         doNothing = '<br><p>This will be a static banner.</p>';
 
-    switch (el1) {
+    switch (behaviorSelected) {
         case 'fireModal':
-            el2.onClickBehaviorHTML = modalHTML;
+            banner.onClickBehaviorHTML = modalHTML;
             break;
         case 'linkToPage':
-            el2.onClickBehaviorHTML = linkHMTL;
+            banner.onClickBehaviorHTML = linkHMTL;
             break;
         case 'linkToAnchor':
-            el2.onClickBehaviorHTML = linkAnchorHTML;
+            banner.onClickBehaviorHTML = linkAnchorHTML;
             break;
         case 'doNothing':
-            el2.onClickBehaviorHTML = doNothing;
+            banner.onClickBehaviorHTML = doNothing;
             break;
         default:
             break;
     }
 
-    $('fieldset#props' + el2.id + ' .row.onclickbehavior span.dynamic').append(el2.onClickBehaviorHTML);
+    $('fieldset#props' + banner.id + ' .row.onclickbehavior span.dynamic').append(banner.onClickBehaviorHTML);
 
     $("input, select, textarea").on("change", function () {
         confirmAllRequiredMet();
@@ -1176,17 +1184,17 @@ function confirmAllRequiredMet() {
     }
 }
 
-function showBanner(el1) {
-    var thisId = $(el1).closest('[data-ordinal]').attr('id').substr(5);
+function showBanner(thisButton) {
+    var thisId = $(thisButton).closest('[data-ordinal]').attr('id').substr(5);
 
     $('fieldset[id*="props"],button.banner-tabs').removeClass('show');
     $('fieldset#props' + thisId).addClass('show');
-    $(el1).addClass('show');
+    $(thisButton).addClass('show');
 
-    buttonBehave1(bannerObj(thisId, $(el1).closest('span').data('ordinal')));
+    buttonBehave1(bannerObj(thisId, $(thisButton).closest('span').data('ordinal')));
 }
 
-function addBanner(el1) {
+function addBanner(thisButton) {
     var tabs = $('.banner-tabs'),
         idNew = randomId(1000, 9999),
         z;
@@ -1219,9 +1227,9 @@ function addBanner(el1) {
     });
 }
 
-function removeBanner(el1) {
+function removeBanner(thisButton) {
     var tabs,
-        idKill = $(el1).closest('[id*="tabbs"]').attr('id').substr(5);
+        idKill = $(thisButton).closest('[id*="tabbs"]').attr('id').substr(5);
 
     $('#tabbs' + idKill).remove();
     $('fieldset#props' + idKill).remove();
@@ -1241,6 +1249,27 @@ function removeBanner(el1) {
     $('[data-ordinal]').each(function () {
         globalSettings.ordinals.push($(this).data('ordinal'));
     });
+}
+
+function bannerFormHTML(el1) {
+    var html = '<fieldset id="props' + el1.id + '" class="row banner-properties"> <legend> <h2>Banner ' + el1.id + ' Properties</h2> </legend> <div class="col-xs-12">' +
+
+        '<div class="row"> <div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts_' + el1.id + '"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div><div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints_' + el1.id + '"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes">Desktop? Yes</label> <input id="bpDesktopYes" name="bpDesktop_' + el1.id + '" type="radio" value="1" checked> <label for="bpDesktopNo">No</label> <input id="bpDesktopNo" name="bpDesktop_' + el1.id + '" type="radio" value="0"> </div><div class="col-xs-6"> <label for="bpMobileYes">Mobile? Yes</label> <input id="bpMobileYes" name="bpMobile_' + el1.id + '" type="radio" value="1" checked> <label for="bpMobileNo">No</label> <input id="bpMobileNo" name="bpMobile_' + el1.id + '" type="radio" value="0"> </span> </div></div></fieldset></div></div></div>' +
+
+        '<div class="row"> <div class="col-xs-12"> <fieldset id="background"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop_' + el1.id + '">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgDesktop_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgDesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile_' + el1.id + '">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgMobile_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgMobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div>' +
+
+        '<div class="row"><div class="col-xs-12"><fieldset id="clickbehavior"><legend><h3>Click Behavior</h3></legend><div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset>' +
+
+        '<div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div>' +
+
+        '</div></div></div></fieldset>';
+
+    return html;
+}
+
+function bannerTabsHTML(el1) {
+    var html = '<div id="tabbs' + el1.id + '" class="col-xs-3" data-ordinal="' + el1.ordinal + '"><span class="controls-add-subtract"><button type="button" class="subtract-button" onClick="removeBanner(this)" style="color:red;">x</button><button type="button" class="add-button" onClick="addBanner(this)"style="color:green;">+</button></span><span class="controls-ordinals"><button type="button" class="controls-ordinals left"><</button><button type="button" class="banner-tabs" name="bannertab" onClick="showBanner(this)">Banner ' + el1.id + '</button><button type="button" class="controls-ordinals right">></button></span><div>';
+    return html;
 }
 
 function bannerObj(el1, el2) {
@@ -1266,6 +1295,9 @@ function bannerObj(el1, el2) {
                         r: 184,
                         g: 117,
                         b: 174
+                    },
+                    get latestrgb() {
+                        return 'rgb(' + this.bgColor.r + ',' + this.bgColor.g + ',' + this.bgColor.b + ')';
                     }
                 },
                 mobile: {
@@ -1279,6 +1311,7 @@ function bannerObj(el1, el2) {
             },
             ordinal: el2
         },
+        previousPattern: [],
         visibleIndex: function (e1) {
             var tabs = e1.length;
             return tabs;
@@ -1295,14 +1328,4 @@ function bannerObj(el1, el2) {
         state: 'local'
     }
     return obj;
-}
-
-function bannerFormHTML(el1) {
-    var html = '<fieldset id="props' + el1.id + '" class="row banner-properties"> <legend> <h2>Banner ' + el1.id + ' Properties</h2> </legend> <div class="col-xs-12"><div class="row"> <div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div><div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes">Desktop? Yes</label> <input id="bpDesktopYes" name="bpDesktop_' + el1.id + '" type="radio" value="1" checked> <label for="bpDesktopNo">No</label> <input id="bpDesktopNo" name="bpDesktop_' + el1.id + '" type="radio" value="0"> </div><div class="col-xs-6"> <label for="bpMobileYes">Mobile? Yes</label> <input id="bpMobileYes" name="bpMobile_' + el1.id + '" type="radio" value="1" checked> <label for="bpMobileNo">No</label> <input id="bpMobileNo" name="bpMobile_' + el1.id + '" type="radio" value="0"> </span> </div></div></fieldset></div></div></div> <div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div><div class="row"> <div class="col-xs-12"> <fieldset id="background"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1">Local</label> <input id="local1" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1">Remote</label> <input id="remote1" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop_' + el1.id + '">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgDesktop_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgDesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile_' + el1.id + '">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgMobile_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgMobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div><div class="row"><div class="col-xs-12"><fieldset id="clickbehavior"><legend><h3>Click Behavior</h3></legend><div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset> </div></div></div></fieldset>';
-    return html;
-}
-
-function bannerTabsHTML(el1) {
-    var html = '<div id="tabbs' + el1.id + '" class="col-xs-3" data-ordinal="' + el1.ordinal + '"><span class="controls-add-subtract"><button type="button" class="subtract-button" onClick="removeBanner(this)" style="color:red;">x</button><button type="button" class="add-button" onClick="addBanner(this)"style="color:green;">+</button></span><span class="controls-ordinals"><button type="button" class="controls-ordinals left"><</button><button type="button" class="banner-tabs" name="bannertab" onClick="showBanner(this)">Banner ' + el1.id + '</button><button type="button" class="controls-ordinals right">></button></span><div>';
-    return html;
 }

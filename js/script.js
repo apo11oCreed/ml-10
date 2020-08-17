@@ -585,7 +585,7 @@ var patterns = {
         },
         minBannerNumber: 1,
         ordinals: [],
-        banners:[]
+        banners: []
     },
     bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the [ <span style="font-weight:700;">Banner ####</span> ] button to display the form. Hover over [ <span style="font-weight:700;">Banner ####</span> ] button(s) to view all controls. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another banner. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a banner. <span style="text-transform:uppercase;">Note</span>: Changes to number of banners will require new selections of layout patterns for all previously assigned.</p></div></div><hr>',
     deviceTypeRegex = /Desktop|Mobile/;
@@ -603,12 +603,15 @@ $(document).ready(function () {
 
     var bannerInit = new bannerObj(idInit);
     bannerInit.render();
+    bannerInit.buttonBehave();
+
     $('button.subtract-button').attr('hidden', true);
 
     $('button#form-reset').on('click', function () {
         $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it,form > span.dynamic').html('');
         bannerInit = new bannerObj(randomId(1000, 9999));
         bannerInit.render();
+        bannerInit.buttonBehave();
         $('button.subtract-button').attr('hidden', true);
     });
 });
@@ -768,6 +771,7 @@ function buttonBehave1(thisBanner) {
             } else if (globalSettings.layoutMenu === 2) {
                 menu = chooseLayoutMenuBuilder(["2"]);
                 msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
+                console.log(id);
             } else if (globalSettings.layoutMenu === 3) {
                 menu = chooseLayoutMenuBuilder(["3"]);
                 msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
@@ -1014,6 +1018,7 @@ function htmlExport1() {
 }
 
 function msgBox1(msg, title, banner) {
+    console.log(banner);
     var thisId;
 
     if (typeof banner !== 'undefined') {
@@ -1042,6 +1047,7 @@ function msgBox1(msg, title, banner) {
     $("#msgBox").modal("show");
 
     if (thisId != 'Not a banner!') {
+
         $("#msgBox").addClass('full-width');
 
         $('input[name="pattern"]').first().prop('checked', true);
@@ -1091,37 +1097,37 @@ function displayContentForm(patternSelected, banner) {
 
     // $('.text-render span.dynamic').html('');
     var layoutSelected = patterns[patternSelected.data('family-code')][patternSelected.attr('id')],
-    code=patternSelected.data('family-code')+patternSelected.attr('id');
+        code = patternSelected.data('family-code') + patternSelected.attr('id');
 
-    if(banner.previousPattern!=code){
+    if (banner.previousPattern != code) {
 
         $('fieldset#props' + banner.id + ' div#samples > span.dynamic').html('');
-    $('fieldset#props' + banner.id + ' div#content > span.dynamic').html('');
+        $('fieldset#props' + banner.id + ' div#content > span.dynamic').html('');
 
         var visualIndex = Number(patternSelected.attr('id')) + 1,
-        patternOptionHTML = '<h4>Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
-        patternCopy = layoutSelected.copy,
-        copyFields = '';
+            patternOptionHTML = '<h4>Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
+            patternCopy = layoutSelected.copy,
+            copyFields = '';
 
-        banner.previousPattern=code;
+        banner.previousPattern = code;
 
-    for (var i = 0; i < patternCopy.length; i++) {
-        copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
-    }
+        for (var i = 0; i < patternCopy.length; i++) {
+            copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
+        }
 
-    $('fieldset#props' + banner.id + ' div#samples > span.dynamic').append(patternOptionHTML);
+        $('fieldset#props' + banner.id + ' div#samples > span.dynamic').append(patternOptionHTML);
 
-    $('fieldset#props' + banner.id + ' div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
+        $('fieldset#props' + banner.id + ' div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
 
-    $('.text-render span.dynamic').append('<div id="' + banner.id + '" data-ordinal="' + banner.ordinal + '" style="background-color: ' + banner.css.background.desktop.latestrgb + '"></div>');
+        $('.text-render span.dynamic').append('<div id="' + banner.id + '" data-ordinal="' + banner.ordinal + '" style="background-color: ' + banner.css.background.desktop.latestrgb + '"></div>');
 
-    renderedTextInputs = document.querySelectorAll('fieldset#props' + banner.id + ' div#content > span.dynamic input');
+        renderedTextInputs = document.querySelectorAll('fieldset#props' + banner.id + ' div#content > span.dynamic input');
 
-    renderedTextInputs.forEach(function (currentValue, index) {
+        renderedTextInputs.forEach(function (currentValue, index) {
 
-        $('.text-render span.dynamic div#' + banner.id).append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>&nbsp;');
-        renderCopyFields(currentValue, index, banner);
-    });
+            $('.text-render span.dynamic div#' + banner.id).append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>&nbsp;');
+            renderCopyFields(currentValue, index, banner);
+        });
     }
 }
 
@@ -1198,7 +1204,7 @@ function showBanner(thisButton) {
     $('fieldset#props' + thisId).addClass('show');
     $(thisButton).addClass('show');
 
-    buttonBehave1(bannerObj(thisId));
+    //buttonBehave1(bannerObj(thisId));
 }
 
 function addBanner(thisButton) {
@@ -1219,6 +1225,7 @@ function addBanner(thisButton) {
     $('div#content > span.dynamic').html('');
 
     z.render();
+    z.buttonBehave();
 
     tabs = $('.banner-tabs');
 
@@ -1253,7 +1260,7 @@ function removeBanner(thisButton) {
     }
 
     for (var h = 0; h < tabs.length; h++) {
-        bannerObj($(tabs[h]).closest('div[id*="tabbs"]').attr('id').substr(5)).previousPattern='';
+        bannerObj($(tabs[h]).closest('div[id*="tabbs"]').attr('id').substr(5)).previousPattern = '';
     }
 
     // globalSettings.ordinals = [];
@@ -1328,6 +1335,9 @@ function bannerObj(el1) {
             return tabs;
         },
         onClickBehaviorHTML: '<br><p>This will be a static banner.</p>',
+        buttonBehave: function () {
+            buttonBehave1(this);
+        },
         render: function () {
             $('fieldset#props' + this.id + ' input[name="bpDesktop_' + this.id + '"]').first().prop('checked', true);
             $('fieldset#props' + this.id + ' input[name="bpMobile_' + this.id + '"]').first().prop('checked', true);

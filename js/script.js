@@ -584,7 +584,8 @@ var patterns = {
             return qty;
         },
         minBannerNumber: 1,
-        ordinals: []
+        ordinals: [],
+        banners:[]
     },
     bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the [ <span style="font-weight:700;">Banner ####</span> ] button to display the form. Hover over [ <span style="font-weight:700;">Banner ####</span> ] button(s) to view all controls. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another banner. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a banner. <span style="text-transform:uppercase;">Note</span>: Changes to number of banners will require new selections of layout patterns for all previously assigned.</p></div></div><hr>',
     deviceTypeRegex = /Desktop|Mobile/;
@@ -600,13 +601,13 @@ $(document).ready(function () {
     $('#bannerTabs').prepend(bannerTabsLegend);
     $('#bannerTabs span.dynamic').append('<div class="row-fluid flex-it"></div>');
 
-    var bannerInit = new bannerObj(idInit, 0);
+    var bannerInit = new bannerObj(idInit);
     bannerInit.render();
     $('button.subtract-button').attr('hidden', true);
 
     $('button#form-reset').on('click', function () {
         $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it,form > span.dynamic').html('');
-        bannerInit = new bannerObj(randomId(1000, 9999), 0);
+        bannerInit = new bannerObj(randomId(1000, 9999));
         bannerInit.render();
         $('button.subtract-button').attr('hidden', true);
     });
@@ -781,8 +782,8 @@ function buttonBehave1(thisBanner) {
             exportCode1(type);
         }
 
-        console.log(thisBanner);
-        console.log(globalSettings);
+        // console.log(thisBanner);
+        // console.log(globalSettings);
     });
 
     $("span.help1").on("click", function () {
@@ -1018,7 +1019,7 @@ function msgBox1(msg, title, banner) {
     if (typeof banner !== 'undefined') {
         thisId = banner.id;
     } else {
-        thisId = '0000';
+        thisId = 'Not a banner!';
     }
 
     if (!title) title = "";
@@ -1040,9 +1041,8 @@ function msgBox1(msg, title, banner) {
     $("body").append(html);
     $("#msgBox").modal("show");
 
-    if (thisId != '0000') {
-        var previousPattern = banner.
-            $("#msgBox").addClass('full-width');
+    if (thisId != 'Not a banner!') {
+        $("#msgBox").addClass('full-width');
 
         $('input[name="pattern"]').first().prop('checked', true);
 
@@ -1089,15 +1089,21 @@ function randomId(min, max) {
 
 function displayContentForm(patternSelected, banner) {
 
-    $('fieldset#props' + banner.id + ' div#samples > span.dynamic').html('');
-    $('fieldset#props' + banner.id + ' div#content > span.dynamic').html('');
-
     // $('.text-render span.dynamic').html('');
     var layoutSelected = patterns[patternSelected.data('family-code')][patternSelected.attr('id')],
-        visualIndex = Number(patternSelected.attr('id')) + 1,
+    code=patternSelected.data('family-code')+patternSelected.attr('id');
+
+    if(banner.previousPattern!=code){
+
+        $('fieldset#props' + banner.id + ' div#samples > span.dynamic').html('');
+    $('fieldset#props' + banner.id + ' div#content > span.dynamic').html('');
+
+        var visualIndex = Number(patternSelected.attr('id')) + 1,
         patternOptionHTML = '<h4>Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
         patternCopy = layoutSelected.copy,
         copyFields = '';
+
+        banner.previousPattern=code;
 
     for (var i = 0; i < patternCopy.length; i++) {
         copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
@@ -1116,6 +1122,7 @@ function displayContentForm(patternSelected, banner) {
         $('.text-render span.dynamic div#' + banner.id).append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>&nbsp;');
         renderCopyFields(currentValue, index, banner);
     });
+    }
 }
 
 function renderCopyFields(thisInput, inputIndex, banner) {
@@ -1191,7 +1198,7 @@ function showBanner(thisButton) {
     $('fieldset#props' + thisId).addClass('show');
     $(thisButton).addClass('show');
 
-    buttonBehave1(bannerObj(thisId, $(thisButton).closest('span').data('ordinal')));
+    buttonBehave1(bannerObj(thisId));
 }
 
 function addBanner(thisButton) {
@@ -1201,11 +1208,11 @@ function addBanner(thisButton) {
 
     // Dedup
     for (var h = 0; h < tabs.length; h++) {
-        if (idNew == $(tabs[h]).closest('span').attr('id')) {
+        if (idNew == $(tabs[h]).closest('div[id*="tabbs"]').attr('id')) {
             idNew = randomId(1000, 9999);
-            z = new bannerObj(idNew, tabs.length);
+            z = new bannerObj(idNew);
         } else {
-            z = new bannerObj(idNew, tabs.length);
+            z = new bannerObj(idNew);
         }
     }
     $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
@@ -1221,10 +1228,10 @@ function addBanner(thisButton) {
         $('button.add-button').attr('hidden', true);
     }
 
-    globalSettings.ordinals = [];
-    $('[data-ordinal]').each(function () {
-        globalSettings.ordinals.push($(this).data('ordinal'));
-    });
+    // globalSettings.ordinals = [];
+    // $('[data-ordinal]').each(function () {
+    //     globalSettings.ordinals.push($(this).data('ordinal'));
+    // });
 }
 
 function removeBanner(thisButton) {
@@ -1239,16 +1246,20 @@ function removeBanner(thisButton) {
     $('button.add-button').attr('hidden', false);
 
     tabs = $('.banner-tabs');
-    globalSettings.layoutMenu = Number(tabs.length);
 
+    globalSettings.layoutMenu = Number(tabs.length);
     if (tabs.length == globalSettings.minBannerNumber) {
         $('button.subtract-button').attr('hidden', true);
     }
 
-    globalSettings.ordinals = [];
-    $('[data-ordinal]').each(function () {
-        globalSettings.ordinals.push($(this).data('ordinal'));
-    });
+    for (var h = 0; h < tabs.length; h++) {
+        bannerObj($(tabs[h]).closest('div[id*="tabbs"]').attr('id').substr(5)).previousPattern='';
+    }
+
+    // globalSettings.ordinals = [];
+    // $('[data-ordinal]').each(function () {
+    //     globalSettings.ordinals.push($(this).data('ordinal'));
+    // });
 }
 
 function bannerFormHTML(el1) {
@@ -1272,7 +1283,7 @@ function bannerTabsHTML(el1) {
     return html;
 }
 
-function bannerObj(el1, el2) {
+function bannerObj(el1) {
     var obj;
 
     obj = {
@@ -1309,9 +1320,9 @@ function bannerObj(el1, el2) {
                     }
                 }
             },
-            ordinal: el2
+            ordinal: ''
         },
-        previousPattern: [],
+        previousPattern: '',
         visibleIndex: function (e1) {
             var tabs = e1.length;
             return tabs;

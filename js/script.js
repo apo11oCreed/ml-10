@@ -603,15 +603,12 @@ $(document).ready(function () {
 
     var bannerInit = new bannerObj(idInit);
     bannerInit.render();
-    bannerInit.buttonBehave();
-
     $('button.subtract-button').attr('hidden', true);
 
     $('button#form-reset').on('click', function () {
-        $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it,form > span.dynamic').html('');
+        $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it,form > span.dynamic, .text-render span.dynamic').html('');
         bannerInit = new bannerObj(randomId(1000, 9999));
         bannerInit.render();
-        bannerInit.buttonBehave();
         $('button.subtract-button').attr('hidden', true);
     });
 });
@@ -771,7 +768,6 @@ function buttonBehave1(thisBanner) {
             } else if (globalSettings.layoutMenu === 2) {
                 menu = chooseLayoutMenuBuilder(["2"]);
                 msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
-                console.log(id);
             } else if (globalSettings.layoutMenu === 3) {
                 menu = chooseLayoutMenuBuilder(["3"]);
                 msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
@@ -785,9 +781,6 @@ function buttonBehave1(thisBanner) {
         } else {
             exportCode1(type);
         }
-
-        // console.log(thisBanner);
-        // console.log(globalSettings);
     });
 
     $("span.help1").on("click", function () {
@@ -1018,7 +1011,7 @@ function htmlExport1() {
 }
 
 function msgBox1(msg, title, banner) {
-    console.log(banner);
+
     var thisId;
 
     if (typeof banner !== 'undefined') {
@@ -1055,6 +1048,14 @@ function msgBox1(msg, title, banner) {
         $('#msgBox').on('hide.bs.modal', function (e) {
 
             displayContentForm($('input[name="pattern"]:checked'), banner);
+
+            var allFieldSets = document.querySelectorAll('fieldset[id*="props"]');
+
+            allFieldSets.forEach(function (currentValue) {
+                renderCopyFields(currentValue);
+            });
+
+
         });
     } else {
         $("#msgBox").removeClass('full-width');
@@ -1103,6 +1104,7 @@ function displayContentForm(patternSelected, banner) {
 
         $('fieldset#props' + banner.id + ' div#samples > span.dynamic').html('');
         $('fieldset#props' + banner.id + ' div#content > span.dynamic').html('');
+        $('.text-render span.dynamic div#' + banner.id).html('');
 
         var visualIndex = Number(patternSelected.attr('id')) + 1,
             patternOptionHTML = '<h4>Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
@@ -1119,29 +1121,69 @@ function displayContentForm(patternSelected, banner) {
 
         $('fieldset#props' + banner.id + ' div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
 
-        $('.text-render span.dynamic').append('<div id="' + banner.id + '" data-ordinal="' + banner.ordinal + '" style="background-color: ' + banner.css.background.desktop.latestrgb + '"></div>');
+        // $('.text-render span.dynamic').append('<div id="' + banner.id + '" data-ordinal="' + banner.ordinal + '" style="background-color: ' + banner.css.background.desktop.latestrgb + '"></div>');
 
-        renderedTextInputs = document.querySelectorAll('fieldset#props' + banner.id + ' div#content > span.dynamic input');
+        var renderedTextInputs = document.querySelectorAll('fieldset#props' + banner.id + ' div#content > span.dynamic input');
 
         renderedTextInputs.forEach(function (currentValue, index) {
-
             $('.text-render span.dynamic div#' + banner.id).append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>&nbsp;');
-            renderCopyFields(currentValue, index, banner);
         });
     }
+
 }
 
-function renderCopyFields(thisInput, inputIndex, banner) {
-    $(thisInput).on('input', function (event) {
+function renderCopyFields(el1) {
 
-        var value = $(thisInput).val(),
-            value1 = $('.text-render span.dynamic div#' + banner.id + ' span#text-render-' + inputIndex).text();
-        if (value != value1) {
-            $('.text-render span.dynamic div#' + banner.id + ' span#text-render-' + inputIndex).text(value);
-        } else {
-            $('.text-render span.dynamic div#' + banner.id + ' span#text-render-' + inputIndex).append(String.fromCharCode(event.which));
-        }
+    var bannerId = el1.getAttribute('id').substr(5),
+        inputChildren = el1.querySelectorAll('#content input');
+
+    inputChildren.forEach(function (currentValue) {
+
+        var index = Number(currentValue.getAttribute('id').substr(4)) - 1,
+            targetParent = $('.text-render span.dynamic div#' + bannerId),
+            targets = $(targetParent).children('#text-render-' + index);
+
+        console.log(currentValue);
+        console.log(index);
+        console.log(targetParent);
+        console.log(targets);
+
+        $(currentValue).on('input', function () {
+            var value = $(currentValue).val();
+            console.log(value);
+        });
+        //     value1 = $('.text-render span.dynamic div#' + bannerId + ' span#text-render-' + index).text();
+
+        // if (value != value1) {
+        //     test = $('.text-render span.dynamic div#' + bannerId + ' span#text-render-' + index).text(value);
+        // } else {
+        //     test1 = $('.text-render span.dynamic div#' + bannerId + ' span#text-render-' + index).append(String.fromCharCode(event.which));
+        // }
+
+
     });
+
+    // $(currentValue).on('input', function () {
+    //     console.log(currentValue);
+    //     var banner = $(this).parents('fieldset[id*="props"]')[0],
+    //         index = Number($(this).attr('id').substr(4)) - 1,
+    //         bannerId = $(banner).attr('id').substr(5);
+
+    //     console.log(banner);
+    //     console.log(index);
+    //     console.log(bannerId);
+
+    //     var value = $(this).val(),
+    //         value1 = $('.text-render span.dynamic div#' + bannerId + ' span#text-render-' + index).text();
+
+    //     if (value != value1) {
+    //         test = $('.text-render span.dynamic div#' + bannerId + ' span#text-render-' + index).text(value);
+    //     } else {
+    //         test1 = $('.text-render span.dynamic div#' + bannerId + ' span#text-render-' + index).append(String.fromCharCode(event.which));
+    //     }
+
+    // });
+
 }
 
 function displayOnClickBehavior(behaviorSelected, banner) {
@@ -1203,8 +1245,6 @@ function showBanner(thisButton) {
     $('fieldset[id*="props"],button.banner-tabs').removeClass('show');
     $('fieldset#props' + thisId).addClass('show');
     $(thisButton).addClass('show');
-
-    //buttonBehave1(bannerObj(thisId));
 }
 
 function addBanner(thisButton) {
@@ -1221,11 +1261,13 @@ function addBanner(thisButton) {
             z = new bannerObj(idNew);
         }
     }
-    $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
+
     $('div#content > span.dynamic').html('');
+    $('div.text-render > span.dynamic > div').html('');
+
+    $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
 
     z.render();
-    z.buttonBehave();
 
     tabs = $('.banner-tabs');
 
@@ -1247,8 +1289,12 @@ function removeBanner(thisButton) {
 
     $('#tabbs' + idKill).remove();
     $('fieldset#props' + idKill).remove();
-    $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
+    $('div.text-render > span.dynamic > div#' + idKill).remove();
+
     $('div#content > span.dynamic').html('');
+    $('div.text-render > span.dynamic > div').html('');
+
+    $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
 
     $('button.add-button').attr('hidden', false);
 
@@ -1287,6 +1333,13 @@ function bannerFormHTML(el1) {
 
 function bannerTabsHTML(el1) {
     var html = '<div id="tabbs' + el1.id + '" class="col-xs-3" data-ordinal="' + el1.ordinal + '"><span class="controls-add-subtract"><button type="button" class="subtract-button" onClick="removeBanner(this)" style="color:red;">x</button><button type="button" class="add-button" onClick="addBanner(this)"style="color:green;">+</button></span><span class="controls-ordinals"><button type="button" class="controls-ordinals left"><</button><button type="button" class="banner-tabs" name="bannertab" onClick="showBanner(this)">Banner ' + el1.id + '</button><button type="button" class="controls-ordinals right">></button></span><div>';
+
+    return html;
+}
+
+function bannerCopySnippetHTML(el1) {
+    var html = '<div id="' + el1.id + '" data-ordinal=' + el1.ordinal + ' style="background-color:' + el1.css.background.desktop.latestrgb + '"></div>';
+
     return html;
 }
 
@@ -1342,8 +1395,10 @@ function bannerObj(el1) {
             $('fieldset#props' + this.id + ' input[name="bpDesktop_' + this.id + '"]').first().prop('checked', true);
             $('fieldset#props' + this.id + ' input[name="bpMobile_' + this.id + '"]').first().prop('checked', true);
             $('input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
-            $('form > span.dynamic').append(bannerFormHTML(this));
             $('fieldset#bannerTabs span.dynamic .row-fluid.flex-it').append(bannerTabsHTML(this));
+            $('form > span.dynamic').append(bannerFormHTML(this));
+            this.buttonBehave();
+            $('.text-render span.dynamic').append(bannerCopySnippetHTML(this));
             $('button.subtract-button').attr('hidden', false);
         },
         state: 'local'

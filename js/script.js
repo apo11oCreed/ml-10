@@ -588,7 +588,8 @@ var patterns = {
         banners: []
     },
     bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the [ <span style="font-weight:700;">Banner ####</span> ] button to display the form. Hover over [ <span style="font-weight:700;">Banner ####</span> ] button(s) to view all controls. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another banner. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a banner. <span style="text-transform:uppercase;">Note</span>: Changes to number of banners will require new selections of layout patterns for all previously assigned.</p></div></div><hr>',
-    deviceTypeRegex = /Desktop|Mobile/;
+    deviceTypeRegex = /desktop|mobile/,
+    bgTxtRegex = /bg|txt/;
 
 $(document).ready(function () {
 
@@ -632,15 +633,15 @@ function buttonBehave1(thisBanner) {
     });
 
     // radio events
-    $('input[name="bpDesktop_' + id + '"],input[name="bpMobile_' + id + '"],input[name="lorr1_' + id + '"]').on('change', function () {
+    $('input[name="bpdesktop_' + id + '"],input[name="bpmobile_' + id + '"],input[name="lorr1_' + id + '"]').on('change', function () {
         var type = $(this).attr('name'),
             namespace = deviceTypeRegex.exec(type);
 
-        if (namespace == 'Desktop' || namespace == 'Mobile') {
+        if (namespace == 'desktop' || namespace == 'mobile') {
             var breakPointNegatoryArray = [];
 
-            Number($('input[name="bpDesktop_' + id + '"]:checked').val()) ? thisBanner.css.devicetype.desktop.visible = true : thisBanner.css.devicetype.desktop.visible = false;
-            Number($('input[name="bpMobile_' + id + '"]:checked').val()) ? thisBanner.css.devicetype.mobile.visible = true : thisBanner.css.devicetype.mobile.visible = false;
+            Number($('input[name="bpdesktop_' + id + '"]:checked').val()) ? thisBanner.css.devicetype.desktop.visible = true : thisBanner.css.devicetype.desktop.visible = false;
+            Number($('input[name="bpmobile_' + id + '"]:checked').val()) ? thisBanner.css.devicetype.mobile.visible = true : thisBanner.css.devicetype.mobile.visible = false;
 
             for (key in thisBanner.css.devicetype) {
                 if (thisBanner.css.devicetype[key].visible == false) {
@@ -650,8 +651,8 @@ function buttonBehave1(thisBanner) {
 
             if (breakPointNegatoryArray.length > 1) {
                 $('input[name="lorr1_' + id + '"]').closest('.row').addClass("disabled");
-                $('input[name="bgDesktop_' + id + '"],input[name="bgMobile_' + id + '"]').closest('.row').addClass("disabled");
-                $('input[name="bgDesktop_' + id + '"],input[name="bgMobile_' + id + '"]').prop({
+                $('[id="props' + id + '"] .desktop,[id="props' + id + '"] .mobile').addClass("disabled");
+                $('[id="props' + id + '"] input[name="bgdesktop_' + id + '"],[id="props' + id + '"] input[name="bgmobile_' + id + '"]').prop({
                     'disabled': true,
                     'required': false
                 });
@@ -660,15 +661,13 @@ function buttonBehave1(thisBanner) {
                     'disabled': true,
                     'required': false
                 });
-                $('input[name="bg' + namespace + '_' + id + '"]').closest('.row').addClass("disabled");
-                $('input[name="lorr1_' + id + '"]').closest('.row').removeClass("disabled");
+                $('[id="props' + id + '"] .' + namespace).addClass("disabled");
             } else {
-                $('input[name*="bg' + namespace + '"]').prop({
+                $('[id="props' + id + '"] input[name*="bg' + namespace + '"]').prop({
                     'disabled': false,
                     'required': true
                 });
-                $('input[name="bg' + namespace + '_' + id + '"]').closest('.row').removeClass("disabled");
-                $('input[name="lorr1_' + id + '"]').closest('.row').removeClass("disabled");
+                $('[id="props' + id + '"] .' + namespace).removeClass("disabled");
             }
 
         } else {
@@ -731,10 +730,11 @@ function buttonBehave1(thisBanner) {
     });
 
     // color events
-    $('input[name*="r"],input[name*="g"],input[name*="b"]').on('input', function () {
+    $('input[id*="r_"],input[id*="g_"],input[id*="b_"]').on('input', function () {
         var code = $(this).val(),
-            namespace = $(this).attr('name').substr(2);
-        console.log(namespace);
+            namespace = bgTxtRegex.exec($(this).attr('id')),
+            id = $(this).attr('id').substr(-4),
+            rgb = $(this).attr('name');
 
         if (Number(code) > 250) {
             $(this).addClass('error');
@@ -750,20 +750,39 @@ function buttonBehave1(thisBanner) {
             $(this).parent().next('.error').attr('hidden', true);
 
             if (namespace == 'bg') {
-                for (key in thisBanner.css.background) {
-                    thisBanner.css.background[key].bgColor.r = $('[id="r_bg' + id + '"]').val();
-                    thisBanner.css.background[key].bgColor.g = $('[id="g_bg' + id + '"]').val();
-                    thisBanner.css.background[key].bgColor.b = $('[id="b_bg' + id + '"]').val();
+                switch (rgb) {
+                    case "r":
+                        thisBanner.css.background.desktop.bgColor.r = $(this).val();
+                        break;
+                    case "g":
+                        thisBanner.css.background.desktop.bgColor.g = $(this).val();;
+                        break;
+                    case "b":
+                        thisBanner.css.background.desktop.bgColor.b = $(this).val();;
+                        break;
+                    default:
+                        break;
                 }
             } else {
-                thisBanner.css.textcolor.txtColor.r = $('[id="r_txt' + id + '"]').val();
-                thisBanner.css.textcolor.txtColor.g = $('[id="g_txt' + id + '"]').val();
-                thisBanner.css.textcolor.txtColor.b = $('[id="b_txt' + id + '"]').val();
+                switch (rgb) {
+                    case "r":
+                        thisBanner.css.textcolor.txtColor.r = $(this).val();
+                        break;
+                    case "g":
+                        thisBanner.css.textcolor.txtColor.g = $(this).val();;
+                        break;
+                    case "b":
+                        thisBanner.css.textcolor.txtColor.b = $(this).val();;
+                        break;
+                    default:
+                        break;
+                }
             }
+
         }
 
-        if ($('.text-render > span.dynamic > [id="output_' + thisBanner.id + '"]')) {
-            $('.text-render > span.dynamic > [id="output_' + thisBanner.id + '"]').attr('style', 'background-color: ' + thisBanner.css.background.desktop.latestBgColor + ';color: ' + thisBanner.css.textcolor.latestTxtColor + ';');
+        if ($('.text-render > span.dynamic > [id*="' + id + '"]')) {
+            $('.text-render > span.dynamic > [id="output_' + id + '"]').attr('style', 'background-color: ' + thisBanner.css.background.desktop.latestBgColor + ';color: ' + thisBanner.css.textcolor.latestTxtColor + ';');
         }
     });
 
@@ -1061,6 +1080,12 @@ function msgBox1(msg, title, banner) {
 
             displayContentForm($('input[name="pattern"]:checked'), banner);
 
+            if ($('[id="props' + thisId + '"] .disabled').hasClass('desktop')) {
+                $('[id="props' + thisId + '"] .desktop').not('.disabled').addClass('disabled');
+            } else if ($('.disabled').hasClass('mobile')) {
+                $('[id="props' + thisId + '"] .mobile').not('.disabled').addClass('disabled');
+            }
+
         });
     } else {
         $("#msgBox").removeClass('full-width');
@@ -1101,7 +1126,6 @@ function randomId(min, max) {
 
 function displayContentForm(patternSelected, banner) {
 
-    // $('.text-render span.dynamic').html('');
     var layoutSelected = patterns[patternSelected.data('family-code')][patternSelected.attr('id')],
         code = patternSelected.data('family-code') + patternSelected.attr('id');
 
@@ -1109,7 +1133,7 @@ function displayContentForm(patternSelected, banner) {
 
         $('[id="props' + banner.id + '"] [id="samples_' + banner.id + '"] > span.dynamic').html('');
         $('[id="props' + banner.id + '"] [id="content_' + banner.id + '"] > span.dynamic').html('');
-        $('.text-render span.dynamic div#' + banner.id).html('');
+        $('.text-render span.dynamic [id="output_' + banner.id + '"]').html('');
 
         var visualIndex = Number(patternSelected.attr('id')) + 1,
             patternOptionHTML = '<h4>Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
@@ -1119,17 +1143,22 @@ function displayContentForm(patternSelected, banner) {
         banner.previousPattern = code;
 
         for (var i = 0; i < patternCopy.length; i++) {
-            copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div>';
+            copyFields += ' <label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text" onfocus="renderCopyFields(this,getTextRenderItem(this))">';
         }
 
         $('[id="props' + banner.id + '"] [id="samples_' + banner.id + '"] > span.dynamic').append(patternOptionHTML);
 
-        $('[id="props' + banner.id + '"] [id="content_' + banner.id + '"] > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
+        $('[id="props' + banner.id + '"] [id="content_' + banner.id + '"] > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><span class="desktop"><h5>Desktop copy</h5><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div></span><span class="mobile"><h5>Mobile copy</h5><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div></span><br>');
 
-        var renderedTextInputs = document.querySelectorAll('[id="props' + banner.id + '"] [id="content_' + banner.id + '"] > span.dynamic input');
+        var renderedTextInputsDesktop = document.querySelectorAll('[id="props' + banner.id + '"] [id="content_' + banner.id + '"] > span.dynamic .desktop input');
+        var renderedTextInputsMobile = document.querySelectorAll('[id="props' + banner.id + '"] [id="content_' + banner.id + '"] > span.dynamic .mobile input');
 
-        renderedTextInputs.forEach(function (currentValue, index) {
-            $('.text-render span.dynamic [id="output_' + banner.id + '"]').append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>');
+        renderedTextInputsDesktop.forEach(function (currentValue, index) {
+            $('.text-render span.dynamic [id="output_' + banner.id + '"] .desktop').append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>');
+        });
+
+        renderedTextInputsMobile.forEach(function (currentValue, index) {
+            $('.text-render span.dynamic [id="output_' + banner.id + '"] .mobile').append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>');
         });
     }
 
@@ -1289,13 +1318,13 @@ function removeBanner(thisButton) {
 function bannerFormHTML(el1) {
     var html = '<fieldset id="props' + el1.id + '" class="row banner-properties"> <legend> <h2>Banner ' + el1.id + ' Properties</h2> </legend> <div class="col-xs-12">' +
 
-        '<div class="row"> <div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts_' + el1.id + '"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div><div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints_' + el1.id + '"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes_' + el1.id + '">Desktop? Yes</label> <input id="bpDesktopYes_' + el1.id + '" name="bpDesktop_' + el1.id + '" type="radio" value="1" checked> <label for="bpDesktopNo_' + el1.id + '">No</label> <input id="bpDesktopNo_' + el1.id + '" name="bpDesktop_' + el1.id + '" type="radio" value="0"> </div><div class="col-xs-6"> <label for="bpMobileYes_' + el1.id + '">Mobile? Yes</label> <input id="bpMobileYes_' + el1.id + '" name="bpMobile_' + el1.id + '" type="radio" value="1" checked> <label for="bpMobileNo_' + el1.id + '">No</label> <input id="bpMobileNo_' + el1.id + '" name="bpMobile_' + el1.id + '" type="radio" value="0"> </span> </div></div></fieldset></div></div></div>' +
+        '<div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns_' + el1.id + '"> <legend> <h3>Content</h3> </legend> <div id="samples_' + el1.id + '"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content_' + el1.id + '"> <span class="dynamic"></span> </div></fieldset> </div></div></div>' +
 
-        '<div class="row"> <div class="col-xs-12"> <fieldset id="background_' + el1.id + '"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1_' + el1.id + '">Local</label> <input id="local1_' + el1.id + '" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1_' + el1.id + '">Remote</label> <input id="remote1_' + el1.id + '" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-3"><label for="bgDesktop_' + el1.id + '">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgDesktop_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgDesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row"> <div class="col-xs-3"><label for="bgMobile_' + el1.id + '">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgMobile_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgMobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_bg' + el1.id + '" name="r_bg" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_bg' + el1.id + '" name="g_bg" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_bg' + el1.id + '" name="b_bg" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Text color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_txt' + el1.id + '" name="r_txt" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_txt' + el1.id + '" name="g_txt" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_txt' + el1.id + '" name="b_txt" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div>' +
+        '<div class="row"> <div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts_' + el1.id + '"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div><div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints_' + el1.id + '"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes_' + el1.id + '">Desktop? Yes</label> <input id="bpDesktopYes_' + el1.id + '" name="bpdesktop_' + el1.id + '" type="radio" value="1" checked> <label for="bpDesktopNo_' + el1.id + '">No</label> <input id="bpDesktopNo_' + el1.id + '" name="bpdesktop_' + el1.id + '" type="radio" value="0"> </div><div class="col-xs-6"> <label for="bpMobileYes_' + el1.id + '">Mobile? Yes</label> <input id="bpMobileYes_' + el1.id + '" name="bpmobile_' + el1.id + '" type="radio" value="1" checked> <label for="bpMobileNo_' + el1.id + '">No</label> <input id="bpMobileNo_' + el1.id + '" name="bpmobile_' + el1.id + '" type="radio" value="0"> </span> </div></div></fieldset></div></div></div>' +
+
+        '<div class="row"> <div class="col-xs-12"> <fieldset id="background_' + el1.id + '"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1_' + el1.id + '">Local</label> <input id="local1_' + el1.id + '" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1_' + el1.id + '">Remote</label> <input id="remote1_' + el1.id + '" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row desktop"> <div class="col-xs-3"><label for="bgDesktop_' + el1.id + '">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgDesktop_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgdesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row mobile"> <div class="col-xs-3"><label for="bgMobile_' + el1.id + '">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgMobile_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgmobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_bg' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_bg' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_bg' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Text color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_txt' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_txt' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_txt' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div>' +
 
         '<div class="row"><div class="col-xs-12"><fieldset id="clickbehavior_' + el1.id + '"><legend><h3>Click Behavior</h3></legend><div class="row"> <div class="col-xs-3"> <label for="onClickBehavior_' + el1.id + '">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior_' + el1.id + '" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset>' +
-
-        '<div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns_' + el1.id + '"> <legend> <h3>Content</h3> </legend> <div id="samples_' + el1.id + '"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content_' + el1.id + '"> <span class="dynamic"></span> </div></fieldset> </div></div></div>' +
 
         '</div></div></div></fieldset>';
 
@@ -1309,7 +1338,7 @@ function bannerTabsHTML(el1) {
 }
 
 function bannerCopySnippetHTML(el1) {
-    var html = '<div id="output_' + el1.id + '" data-ordinal=' + el1.ordinal + ' style="background-color:' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';"></div>';
+    var html = '<span id="output_' + el1.id + '" data-ordinal=' + el1.ordinal + ' style="background-color:' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';"><div class="desktop"></div><div class="mobile"></div></span>';
 
     return html;
 }
@@ -1345,9 +1374,15 @@ function bannerObj(el1) {
                 mobile: {
                     bgImageMobile: '',
                     bgColor: {
-                        r: 184,
-                        g: 117,
-                        b: 174
+                        r: function () {
+                            return this.desktop.latestBgColor.r;
+                        },
+                        g: function () {
+                            return this.desktop.latestBgColor.g;
+                        },
+                        b: function () {
+                            return this.desktop.latestBgColor.b;
+                        }
                     }
                 }
             },
@@ -1373,8 +1408,8 @@ function bannerObj(el1) {
             buttonBehave1(this);
         },
         render: function () {
-            $('[id="props' + this.id + '"] input[name="bpDesktop_' + this.id + '"]').first().prop('checked', true);
-            $('[id="props' + this.id + '"] input[name="bpMobile_' + this.id + '"]').first().prop('checked', true);
+            $('[id="props' + this.id + '"] input[name="bpdesktop_' + this.id + '"]').first().prop('checked', true);
+            $('[id="props' + this.id + '"] input[name="bpmobile_' + this.id + '"]').first().prop('checked', true);
             $('input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
             $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTabsHTML(this));
             $('form > span.dynamic').append(bannerFormHTML(this));

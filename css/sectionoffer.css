@@ -245,7 +245,7 @@ section.section-offer {
     border: 1px solid silver;
 }
 
-#mlTen legend {
+legend {
 	border-bottom:none;
 	padding: 2rem 2rem 0 2rem;
 	margin-bottom:0;
@@ -562,4 +562,19 @@ display:none;
 
 #msgBox.full-width .modal-dialog {
 	width:100%;
+}
+
+@media screen and (min-width:992px) {
+	.faux-website-container {
+		width: auto;
+		margin: 0 auto;
+	}
+}
+
+#mlTen h3, h4, h5 {
+	font-weight:500;
+}
+
+#mlTen h2 {
+	font-weight:700;
 }

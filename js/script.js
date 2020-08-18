@@ -1049,11 +1049,8 @@ function msgBox1(msg, title, banner) {
 
             displayContentForm($('input[name="pattern"]:checked'), banner);
 
-            var allFieldSets = document.querySelectorAll('fieldset[id*="props"]');
-
-            allFieldSets.forEach(function (currentValue) {
-                renderCopyFields(currentValue);
-            });
+            // var allFieldSets = document.querySelectorAll('[id*="content"] input');
+            //     renderCopyFields(allFieldSets);
 
 
         });
@@ -1103,7 +1100,7 @@ function displayContentForm(patternSelected, banner) {
     if (banner.previousPattern != code) {
 
         $('fieldset#props' + banner.id + ' div#samples > span.dynamic').html('');
-        $('fieldset#props' + banner.id + ' div#content > span.dynamic').html('');
+        $('fieldset#props' + banner.id + ' div#content_' + banner.id + ' > span.dynamic').html('');
         $('.text-render span.dynamic div#' + banner.id).html('');
 
         var visualIndex = Number(patternSelected.attr('id')) + 1,
@@ -1114,16 +1111,16 @@ function displayContentForm(patternSelected, banner) {
         banner.previousPattern = code;
 
         for (var i = 0; i < patternCopy.length; i++) {
-            copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text"></div>';
+            copyFields += ' <div><label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text" onClick="renderCopyFields(this)"></div>';
         }
 
         $('fieldset#props' + banner.id + ' div#samples > span.dynamic').append(patternOptionHTML);
 
-        $('fieldset#props' + banner.id + ' div#content > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
+        $('fieldset#props' + banner.id + ' div#content_' + banner.id + ' > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><div class="row-fluid enter-text-banner flex-it">' + copyFields + '</div><br>');
 
         // $('.text-render span.dynamic').append('<div id="' + banner.id + '" data-ordinal="' + banner.ordinal + '" style="background-color: ' + banner.css.background.desktop.latestrgb + '"></div>');
 
-        var renderedTextInputs = document.querySelectorAll('fieldset#props' + banner.id + ' div#content > span.dynamic input');
+        var renderedTextInputs = document.querySelectorAll('fieldset#props' + banner.id + ' div#content_' + banner.id + ' > span.dynamic input');
 
         renderedTextInputs.forEach(function (currentValue, index) {
             $('.text-render span.dynamic div#' + banner.id).append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>&nbsp;');
@@ -1133,25 +1130,33 @@ function displayContentForm(patternSelected, banner) {
 }
 
 function renderCopyFields(el1) {
+    //console.log(el1);
 
-    var bannerId = el1.getAttribute('id').substr(5),
-        inputChildren = el1.querySelectorAll('#content input');
+    $(el1).on('input',function(){
+        console.log($(el1));
+        console.log($(el1).parents('[id*="content"]')[0]);
+    });
 
-    inputChildren.forEach(function (currentValue) {
+    // var bannerId = el1.getAttribute('id').substr(5),
+    //     inputChildren = el1.querySelectorAll('#content_' + banner.id + ' input');
 
-        var index = Number(currentValue.getAttribute('id').substr(4)) - 1,
-            targetParent = $('.text-render span.dynamic div#' + bannerId),
-            targets = $(targetParent).children('#text-render-' + index);
+    // inputChildren.forEach(function (currentValue) {
 
-        console.log(currentValue);
-        console.log(index);
-        console.log(targetParent);
-        console.log(targets);
+    //     var index = Number(currentValue.getAttribute('id').substr(4)) - 1,
+    //         targetParent = $('.text-render span.dynamic div#' + bannerId),
+    //         targets = $(targetParent).children('#text-render-' + index);
 
-        $(currentValue).on('input', function () {
-            var value = $(currentValue).val();
-            console.log(value);
-        });
+        // console.log(currentValue);
+        // console.log(index);
+        // console.log(targetParent);
+        // console.log(targets);
+
+        // $(currentValue).on('input', function () {
+        //     var value = $(currentValue).val(),
+        //     value1 = $('.text-render span.dynamic div#' + bannerId + ' span#text-render-' + index);
+        //     console.log(value);
+        //     console.log(value1);
+        // });
         //     value1 = $('.text-render span.dynamic div#' + bannerId + ' span#text-render-' + index).text();
 
         // if (value != value1) {
@@ -1161,7 +1166,7 @@ function renderCopyFields(el1) {
         // }
 
 
-    });
+    // });
 
     // $(currentValue).on('input', function () {
     //     console.log(currentValue);
@@ -1262,7 +1267,7 @@ function addBanner(thisButton) {
         }
     }
 
-    $('div#content > span.dynamic').html('');
+    $('[id*="content"] > span.dynamic').html('');
     $('div.text-render > span.dynamic > div').html('');
 
     $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
@@ -1291,7 +1296,7 @@ function removeBanner(thisButton) {
     $('fieldset#props' + idKill).remove();
     $('div.text-render > span.dynamic > div#' + idKill).remove();
 
-    $('div#content > span.dynamic').html('');
+    $('div#content_' + banner.id + ' > span.dynamic').html('');
     $('div.text-render > span.dynamic > div').html('');
 
     $('div#samples > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
@@ -1324,7 +1329,7 @@ function bannerFormHTML(el1) {
 
         '<div class="row"><div class="col-xs-12"><fieldset id="clickbehavior"><legend><h3>Click Behavior</h3></legend><div class="row"> <div class="col-xs-3"> <label for="onClickBehavior">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset>' +
 
-        '<div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content"> <span class="dynamic"></span> </div></fieldset> </div></div></div>' +
+        '<div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns"> <legend> <h3>Content</h3> </legend> <div id="samples"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content_' + el1.id + '"> <span class="dynamic"></span> </div></fieldset> </div></div></div>' +
 
         '</div></div></div></fieldset>';
 

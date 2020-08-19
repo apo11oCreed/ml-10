@@ -593,12 +593,6 @@ var patterns = {
 
 $(document).ready(function () {
 
-    $('.editable').each(function () {
-        this.contentEditable = true;
-    });
-
-    $('.editable').designMode = "On";
-
     var idInit = randomId(1000, 9999);
 
     $(document).on("hidden.bs.modal", ".modal", function () {
@@ -610,13 +604,13 @@ $(document).ready(function () {
 
     var bannerInit = new bannerObj(idInit);
     bannerInit.render();
-    $('button.subtract-button').attr('hidden', true);
+    $('[id*="tabbs"] .subtract-button').attr('hidden', true);
 
     $('button[name="resetall"]').on('click', function () {
         $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it,form > span.dynamic, .text-render span.dynamic').html('');
         bannerInit = new bannerObj(randomId(1000, 9999));
         bannerInit.render();
-        $('button.subtract-button').attr('hidden', true);
+        $('[id*="tabbs"] .subtract-button').attr('hidden', true);
     });
 });
 
@@ -1181,18 +1175,27 @@ function displayContentForm(patternSelected, banner) {
 
 }
 
-function getTextRenderItemDesktop(el1) {
-    var item = Number($(el1).attr('id').substr(4)) - 1,
-        bannerId = $(el1).parents('[id*="content"]')[0].id.substr(8),
-        itemOutput = $('.text-render span.dynamic [id="output_' + bannerId + '"] .desktop span#text-render-' + item);
+// function getTextRenderItemDesktop(el1) {
+//     var item = Number($(el1).attr('id').substr(4)) - 1,
+//         bannerId = $(el1).parents('[id*="content"]')[0].id.substr(8),
+//         itemOutput = $('.text-render span.dynamic [id="output_' + bannerId + '"] .desktop span#text-render-' + item);
 
-    return itemOutput;
-}
+//     return itemOutput;
+// }
 
-function getTextRenderItemMobile(el1) {
-    var item = Number($(el1).attr('id').substr(4)) - 1,
-        bannerId = $(el1).parents('[id*="content"]')[0].id.substr(8),
-        itemOutput = $('.text-render span.dynamic [id="output_' + bannerId + '"] .mobile span#text-render-' + item);
+// function getTextRenderItemMobile(el1) {
+//     var item = Number($(el1).attr('id').substr(4)) - 1,
+//         bannerId = $(el1).parents('[id*="content"]')[0].id.substr(8),
+//         itemOutput = $('.text-render span.dynamic [id="output_' + bannerId + '"] .mobile span#text-render-' + item);
+
+//     return itemOutput;
+// }
+
+function getTextRenderItem(el1) {
+    var parentbp = $(el1).parents('[data-bp]').attr('data-bp'),
+        bannerId = $(el1).parents('[id*="edits"]').attr('id').substr(-4),
+        item = $(el1).parents('[data-input-index]').attr('data-input-index'),
+        itemOutput = document.querySelector('.text-render span.dynamic [id="output_' + bannerId + '"] [data-bp="' + parentbp + '"] [data-output-index="' + item + '"]');
 
     return itemOutput;
 }
@@ -1200,8 +1203,8 @@ function getTextRenderItemMobile(el1) {
 function renderCopyFields(el1, el2) {
 
     $(el1).on('input', function () {
-        var value1 = $(el1).val(),
-            value2 = $(el2).text();
+        var value1 = $(el1).html(),
+            value2 = $(el2).html();
 
         if (value1 == '') {
             $(el2).css('display', 'none');
@@ -1210,7 +1213,7 @@ function renderCopyFields(el1, el2) {
         }
 
         if (value1 != value2) {
-            $(el2).text(value1);
+            $(el2).html(value1);
         } else {
             $(el2).append(String.fromCharCode(event.which));
         }
@@ -1278,38 +1281,59 @@ function showBanner(thisButton) {
     $(thisButton).addClass('show');
 }
 
-function addBanner(thisButton) {
-    var tabs = $('.banner-tabs'),
-        idNew = randomId(1000, 9999),
-        z;
+function add(thisButton) {
 
-    // Dedup
-    for (var h = 0; h < tabs.length; h++) {
-        if (idNew == $(tabs[h]).closest('div[id*="tabbs"]').attr('id')) {
-            idNew = randomId(1000, 9999);
-            z = new bannerObj(idNew);
-        } else {
-            z = new bannerObj(idNew);
+    var thisButtonDomain = $(thisButton).data('domain'),
+        thisButtonBannerId,
+        thisButtonParent,
+        thisButtonParentValue,
+        thisSeries;
+
+    if (thisButtonDomain == 'tabs') {
+        var idNew = randomId(1000, 9999),
+            z;
+
+        thisButtonParent = $(thisButton).closest('div[id*="tabbs"]');
+        thisSeries = $('.banner-tabs');
+
+        // Dedup
+        for (var h = 0; h < thisSeries.length; h++) {
+            if (idNew == thisButtonParent.attr('id')) {
+                idNew = randomId(1000, 9999);
+                z = new bannerObj(idNew);
+            } else {
+                z = new bannerObj(idNew);
+            }
         }
+
+        $('[id*="content"] > span.dynamic, div.text-render > span.dynamic .desktop, div.text-render > span.dynamic .mobile').html('');
+
+        // $('[id*="samples"] > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
+
+        z.render();
+
+        thisSeries = $('.banner-tabs');
+
+        globalSettings.layoutMenu = Number(thisSeries.length);
+
+        if (z.visibleIndex(thisSeries) == globalSettings.maxBannerNumber(patterns)) {
+            $('[id*="tabbs"] .add-button').attr('hidden', true);
+        }
+
+        $('fieldset[id*="props"],button.banner-tabs,[id*="output_"]').removeClass('show');
+        $('fieldset#props' + z.id + ', [id="tabbs' + z.id + '"] .banner-tabs, [id="output_' + z.id + '"]').addClass('show');
+
+    } else {
+        thisButtonBannerId = $(thisButton).parents('.editablewrapper').attr('id').substr(5);
+        thisButtonParent = $(thisButton).closest('[data-bp]');
+        thisButtonParentValue = $(thisButtonParent).data('bp');
+        var i = 1;
+
+        thisSeries = $('.editable');
+        $(thisButtonParent).append(bannerObj(thisButtonBannerId).copyInput($(thisButtonParent).children('[data-input-index]').length + 1));
+
+        $('[id="output_' + thisButtonBannerId + '"] [data-bp="' + thisButtonParentValue + '"]').append(bannerObj(thisButtonBannerId).copyOutput($(thisButtonParent).children('[data-input-index]').length));
     }
-
-    $('[id*="content"] > span.dynamic').html('');
-    $('div.text-render > span.dynamic .desktop, div.text-render > span.dynamic .mobile').html('');
-
-    $('[id*="samples"] > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
-
-    z.render();
-
-    tabs = $('.banner-tabs');
-
-    globalSettings.layoutMenu = Number(tabs.length);
-
-    if (z.visibleIndex($('.banner-tabs')) == globalSettings.maxBannerNumber(patterns)) {
-        $('button.add-button').attr('hidden', true);
-    }
-
-    $('fieldset[id*="props"],button.banner-tabs,[id*="output_"]').removeClass('show');
-    $('fieldset#props' + z.id + ', [id="tabbs' + z.id + '"] .banner-tabs, [id="output_' + z.id + '"]').addClass('show');
 
     // globalSettings.ordinals = [];
     // $('[data-ordinal]').each(function () {
@@ -1317,30 +1341,40 @@ function addBanner(thisButton) {
     // });
 }
 
-function removeBanner(thisButton) {
-    var tabs,
-        idKill = $(thisButton).closest('[id*="tabbs"]').attr('id').substr(5);
+function remove(thisButton) {
 
-    $('#tabbs' + idKill).remove();
-    $('fieldset#props' + idKill).remove();
-    $('div.text-render > span.dynamic > [id="output_' + idKill + '"]').remove();
+    var thisButtonDomain = $(thisButton).data('domain'),
+        thisButtonParent,
+        thisSeries;
 
-    $('[id="content_' + idKill + '"] > span.dynamic').html('');
-    $('div.text-render > span.dynamic > div').html('');
+    if (thisButtonDomain == 'tabs') {
+        thisButtonParent = $(thisButton).closest('[id*="tabbs"]'),
+            thisSeries = $('.banner-tabs');
 
-    $('[id="samples_' + idKill + '"] > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
+        var id = $(thisButtonParent).attr('id').substr(5);
 
-    $('button.add-button').attr('hidden', false);
+        $('#tabbs' + id + ',fieldset#props' + id + ',div.text-render > span.dynamic > [id="output_' + id + '"]').remove();
+        $('[id="content_' + id + '"] > span.dynamic, div.text-render > span.dynamic > div').html('');
+        // $('[id="samples_' + id + '"] > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
 
-    tabs = $('.banner-tabs');
+        $('.add-button', this.thisButtonParent).attr('hidden', false);
 
-    globalSettings.layoutMenu = Number(tabs.length);
-    if (tabs.length == globalSettings.minBannerNumber) {
-        $('button.subtract-button').attr('hidden', true);
-    }
+        thisSeries = $('.banner-tabs');
 
-    for (var h = 0; h < tabs.length; h++) {
-        bannerObj($(tabs[h]).closest('div[id*="tabbs"]').attr('id').substr(5)).previousPattern = '';
+        globalSettings.layoutMenu = Number(thisSeries.length);
+
+        if (thisSeries.length == globalSettings.minBannerNumber) {
+            $('[id*="tabbs"] .subtract-button').attr('hidden', true);
+        }
+
+        for (var h = 0; h < thisSeries.length; h++) {
+            bannerObj($(thisSeries[h]).closest('div[id*="tabbs"]').attr('id').substr(5)).previousPattern = '';
+        }
+    } else {
+        thisButtonParent = $(thisButton).closest('div[id*="edits"]');
+        thisSeries = $('.editable');
+
+        $(thisButton).parents('.editablewrapper')[0].remove();
     }
 
     // globalSettings.ordinals = [];
@@ -1352,9 +1386,29 @@ function removeBanner(thisButton) {
 function bannerFormHTML(el1) {
     var html = '<fieldset id="props' + el1.id + '" class="row banner-properties"> <legend> <h2>Banner ' + el1.id + ' Properties</h2> </legend> <div class="col-xs-12">' +
 
-        '<div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns_' + el1.id + '"> <legend> <h3>Content</h3> </legend> <div id="samples_' + el1.id + '"> <span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content_' + el1.id + '"> <span class="dynamic"></span> </div></fieldset> </div></div></div>' +
+        '<div class="row"><div class="col-xs-12"><div class="row-fluid"><fieldset id="patterns_' + el1.id + '"> <legend> <h3>Content</h3> </legend>' +
 
-        '<div class="row"> <div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts_' + el1.id + '"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div><div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints_' + el1.id + '"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes_' + el1.id + '">Desktop? Yes</label> <input id="bpDesktopYes_' + el1.id + '" name="bpdesktop_' + el1.id + '" type="radio" value="1" checked> <label for="bpDesktopNo_' + el1.id + '">No</label> <input id="bpDesktopNo_' + el1.id + '" name="bpdesktop_' + el1.id + '" type="radio" value="0"> </div><div class="col-xs-6"> <label for="bpMobileYes_' + el1.id + '">Mobile? Yes</label> <input id="bpMobileYes_' + el1.id + '" name="bpmobile_' + el1.id + '" type="radio" value="1" checked> <label for="bpMobileNo_' + el1.id + '">No</label> <input id="bpMobileNo_' + el1.id + '" name="bpmobile_' + el1.id + '" type="radio" value="0"> </span> </div></div></fieldset></div></div></div>' +
+        '<div id="edits' + el1.id + '" class="editablewrapper">' +
+
+        '<span data-bp="desktop"><span data-input-index="1"><span class="controls-add-subtract"><button type="button" data-domain="editors" class="subtract-button" onClick="remove(this)" style="color:red;">x</button><button type="button" data-domain="editors" class="add-button" onClick="add(this)"style="color:green;">+</button></span><span class="editablecontainer"><div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div></span></span></span>' +
+
+        '<br>' +
+
+        '<span data-bp="mobile"><span data-input-index="1"><span class="controls-add-subtract"><button type="button" data-domain="editors" class="subtract-button" onClick="remove(this)" style="color:red;">x</button><button type="button" data-domain="editors" class="add-button" onClick="add(this)"style="color:green;">+</button></span><span class="editablecontainer"><div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div></span></span></span>' +
+
+        '</div><hr>' +
+
+        // '<div id="samples_' + el1.id + '"><span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content_' + el1.id + '"> <span class="dynamic"></span></div>' + 
+
+        '</fieldset> </div></div></div>' +
+
+        '<div class="row">' +
+
+        // '<div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts_' + el1.id + '"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div>' + 
+
+        '<div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints_' + el1.id + '"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes_' + el1.id + '">Desktop? Yes</label> <input id="bpDesktopYes_' + el1.id + '" name="bpdesktop_' + el1.id + '" type="radio" value="1" checked> <label for="bpDesktopNo_' + el1.id + '">No</label> <input id="bpDesktopNo_' + el1.id + '" name="bpdesktop_' + el1.id + '" type="radio" value="0"> </div><div class="col-xs-6"> <label for="bpMobileYes_' + el1.id + '">Mobile? Yes</label> <input id="bpMobileYes_' + el1.id + '" name="bpmobile_' + el1.id + '" type="radio" value="1" checked> <label for="bpMobileNo_' + el1.id + '">No</label> <input id="bpMobileNo_' + el1.id + '" name="bpmobile_' + el1.id + '" type="radio" value="0"> </span> </div></div></fieldset></div></div>' +
+
+        '</div>' +
 
         '<div class="row"> <div class="col-xs-12"> <fieldset id="background_' + el1.id + '"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1_' + el1.id + '">Local</label> <input id="local1_' + el1.id + '" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1_' + el1.id + '">Remote</label> <input id="remote1_' + el1.id + '" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row desktop"> <div class="col-xs-3"><label for="bgDesktop_' + el1.id + '">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgDesktop_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgdesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row mobile"> <div class="col-xs-3"><label for="bgMobile_' + el1.id + '">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgMobile_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgmobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_bg' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_bg' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_bg' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Text color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_txt' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_txt' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_txt' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div>' +
 
@@ -1366,13 +1420,13 @@ function bannerFormHTML(el1) {
 }
 
 function bannerTabsHTML(el1) {
-    var html = '<div id="tabbs' + el1.id + '" class="col-xs-3" data-ordinal="' + el1.ordinal + '"><span class="controls-add-subtract"><button type="button" class="subtract-button" onClick="removeBanner(this)" style="color:red;">x</button><button type="button" class="add-button" onClick="addBanner(this)"style="color:green;">+</button></span><span class="controls-ordinals"><button type="button" class="controls-ordinals left"><</button><button type="button" class="banner-tabs" name="bannertab" onClick="showBanner(this)">Banner ' + el1.id + '</button><button type="button" class="controls-ordinals right">></button></span><div>';
+    var html = '<div id="tabbs' + el1.id + '" class="col-xs-3" data-ordinal="' + el1.ordinal + '"><span class="controls-add-subtract"><button type="button" data-domain="tabs" class="subtract-button" onClick="remove(this)" style="color:red;">x</button><button type="button" data-domain="tabs" class="add-button" onClick="add(this)"style="color:green;">+</button></span><span class="controls-ordinals"><button type="button" class="controls-ordinals left"><</button><button type="button" class="banner-tabs" name="bannertab" onClick="showBanner(this)">Banner ' + el1.id + '</button><button type="button" class="controls-ordinals right">></button></span><div>';
 
     return html;
 }
 
 function bannerCopySnippetHTML(el1) {
-    var html = '<span id="output_' + el1.id + '" data-ordinal=' + el1.ordinal + '><div class="desktop" style="background-color:' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';"></div><div class="mobile" style="background-color:' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';"></div></span>';
+    var html = '<span id="output_' + el1.id + '" data-ordinal=' + el1.ordinal + '><div data-bp="desktop" style="background-color:' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';"><div data-output-index="1"></div></div><div data-bp="mobile" style="background-color:' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';"><div data-output-index="1"></div></div></span>';
 
     return html;
 }
@@ -1429,9 +1483,21 @@ function bannerObj(el1) {
                 get latestTxtColor() {
                     return 'rgb(' + this.txtColor.r + ',' + this.txtColor.g + ',' + this.txtColor.b + ')';
                 }
-            },
-            ordinal: ''
+            }
         },
+        copyInput: function (number) {
+            console.log(number);
+            var html = '<span data-input-index="' + number + '"><span class="controls-add-subtract"><button type="button" data-domain="editors" class="subtract-button" onClick="remove(this)" style="color:red;">x</button><button type="button" data-domain="editors" class="add-button" onClick="add(this)"style="color:green;">+</button></span><span class="editablecontainer"><div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div></span></span>';
+
+            return html;
+        },
+        copyOutput: function (number) {
+            console.log(number);
+            var html = '<div data-output-index="' + number + '"></div>';
+
+            return html;
+        },
+        ordinal: '',
         previousPattern: '',
         visibleIndex: function (e1) {
             var tabs = e1.length;
@@ -1448,7 +1514,7 @@ function bannerObj(el1) {
             $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTabsHTML(this));
             $('form > span.dynamic').append(bannerFormHTML(this));
             this.buttonBehave();
-            $('.text-render span.dynamic').append(bannerCopySnippetHTML(this));
+            $('.text-render > span.dynamic').append(bannerCopySnippetHTML(this));
             $('button.subtract-button').attr('hidden', false);
         },
         state: 'local'

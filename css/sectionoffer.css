@@ -545,6 +545,14 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	font-weight:700;
 }
 
+[id*="output_"].show:after{
+	display: block;
+    content: '\00a0';
+    font-size: 1px;
+    margin-top: 0px;
+    box-shadow: 0px 4px 5px rgba(0,0,0,0.75)
+}
+
 #bannerTabs [id*="tabbs"] span.controls-ordinals{
 	display: flex;
     justify-content: center;
@@ -609,4 +617,10 @@ display:none;
 
 .disabled {
 	display:none!important;
+}
+
+.editable > p {
+	display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }

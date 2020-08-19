@@ -593,6 +593,12 @@ var patterns = {
 
 $(document).ready(function () {
 
+    $('.editable').each(function () {
+        this.contentEditable = true;
+    });
+
+    $('.editable').designMode = "On";
+
     var idInit = randomId(1000, 9999);
 
     $(document).on("hidden.bs.modal", ".modal", function () {
@@ -1171,7 +1177,7 @@ function displayContentForm(patternSelected, banner) {
         });
     }
 
-    $('.text-render .dynamic [id*="output"] .desktop [id*="text-render-"],.text-render .dynamic [id*="output"] .mobile [id*="text-render-"]').css('display','none');
+    $('.text-render .dynamic [id*="output"] .desktop [id*="text-render-"],.text-render .dynamic [id*="output"] .mobile [id*="text-render-"]').css('display', 'none');
 
 }
 
@@ -1197,11 +1203,11 @@ function renderCopyFields(el1, el2) {
         var value1 = $(el1).val(),
             value2 = $(el2).text();
 
-            if(value1==''){
-                $(el2).css('display','none');
-            } else {
-                $(el2).css('display','block');
-            }
+        if (value1 == '') {
+            $(el2).css('display', 'none');
+        } else {
+            $(el2).css('display', 'block');
+        }
 
         if (value1 != value2) {
             $(el2).text(value1);
@@ -1267,8 +1273,8 @@ function confirmAllRequiredMet() {
 function showBanner(thisButton) {
     var thisId = $(thisButton).closest('[data-ordinal]').attr('id').substr(5);
 
-    $('fieldset[id*="props"],button.banner-tabs').removeClass('show');
-    $('fieldset#props' + thisId).addClass('show');
+    $('fieldset[id*="props"],button.banner-tabs,[id*="output_"]').removeClass('show');
+    $('fieldset#props' + thisId + ', [id="output_' + thisId + '"]').addClass('show');
     $(thisButton).addClass('show');
 }
 
@@ -1301,6 +1307,9 @@ function addBanner(thisButton) {
     if (z.visibleIndex($('.banner-tabs')) == globalSettings.maxBannerNumber(patterns)) {
         $('button.add-button').attr('hidden', true);
     }
+
+    $('fieldset[id*="props"],button.banner-tabs,[id*="output_"]').removeClass('show');
+    $('fieldset#props' + z.id + ', [id="tabbs' + z.id + '"] .banner-tabs, [id="output_' + z.id + '"]').addClass('show');
 
     // globalSettings.ordinals = [];
     // $('[data-ordinal]').each(function () {

@@ -1,553 +1,4 @@
-// var patterns = {
-//     "1": [{
-//         "pattern": "One Banner Layout",
-//         "img": "img/fullwidth-1.png",
-//         "copy": [{
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 24px",
-//             "styles": "font-weight:regular;font-size:24px;"
-//         }, {
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:regular;font-size:12px;"
-//         }]
-//     }, {
-//         "pattern": "One Banner Layout",
-//         "img": "img/fullwidth-2.png",
-//         "copy": [{
-//             "field": "Reg 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         },
-//         {
-//             "field": "Bold 24px",
-//             "styles": "font-weight:regular;font-size:24px;"
-//         },
-//         {
-//             "field": "Reg 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         },
-//         {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:regular;font-size:12px;"
-//         },
-//         {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:regular;font-size:12px;"
-//         }
-//         ]
-//     }
-//     ],
-//     "2": [{
-//         "pattern": "Two Banners Layout",
-//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-//         "copy": [{
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         },
-//         {
-//             "field": "Reg 24px",
-//             "styles": "font-weight:regular;font-size:24px;"
-//         },
-//         {
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         },
-//         {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:regular;font-size:12px;"
-//         }
-//         ]
-//     }, {
-//         "pattern": "Two Banners Layout",
-//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-//         "copy": [{
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         },
-//         {
-//             "field": "Reg 24px",
-//             "styles": "font-weight:regular;font-size:24px;"
-//         },
-//         {
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         },
-//         {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:regular;font-size:12px;"
-//         },
-//         {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:regular;font-size:12px;"
-//         }]
-//     }, {
-//         "pattern": "Two Banners Layout",
-//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-//         "copy": [{
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 24px",
-//             "styles": "font-weight:regular;font-size:24px;"
-//         }, {
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:regular;font-size:12px;"
-//         }]
-//     }, {
-//         "pattern": "Two Banners Layout",
-//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-//         "copy": [{
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 24px",
-//             "styles": "font-weight:regular;font-size:24px;"
-//         }, {
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:regular;font-size:12px;"
-//         }, {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:regular;font-size:12px;"
-//         }
-//         ]
-//     }, {
-//         "pattern": "Two Banners Layout",
-//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-//         "copy": [{
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }]
-//     }, {
-//         "pattern": "Two Banners Layout",
-//         "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-//         "copy": [{
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Bold 24px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }, {
-//             "field": "Reg 12px",
-//             "styles": "font-weight:bold;font-size:24px;"
-//         }]
-//     }]
-// };
-
-var patterns = {
-    "1": [{
-        "pattern": "One Banner Layout",
-        "img": "img/fullwidth-1.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }]
-    }, {
-        "pattern": "One Banner Layout",
-        "img": "img/fullwidth-2.png",
-        "copy": [{
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Bold 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        },
-        {
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }
-        ]
-    }
-    ],
-    "2": [{
-        "pattern": "Two Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        },
-        {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }
-        ]
-    }, {
-        "pattern": "Two Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        },
-        {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }]
-    }, {
-        "pattern": "Two Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }]
-    }, {
-        "pattern": "Two Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }
-        ]
-    }, {
-        "pattern": "Two Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px"
-        }]
-    }, {
-        "pattern": "Two Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px"
-        }]
-    }],
-    "3": [{
-        "pattern": "Three Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        },
-        {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }
-        ]
-    }, {
-        "pattern": "Three Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        },
-        {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }]
-    }, {
-        "pattern": "Three Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }]
-    }, {
-        "pattern": "Three Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }
-        ]
-    }, {
-        "pattern": "Three Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px"
-        }]
-    }, {
-        "pattern": "Three Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px"
-        }]
-    }],
-    "4": [{
-        "pattern": "Four Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        },
-        {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }
-        ]
-    }, {
-        "pattern": "Four Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        },
-        {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        },
-        {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }]
-    }, {
-        "pattern": "Four Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }]
-    }, {
-        "pattern": "Four Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:regular;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:regular;font-size:12px"
-        }
-        ]
-    }, {
-        "pattern": "Four Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px"
-        }]
-    }, {
-        "pattern": "Four Banners Layout",
-        "img": "img/22boldcaps-22regcaps-22boldcaps_12regcaps_12regcaps.png",
-        "copy": [{
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Bold 24px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px"
-        }, {
-            "field": "Reg 12px",
-            "styles": "font-weight:bold;font-size:24px"
-        }]
-    }]
-},
-    brands = {
+var brands = {
         "paulayoung": [{
             "baseUrl": "https://www.paulayoung.com",
             "evergagePath": 'py'
@@ -576,18 +27,12 @@ var patterns = {
         mobilemediaquery: '(max-width:767px)',
         bgDesktopPlaceholder: 'Demo-image-962.png',
         bgMobilePlaceholder: 'Demo-image-575.png',
-        maxBannerNumber: function (el) {
-            var qty = 0;
-            for (items in patterns) {
-                qty++;
-            }
-            return qty;
-        },
+        maxBannerNumber: 4,
         minBannerNumber: 1,
         ordinals: [],
         banners: []
     },
-    bannerTabsLegend = '<legend><h3>Banners (max ' + globalSettings.maxBannerNumber(patterns) + ')</h3></legend><p>Click on the [ <span style="font-weight:700;">Banner ####</span> ] button to display the form. Hover over [ <span style="font-weight:700;">Banner ####</span> ] button(s) to view all controls. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another banner. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a banner. <span style="text-transform:uppercase;">Note</span>: Changes to number of banners will require new selections of layout patterns for all previously assigned.</p></div></div><hr>',
+    bannerTabsLegend = '<legend><h3>Banners</h3></legend><p>Click on the [ <span style="font-weight:700;">Banner ####</span> ] button to display the form. Hover over [ <span style="font-weight:700;">Banner ####</span> ] button(s) to view all controls. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another banner. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a banner. <span style="text-transform:uppercase;">Note</span>: Changes to number of banners will require new selections of layout patterns for all previously assigned.</p></div></div><hr>',
     deviceTypeRegex = /desktop|mobile/,
     bgTxtRegex = /bg|txt/;
 
@@ -649,9 +94,12 @@ function buttonBehave1(thisBanner) {
                 }
             }
 
+            console.log(breakPointNegatoryArray);
+
             if (breakPointNegatoryArray.length > 1) {
                 $('input[name="lorr1_' + id + '"]').closest('.row').addClass("disabled");
-                $('[id="props' + id + '"] .desktop,[id="output_' + id + '"] .desktop, [id="props' + id + '"] .mobile,[id="output_' + id + '"] .mobile').addClass("disabled");
+                $('[data-bp="desktop"],[data-bp="mobile"]').addClass("disabled");
+
                 $('[id="props' + id + '"] input[name="bgdesktop_' + id + '"],[id="props' + id + '"] input[name="bgmobile_' + id + '"]').prop({
                     'disabled': true,
                     'required': false
@@ -661,20 +109,18 @@ function buttonBehave1(thisBanner) {
                     'disabled': true,
                     'required': false
                 });
-                $('[id="props' + id + '"] .' + namespace + ',[id="output_' + id + '"] .' + namespace).not('.disabled').addClass('disabled');
+
+                $('[id="props' + id + '"] [data-bp="' + namespace + '"],[id="output_' + id + '"] [data-bp="' + namespace + '"]').not('.disabled').addClass('disabled');
+
             } else {
+
                 $('[id="props' + id + '"] input[name*="bg' + namespace + '"]').prop({
                     'disabled': false,
                     'required': true
                 });
-                $('[id="props' + id + '"] .' + namespace + ',[id="output_' + id + '"] .' + namespace).removeClass('disabled');
-            }
 
-            // if ($('[id="props' + thisId + '"] .disabled').hasClass('desktop')) {
-            //     $('[id="props' + thisId + '"] .desktop,[id="output_' + thisId + '"] .desktop').not('.disabled').addClass('disabled');
-            // } else if ($('.disabled').hasClass('mobile')) {
-            //     $('[id="props' + thisId + '"] .mobile,[id="output_' + thisId + '"] .mobile').not('.disabled').addClass('disabled');
-            // }
+                $('[id*="' + id + '"] [data-bp="' + namespace + '"]').removeClass('disabled');
+            }
 
         } else {
             state = $(this).val();
@@ -787,37 +233,16 @@ function buttonBehave1(thisBanner) {
 
         }
 
-        if ($('.text-render > span.dynamic > [id*="' + id + '"]')) {
-            $('.text-render > span.dynamic > [id="output_' + id + '"] .desktop, .text-render > span.dynamic > [id="output_' + id + '"] .mobile').attr('style', 'background-color: ' + thisBanner.css.background.desktop.latestBgColor + ';color: ' + thisBanner.css.textcolor.latestTxtColor + ';');
+        if ($('.text-render > span.dynamic > [id*="output_' + id + '"]')) {
+            $('.text-render > span.dynamic > [id="output_' + id + '"] [data-bp]').attr('style', 'background-color: ' + thisBanner.css.background.desktop.latestBgColor + ';color: ' + thisBanner.css.textcolor.latestTxtColor + ';');
         }
     });
 
     // button events
-    $("button[name='exporthtml'],button[name='exportcss'],[id='props" + id + "'] button[name='chooseLayout']").on("click", function () {
+    $("button[name='exporthtml'],button[name='exportcss']").on("click", function () {
 
-        var type = $(this).attr("name"),
-            menu;
-
-        if (type == 'chooseLayout') {
-            if (globalSettings.layoutMenu === 1) {
-                menu = chooseLayoutMenuBuilder(["1", "2", "3", "4"]);
-                msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
-            } else if (globalSettings.layoutMenu === 2) {
-                menu = chooseLayoutMenuBuilder(["2"]);
-                msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
-            } else if (globalSettings.layoutMenu === 3) {
-                menu = chooseLayoutMenuBuilder(["3"]);
-                msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
-            } else if (globalSettings.layoutMenu === 4) {
-                menu = chooseLayoutMenuBuilder(["4"]);
-                msgBox1('<div class="container">' + menu + '</div>', 'Choose a Layout Type', thisBanner);
-            } else {
-                alert('Layout patterns not available for this number of banners.');
-            }
-
-        } else {
+        var type = $(this).attr("name");
             exportCode1(type);
-        }
     });
 
     $("span.help1").on("click", function () {
@@ -1047,15 +472,7 @@ function htmlExport1() {
     $(".noSeeCode").remove();
 }
 
-function msgBox1(msg, title, banner) {
-
-    var thisId;
-
-    if (typeof banner !== 'undefined') {
-        thisId = banner.id;
-    } else {
-        thisId = 'Not a banner!';
-    }
+function msgBox1(msg, title) {
 
     if (!title) title = "";
 
@@ -1075,26 +492,6 @@ function msgBox1(msg, title, banner) {
 
     $("body").append(html);
     $("#msgBox").modal("show");
-
-    if (thisId != 'Not a banner!') {
-
-        $("#msgBox").addClass('full-width');
-
-        $('input[name="pattern"]').first().prop('checked', true);
-
-        $('#msgBox').on('hide.bs.modal', function (e) {
-
-            displayContentForm($('input[name="pattern"]:checked'), banner);
-
-            if ($('[id="props' + thisId + '"] .disabled').hasClass('desktop')) {
-                $('[id="props' + thisId + '"] .desktop,[id="output_' + thisId + '"] .desktop').not('.disabled').addClass('disabled');
-            } else if ($('.disabled').hasClass('mobile')) {
-                $('[id="props' + thisId + '"] .mobile,[id="output_' + thisId + '"] .mobile').not('.disabled').addClass('disabled');
-            }
-        });
-    } else {
-        $("#msgBox").removeClass('full-width');
-    }
 }
 
 function reDraw1(el1) {
@@ -1128,68 +525,6 @@ function escapeHTML1(text) {
 function randomId(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 };
-
-function displayContentForm(patternSelected, banner) {
-
-    var layoutSelected = patterns[patternSelected.data('family-code')][patternSelected.attr('id')],
-        code = patternSelected.data('family-code') + patternSelected.attr('id');
-
-    if (banner.previousPattern != code) {
-
-        $('[id="props' + banner.id + '"] [id="samples_' + banner.id + '"] > span.dynamic,[id="props' + banner.id + '"] [id="content_' + banner.id + '"] > span.dynamic').html('');
-        $('.text-render span.dynamic [id="output_' + banner.id + '"] .desktop,.text-render span.dynamic [id="output_' + banner.id + '"] .mobile').html('');
-
-        var visualIndex = Number(patternSelected.attr('id')) + 1,
-            patternOptionHTML = '<h4>Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h4><div class="row"> <div class="col-xs-12"> <img src="' + layoutSelected.img + '" alt=""></div>',
-            patternCopy = layoutSelected.copy,
-            copyFieldsDesktop = '',
-            copyFieldsMobile = '';
-
-        banner.previousPattern = code;
-
-        for (var i = 0; i < patternCopy.length; i++) {
-            copyFieldsDesktop += ' <label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text" onfocus="renderCopyFields(this,getTextRenderItemDesktop(this))">';
-        }
-
-        for (var i = 0; i < patternCopy.length; i++) {
-            copyFieldsMobile += ' <label for="copy' + (i + 1) + '"></label> <br><input id="copy' + (i + 1) + '" name="copy' + (i + 1) + '" placeholder="text ' + (i + 1) + '" type="text" onfocus="renderCopyFields(this,getTextRenderItemMobile(this))">';
-        }
-
-        $('[id="props' + banner.id + '"] [id="samples_' + banner.id + '"] > span.dynamic').append(patternOptionHTML);
-
-        $('[id="props' + banner.id + '"] [id="content_' + banner.id + '"] > span.dynamic').append('<hr><h4>Copy</h4><div class="row"><h5 class="col-xs-12">Enter your copy for Pattern ' + visualIndex + ' of ' + patternSelected.data('family-pattern') + '</h5><p class="col-xs-12">If this banner does not require copy, then leave these fields blank.</p></div><span class="desktop"><h5>Desktop copy</h5><div class="row-fluid enter-text-banner flex-it">' + copyFieldsDesktop + '</div></span><span class="mobile"><h5>Mobile copy</h5><div class="row-fluid enter-text-banner flex-it">' + copyFieldsMobile + '</div></span><br>');
-
-        var renderedTextInputsDesktop = document.querySelectorAll('[id="props' + banner.id + '"] [id="content_' + banner.id + '"] > span.dynamic .desktop input');
-        var renderedTextInputsMobile = document.querySelectorAll('[id="props' + banner.id + '"] [id="content_' + banner.id + '"] > span.dynamic .mobile input');
-
-        renderedTextInputsDesktop.forEach(function (currentValue, index) {
-            $('.text-render span.dynamic [id="output_' + banner.id + '"] .desktop').append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>');
-        });
-
-        renderedTextInputsMobile.forEach(function (currentValue, index) {
-            $('.text-render span.dynamic [id="output_' + banner.id + '"] .mobile').append('<span id="text-render-' + index + '" style="' + patternCopy[index].styles + ';"></span>');
-        });
-    }
-
-    $('.text-render .dynamic [id*="output"] .desktop [id*="text-render-"],.text-render .dynamic [id*="output"] .mobile [id*="text-render-"]').css('display', 'none');
-
-}
-
-// function getTextRenderItemDesktop(el1) {
-//     var item = Number($(el1).attr('id').substr(4)) - 1,
-//         bannerId = $(el1).parents('[id*="content"]')[0].id.substr(8),
-//         itemOutput = $('.text-render span.dynamic [id="output_' + bannerId + '"] .desktop span#text-render-' + item);
-
-//     return itemOutput;
-// }
-
-// function getTextRenderItemMobile(el1) {
-//     var item = Number($(el1).attr('id').substr(4)) - 1,
-//         bannerId = $(el1).parents('[id*="content"]')[0].id.substr(8),
-//         itemOutput = $('.text-render span.dynamic [id="output_' + bannerId + '"] .mobile span#text-render-' + item);
-
-//     return itemOutput;
-// }
 
 function getTextRenderItem(el1) {
     var parentbp = $(el1).parents('[data-bp]').attr('data-bp'),
@@ -1308,20 +643,20 @@ function add(thisButton) {
 
         $('[id*="content"] > span.dynamic, div.text-render > span.dynamic .desktop, div.text-render > span.dynamic .mobile').html('');
 
-        // $('[id*="samples"] > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
-
         z.render();
 
         thisSeries = $('.banner-tabs');
 
-        globalSettings.layoutMenu = Number(thisSeries.length);
-
-        if (z.visibleIndex(thisSeries) == globalSettings.maxBannerNumber(patterns)) {
+        if (z.visibleIndex(thisSeries) == globalSettings.maxBannerNumber) {
             $('[id*="tabbs"] .add-button').attr('hidden', true);
         }
 
         $('fieldset[id*="props"],button.banner-tabs,[id*="output_"]').removeClass('show');
         $('fieldset#props' + z.id + ', [id="tabbs' + z.id + '"] .banner-tabs, [id="output_' + z.id + '"]').addClass('show');
+
+        for (var h = 0; h < thisSeries.length; h++) {
+            bannerObj($(thisSeries[h]).closest('div[id*="tabbs"]').attr('id').substr(5)).previousPattern = '';
+        }
 
     } else {
         thisButtonBannerId = $(thisButton).parents('.editablewrapper').attr('id').substr(5);
@@ -1333,54 +668,45 @@ function add(thisButton) {
         $(thisButtonParent).append(bannerObj(thisButtonBannerId).copyInput($(thisButtonParent).children('[data-input-index]').length + 1));
 
         $('[id="output_' + thisButtonBannerId + '"] [data-bp="' + thisButtonParentValue + '"]').append(bannerObj(thisButtonBannerId).copyOutput($(thisButtonParent).children('[data-input-index]').length));
+        
+        $('[data-bp="' + thisButtonParentValue +'"] button.subtract-button').attr('hidden', false);
     }
-
-    // globalSettings.ordinals = [];
-    // $('[data-ordinal]').each(function () {
-    //     globalSettings.ordinals.push($(this).data('ordinal'));
-    // });
+    
 }
 
 function remove(thisButton) {
 
     var thisButtonDomain = $(thisButton).data('domain'),
         thisButtonParent,
-        thisSeries;
+        thisSeries,
+        id;
 
     if (thisButtonDomain == 'tabs') {
-        thisButtonParent = $(thisButton).closest('[id*="tabbs"]'),
-            thisSeries = $('.banner-tabs');
-
-        var id = $(thisButtonParent).attr('id').substr(5);
+        thisButtonParent = $(thisButton).closest('[id*="tabbs"]');
+        id = $(thisButtonParent).attr('id').substr(5);
 
         $('#tabbs' + id + ',fieldset#props' + id + ',div.text-render > span.dynamic > [id="output_' + id + '"]').remove();
-        $('[id="content_' + id + '"] > span.dynamic, div.text-render > span.dynamic > div').html('');
-        // $('[id="samples_' + id + '"] > span.dynamic').html('<a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a>');
-
-        $('.add-button', this.thisButtonParent).attr('hidden', false);
 
         thisSeries = $('.banner-tabs');
-
-        globalSettings.layoutMenu = Number(thisSeries.length);
 
         if (thisSeries.length == globalSettings.minBannerNumber) {
             $('[id*="tabbs"] .subtract-button').attr('hidden', true);
         }
 
-        for (var h = 0; h < thisSeries.length; h++) {
-            bannerObj($(thisSeries[h]).closest('div[id*="tabbs"]').attr('id').substr(5)).previousPattern = '';
-        }
     } else {
-        thisButtonParent = $(thisButton).closest('div[id*="edits"]');
-        thisSeries = $('.editable');
+        id=$(thisButton).closest('[id*="edits"]').attr('id').substr(5);
+        thisButtonParent = $(thisButton).closest('[data-bp]');
 
-        $(thisButton).parents('.editablewrapper')[0].remove();
+        var thisButtonParentIndex = $(thisButton).closest('[data-input-index]');
+
+        $('[data-bp="' + thisButtonParent.attr('data-bp') + '"] [data-input-index="' + thisButtonParentIndex.attr('data-input-index') + '"], [data-bp="' + thisButtonParent.attr('data-bp') + '"] [data-output-index="' + thisButtonParentIndex.attr('data-input-index') + '"]').remove();
+
+        thisSeries = $('[id="edits' + id + '"] [data-bp="' + $(thisButtonParent).data('bp') + '"] [data-input-index]');
+
+        if (thisSeries.length == globalSettings.minBannerNumber) {
+            $('[id="edits' + id + '"] [data-bp="' + $(thisButtonParent).data('bp') + '"] [data-input-index] .subtract-button').attr('hidden', true);
+        }
     }
-
-    // globalSettings.ordinals = [];
-    // $('[data-ordinal]').each(function () {
-    //     globalSettings.ordinals.push($(this).data('ordinal'));
-    // });
 }
 
 function bannerFormHTML(el1) {
@@ -1396,21 +722,17 @@ function bannerFormHTML(el1) {
 
         '<span data-bp="mobile"><span data-input-index="1"><span class="controls-add-subtract"><button type="button" data-domain="editors" class="subtract-button" onClick="remove(this)" style="color:red;">x</button><button type="button" data-domain="editors" class="add-button" onClick="add(this)"style="color:green;">+</button></span><span class="editablecontainer"><div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div></span></span></span>' +
 
-        '</div><hr>' +
-
-        // '<div id="samples_' + el1.id + '"><span class="dynamic"><a href="#layouts" style="color:blue;text-decoration:underline;">*Select Layout first.</a></span> </div><div id="content_' + el1.id + '"> <span class="dynamic"></span></div>' + 
+        '</div>' +
 
         '</fieldset> </div></div></div>' +
 
         '<div class="row">' +
 
-        // '<div class="col-xs-6"> <div class="row-fluid"> <fieldset id="layouts_' + el1.id + '"> <legend> <h3>Layout</h3> </legend> <button type="button" id="chooseLayout_' + el1.id + '" name="chooseLayout">Choose a layout</button> </fieldset></div></div>' + 
-
         '<div class="col-xs-6"><div class="row-fluid"><fieldset id="breakpoints_' + el1.id + '"> <legend> <h3>Breakpoints</h3> </legend> <div class="row"> <div class="col-xs-6"><label for="bpDesktopYes_' + el1.id + '">Desktop? Yes</label> <input id="bpDesktopYes_' + el1.id + '" name="bpdesktop_' + el1.id + '" type="radio" value="1" checked> <label for="bpDesktopNo_' + el1.id + '">No</label> <input id="bpDesktopNo_' + el1.id + '" name="bpdesktop_' + el1.id + '" type="radio" value="0"> </div><div class="col-xs-6"> <label for="bpMobileYes_' + el1.id + '">Mobile? Yes</label> <input id="bpMobileYes_' + el1.id + '" name="bpmobile_' + el1.id + '" type="radio" value="1" checked> <label for="bpMobileNo_' + el1.id + '">No</label> <input id="bpMobileNo_' + el1.id + '" name="bpmobile_' + el1.id + '" type="radio" value="0"> </span> </div></div></fieldset></div></div>' +
 
         '</div>' +
 
-        '<div class="row"> <div class="col-xs-12"> <fieldset id="background_' + el1.id + '"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1_' + el1.id + '">Local</label> <input id="local1_' + el1.id + '" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1_' + el1.id + '">Remote</label> <input id="remote1_' + el1.id + '" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row desktop"> <div class="col-xs-3"><label for="bgDesktop_' + el1.id + '">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgDesktop_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgdesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row mobile"> <div class="col-xs-3"><label for="bgMobile_' + el1.id + '">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgMobile_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgmobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_bg' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_bg' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_bg' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Text color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_txt' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_txt' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_txt' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div>' +
+        '<div class="row"> <div class="col-xs-12"> <fieldset id="background_' + el1.id + '"> <legend> <h3>Background</h3> </legend> <div class="row"> <div class="col-xs-12"> <h5>Enter the background details.</h5> </div></div><div class="row"> <div class="col-xs-3"><label for="local1_' + el1.id + '">Local</label> <input id="local1_' + el1.id + '" name="lorr1_' + el1.id + '" type="radio" value="local" checked></div><div class="col-xs-3"><label for="remote1_' + el1.id + '">Remote</label> <input id="remote1_' + el1.id + '" name="lorr1_' + el1.id + '" type="radio" value="remote"></div></div><div class="row"> <div class="col-xs-12"> <div class="row" data-bp="desktop"> <div class="col-xs-3"><label for="bgDesktop_' + el1.id + '">Image for desktop breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgDesktop_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgdesktop_' + el1.id + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div><div class="row" data-bp="mobile"> <div class="col-xs-3"><label for="bgMobile_' + el1.id + '">Image for mobile breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="mobile" aria-hidden="true"></span>:<span class="required">*</span></label> </div><div class="col-xs-6 input-group1"> <span class="input-group-addon1" id="img2label">Local</span> <input id="bgMobile_' + el1.id + '" class="bgimgaddress form-control1" type="text" name="bgmobile_' + el1.id + '" placeholder="' + globalSettings.bgMobilePlaceholder + '" required></div><div class="col-xs-3 error" hidden>Image not found</div></div></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_bg' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_bg' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_bg' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></div><div class="row"> <div class="col-xs-3"><label for="bgColor">Text color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span></div><div class="col-xs-6 input-group1"><span class="input-group-addon1" id="img2label">R</span> <input id="r_txt' + el1.id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required><span class="input-group-addon1" id="img2label">G</span><input id="g_txt' + el1.id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required><span class="input-group-addon1" id="img2label">B</span><input id="b_txt' + el1.id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required></div><div class="col-xs-3 error" hidden></div></fieldset></div></div>' +
 
         '<div class="row"><div class="col-xs-12"><fieldset id="clickbehavior_' + el1.id + '"><legend><h3>Click Behavior</h3></legend><div class="row"> <div class="col-xs-3"> <label for="onClickBehavior_' + el1.id + '">OnClick behavior:<span class="required">*</span></label></div><div class="col-xs-2"> <select name="onClickBehavior" id="onClickBehavior_' + el1.id + '" required> <option value="">-- select --</option> <option value="fireModal">Fire modal</option> <option value="linkToPage">Link to page</option> <option value="linkToAnchor">Link to anchor</option> <option value="doNothing">Do nothing </option> </select></div></div><div class="row onclickbehavior"> <div class="col-xs-12"> <span class="dynamic"></span> </div></div></fieldset>' +
 
@@ -1426,7 +748,7 @@ function bannerTabsHTML(el1) {
 }
 
 function bannerCopySnippetHTML(el1) {
-    var html = '<span id="output_' + el1.id + '" data-ordinal=' + el1.ordinal + '><div data-bp="desktop" style="background-color:' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';"><div data-output-index="1"></div></div><div data-bp="mobile" style="background-color:' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';"><div data-output-index="1"></div></div></span>';
+    var html = '<span id="output_' + el1.id + '" data-ordinal=' + el1.ordinal + '><div data-bp="desktop" style="background-color:' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';"><span data-output-index="1"></span></div><div data-bp="mobile" style="background-color:' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';"><div data-output-index="1"></div></div></span>';
 
     return html;
 }
@@ -1486,14 +808,13 @@ function bannerObj(el1) {
             }
         },
         copyInput: function (number) {
-            console.log(number);
             var html = '<span data-input-index="' + number + '"><span class="controls-add-subtract"><button type="button" data-domain="editors" class="subtract-button" onClick="remove(this)" style="color:red;">x</button><button type="button" data-domain="editors" class="add-button" onClick="add(this)"style="color:green;">+</button></span><span class="editablecontainer"><div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div></span></span>';
 
             return html;
         },
         copyOutput: function (number) {
             console.log(number);
-            var html = '<div data-output-index="' + number + '"></div>';
+            var html = '<span data-output-index="' + number + '"></span>';
 
             return html;
         },

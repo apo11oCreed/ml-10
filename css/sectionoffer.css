@@ -432,15 +432,11 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	-webkit-box-direction: normal;
 	    -ms-flex-direction: row;
 			flex-direction: row;
-			position:absolute;
 	text-transform:uppercase;
 	font-family: 'Roboto Condensed', sans-serif;
 	justify-content: space-around;
 	width:100%;
 }
-
-
-
 
 .text-render.row span.dynamic [id*='output_']{
 	margin-right:2px;

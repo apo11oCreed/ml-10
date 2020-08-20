@@ -432,7 +432,6 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	-webkit-box-direction: normal;
 	    -ms-flex-direction: row;
 			flex-direction: row;
-			position:absolute;
 	text-transform:uppercase;
 	font-family: 'Roboto Condensed', sans-serif;
 	justify-content: space-around;
@@ -448,23 +447,24 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	margin-right:0px;
 }
 
-.text-render.row span.dynamic [id*='output_'] .desktop, .text-render.row span.dynamic [id*='output_'] .mobile{
+.text-render.row span.dynamic [id*='output_'] [data-bp]{
 	width: 100%;
     text-align: center;
 	padding-top:1rem;
 	padding-bottom:1rem;
 }
 
-.text-render.row span.dynamic [id*='output_'] .desktop, .text-render.row span.dynamic [id*='output_'] .mobile{
+.text-render.row span.dynamic [id*='output_'] [data-bp]{
 	justify-content: space-evenly;
 	align-items:center;
 }
 
 @media all and (min-width:768px){
-	.text-render.row span.dynamic [id*='output_'] .desktop{
+	.text-render.row span.dynamic [id*='output_'] [data-bp='desktop']{
 		display:flex;
 	}
-	.text-render.row span.dynamic [id*='output_'] .mobile{
+
+	.text-render.row span.dynamic [id*='output_'] [data-bp='mobile']{
 		display:none;
 	}
 
@@ -474,10 +474,11 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 }
 
 @media all and (max-width:767px){
-	.text-render.row span.dynamic [id*='output_'] .desktop{
+	.text-render.row span.dynamic [id*='output_'] [data-bp='desktop']{
 		display:none;
 	}
-	.text-render.row span.dynamic [id*='output_'] .mobile{
+
+	.text-render.row span.dynamic [id*='output_'] [data-bp='mobile']{
 		display:flex;
 	}
 
@@ -485,6 +486,9 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 		display:none;
 	}
 }
+
+
+
 
 .enter-text-modal.flex-it{
 	display:-webkit-box;
@@ -516,7 +520,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	justify-content: center;
 }
 
-#bannerTabs [id*="tabbs"] span.controls-add-subtract {
+#bannerTabs [id*="tabbs"] span.controls-add-subtract, [id*="props"] span.controls-add-subtract {
 	display:flex;
 	flex-direction:row;
 	justify-content: flex-end;
@@ -619,8 +623,28 @@ display:none;
 	display:none!important;
 }
 
-.editable > p {
-	display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+.editablewrapper {
+	width:100%;
+	margin-right:2px;
+}
+
+.editablewrapper [data-bp]{
+	display:-webkit-box;
+	display:-ms-flexbox;
+	display:flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: row;
+			flex-direction: row;
+}
+.editablewrapper [data-bp] span {
+	width:calc(100% - 2px);
+	margin-right:2px;
+}
+.editablewrapper [data-bp] span:last-child {
+	margin-right:0px;
+}
+
+.editable {
+	background-color:white;
 }

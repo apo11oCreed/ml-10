@@ -636,6 +636,7 @@ display:none;
 	-webkit-box-direction: normal;
 	    -ms-flex-direction: row;
 			flex-direction: row;
+			align-items: flex-end;
 }
 .editablewrapper [data-bp] span {
 	width:calc(100% - 2px);

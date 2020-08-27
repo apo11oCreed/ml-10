@@ -96,7 +96,7 @@ function buttonBehave1(thisBanner) {
                     'required': false
                 });
 
-                $('[id="props' + id + '"] [data-bp="' + namespace + '"],[id="output_' + id + '"] [data-bp="' + namespace + '"]').not('.disabled').addClass('disabled');
+                $('[id="props' + id + '"] [data-bp="' + namespace + '"],[id="' + id + '"] [data-bp="' + namespace + '"]').not('.disabled').addClass('disabled');
 
             } else {
 
@@ -219,8 +219,8 @@ function buttonBehave1(thisBanner) {
 
         }
 
-        if ($('.text-render > span.dynamic > [id*="output_' + id + '"]')) {
-            $('.text-render > span.dynamic > [id="output_' + id + '"] [data-bp]').attr('style', 'background-color: ' + thisBanner.css.background.desktop.latestBgColor + ';color: ' + thisBanner.css.textcolor.latestTxtColor + ';');
+        if ($('.text-render > span.dynamic > [id*="' + id + '"]')) {
+            $('.text-render > span.dynamic > [id="' + id + '"] [data-bp]').attr('style', 'background-color: ' + thisBanner.css.background.desktop.latestBgColor + ';color: ' + thisBanner.css.textcolor.latestTxtColor + ';');
         }
     });
 
@@ -294,7 +294,7 @@ function buttonBehave1(thisBanner) {
         if ($(this).val()) {
             thisBanner.campaign = $(this).val();
             $('[id="tabbs' + id + '"] .banner-tabs.show').html(thisBanner.latestCampaign);
-            $('[id="output_' + id + '"]').attr('data-campaign', thisBanner.latestCampaign);
+            $('[id="' + id + '"]').attr('data-campaign', thisBanner.latestCampaign);
         }
     });
 }
@@ -487,7 +487,7 @@ function reDraw1(el1, el2) {
 
     var id = el1.id;
 
-    $('[id="output_' + id + '"] [data-bp="' + el2 + '"]').css({ 'background-image': 'url("' + el1.css.background.desktop.bgImageDesktop + '")', 'background-size': 'cover', 'background-repeat': 'no-repeat', 'background-position': 'center center' });
+    $('[id="' + id + '"] [data-bp="' + el2 + '"]').css({ 'background-image': 'url("' + el1.css.background.desktop.bgImageDesktop + '")', 'background-size': 'cover', 'background-repeat': 'no-repeat', 'background-position': 'center center' });
 }
 
 function escapeHTML1(text) {
@@ -511,7 +511,7 @@ function getTextRenderItem(el1) {
     var parentbp = $(el1).parents('[data-bp]').attr('data-bp'),
         bannerId = $(el1).parents('[id*="content"]').attr('id').substr(-4),
         item = $(el1).parents('[data-input-index]').attr('data-input-index'),
-        itemOutput = document.querySelector('.text-render span.dynamic [id="output_' + bannerId + '"] [data-bp="' + parentbp + '"] [data-output-index="' + item + '"]');
+        itemOutput = document.querySelector('.text-render span.dynamic [id="' + bannerId + '"] [data-bp="' + parentbp + '"] [data-output-index="' + item + '"]');
 
     return itemOutput;
 }
@@ -592,8 +592,8 @@ function confirmAllRequiredMet() {
 function show(thisButton) {
     var thisId = $(thisButton).closest('[data-ordinal]').attr('id').substr(5);
 
-    $('fieldset[id*="props"],button.banner-tabs,[id*="output_"]').removeClass('show');
-    $('fieldset#props' + thisId + ', [id="output_' + thisId + '"]').addClass('show');
+    $('fieldset[id*="props"],button.banner-tabs,[data-campaign]').removeClass('show');
+    $('fieldset#props' + thisId + ', [id="' + thisId + '"]').addClass('show');
     $(thisButton).addClass('show');
 }
 
@@ -630,8 +630,8 @@ function add(thisButton) {
 
         $('[id*="tabbs"] .subtract-button').attr('hidden', false);
 
-        $('fieldset[id*="props"],button.banner-tabs,[id*="output_"]').removeClass('show');
-        $('fieldset#props' + z.id + ', [id="tabbs' + z.id + '"] .banner-tabs, [id="output_' + z.id + '"]').addClass('show');
+        $('fieldset[id*="props"],button.banner-tabs,[data-campaign]').removeClass('show');
+        $('fieldset#props' + z.id + ', [id="tabbs' + z.id + '"] .banner-tabs, [id="' + z.id + '"]').addClass('show');
 
     } else {
         var id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4),
@@ -639,9 +639,9 @@ function add(thisButton) {
             parentValue = $(parent).data('bp'),
             series = $('.editable', parent);
 
-        $(parent).append(bannerObj(id).copyInput($(parent).children('[data-input-index]').length + 1));
+        $(parent).append(bannerObj(id).copyInput($(parent).children('[data-input-index]').last().data('input-index') + 1));
 
-        $('[id="output_' + id + '"] [data-bp="' + parentValue + '"]').append(bannerObj(id).copyOutput($(parent).children('[data-input-index]').length));
+        $('[id="' + id + '"] [data-bp="' + parentValue + '"]').append(bannerObj(id).copyOutput($(parent).children('[data-input-index]').last().data('input-index')));
 
         $('[id="content_' + id + '"] .editablewrapper [data-bp="' + parentValue + '"] .subtract-button').attr('hidden', false);
     }
@@ -656,7 +656,7 @@ function remove(thisButton) {
             id = $(parent).attr('id').substr(5),
             series;
 
-        $('#tabbs' + id + ', fieldset#props' + id + ', div.text-render > span.dynamic > [id="output_' + id + '"]').remove();
+        $('#tabbs' + id + ', fieldset#props' + id + ', div.text-render > span.dynamic > [id="' + id + '"]').remove();
 
         series = $('.banner-tabs');
 
@@ -852,12 +852,12 @@ function bannerTabsHTML(el1) {
 }
 
 function bannerCopySnippetHTML(el1) {
-    var html = '<div id="output_' + el1.id + '" data-campaign="' + el1.latestCampaign + '" style="background-color: ' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';">' +
+    var html = '<div id="' + el1.id + '" data-campaign="' + el1.latestCampaign + '" class="banner trigger" style="background-color: ' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';">' +
         '<div data-bp="desktop">' +
-        '<span data-output-index="1"></span>' +
+        '<span class="text-group" data-output-index="1"></span>' +
         '</div>' +
         '<div data-bp="mobile">' +
-        '<span data-output-index="1"></span>' +
+        '<span class="text-group" data-output-index="1"></span>' +
         '</div>' +
         '</div>';
 
@@ -936,7 +936,7 @@ function bannerObj(el1) {
             return html;
         },
         copyOutput: function (number) {
-            var html = '<span data-output-index="' + number + '"></span>';
+            var html = '<span class="text-group" data-output-index="' + number + '"></span>';
 
             return html;
         },
@@ -952,8 +952,6 @@ function bannerObj(el1) {
             $('form > span.dynamic').append(bannerFormHTML(this));
             $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTabsHTML(this));
             $('.text-render > span.dynamic').append(bannerCopySnippetHTML(this));
-            // $('[id="props' + this.id + '"] input[name="bpdesktop_' + this.id + '"]').first().prop('checked', true);
-            // $('[id="props' + this.id + '"] input[name="bpmobile_' + this.id + '"]').first().prop('checked', true);
             $('input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
             this.buttonBehave();
             $('[id="content_' + this.id + '"] .editablewrapper [data-bp] .subtract-button').attr('hidden', true);

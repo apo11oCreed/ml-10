@@ -290,11 +290,15 @@ function buttonBehave1(thisBanner) {
         $("section.section-offer").addClass(shadow);
     });
 
-    $('[name*="campaign"]').on('input', function () {
-        if ($(this).val()) {
-            thisBanner.campaign = $(this).val();
-            $('[id="tabbs' + id + '"] .banner-tabs.show').html(thisBanner.latestCampaign);
-            $('[id="' + id + '"]').attr('data-campaign', thisBanner.latestCampaign);
+    $('[data-label="banner"]').on('focusout', function () {
+        var thisId = $(this).parents('[id*="tabbs"]').attr('id').substr(-4);
+        if ($(this).html()) {
+            thisBanner.tag = $(this).html();
+            $('[id="props' + thisId + '"] h2 .tag').empty();
+            $('[id="props' + thisId + '"] h2 .tag').html(thisBanner.latestTag + " ");
+        } else {
+            $(this).html('<span class="blink">|</span> <span style="color:#A0A0A0;font-weight:400;">Enter tag for this banner</span><b>*</b>')
+            $('[id="props' + thisId + '"] h2 .tag').html('*');
         }
     });
 }
@@ -511,7 +515,7 @@ function getTextRenderItem(el1) {
     var parentbp = $(el1).parents('[data-bp]').attr('data-bp'),
         bannerId = $(el1).parents('[id*="content"]').attr('id').substr(-4),
         item = $(el1).parents('[data-input-index]').attr('data-input-index'),
-        itemOutput = document.querySelector('.text-render span.dynamic [id="' + bannerId + '"] [data-bp="' + parentbp + '"] [data-output-index="' + item + '"]');
+        itemOutput = document.querySelector('.text-render [id="' + bannerId + '"] [data-bp="' + parentbp + '"] [data-output-index="' + item + '"]');
 
     return itemOutput;
 }
@@ -592,7 +596,7 @@ function confirmAllRequiredMet() {
 function show(thisButton) {
     var thisId = $(thisButton).closest('[data-ordinal]').attr('id').substr(5);
 
-    $('fieldset[id*="props"],button.banner-tabs,[data-campaign]').removeClass('show');
+    $('fieldset[id*="props"],button.banner-tabs,.text-render > div').removeClass('show');
     $('fieldset#props' + thisId + ', [id="' + thisId + '"]').addClass('show');
     $(thisButton).addClass('show');
 }
@@ -630,7 +634,7 @@ function add(thisButton) {
 
         $('[id*="tabbs"] .subtract-button').attr('hidden', false);
 
-        $('fieldset[id*="props"],button.banner-tabs,[data-campaign]').removeClass('show');
+        $('fieldset[id*="props"],button.banner-tabs,.text-render > div').removeClass('show');
         $('fieldset#props' + z.id + ', [id="tabbs' + z.id + '"] .banner-tabs, [id="' + z.id + '"]').addClass('show');
 
     } else {
@@ -656,7 +660,7 @@ function remove(thisButton) {
             id = $(parent).attr('id').substr(5),
             series;
 
-        $('#tabbs' + id + ', fieldset#props' + id + ', div.text-render > span.dynamic > [id="' + id + '"]').remove();
+        $('#tabbs' + id + ', fieldset#props' + id + ', .row .text-render > [id="' + id + '"], .row .text-render > [id="' + id + '"] + .gutter').remove();
 
         series = $('.banner-tabs');
 
@@ -825,10 +829,10 @@ function bannerFormHTML(el1) {
             '</div>' +
             '</div>';
 
-    html = '<fieldset id="props' + id + '" class="row banner-properties"> <legend> <h2>Banner ' + id + ' Properties</h2> </legend> <div class="col-xs-12">'
+    html = '<fieldset id="props' + id + '" class="row banner-properties"> <legend> <h2><span class="tag">*</span>Properties</h2> </legend> <div class="col-xs-12">'
         + content
         // + breakpoints
-        + campaign
+        // + campaign
         + background
         + clickbehavior
     '</div></fieldset>';
@@ -844,7 +848,7 @@ function bannerTabsHTML(el1) {
             '<button type="button" data-domain="tabs" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
             '</span>' +
             '<span class="controls-ordinals">' +
-            '<button type="button" class="banner-tabs" name="bannertab" onClick="show(this)">Banner ' + el1.latestCampaign + '</button>' +
+            '<button type="button" class="banner-tabs" name="bannertab" onClick="show(this)" data-label="banner" contenteditable>' + el1.latestTag + '</button>' +
             '</span>' +
             '<div>';
 
@@ -852,14 +856,14 @@ function bannerTabsHTML(el1) {
 }
 
 function bannerCopySnippetHTML(el1) {
-    var html = '<div id="' + el1.id + '" data-campaign="' + el1.latestCampaign + '" class="banner trigger" style="background-color: ' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';">' +
+    var html = '<div id="' + el1.id + '" class="banner trigger" style="background-color: ' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';" role="button" style="display:block">' +
         '<div data-bp="desktop">' +
         '<span class="text-group" data-output-index="1"></span>' +
         '</div>' +
         '<div data-bp="mobile">' +
         '<span class="text-group" data-output-index="1"></span>' +
         '</div>' +
-        '</div>';
+        '</div><span class="gutter"></span>';
 
     return html;
 }
@@ -869,9 +873,9 @@ function bannerObj(el1) {
 
     obj = {
         id: el1,
-        campaign: el1.toString(),
-        get latestCampaign() {
-            return this.campaign;
+        tag: '<span class="blink">|</span> <span style="color:#A0A0A0;font-weight:400;">Enter tag for this banner</span><b>*</b>',
+        get latestTag() {
+            return this.tag;
         },
         css: {
             devicetype: {
@@ -951,7 +955,7 @@ function bannerObj(el1) {
         render: function () {
             $('form > span.dynamic').append(bannerFormHTML(this));
             $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTabsHTML(this));
-            $('.text-render > span.dynamic').append(bannerCopySnippetHTML(this));
+            $('.row .text-render').append(bannerCopySnippetHTML(this));
             $('input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
             this.buttonBehave();
             $('[id="content_' + this.id + '"] .editablewrapper [data-bp] .subtract-button').attr('hidden', true);

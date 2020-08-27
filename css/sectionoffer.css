@@ -706,3 +706,19 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	51%{opacity:1.0}
 	100%{opacity:0.0}
 }
+
+h2 .header-visible{
+	display:inline-block;
+}
+
+h2 .tab-visible{
+	display:none;
+}
+
+.banner-tabs .header-visible{
+	display:none;
+}
+
+.banner-tabs .tab-visible{
+	display:inline-block;
+}

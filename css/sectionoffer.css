@@ -244,7 +244,7 @@ section.section-offer {
 	border-style: groove;
 	border-color: threedface;
 	border-image: initial;
-	padding: .35em .625em .75em;
+	/* padding: .35em .625em .75em; */
     border: 1px solid silver;
 }
 
@@ -315,7 +315,7 @@ border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
 	display: table-cell;
 	position: relative;
     z-index: 2;
@@ -324,7 +324,7 @@ input[type="text"] {
 	border: 1px solid #ddd;
     padding: 8px;
 	display: block;
-    width: 100%;
+    /* width: 100%; */
     height: 34px;
     padding: 6px 12px;
     font-size: 14px;
@@ -358,9 +358,9 @@ textarea {
     border-bottom-left-radius: 0;
 }
 
-input.bgimgaddress {
+/* input.bgimgaddress {
 	width:100%;
-}
+} */
 input.bgcolor {
 	display:inline-block;
 	width:100%;
@@ -604,7 +604,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	margin-right:2px;
 }
 
-.editablewrapper [data-bp]{
+.editablewrapper [data-domain="editfields"]{
 	display:-webkit-box;
 	display:-ms-flexbox;
 	display:flex;
@@ -614,7 +614,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 			flex-direction: row;
 			align-items: flex-end;
 }
-.editablewrapper [data-bp] span {
+.editablewrapper [data-domain="editfields"] span {
 	width:calc(100% - 2px);
 	margin-right:2px;
 }
@@ -721,4 +721,9 @@ h2 .tab-visible{
 
 .banner-tabs .tab-visible{
 	display:inline-block;
+}
+
+#bpForm div.row:last-child {
+	display: flex;
+    justify-content: flex-end;
 }

@@ -46,7 +46,7 @@ $(document).ready(function () {
         $(this).remove();
     });
     $('[id="bannerTabs"]').prepend(bannerTabsLegend);
-    $('[id="bannerTabs"] span.dynamic').append('<div class="row-fluid flex-it"></div>');
+    $('[id="bannerTabs"] span.dynamic').append('<div class="row-fluid flex-it" data-domain="tabs"></div>');
 
     var idInit = randomId(1000, 9999),
         bannerInit = new bannerObj(idInit);
@@ -477,18 +477,6 @@ function msgBox1(msg, title) {
 }
 
 function reDraw1(el1, el2) {
-    // Update the background-image URLs
-    //var bgDesktopsrc = imgURL1($(".bgimgaddress[name='bgdesktop_" + el1.id + "']"), true);
-    //console.log('redraw');
-    //var bgMobilesrc = imgURL1($(".bgimgaddress[name='bgmobile_" + el1.id + "']"), true);
-    // console.log('redraw');
-
-    // source 962
-    //$("picture source[media*='576']").attr("srcset", bgDesktopsrc);
-    // source 575
-    //$("picture source[media*='575']").attr("srcset", bgMobilesrc);
-    // default src and data-srcset
-    //$("img#section-offer-img").attr("src", bgDesktopsrc).attr("data-srcset", bgMobilesrc);
 
     var id = el1.id;
 
@@ -595,7 +583,7 @@ function confirmAllRequiredMet() {
 }
 
 function show(thisButton) {
-    var thisId = $(thisButton).closest('[data-ordinal]').attr('id').substr(5);
+    var thisId = $(thisButton).closest('[id*="tabbs"]').attr('id').substr(5);
 
     $('fieldset[id*="props"],button.banner-tabs,.text-render > div').removeClass('show');
     $('fieldset#props' + thisId + ', [id="' + thisId + '"]').addClass('show');
@@ -604,10 +592,11 @@ function show(thisButton) {
 
 function add(thisButton) {
 
-    var dataDomain = $(thisButton).data('domain');
+    var dataDomain = $(thisButton).closest('[data-domain]').data('domain'),
+        id;
 
     if (dataDomain == 'tabs') {
-        var id = randomId(1000, 9999),
+        id = randomId(1000, 9999),
             parent,
             parentValue,
             series = $('.banner-tabs'),
@@ -638,29 +627,31 @@ function add(thisButton) {
         $('fieldset[id*="props"],button.banner-tabs,.text-render > div').removeClass('show');
         $('fieldset#props' + z.id + ', [id="tabbs' + z.id + '"] .banner-tabs, [id="' + z.id + '"]').addClass('show');
 
-    } else if (dataDomain == 'editors') {
-        var id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4),
+    } else if (dataDomain == 'editfields') {
+        id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4),
             parent = $(thisButton).closest('[data-bp]'),
             parentValue = $(parent).data('bp'),
             series = $('.editable', parent);
 
-        $(parent).append(bannerObj(id).copyInput($(parent).children('[data-input-index]').last().data('input-index') + 1));
+        $('[data-domain="editfields"]', parent).append(bannerObj(id).copyInput($('[data-domain="editfields"]', parent).children('[data-input-index]').last().data('input-index') + 1));
 
-        $('[id="' + id + '"] [data-bp="' + parentValue + '"]').append(bannerObj(id).copyOutput($(parent).children('[data-input-index]').last().data('input-index')));
+        $('[id="' + id + '"] [data-bp="' + parentValue + '"]').append(bannerObj(id).copyOutput($('[data-domain="editfields"]', parent).children('[data-input-index]').last().data('input-index')));
 
-        $('[id="content_' + id + '"] .editablewrapper [data-bp="' + parentValue + '"] .subtract-button').attr('hidden', false);
+        $('[id="content_' + id + '"] .editablewrapper [data-bp="' + parentValue + '"] [data-domain="editfields"] .subtract-button').attr('hidden', false);
     } else {
-        var id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4),
-            parent = $(thisButton).closest('.editablewrapper');
+        id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4),
+            parent = $(thisButton).closest('[data-domain]');
 
-        $(parent).append(breakpointHTML('test'));
+        msgBox1(breakpointForm(), 'New Breakpoint');
+
+        //$(parent).append(breakpointHTML('test'));
 
     }
 }
 
 function remove(thisButton) {
 
-    var dataDomain = $(thisButton).data('domain');
+    var dataDomain = $(thisButton).closest('[data-domain]').data('domain');
 
     if (dataDomain == 'tabs') {
         var parent = $(thisButton).closest('[id*="tabbs"]'),
@@ -694,6 +685,11 @@ function remove(thisButton) {
     }
 }
 
+function bpValidateCreate(thisButton) {
+    console.log(thisButton);
+    console.log($(thisButton).parents('.row').siblings()[1].children('input').html());
+}
+
 function bannerFormHTML(el1) {
     var id = el1.id,
         html,
@@ -704,10 +700,30 @@ function bannerFormHTML(el1) {
             '<fieldset id="content_' + id + '">' +
             '<legend><h3>Content</h3></legend>' +
             '<p>Type or paste text into fields below. Add fields to create text groups. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another text field. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a text field.</p>' +
-            '<div class="row-fluid editablewrapper">' +
-            '<span data-bp="desktop"><h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Breakpoint 1&nbsp;<button type="button" data-domain="breakpoints" class="subtract-button" onClick="remove(this)" style="color:red;">x</button><button type="button" data-domain="breakpoints" class="add-button" onClick="add(this)" style="color:green;">+</button></h4><span data-input-index="1"><span class="controls-add-subtract"><button type="button" data-domain="editors" class="subtract-button" onClick="remove(this)" style="color:red;">x</button><button type="button" data-domain="editors" class="textEdit-button" onClick="textEdit(this)" style="color:blue;font-weight:700;">T</button><button type="button" data-domain="editors" class="add-button" onClick="add(this)"style="color:green;">+</button></span><span class="editablecontainer"><div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div></span></span></span>' +
-            // '<hr>' +
-            // '<span data-bp="mobile"><h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Mobile</h4><span data-input-index="1"><span class="controls-add-subtract"><button type="button" data-domain="editors" class="subtract-button" onClick="remove(this)" style="color:red;">x</button><button type="button" data-domain="editors" class="textEdit-button" onClick="textEdit(this)" style="color:blue;font-weight:700;">T</button><button type="button" data-domain="editors" class="add-button" onClick="add(this)"style="color:green;">+</button></span><span class="editablecontainer"><div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div></span></span></span>' +
+            '<div class="row-fluid editablewrapper" data-domain="breakpoints">' +
+            '<span data-bp="desktop">' +
+
+            '<div class="row">' +
+            '<h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Breakpoint 1&nbsp;' +
+            '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
+            '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
+            '</h4>' +
+            '</div>' +
+
+            '<div class="row">' +
+            '<div class="col-xs-12" data-domain="editfields">' +
+            '<span data-input-index="1">' +
+            '<span class="controls-add-subtract">' +
+            '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
+            '<button type="button" class="textEdit-button" onClick="textEdit(this)" style="color:blue;font-weight:700;">T</button>' +
+            '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
+            '</span>' +
+            '<span class="editablecontainer">' +
+            '<div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div>' +
+            '</span>' +
+            '</span>' +
+            '</div>' +
+            '</div>' +
             '</div>' +
             '</fieldset>' +
             '</div>' +
@@ -790,17 +806,6 @@ function bannerFormHTML(el1) {
             '</div>' +
             '<div class="col-xs-3 error" hidden></div>' +
             '</div>' +
-            // '<div class="row">' +
-            // '<div class="col-xs-3">' +
-            // '<label for="bgColor">Text color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span>' +
-            // '</div>' +
-            // '<div class="col-xs-6 input-group1">' +
-            // '<span class="input-group-addon1" id="img2label">R</span> <input id="r_txt' + id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required>' +
-            // '<span class="input-group-addon1" id="img2label">G</span><input id="g_txt' + id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required>' +
-            // '<span class="input-group-addon1" id="img2label">B</span><input id="b_txt' + id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required>' +
-            // '</div>' +
-            // '<div class="col-xs-3 error" hidden></div>' +
-            // '</div>' +
             '</fieldset>' +
             '</div>' +
             '</div>',
@@ -849,10 +854,10 @@ function bannerFormHTML(el1) {
 
 function bannerTabsHTML(el1) {
     var id = el1.id,
-        html = '<div id="tabbs' + id + '" class="col-xs-3" data-ordinal="">' +
+        html = '<div id="tabbs' + id + '" class="col-xs-3">' +
             '<span class="controls-add-subtract">' +
-            '<button type="button" data-domain="tabs" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
-            '<button type="button" data-domain="tabs" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
+            '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
+            '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
             '</span>' +
             '<span class="controls-ordinals">' +
             '<button type="button" class="banner-tabs" name="bannertab" onClick="show(this)" data-label="banner" contenteditable>' + el1.latestTag + '</button>' +
@@ -876,7 +881,49 @@ function bannerCopySnippetHTML(el1) {
 }
 
 function breakpointHTML(el1) {
-    var html = '<span data-bp="desktop"><h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Breakpoint 1&nbsp;<button type="button" data-domain="breakpoints" class="subtract-button" onclick="remove(this)" style="color:red;" hidden="hidden">x</button><button type="button" data-domain="breakpoints" class="add-button" onclick="add(this)" style="color:green;">+</button></h4><span data-input-index="1"><span class="controls-add-subtract"><button type="button" data-domain="editors" class="subtract-button" onclick="remove(this)" style="color:red;" hidden="hidden">x</button><button type="button" data-domain="editors" class="textEdit-button" onclick="textEdit(this)" style="color:blue;font-weight:700;">T</button><button type="button" data-domain="editors" class="add-button" onclick="add(this)" style="color:green;">+</button></span><span class="editablecontainer"><div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div></span></span></span>';
+    var html = '<span data-bp="desktop">' +
+        '<div class="row">' +
+        '<h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Breakpoint 1&nbsp;' +
+        '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
+        '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
+        '</h4>' +
+        '</div>' +
+
+        '<div class="row">' +
+        '<div class="col-xs-12" data-domain="editfields">' +
+        '<span data-input-index="1">' +
+        '<span class="controls-add-subtract">' +
+        '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
+        '<button type="button" class="textEdit-button" onClick="textEdit(this)" style="color:blue;font-weight:700;">T</button>' +
+        '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
+        '</span>' +
+        '<span class="editablecontainer">' +
+        '<div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div>' +
+        '</span>' +
+        '</span>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</span>';
+
+    return html;
+}
+
+function breakpointForm() {
+    var html = '<form id="bpForm" class="container-fluid">' +
+        '<div class="row">' +
+        '<label for="bpName" class="col-xs-4">Name:</label><input id="bpName" name="bpName" class="col-xs-8" type="text" placeholder="Ex. Desktop, Tablet, Mobile, etc." required>' +
+        '</div>' +
+        '<div class="row">' +
+        '<label for="bpMinWidth" class="col-xs-4">Min-width:</label><input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="Ex. 148" required>' +
+        '</div>' +
+        '<div class="row">' +
+        '<label for="bpMinWidth" class="col-xs-4">Max-width:</label><input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="Ex. 768" required>' +
+        '</div>' +
+        '<div class="row">' +
+        '<button id="bpCreate" type="button" name="bpCreate" onClick="bpValidateCreate(this)">Create Breakpoint</button>' +
+        '</div>' +
+        '</form>';
 
     return html;
 }
@@ -942,9 +989,9 @@ function bannerObj(el1) {
         copyInput: function (number) {
             var html = '<span data-input-index="' + number + '">' +
                 '<span class="controls-add-subtract">' +
-                '<button type="button" data-domain="editors" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
-                '<button type="button" data-domain="editors" class="textEdit-button" onClick="textEdit(this)" style="color:blue;font-weight:700;">T</button>' +
-                '<button type="button" data-domain="editors" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
+                '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
+                '<button type="button" class="textEdit-button" onClick="textEdit(this)" style="color:blue;font-weight:700;">T</button>' +
+                '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
                 '</span>' +
                 '<span class="editablecontainer">' +
                 '<div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div>' +

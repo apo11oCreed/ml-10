@@ -604,7 +604,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	margin-right:2px;
 }
 
-.editablewrapper [data-domain="editfields"]{
+.editablewrapper [data-domain="editfields"], .editablewrapper [data-domain="bpconfig"] {
 	display:-webkit-box;
 	display:-ms-flexbox;
 	display:flex;
@@ -612,8 +612,16 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	-webkit-box-direction: normal;
 	    -ms-flex-direction: row;
 			flex-direction: row;
-			align-items: flex-end;
 }
+
+/* .editablewrapper [data-domain="editfields"] {
+	align-items: flex-end;
+}
+
+.editablewrapper [data-domain="bpconfig"] {
+	align-items: flex-end;
+} */
+
 .editablewrapper [data-domain="editfields"] span {
 	width:calc(100% - 2px);
 	margin-right:2px;

@@ -583,10 +583,10 @@ function confirmAllRequiredMet() {
 }
 
 function show(thisButton) {
-    var thisId = $(thisButton).closest('[id*="tabbs"]').attr('id').substr(5);
+    var id = $(thisButton).closest('[id*="tabbs"]').attr('id').substr(5);
 
-    $('fieldset[id*="props"],button.banner-tabs,.text-render > div').removeClass('show');
-    $('fieldset#props' + thisId + ', [id="' + thisId + '"]').addClass('show');
+    $('[id*="props"], button.banner-tabs, .text-render > div').removeClass('show');
+    $('[id="props' + id + '"], [id="' + id + '"]').addClass('show');
     $(thisButton).addClass('show');
 }
 
@@ -596,17 +596,17 @@ function add(thisButton) {
         id;
 
     if (dataDomain == 'tabs') {
-        id = randomId(1000, 9999),
-            parent,
-            parentValue,
-            series = $('.banner-tabs'),
+        id = randomId(1000, 9999);
+
+        var seriesParent = thisButton.closest('[id*="tabbs"]'),
+            parentId,
+            series = $('[id*="tabbs"]'),
             z;
 
         // Dedup
         for (var h = 0; h < series.length; h++) {
-            parent = $(series[h]).closest('div[id*="tabbs"]');
-            parentValue = $(parent).attr('id');
-            if (id == parentValue) {
+            parentId = $(series[h]).attr('id').substr(-4);
+            if (id == parentId) {
                 id = randomId(1000, 9999);
                 z = new bannerObj(id);
             } else {
@@ -616,36 +616,34 @@ function add(thisButton) {
 
         z.render();
 
-        series = $('.banner-tabs');
+        series = $('[id*="tabbs"]');
 
         if (z.visibleIndex(series) == globalSettings.maxBannerNumber) {
-            $('[id*="tabbs"] .add-button').attr('hidden', true);
+            $('[data-domain="' + dataDomain + '"] .add-button').attr('hidden', true);
         }
 
-        $('[id*="tabbs"] .subtract-button').attr('hidden', false);
+        $('[data-domain="' + dataDomain + '"] .subtract-button').attr('hidden', false);
 
-        $('fieldset[id*="props"],button.banner-tabs,.text-render > div').removeClass('show');
-        $('fieldset#props' + z.id + ', [id="tabbs' + z.id + '"] .banner-tabs, [id="' + z.id + '"]').addClass('show');
+        $('[id*="props"],button.banner-tabs,.text-render > div').removeClass('show');
+        $('[id="props' + z.id + '"], [id="tabbs' + z.id + '"] .banner-tabs, [id="' + z.id + '"]').addClass('show');
 
     } else if (dataDomain == 'editfields') {
-        id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4),
-            parent = $(thisButton).closest('[data-bp]'),
-            parentValue = $(parent).data('bp'),
+        id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
+
+        var seriesParent = $(thisButton).closest('[data-domain="' + dataDomain + '"]'),
+            parentValue = $(parent).closest('[data-bp]').data('bp'),
             series = $('.editable', parent);
 
-        $('[data-domain="editfields"]', parent).append(bannerObj(id).copyInput($('[data-domain="editfields"]', parent).children('[data-input-index]').last().data('input-index') + 1));
+        $(seriesParent).append(bannerObj(id).copyInput($(seriesParent).children('[data-input-index]').last().data('input-index') + 1));
 
-        $('[id="' + id + '"] [data-bp="' + parentValue + '"]').append(bannerObj(id).copyOutput($('[data-domain="editfields"]', parent).children('[data-input-index]').last().data('input-index')));
+        $('[id="' + id + '"] [data-bp="' + parentValue + '"]').append(bannerObj(id).copyOutput($('[data-domain="editfields"]', seriesParent).children('[data-input-index]').last().data('input-index')));
 
-        $('[id="content_' + id + '"] .editablewrapper [data-bp="' + parentValue + '"] [data-domain="editfields"] .subtract-button').attr('hidden', false);
+        $('.subtract-button', seriesParent).attr('hidden', false);
     } else {
-        id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4),
-            parent = $(thisButton).closest('[data-domain]');
 
-        msgBox1(breakpointForm(), 'New Breakpoint');
+        $('[data-domain="breakpoints"]').append(breakpointHTML(this));
 
-        //$(parent).append(breakpointHTML('test'));
-
+        $('[data-domain="' + dataDomain + '"] .subtract-button').attr('hidden', false);
     }
 }
 
@@ -654,40 +652,60 @@ function remove(thisButton) {
     var dataDomain = $(thisButton).closest('[data-domain]').data('domain');
 
     if (dataDomain == 'tabs') {
-        var parent = $(thisButton).closest('[id*="tabbs"]'),
-            id = $(parent).attr('id').substr(5),
+        var seriesParent = $(thisButton).closest('[id*="tabbs"]'),
+            id = $(seriesParent).attr('id').substr(5),
             series;
 
-        $('#tabbs' + id + ', fieldset#props' + id + ', .row .text-render > [id="' + id + '"], .row .text-render > [id="' + id + '"] + .gutter').remove();
+        $('[id="tabbs' + id + '"], [id="props' + id + '"], .row .text-render > [id="' + id + '"], .row .text-render > [id="' + id + '"] + .gutter').remove();
 
-        series = $('.banner-tabs');
+        series = $('[id*="tabbs"]');
 
         if (series.length == globalSettings.minBannerNumber) {
-            $('[id*="tabbs"] .subtract-button').attr('hidden', true);
+            $('[data-domain="' + dataDomain + '"] .subtract-button').attr('hidden', true);
         }
 
-        $('[id*="tabbs"] .add-button').attr('hidden', false);
+        $('[data-domain="' + dataDomain + '"] .add-button').attr('hidden', false);
 
-    } else {
-        var parentAttr = $(thisButton).closest('[data-bp]').attr('data-bp'),
+    } else if (dataDomain == 'editfields') {
+        var seriesParent = $(thisButton).closest('[data-domain="' + dataDomain + '"]'),
             dataIndex = $(thisButton).closest('[data-input-index]').attr('data-input-index'),
             id = $(thisButton).closest('[id*="content"]').attr('id').substr(-4),
             series;
 
-        $('[data-bp="' + parentAttr + '"] [data-input-index="' + dataIndex + '"], [data-bp="' + parentAttr + '"] [data-output-index="' + dataIndex + '"]').remove();
-        //$(this).remove();
+        $('[data-input-index="' + dataIndex + '"]', seriesParent).remove();
 
-        series = $('[id="content_' + id + '"] [data-bp="' + parentAttr + '"] [data-input-index]');
+        series = $('[data-input-index]', seriesParent);
 
         if (series.length == globalSettings.minBannerNumber) {
-            $('[id="content_' + id + '"] [data-bp="' + parentAttr + '"] [data-input-index] .subtract-button').attr('hidden', true);
+            $('.subtract-button', seriesParent).attr('hidden', true);
+        }
+    } else {
+        var series = $('[data-domain="breakpoints"] [data-bp]');
+
+        $(thisButton).closest('[data-bp]').remove();
+
+        series = $('[data-domain="breakpoints"] [data-bp]');
+
+        if (series.length == 1) {
+            $('[data-domain="bpconfig"] .subtract-button').attr('hidden', true);
         }
     }
 }
 
-function bpValidateCreate(thisButton) {
-    console.log(thisButton);
-    console.log($(thisButton).parents('.row').siblings()[1].children('input').html());
+function edit(thisButton) {
+    var dataDomain = $(thisButton).closest('[data-domain]').data('domain');
+
+    if (dataDomain == 'bpconfig') {
+        msgBox1(breakpointForm(), 'Update Breakpoint Properties');
+    } else if (dataDomain == 'editfields') {
+        msgBox1('<p>This will be the spot for the rich text editor.</p>', 'Update Text');
+    }
+
+}
+
+function update(event) {
+    event.preventDefault();
+    $('#msgBox').modal('hide');
 }
 
 function bannerFormHTML(el1) {
@@ -701,21 +719,24 @@ function bannerFormHTML(el1) {
             '<legend><h3>Content</h3></legend>' +
             '<p>Type or paste text into fields below. Add fields to create text groups. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another text field. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a text field.</p>' +
             '<div class="row-fluid editablewrapper" data-domain="breakpoints">' +
+
             '<span data-bp="desktop">' +
-
+            '<hr>' +
             '<div class="row">' +
-            '<h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Breakpoint 1&nbsp;' +
-            '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
+            '<div class="col-xs-12" data-domain="bpconfig">' +
+            '<h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Desktop&nbsp;</h4>' +
+            '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
+            '<button type="button" class="edit-button glyphicon glyphicon-cog" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
             '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
-            '</h4>' +
             '</div>' +
-
+            '</div>' +
+            '<hr>' +
             '<div class="row">' +
             '<div class="col-xs-12" data-domain="editfields">' +
             '<span data-input-index="1">' +
             '<span class="controls-add-subtract">' +
-            '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
-            '<button type="button" class="textEdit-button" onClick="textEdit(this)" style="color:blue;font-weight:700;">T</button>' +
+            '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
+            '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
             '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
             '</span>' +
             '<span class="editablecontainer">' +
@@ -724,6 +745,7 @@ function bannerFormHTML(el1) {
             '</span>' +
             '</div>' +
             '</div>' +
+            '</span>' +
             '</div>' +
             '</fieldset>' +
             '</div>' +
@@ -881,27 +903,31 @@ function bannerCopySnippetHTML(el1) {
 }
 
 function breakpointHTML(el1) {
-    var html = '<span data-bp="desktop">' +
-        '<div class="row">' +
-        '<h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Breakpoint 1&nbsp;' +
-        '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
-        '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
-        '</h4>' +
-        '</div>' +
 
+    var html = '<span data-bp="desktop">' +
+        '<hr>' +
+        '<div class="row">' +
+        '<div class="col-xs-12" data-domain="bpconfig">' +
+        '<h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Desktop&nbsp;</h4>' +
+        '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
+        '<button type="button" class="edit-button glyphicon glyphicon-cog" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
+        '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
+        '</div>' +
+        '</div>' +
+        '<hr>' +
         '<div class="row">' +
         '<div class="col-xs-12" data-domain="editfields">' +
         '<span data-input-index="1">' +
         '<span class="controls-add-subtract">' +
-        '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
-        '<button type="button" class="textEdit-button" onClick="textEdit(this)" style="color:blue;font-weight:700;">T</button>' +
+        '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
+        '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
         '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
         '</span>' +
+
         '<span class="editablecontainer">' +
         '<div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div>' +
         '</span>' +
         '</span>' +
-        '</div>' +
         '</div>' +
         '</div>' +
         '</span>';
@@ -910,7 +936,7 @@ function breakpointHTML(el1) {
 }
 
 function breakpointForm() {
-    var html = '<form id="bpForm" class="container-fluid">' +
+    var html = '<form id="bpForm" class="container-fluid" onsubmit="update(event)">' +
         '<div class="row">' +
         '<label for="bpName" class="col-xs-4">Name:</label><input id="bpName" name="bpName" class="col-xs-8" type="text" placeholder="Ex. Desktop, Tablet, Mobile, etc." required>' +
         '</div>' +
@@ -921,7 +947,7 @@ function breakpointForm() {
         '<label for="bpMinWidth" class="col-xs-4">Max-width:</label><input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="Ex. 768" required>' +
         '</div>' +
         '<div class="row">' +
-        '<button id="bpCreate" type="button" name="bpCreate" onClick="bpValidateCreate(this)">Create Breakpoint</button>' +
+        '<button id="bpUpdate" type="submit" name="bpUpdate">Update Breakpoint</button>' +
         '</div>' +
         '</form>';
 
@@ -990,7 +1016,7 @@ function bannerObj(el1) {
             var html = '<span data-input-index="' + number + '">' +
                 '<span class="controls-add-subtract">' +
                 '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
-                '<button type="button" class="textEdit-button" onClick="textEdit(this)" style="color:blue;font-weight:700;">T</button>' +
+                '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
                 '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
                 '</span>' +
                 '<span class="editablecontainer">' +

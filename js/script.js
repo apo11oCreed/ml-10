@@ -639,6 +639,8 @@ function add(thisButton) {
         $('[id="' + id + '"] [data-bp="' + parentValue + '"]').append(bannerObj(id).copyOutput($('[data-domain="editfields"]', seriesParent).children('[data-input-index]').last().data('input-index')));
 
         $('.subtract-button', seriesParent).attr('hidden', false);
+
+
     } else {
 
         $('[data-domain="breakpoints"]').append(breakpointHTML(this));
@@ -693,18 +695,26 @@ function remove(thisButton) {
 }
 
 function edit(thisButton) {
-    var dataDomain = $(thisButton).closest('[data-domain]').data('domain');
+    var bp = $(thisButton).closest('[data-bp]'),
+        dataDomain = $(thisButton).closest('[data-domain]').data('domain');
 
     if (dataDomain == 'bpconfig') {
-        msgBox1(breakpointForm(), 'Update Breakpoint Properties');
+        msgBox1('<form id="bpForm" class="container-fluid">' + breakpointForm() + '</form>', 'Update Breakpoint Properties');
+        $('#bpForm').on('submit', function () {
+            event.preventDefault();
+            update(event.target, bp);
+        });
     } else if (dataDomain == 'editfields') {
         msgBox1('<p>This will be the spot for the rich text editor.</p>', 'Update Text');
     }
 
 }
 
-function update(event) {
-    event.preventDefault();
+function update(el1, el2) {
+    $(el2).attr('data-bp', $('input#bpName', el1).val());
+    $('h5', el2).html($('input#bpName', el1).val() + '<br><span style="font-weight:400;font-size:smaller;">( minwidth:</span> ' + $('input#bpMinWidth', el1).val() + '<span style="font-weight:400;font-size:smaller;"> , maxwidth:</span> ' + $('input#bpMaxWidth', el1).val() + '<span style="font-weight:400;font-size:smaller;"> )</span>');
+    $(el2).attr('data-bp-minwidth', $('input#bpMinWidth', el1).val());
+    $(el2).attr('data-bp-maxwidth', $('input#bpMaxWidth', el1).val());
     $('#msgBox').modal('hide');
 }
 
@@ -717,30 +727,34 @@ function bannerFormHTML(el1) {
             '<div class="row-fluid">' +
             '<fieldset id="content_' + id + '">' +
             '<legend><h3>Content</h3></legend>' +
-            '<p>Type or paste text into fields below. Add fields to create text groups. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another text field. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a text field.</p>' +
+            '<p>Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another breakpoint or text group. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a breakpoint or text group.<br>Click on the <span class="glyphicon glyphicon-cog" style="color:black;"></span> button to set the <b>Name</b>, <b>Min Width</b>, and <b>Max Width</b> of that breakpoint.<br>Click on the <span class="glyphicon glyphicon-pencil" style="color:black;"></span> button to open the <b>rich text editor</b> for that text group.</p>' +
+            // '<p>Type or paste text into fields below. Add fields to create text groups. Click on the [ <span style="color:green;font-weight:700;">+</span> ] button to add another text field. Click on the [ <span style="color:red;font-weight:700;">x</span> ] button to remove a text field.</p>' +
+            '<h4>Breakpoints</h4>' +
             '<div class="row-fluid editablewrapper" data-domain="breakpoints">' +
 
-            '<span data-bp="desktop">' +
+            '<span data-bp="breakpoint" data-bp-minwidth="768px" data-bp-maxwidth="">' +
             '<hr>' +
             '<div class="row">' +
             '<div class="col-xs-12" data-domain="bpconfig">' +
-            '<h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Desktop&nbsp;</h4>' +
+            '<h5 style="margin-top:0;margin-bottom:0;margin-right:1rem;">Breakpoint Name</h5>' +
             '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
             '<button type="button" class="edit-button glyphicon glyphicon-cog" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
             '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
             '</div>' +
             '</div>' +
-            '<hr>' +
+            '<br>' +
+            '<div class="row"><h4 class="col-xs-12">Text Groups</h4></div>' +
             '<div class="row">' +
             '<div class="col-xs-12" data-domain="editfields">' +
             '<span data-input-index="1">' +
             '<span class="controls-add-subtract">' +
             '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
-            '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
+            '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="show(this)" style="color:blue;top:0px;"></button>' +
             '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
             '</span>' +
             '<span class="editablecontainer">' +
-            '<div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div>' +
+            '<textarea id="1"></textarea>' +
+            // '<div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div>' +
             '</span>' +
             '</span>' +
             '</div>' +
@@ -904,28 +918,30 @@ function bannerCopySnippetHTML(el1) {
 
 function breakpointHTML(el1) {
 
-    var html = '<span data-bp="desktop">' +
+    var html = '<span data-bp="desktop" data-bp-minwidth="768px" data-bp-maxwidth="">' +
         '<hr>' +
         '<div class="row">' +
         '<div class="col-xs-12" data-domain="bpconfig">' +
-        '<h4 class="col-xs-2" style="margin-top:0;margin-bottom:0;margin-right:1rem;">Desktop&nbsp;</h4>' +
+        '<h5 style="margin-top:0;margin-bottom:0;margin-right:1rem;">Breakpoint Name</h5>' +
         '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
         '<button type="button" class="edit-button glyphicon glyphicon-cog" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
         '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
         '</div>' +
         '</div>' +
-        '<hr>' +
+        '<br>' +
+        '<div class="row"><h4 class="col-xs-12">Text Groups</h4></div>' +
         '<div class="row">' +
         '<div class="col-xs-12" data-domain="editfields">' +
         '<span data-input-index="1">' +
         '<span class="controls-add-subtract">' +
         '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
-        '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
+        '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="show(this)" style="color:blue;top:0px;"></button>' +
         '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
         '</span>' +
 
         '<span class="editablecontainer">' +
-        '<div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div>' +
+        '<textarea id="1"></textarea>' +
+        // '<div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div>' +
         '</span>' +
         '</span>' +
         '</div>' +
@@ -936,20 +952,18 @@ function breakpointHTML(el1) {
 }
 
 function breakpointForm() {
-    var html = '<form id="bpForm" class="container-fluid" onsubmit="update(event)">' +
-        '<div class="row">' +
-        '<label for="bpName" class="col-xs-4">Name:</label><input id="bpName" name="bpName" class="col-xs-8" type="text" placeholder="Ex. Desktop, Tablet, Mobile, etc." required>' +
+    var html = '<div class="row">' +
+        '<label for="bpName" class="col-xs-4">Name:</label><input id="bpName" name="bpName" class="col-xs-8" type="text" placeholder="Required" required>' +
         '</div>' +
         '<div class="row">' +
-        '<label for="bpMinWidth" class="col-xs-4">Min-width:</label><input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="Ex. 148" required>' +
+        '<label for="bpMinWidth" class="col-xs-4">Min-width:</label><input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="Enter number or leave blank if there is no minwidth.">' +
         '</div>' +
         '<div class="row">' +
-        '<label for="bpMinWidth" class="col-xs-4">Max-width:</label><input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="Ex. 768" required>' +
+        '<label for="bpMinWidth" class="col-xs-4">Max-width:</label><input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="Enter number or leave blank if there is no maxwidth.">' +
         '</div>' +
         '<div class="row">' +
         '<button id="bpUpdate" type="submit" name="bpUpdate">Update Breakpoint</button>' +
-        '</div>' +
-        '</form>';
+        '</div>';
 
     return html;
 }
@@ -1016,11 +1030,11 @@ function bannerObj(el1) {
             var html = '<span data-input-index="' + number + '">' +
                 '<span class="controls-add-subtract">' +
                 '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
-                '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
+                '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="show(this)" style="color:blue;top:0px;"></button>' +
                 '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
                 '</span>' +
                 '<span class="editablecontainer">' +
-                '<div class="editable" contenteditable="true" onfocus="renderCopyFields(this,getTextRenderItem(this))"></div>' +
+                '<textarea id="1"></textarea>' +
                 '</span>' +
                 '</span>';
 

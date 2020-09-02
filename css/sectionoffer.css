@@ -612,6 +612,8 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	-webkit-box-direction: normal;
 	    -ms-flex-direction: row;
 			flex-direction: row;
+			align-items: center;
+    line-height: 100%;
 }
 
 /* .editablewrapper [data-domain="editfields"] {

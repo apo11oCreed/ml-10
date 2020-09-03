@@ -35,10 +35,26 @@ var brands = {
         maxBannerNumber: 4,
         minBannerNumber: 1,
     },
-    bannerTabsLegend = '<legend><h3>Banners</h3></legend><p>Click on the <b>[ tab ]</b> button to display the form.<br>Hover over <b>[ tab ]</b> button(s) to view all controls.<br>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a banner.</p></div></div><hr>',
+    bannerTabsLegend = '<legend>' +
+        '<h3>Banners</h3>' +
+        '</legend>' +
+        '<p>Click on the <b>[ tab ]</b> button to change the name of the banner and to display the banner form.<br>Hover over <b>[ tab ]</b> button(s) to view all controls.<br>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a banner.</p>' +
+        '</div>' +
+        '</div>' +
+        '<hr>',
     deviceTypeRegex = /desktop|mobile/,
-    // bgTxtRegex = /bg|txt/,
-    tabText = '<span style="color:#A0A0A0;font-weight:400;"><span class="tab-visible"><span class="blink">|</span> Click to e</span><span class="header-visible"><span class="blink">|</span> E</span>nter banner name <span class="header-visible">in tab above</span>.</span><b>*</b>';
+    tabText = '<span style="color:#A0A0A0;font-weight:400;">' +
+        '<span class="tab-visible">' +
+        '<span>|' +
+        '</span>A' +
+        '</span>' +
+        '<span class="header-visible">' +
+        '<span class="blink">|' +
+        '</span>' +
+        ' Enter banner name in tab above.' +
+        '<b>*</b>' +
+        '</span>' +
+        '</span>';
 
 $(document).ready(function () {
 
@@ -68,7 +84,8 @@ $(document).ready(function () {
 
 function buttonBehave1(thisBanner) {
     var id = thisBanner.id,
-        state = thisBanner.state;
+        state = thisBanner.state,
+        bannerTitle;
 
     // dropdown events
     $('select[name="brands"],[id="props' + id + '"] select[name="onClickBehavior"]').on('change', function () {
@@ -202,22 +219,6 @@ function buttonBehave1(thisBanner) {
                 default:
                     break;
             }
-            // } else {
-            //     switch (rgb) {
-            //         case "r":
-            //             thisBanner.css.textcolor.txtColor.r = $(this).val();
-            //             break;
-            //         case "g":
-            //             thisBanner.css.textcolor.txtColor.g = $(this).val();;
-            //             break;
-            //         case "b":
-            //             thisBanner.css.textcolor.txtColor.b = $(this).val();;
-            //             break;
-            //         default:
-            //             break;
-            //     }
-            // }
-
         }
 
         if ($('.text-render > [id*="' + id + '"]')) {
@@ -291,15 +292,24 @@ function buttonBehave1(thisBanner) {
         $("section.section-offer").addClass(shadow);
     });
 
-    $('[data-label="banner"]').on('focusout', function () {
-        var thisId = $(this).parents('[id*="tabbs"]').attr('id').substr(-4);
-        if ($(this).html()) {
-            thisBanner.tag = $(this).html();
-            $('[id="props' + thisId + '"] h2 .tag').empty();
-            $('[id="props' + thisId + '"] h2 .tag').html(thisBanner.latestTag + " ");
-        } else {
-            $(this).html(tabText)
-            $('[id="props' + thisId + '"] h2 .tag').html('*');
+    $('[data-label="banner"] span').on({
+
+        click: function () {
+            thisBanner.tag = $(this).text();
+            $(this).text('');
+        },
+        focusout: function () {
+            var thisId = $(this).parents('[id*="tabbs"]').attr('id').substr(-4), newBannerTitle = $(this).text();
+            console.log(thisBanner.tag);
+            console.log(newBannerTitle);
+
+            if (newBannerTitle != thisBanner.tag && newBannerTitle != '') {
+                thisBanner.tag = newBannerTitle;
+                $('[id="props' + thisId + '"] h2 .tag').empty();
+                $('[id="props' + thisId + '"] h2 .tag').html(thisBanner.tag + " ");
+            } else {
+                $(this).text(thisBanner.tag);
+            }
         }
     });
 }
@@ -657,10 +667,6 @@ function add(thisButton) {
 
         $('.subtract-button', seriesParent).attr('hidden', false);
 
-        // for (var h = 0; h < thisSeries.length; h++) {
-        //     bannerObj($(thisSeries[h]).closest('div[id*="tabbs"]').attr('id').substr(5)).previousPattern = '';
-        // }
-
     } else {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
         var bpid = randomId(10000, 99999),
@@ -676,7 +682,7 @@ function add(thisButton) {
             }
         }
 
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab('Configure Breakpoint Name', bpid));
+        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab('|A', bpid));
 
         $('[id="content_' + id + '"] [data-domain="breakpoints"] .fields').append(breakpointField(1, bpid));
 
@@ -934,8 +940,8 @@ function bannerTabsHTML(el1) {
             '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
             '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
             '</span>' +
-            '<span class="controls-ordinals">' +
-            '<button type="button" class="banner-tab" name="bannertab" onClick="show(this)" data-label="banner" contenteditable>' + el1.latestTag + '</button>' +
+            '<span>' +
+            '<button type="button" class="banner-tab" name="bannertab" onClick="show(this)" data-label="banner"><span style="font-size:16px;line-height:20px;color:black;display:block;" contenteditable>' + el1.tag + '<span></button>' +
             '</span>' +
             '<div>';
 
@@ -1039,7 +1045,7 @@ function bannerObj(el1) {
 
     obj = {
         id: el1,
-        tag: '<span style="color:#A0A0A0;font-weight:400;"><span class="tab-visible"><span class="blink">|</span> Click to e</span><span class="header-visible"><span class="blink">|</span> E</span>nter banner name <span class="header-visible">in tab above</span>.</span><b>*</b>',
+        tag: '|A',
         get latestTag() {
             return this.tag;
         },
@@ -1139,7 +1145,7 @@ function bannerObj(el1) {
             $('input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
             this.buttonBehave();
 
-            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .tabs').append(this.breakpointTabs('Configure Breakpoint Name', bpId));
+            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .tabs').append(this.breakpointTabs('|A', bpId));
 
             $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .fields').append(this.breakpointFields(1, bpId));
 

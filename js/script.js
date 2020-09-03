@@ -70,14 +70,12 @@ $(document).ready(function () {
     bannerInit.render();
 
     $('[id*="tabbs"] .subtract-button').attr('hidden', true);
-    //$('[id*="content"] .subtract-button').attr('hidden', true);
 
     $('button[name="resetall"]').on('click', function () {
-        $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it,form > span.dynamic, .text-render span.dynamic').html('');
+        $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it,form > span.dynamic, .text-render').html('');
         bannerInit = new bannerObj(randomId(1000, 9999));
         bannerInit.render();
         $('[id*="tabbs"] .subtract-button').attr('hidden', true);
-        //$('[id*="content"] .subtract-button').attr('hidden', true);
     });
 
 });

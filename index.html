@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>Offer Creation Tool v2</title>
+        <title>Offer Creation Tool v3</title>
         <meta name="viewport"
               content="width=device-width, initial-scale=1, maximum-scale=1">
         <!-- jQuery -->
@@ -22,32 +22,26 @@
               href="css/sectionoffer.css">
         <!-- <script src="js/sectionoffer.js"></script> -->
         <script src="js/script.js"></script>
-
-
         <style>
             /* 1. Place the 2 breakpoint images in the same location as this file
- * 2. Change the background-image urls to the image filenames (in the 
- * e.g. background-image: url( offer-image-large.jpg );
- * 3. Change the offer text 
-*/
-
+         * 2. Change the background-image urls to the image filenames (in the 
+         * e.g. background-image: url( offer-image-large.jpg );
+         * 3. Change the offer text 
+         */
             section.section-offer a {
                 /*	background-image: url( https://services.scdirect.net/scripts/images/test-962.png );*/
             }
 
             @media screen and (max-width:575px) {
                 /*	section.section-offer a {
-		background-image: url( https://services.scdirect.net/scripts/images/test-575.png );
-	}*/
+         background-image: url( https://services.scdirect.net/scripts/images/test-575.png );
+         }*/
             }
         </style>
-
     </head>
 
     <body>
-
         <!-- requirements -->
-
         <header class="container">
             <div class="row">
                 <h1 class="col-xs-12">Offer Creation Tool v3</h1>
@@ -55,7 +49,6 @@
             <div class="row">
                 <p class="col-xs-12"><span class="required">*</span> - Indicates a required field.</p>
             </div>
-            <div class="editable"></div>
         </header>
         <main id="mlTen"
               class="container">
@@ -64,10 +57,10 @@
                       class="col-xs-12">
                     <fieldset id="globalProperties"
                               class="row">
+                              <div class="col-xs-12">
                         <legend>
                             <h2>Global Attributes</h2>
                         </legend>
-                        <div class="col-xs-12">
                             <div class="row">
                                 <div class="col-xs-12">
                                     <fieldset id="brand">
@@ -91,69 +84,61 @@
                                 <div class="col-xs-12">
                                     <fieldset id="bannerTabs"><span class="dynamic"></span></fieldset>
                                 </div>
+                            </div>
+                    </div>
                     </fieldset>
-                    <div class="faux-website-container row">
-                        <div class="container">
-                            <!-- <section class="section-offer pyh-ad-outer py-shadow-b no-gap clearfix"
-                                     role="region"> -->
-                            <section class="section-offer row"
-                                     role="region">
-                                <a href="#">
-                                    <div class="section-offer-content col-xs-12">
-                                        <!-- <h2>
-                                            <picture>
-                                                <source media="(min-width: 576px)"
-                                                        srcset="https://services.scdirect.net/scripts/images/test-962.png">
-                                                <source media="(max-width: 575px)"
-                                                        srcset="https://services.scdirect.net/scripts/images/test-575.png">
-                                                <img id="section-offer-img"
-                                                     src="https://services.scdirect.net/scripts/images/test-962.png"
-                                                     alt="Offer Heading"
-                                                     aria-describedby="offer-description"
-                                                     data-srcset="https://services.scdirect.net/scripts/images/test-575.png">
-                                            </picture> -->
-                                        <div class="text-render row">
-
-                                            <span class="dynamic"></span>
-                                        </div>
-                                        <!-- </h2> -->
-                                    </div>
-                                </a>
-                                <div id="offer-description">
-                                    <div class="body adMove">
-                                        Offer Sub Text Description
-                                    </div>
-                                    <div class="coupon adMove">
-                                        Coupon Code: 123456
-                                    </div>
-                                </div>
-                                <script>
-                                    if (window.innerWidth <= 575) {
-                                        var offerImg = document.getElementById("section-offer-img");
-                                        if (offerImg.currentSrc !== offerImg.getAttribute("data-srcset"))
-                                            offerImg.src = offerImg.getAttribute("data-srcset");
-                                    }
-                                </script>
-                            </section>
+                    <div class="row">
+                        <div class="section-offer-content col-xs-12">
+                            <!-- <h2>
+                           <picture>
+                               <source media="(min-width: 576px)"
+                                       srcset="https://services.scdirect.net/scripts/images/test-962.png">
+                               <source media="(max-width: 575px)"
+                                       srcset="https://services.scdirect.net/scripts/images/test-575.png">
+                               <img id="section-offer-img"
+                                    src="https://services.scdirect.net/scripts/images/test-962.png"
+                                    alt="Offer Heading"
+                                    aria-describedby="offer-description"
+                                    data-srcset="https://services.scdirect.net/scripts/images/test-575.png">
+                           </picture> -->
+                            <div class="row">
+                                <div class="col-xs-12 text-render"></div>
+                            </div>
+                            <!-- </h2> -->
                         </div>
+                        <!-- <div id="offer-description">
+                            <div class="body adMove">
+                                Offer Sub Text Description
+                            </div>
+                            <div class="coupon adMove">
+                                Coupon Code: 123456
+                            </div>
+                        </div>
+                        <script>
+                            if (window.innerWidth <= 575) {
+                                var offerImg = document.getElementById("section-offer-img");
+                                if (offerImg.currentSrc !== offerImg.getAttribute("data-srcset"))
+                                    offerImg.src = offerImg.getAttribute("data-srcset");
+                            }
+                        </script> -->
                     </div>
                     <span class="dynamic"></span>
-
                     <br>
-                    <button type="button"
-                            name="exporthtml"
-                            disabled>Export HTML</button>
-                    <button type="button"
-                            name="exportcss"
-                            disabled>Export CSS</button>
-                    <button id="form-reset"
-                            type="reset"
-                            name="resetall">Reset</button>
+                    <div class="row">
+                        <div class="col-xs-12"><button type="button"
+                                    name="exporthtml"
+                                    disabled>Export HTML</button>
+                            <button type="button"
+                                    name="exportcss"
+                                    disabled>Export CSS</button>
+                            <button id="form-reset"
+                                    type="reset"
+                                    name="resetall">Reset</button></div>
+                    </div>
+
                 </form>
             </section>
-
             <hr>
-
         </main>
     </body>
 

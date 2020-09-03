@@ -544,13 +544,11 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	pointer-events:auto;
 }
 
-[class*="tabs"] {
-	/* padding-left:2rem;
-	padding-right:2rem; */
+[class*="tab"] {
 	width:100%;
 }
 
-.banner-tabs.showing, .breakpoint-tabs.showing {
+.banner-tab.showing, .breakpoint-tab.showing {
 	background-color:rgb(250,250,250);
 	background-color:rgba(250,250,250,1.0);
 	font-weight:700;
@@ -572,15 +570,15 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
     width: 100%;
 }
 
-.banner-properties, .editablewrapper p, .editablewrapper .field {
+.banner-properties, .content .field {
 	display:none;
 }
 
-.banner-properties.showing, .editablewrapper p.showing {
+.banner-properties.showing, .content p.showing {
 	display:block;
 }
 
-.editablewrapper .field.showing {
+.content .field.showing {
 	display:-webkit-box;
 	display:-ms-flexbox;
 	display:flex;
@@ -611,16 +609,16 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	font-weight:700;
 }
 
-.disabled {
-	display:none!important;
+:disabled {
+	opacity:0.5;
 }
 
-/* .editablewrapper {
+/* .content {
 	width:100%;
 	margin-right:2px;
 } */
 
-/* .editablewrapper [data-domain="editfields"] {
+/* .content [data-domain="fields"] {
 	display:-webkit-box;
 	display:-ms-flexbox;
 	display:flex;
@@ -632,19 +630,19 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
     line-height: 100%;
 } */
 
-/* .editablewrapper [data-domain="editfields"] {
+/* .content [data-domain="fields"] {
 	align-items: flex-end;
 }
 
-.editablewrapper [data-domain="bpconfig"] {
+.content [data-domain="bpconfig"] {
 	align-items: flex-end;
 } */
 
-.editablewrapper [data-domain="editfields"] span {
+.content [data-domain="fields"] span {
 	width:calc(100% - 2px);
 	margin-right:2px;
 }
-.editablewrapper [data-bp] span:last-child {
+.content [data-bp] span:last-child {
 	margin-right:0px;
 }
 
@@ -741,11 +739,11 @@ h2 .tab-visible{
 	display:none;
 }
 
-.banner-tabs .header-visible{
+.banner-tab .header-visible{
 	display:none;
 }
 
-.banner-tabs .tab-visible{
+.banner-tab .tab-visible{
 	display:inline-block;
 }
 
@@ -753,3 +751,7 @@ h2 .tab-visible{
 	display: flex;
     justify-content: flex-end;
 }
+
+/* [data-domain="backgroundimg"], .backgroundimg > div{
+	display:none;
+} */

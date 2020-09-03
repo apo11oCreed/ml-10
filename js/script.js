@@ -982,7 +982,7 @@ function breakpointField(number, id) {
         '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
         '</span>' +
         '<span class="editablecontainer">' +
-        '<textarea id="1"></textarea>' +
+        '<textarea id="ckeditor_' + number + '"></textarea>' +
         '</span>' +
         '</span>' +
         '</div>';
@@ -1110,7 +1110,7 @@ function bannerObj(el1) {
                 '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
                 '</span>' +
                 '<span class="editablecontainer">' +
-                '<textarea id="1"></textarea>' +
+                '<textarea id="ckeditor_' + number + '"></textarea>' +
                 '</span>' +
                 '</span>';
 

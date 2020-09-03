@@ -60,7 +60,7 @@ body {
 	text-align: center;
 }
 
-.optCont span.showhide {
+.optCont span.showinghide {
 	font-size: 200%;
 	display: none;
 }
@@ -177,7 +177,7 @@ section.pyh-ad-outer.no-gap {
 	.optCont .opt-row.chide {
 		display: none;
 	}
-	.optCont span.showhide {
+	.optCont span.showinghide {
 		display: inline;
 	}
 }
@@ -441,7 +441,11 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	width:100%;
 }
 
+<<<<<<< HEAD
+.text-render.row span.dynamic [id*='output_']{
+=======
 .section-offer-content > .row .text-render > div{
+>>>>>>> f8f24c7cc65f37422266377ed26be4f225b469de
 	margin-right:2px;
 	width:calc(100% - 2px);
 }
@@ -517,7 +521,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 .faux-website-container {
 	min-height: unset;
 }
-#bannerTabs [id*="tabbs"] {
+#bannerTabs [id*="tabbs"], [data-domain="bpconfig"]  {
 	display:flex;
 	flex-direction:column;
 	justify-content: center;
@@ -529,34 +533,34 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	justify-content: flex-end;
 }
 
-#bannerTabs [id*="tabbs"] span.controls-add-subtract button {
+#bannerTabs [id*="tabbs"] span.controls-add-subtract button, [data-domain="bpconfig"] span.controls-add-subtract button {
 	opacity:0.0;
 	pointer-events:none;
 	transition: opacity 0.115s ease-in-out;
 }
 
-#bannerTabs [id*="tabbs"]:hover span.controls-add-subtract button {
+#bannerTabs [id*="tabbs"]:hover span.controls-add-subtract button, [data-domain="bpconfig"]:hover span.controls-add-subtract button {
 	opacity:1.0;
 	pointer-events:auto;
 }
 
-#bannerTabs .banner-tabs {
-	padding-left:2rem;
-	padding-right:2rem;
+[class*="tabs"] {
+	/* padding-left:2rem;
+	padding-right:2rem; */
 	width:100%;
 }
 
-#bannerTabs .banner-tabs.show{
+.banner-tabs.showing, .breakpoint-tabs.showing {
 	background-color:rgb(250,250,250);
 	background-color:rgba(250,250,250,1.0);
 	font-weight:700;
 }
 
-.text-render > div.show{
+.text-render > div.showing{
 	position:relative;
 }
 
-.text-render > div.show:after{
+.text-render > div.showing:after{
 	display: block;
     content: '\00a0';
     font-size: 1px;
@@ -568,12 +572,24 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
     width: 100%;
 }
 
-.banner-properties {
+.banner-properties, .editablewrapper p, .editablewrapper .field {
 	display:none;
 }
 
-.banner-properties.show {
+.banner-properties.showing, .editablewrapper p.showing {
 	display:block;
+}
+
+.editablewrapper .field.showing {
+	display:-webkit-box;
+	display:-ms-flexbox;
+	display:flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: row;
+			flex-direction: row;
+			align-items: center;
+    line-height: 100%;
 }
 
 #msgBox.full-width .modal-dialog {
@@ -599,12 +615,12 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	display:none!important;
 }
 
-.editablewrapper {
+/* .editablewrapper {
 	width:100%;
 	margin-right:2px;
-}
+} */
 
-.editablewrapper [data-domain="editfields"], .editablewrapper [data-domain="bpconfig"] {
+/* .editablewrapper [data-domain="editfields"] {
 	display:-webkit-box;
 	display:-ms-flexbox;
 	display:flex;
@@ -612,7 +628,9 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	-webkit-box-direction: normal;
 	    -ms-flex-direction: row;
 			flex-direction: row;
-}
+			align-items: center;
+    line-height: 100%;
+} */
 
 /* .editablewrapper [data-domain="editfields"] {
 	align-items: flex-end;

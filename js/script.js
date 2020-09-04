@@ -38,7 +38,7 @@ var brands = {
     bannerTabsLegend = '<legend>' +
         '<h3>Banners</h3>' +
         '</legend>' +
-        '<p>Click on the <b>[ tab ]</b> button to change the name of the banner and to display the banner form.<br>Hover over <b>[ tab ]</b> button(s) to view all controls.<br>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a banner.</p>' +
+        '<p>Click on the <b>[ |A ]</b> button to edit the name of the banner and to display the banner\'s properties form.<br>Hover over <b>[ |A ]</b> button(s) to view toolbar.<br>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a banner.</p>' +
         '</div>' +
         '</div>' +
         '<hr>',
@@ -62,20 +62,20 @@ $(document).ready(function () {
         $(this).remove();
     });
     $('[id="bannerTabs"]').prepend(bannerTabsLegend);
-    $('[id="bannerTabs"] span.dynamic').append('<div class="row-fluid flex-it" data-domain="tabs"></div>');
+    $('[id="bannerTabs"] .dynamic').append('<div class="row-fluid flex-it" data-domain="tabs"></div>');
 
     var idInit = randomId(1000, 9999),
         bannerInit = new bannerObj(idInit);
 
     bannerInit.render();
 
-    $('[id*="tabbs"] .subtract-button').attr('hidden', true);
+    $('[id*="tabbs"] .subtract-button').prop('hidden', true);
 
     $('button[name="resetall"]').on('click', function () {
-        $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it,form > span.dynamic, .text-render').html('');
+        $('[id="bannerTabs"] .dynamic .row-fluid.flex-it,form > .dynamic, .text-render').html('');
         bannerInit = new bannerObj(randomId(1000, 9999));
         bannerInit.render();
-        $('[id*="tabbs"] .subtract-button').attr('hidden', true);
+        $('[id*="tabbs"] .subtract-button').prop('hidden', true);
     });
 
 });
@@ -87,6 +87,7 @@ function buttonBehave1(thisBanner) {
 
     // dropdown events
     $('select[name="brands"],[id="props' + id + '"] select[name="onClickBehavior"]').on('change', function () {
+        
         var type = $(this).attr('name');
 
         if (type == 'brands') {
@@ -100,37 +101,14 @@ function buttonBehave1(thisBanner) {
     });
 
     // radio events
-    $('input[name="bpdesktop_' + id + '"],input[name="bpmobile_' + id + '"],input[name="lorr1_' + id + '"]').on('change', function () {
-        var type = $(this).attr('name'),
-            namespace = deviceTypeRegex.exec(type);
-
-        if (namespace == 'desktop' || namespace == 'mobile') {
-
-            if ($(this).val() == '0') {
-                $('input[name="bg' + namespace + '_' + id + '"]').prop({
-                    'disabled': true,
-                    'required': false
-                });
-
-                $('[id="props' + id + '"] [data-bp="' + namespace + '"],[id="' + id + '"] [data-bp="' + namespace + '"]').not('.disabled').addClass('disabled');
-
-            } else {
-
-                $('[id="props' + id + '"] input[name*="bg' + namespace + '"]').prop({
-                    'disabled': false,
-                    'required': true
-                });
-
-                $('[id*="' + id + '"] [data-bp="' + namespace + '"]').removeClass('disabled');
-            }
-
-        } else {
-            state = $(this).val();
+    $('input[name="lorr1_' + id + '"]').on('change', function () {
+        
+        state = $(this).val();
 
             if (state == "local") {
                 // Disable 'Brand'/'Export'
-                // $(".opt-row.brand .clabel").addClass("disabled");
-                // $("fieldset#brand select").attr("disabled", "disabled");
+                // $(".opt-row.brand .clabel").addClass('disabled');
+                // $("fieldset#brand select").prop('disabled', 'disabled');
 
                 //thisBanner.state = "local";
 
@@ -179,12 +157,12 @@ function buttonBehave1(thisBanner) {
             }
 
             $(".input-group1").removeClass("found notfound");
-            $(".input-group1").next('.error').attr('hidden', true);
-        }
+            $(".input-group1").next('.error').prop('hidden', true);
     });
 
     // color events
-    $('input[id*="r_"],input[id*="g_"],input[id*="b_"]').on('input', function () {
+    $('input[id*="r_bg"],input[id*="g_bg"],input[id*="b_bg"]').on('input', function () {
+        
         var code = $(this).val(),
             // namespace = bgTxtRegex.exec($(this).attr('id')),
             id = $(this).attr('id').substr(-4),
@@ -193,15 +171,15 @@ function buttonBehave1(thisBanner) {
         if (Number(code) > 250) {
             $(this).addClass('error');
             $(this).parent().next('.error').html('Max value is 250');
-            $(this).parent().next('.error').attr('hidden', false);
+            $(this).parent().next('.error').prop('hidden', false);
         } else if (Number(code) < 0) {
             $(this).addClass('error');
             $(this).parent().next('.error').html('Min value is 0');
-            $(this).parent().next('.error').attr('hidden', false);
+            $(this).parent().next('.error').prop('hidden', false);
         } else {
             $(this).removeClass('error');
             $(this).parent().next('.error').html('');
-            $(this).parent().next('.error').attr('hidden', true);
+            $(this).parent().next('.error').prop('hidden', true);
 
             // if (namespace == 'bg') {
             switch (rgb) {
@@ -226,12 +204,14 @@ function buttonBehave1(thisBanner) {
 
     // button events
     $("button[name='exporthtml'],button[name='exportcss']").on("click", function () {
+        
 
         var type = $(this).attr("name");
         exportCode1(type);
     });
 
     $("span.help1").on("click", function () {
+        
         var helpMsg = "";
         switch ($(this).data("help")) {
             case "desktop":
@@ -255,27 +235,30 @@ function buttonBehave1(thisBanner) {
 
     // validation event
     $("input, select, textarea").on("change", function () {
+        
         confirmAllRequiredMet();
     });
 
     // imgaddress
     $(".bgimgaddress").on({
         focus: function () {
+            
             $(this).parent().removeClass("found notfound");
-            if ($(this).parent().next().attr('hidden', false)) {
-                $(this).parent().next().attr('hidden', true);
+            if ($(this).parent().next().prop('hidden', false)) {
+                $(this).parent().next().prop('hidden', true);
             }
         },
         focusout: function () {
+            
             if ($(this).val() != '') {
                 checkImageExists1(this, $(this).val(), thisBanner);
             }
-
         }
     });
 
     // Drop Shadow
     $("select[name='dShadow']").on("change", function () {
+        
         $("section.section-offer").removeClass("py-shadow-b py-shadow-b-lrg py-shadow-b-sml");
         var shadow = "py-shadow-b";
 
@@ -293,20 +276,27 @@ function buttonBehave1(thisBanner) {
     $('[data-label="banner"] span').on({
 
         click: function () {
+            
             thisBanner.tag = $(this).text();
+            thisBannerH2=$('[id="props' + thisId + '"] h2 .tag').html();
             $(this).text('');
         },
         focusout: function () {
+            
             var thisId = $(this).parents('[id*="tabbs"]').attr('id').substr(-4), newBannerTitle = $(this).text();
-            console.log(thisBanner.tag);
-            console.log(newBannerTitle);
 
-            if (newBannerTitle != thisBanner.tag && newBannerTitle != '') {
-                thisBanner.tag = newBannerTitle;
-                $('[id="props' + thisId + '"] h2 .tag').empty();
-                $('[id="props' + thisId + '"] h2 .tag').html(thisBanner.tag + " ");
+            if(newBannerTitle){
+                if (newBannerTitle != thisBanner.tag) {
+                    thisBanner.tag = newBannerTitle;
+                    $('[id="props' + thisId + '"] h2 .tag').empty();
+                    $('[id="props' + thisId + '"] h2 .tag').html(thisBanner.tag + " ");
+                } else {
+                    $(this).text(thisBanner.tag);
+                    $('[id="props' + thisId + '"] h2 .tag').html(thisBannerH2);
+                }
             } else {
                 $(this).text(thisBanner.tag);
+                $('[id="props' + thisId + '"] h2 .tag').html(thisBannerH2);
             }
         }
     });
@@ -345,10 +335,10 @@ function imgURL1(el, flag) {
 
     var fname = $(el).val();
     if (fpath) {
-        console.log(flag);
+        // console.log(flag);
         return domain + fpath + fname;
     } else {
-        console.log(flag);
+        // console.log(flag);
         return fpath + fname;
     }
 
@@ -526,7 +516,7 @@ function renderCopyFields(el1, el2) {
         if (value1 == '') {
             $(el2).css('display', 'none');
         } else {
-            $(el2).attr('hidden', true);
+            $(el2).prop('hidden', true);
         }
 
         if (value1 != value2) {
@@ -538,7 +528,7 @@ function renderCopyFields(el1, el2) {
 }
 
 function displayOnClickBehavior(behaviorSelected, banner) {
-    $('[id="props' + banner.id + '"] .row.onclickbehavior span.dynamic').html('');
+    $('[id="props' + banner.id + '"] .row.onclickbehavior .dynamic').html('');
 
     var modalHTML = '<div class="row-fluid"><h4>Modal</h4><hr><div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalFooter">Modal Footer</label> <br><input id="modalFooter" name="modalFooter" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h5>Example Modal</h5> <img src="img/test.png" alt="Example modal"> </span> </div></div>',
         linkHMTL = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to another page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required></div></div>',
@@ -562,7 +552,7 @@ function displayOnClickBehavior(behaviorSelected, banner) {
             break;
     }
 
-    $('[id="props' + banner.id + '"] .row.onclickbehavior span.dynamic').append(banner.onClickBehaviorHTML);
+    $('[id="props' + banner.id + '"] .row.onclickbehavior .dynamic').append(banner.onClickBehaviorHTML);
 
     $("input, select, textarea").on("change", function () {
         confirmAllRequiredMet();
@@ -584,9 +574,9 @@ function confirmAllRequiredMet() {
     }
 
     if (invalids.length < 1) {
-        $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", false);
+        $("button[name='exporthtml'],button[name='exportcss']").prop('disabled', false);
     } else {
-        $("button[name='exporthtml'],button[name='exportcss']").prop("disabled", true);
+        $("button[name='exporthtml'],button[name='exportcss']").prop('disabled', true);
     }
 }
 
@@ -644,10 +634,10 @@ function add(thisButton) {
         series = $('[id*="tabbs"]');
 
         if (z.visibleIndex(series) == globalSettings.maxBannerNumber) {
-            $('[data-domain="' + dataDomain + '"] .add-button').attr('hidden', true);
+            $('[data-domain="' + dataDomain + '"] .add-button').prop('hidden', true);
         }
 
-        $('[data-domain="' + dataDomain + '"] .subtract-button').attr('hidden', false);
+        $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', false);
 
         $('[id*="props"],button.banner-tab,.text-render > div').removeClass('showing');
         $('[id="props' + z.id + '"], [id="tabbs' + z.id + '"] .banner-tab, [id="' + z.id + '"]').addClass('showing');
@@ -663,7 +653,7 @@ function add(thisButton) {
 
         $('[id="' + id + '"] [data-bp="' + parentValue + '"]').append(bannerObj(id).copyOutput($('[data-domain="fields"]', seriesParent).children('[data-input-index]').last().data('input-index')));
 
-        $('.subtract-button', seriesParent).attr('hidden', false);
+        $('.subtract-button', seriesParent).prop('hidden', false);
 
     } else {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
@@ -686,7 +676,7 @@ function add(thisButton) {
 
         $('[id="background_' + id + '"] .backgroundimg').append(bpBgImage('', bpid));
 
-        $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').attr('hidden', false);
+        $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
 
         $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button,[id="content_' + id + '"] [data-domain="breakpoints"] .fields div').removeClass('showing');
 
@@ -708,10 +698,10 @@ function remove(thisButton) {
         series = $('[id*="tabbs"]');
 
         if (series.length == globalSettings.minBannerNumber) {
-            $('[data-domain="' + dataDomain + '"] .subtract-button').attr('hidden', true);
+            $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', true);
         }
 
-        $('[data-domain="' + dataDomain + '"] .add-button').attr('hidden', false);
+        $('[data-domain="' + dataDomain + '"] .add-button').prop('hidden', false);
 
     } else if (dataDomain == 'fields') {
         var seriesParent = $(thisButton).closest('[data-domain="' + dataDomain + '"]'),
@@ -724,7 +714,7 @@ function remove(thisButton) {
         series = $('[data-input-index]', seriesParent);
 
         if (series.length == globalSettings.minBannerNumber) {
-            $('.subtract-button', seriesParent).attr('hidden', true);
+            $('.subtract-button', seriesParent).prop('hidden', true);
         }
     } else {
         var series = $('[data-domain="breakpoints"] [data-bp]'),
@@ -737,7 +727,7 @@ function remove(thisButton) {
         series = $('[data-domain="breakpoints"] [data-bp]');
 
         if (series.length == 1) {
-            $('[data-domain="bpconfig"] .subtract-button').attr('hidden', true);
+            $('[data-domain="bpconfig"] .subtract-button').prop('hidden', true);
         }
     }
 }
@@ -766,15 +756,19 @@ function update(el1, el2) {
         height = $('input#bpHeight', el1).val(),
         bpQty;
 
-    $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;margin-right:1rem;">' +
+    $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
         name +
-        '</h5><span style="font-weight:400;font-size:smaller;">( minwidth:</span> ' +
-        minwidth +
-        'px<span style="font-weight:400;font-size:smaller;"> , maxwidth:</span> ' +
-        maxwidth +
-        'px<span style="font-weight:400;font-size:smaller;"> , height:</span> ' +
-        height +
-        'px<span style="font-weight:400;font-size:smaller;"> )</span>'
+        '</h5>' + 
+        '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon glyphicon-menu-hamburger"></span>' +
+        '<dl id="dl_' + bpid + '" class="collapse">' + 
+        '<dt>Options</dt>' + 
+        '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
+        minwidth + 'px</span></dd>' + 
+        '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
+        maxwidth + 'px</span></dd>' + 
+        '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+        height +'px</span></dd>' +
+        '</dl>'
     );
 
     $(el2).attr('data-bp', name);
@@ -783,11 +777,12 @@ function update(el1, el2) {
     $(el2).attr('data-bp-height', height);
 
     if ($('input[name="bgImg"]:checked').val() == 'yes') {
-        $('[data-bp="bg_' + bpid + '"] input').removeAttr('disabled');
-        $('[data-bp="bg_' + bpid + '"] input').attr('required', true);
+        $('[data-bp="bg_' + bpid + '"] input').prop('disabled',false);
+        $('[data-bp="bg_' + bpid + '"] input').prop('required',true);
         $('[data-bp="bg_' + bpid + '"] .bpName').text(name);
     } else {
-        $('[data-bp="bg_' + bpid + '"] input').attr('disabled', true);
+        $('[data-bp="bg_' + bpid + '"] input').prop('disabled', true);
+        $('[data-bp="bg_' + bpid + '"] input').prop('required',false);
         $('[data-bp="bg_' + bpid + '"] .bpName').text('');
     }
 
@@ -804,8 +799,8 @@ function bannerFormHTML(el1) {
             '<div class="col-xs-12">' +
             '<div class="row">' +
             '<div class="col-xs-12">' +
-            '<legend><h3>Content Settings</h3></legend>' +
-            '<p>Click on the <b>[ tab ]</b> button to display the text fields.<br>Hover over <b>[ tab ]</b> button(s) to view all controls.<br>Click on the<b> [ <span style="color:green;">+</span> ]</b></b> button to add another breakpoint.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a breakpoint.<br>Click on the <span class="glyphicon glyphicon-cog" style="color:black;"></span> button to set the <b>Name</b>, <b>Min Width</b>, <b>Max Width</b>, <b>Height</b>, and <b>Background Image</b> options of banner.</p>' +
+            '<legend><h3>Breakpoint Settings</h3></legend>' +
+            '<p>Click on the <b>[ |A ]</b> button to display the text group form.<br>Hover over <b>[ |A ]</b> button(s) to view toolbar.<br>Click on the<b> [ <span style="color:green;">+</span> ]</b></b> button to add another breakpoint.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a breakpoint.<br>Click on the <span class="glyphicon glyphicon-cog" style="color:black;"></span> button to set the <b>Name</b>, <b>Min Width</b>, <b>Max Width</b>, <b>Height</b>, and <b>Background Image</b> options of breakpoint.</p>' +
             '</div>' +
             '</div>' +
             '<div class="row-fluid content" data-domain="breakpoints">' +
@@ -813,6 +808,7 @@ function bannerFormHTML(el1) {
             '<div class="row-fluid flex-it tabs"></div>' +
             '<hr>' +
             '<div class="row-fluid fields">' +
+            '<h3>Text Groups Settings</h3>' +
             '<p>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another text group.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a text group.<br>Click on the <span class="glyphicon glyphicon-pencil" style="color:black;"></span> button to open the <b>rich text editor</b> for that text group.</p>' +
             '</div>' +
             '</div>' +
@@ -920,7 +916,7 @@ function bannerFormHTML(el1) {
             '</div>' +
             '</div>';
 
-    html = '<fieldset id="props' + id + '" class="row banner-properties"><div class="col-xs-12"><legend> <h2><span class="tag">*</span>Properties</h2></legend>'
+    html = '<fieldset id="props' + id + '" class="row banner-properties"><div class="col-xs-12"><legend> <h2><span class="tag"></span>Properties</h2></legend>'
         + content
         // + breakpoints
         // + campaign
@@ -939,7 +935,7 @@ function bannerTabsHTML(el1) {
             '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
             '</span>' +
             '<span>' +
-            '<button type="button" class="banner-tab" name="bannertab" onClick="show(this)" data-label="banner"><span style="font-size:16px;line-height:20px;color:black;display:block;" contenteditable>' + el1.tag + '<span></button>' +
+            '<button type="button" class="banner-tab" name="bannertab" onClick="show(this)" data-label="banner"><span contenteditable>' + el1.tag + '<span></button>' +
             '</span>' +
             '<div>';
 
@@ -967,7 +963,7 @@ function breakpointTab(name, id) {
         '<button type="button" class="edit-button glyphicon glyphicon-cog" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
         '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
         '</span>' +
-        '<span><button type="button" class="breakpoint-tab" name="copyTab" onClick="show(this);"><h5 style="margin-top:0;margin-bottom:0;"><span class="bpName">' + name + '</span></h5></button></span>' +
+        '<span><button type="button" class="breakpoint-tab showing" name="copyTab" onClick="show(this);"><h5 style="margin-top:0;margin-bottom:0;"><span class="bpName">' + name + '</span></h5></button></span>' +
         '</div>';
 
     return html;
@@ -1029,7 +1025,7 @@ function bpBgImage(bpName, bannerId) {
             '<div class="col-xs-3">' +
             '<label for="bg_' + bpid + '">Image for <b class="bpName"></b> breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label>' +
             '</div>' +
-            '<div class="col-xs-6 input-group1">' +
+            '<div class="col-xs-3 input-group1">' +
             '<span class="input-group-addon1" id="img2label">Local</span> <input id="bg_' + bpid + '" class="bgimgaddress form-control1" type="text" name="bg_' + bpid + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" disabled>' +
             '</div>' +
             '<div class="col-xs-3 error" hidden>Image not found</div>' +
@@ -1132,9 +1128,9 @@ function bannerObj(el1) {
         render: function () {
             var bpId = randomId(10000, 99999);
 
-            $('form > span.dynamic').append(bannerFormHTML(this));
+            $('form .row .col-xs-12.dynamic').append(bannerFormHTML(this));
 
-            $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTabsHTML(this));
+            $('[id="bannerTabs"] .dynamic .row-fluid.flex-it').append(bannerTabsHTML(this));
 
             $('.row .text-render').append(bannerCopySnippetHTML(this));
 
@@ -1147,7 +1143,7 @@ function bannerObj(el1) {
 
             $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .fields').append(this.breakpointFields(1, bpId));
 
-            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] [data-bp] .subtract-button').attr('hidden', true);
+            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] [data-bp] .subtract-button').prop('hidden', true);
 
         },
         state: 'local'

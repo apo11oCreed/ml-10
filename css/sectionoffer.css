@@ -368,12 +368,12 @@ input.bgcolor {
     border-collapse: separate;
 }
 
-.input-group1.notfound:after {
+.input-group1.notfound+.error:before {
 	content: "\e209";
 	font-family: "Glyphicons Halflings";
 	position: absolute;
-	top: 2px;
-    right: 21px;
+	top: 0;
+    left: -10px;
 	z-index: 1001;
 	color:orange;
 }
@@ -406,6 +406,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	    -ms-flex-direction: row;
 			flex-direction: row;
 			justify-content: center;
+			align-items: start;
 }
 
 .enter-text-banner.flex-it > div input {
@@ -636,12 +637,26 @@ h2 .tab-visible{
 	display:none;
 }
 
+.banner-tab, .breakpoint-tab {
+	background-color: #d2d2d2;
+	min-height: 26px;
+}
+
 .banner-tab .header-visible{
 	display:none;
 }
 
 .banner-tab .tab-visible{
 	display:inline-block;
+}
+
+.banner-tab span {
+	font-size:16px;
+	line-height: 20px;
+    color: black;
+    display: block;
+	margin: 0px 4rem;
+	background-color: #ebebeb;
 }
 
 #bpForm div.row:last-child {

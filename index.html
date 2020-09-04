@@ -35,17 +35,19 @@
                 <p class="col-xs-12"><span class="required">*</span> - Indicates a required field.</p>
             </div>
         </header>
-        <main id="mlTen"
-              class="container">
-            <section class="row">
-                <form action=""
-                      class="col-xs-12">
-                    <fieldset id="globalProperties"
-                              class="row">
+        <main id="mlTen">
+            <div class="container">
+            <section>
+                <div class="row">
+                <div class="col-xs-12">
+                <form action="">
+                    <div class="row">
+                    <fieldset id="globalProperties">
                         <div class="col-xs-12">
-                            <legend>
+                            <div class="row"><div class="col-xs-12"><legend>
                                 <h2>Global Attributes</h2>
-                            </legend>
+                            </legend></div></div>
+                            
                             <div class="row">
                                 <div class="col-xs-12">
                                     <fieldset id="brand">
@@ -72,6 +74,7 @@
                             </div>
                         </div>
                     </fieldset>
+                </div>
                     <div class="row">
                         <div class="section-offer-content col-xs-12">
                             <!-- <h2>
@@ -107,7 +110,9 @@
                             }
                         </script> -->
                     </div>
-                    <span class="dynamic"></span>
+                    <div class="row">
+                        <div class="col-xs-12 dynamic"></div>
+                    </div>
                     <br>
                     <div class="row">
                         <div class="col-xs-12"><button type="button"
@@ -120,10 +125,11 @@
                                     type="reset"
                                     name="resetall">Reset</button></div>
                     </div>
-
+                </div>
                 </form>
+            </div>
             </section>
-            <hr>
+            </div>
         </main>
         <script>
             CKEDITOR.replace('ckeditor_1');

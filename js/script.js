@@ -69,13 +69,13 @@ $(document).ready(function () {
 
     bannerInit.render();
 
-    $('[id*="tabbs"] .subtract-button').attr('hidden', true);
+    $('[id*="tabbs"] .subtract-button').prop('hidden', true);
 
     $('button[name="resetall"]').on('click', function () {
         $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it,form > span.dynamic, .text-render').html('');
         bannerInit = new bannerObj(randomId(1000, 9999));
         bannerInit.render();
-        $('[id*="tabbs"] .subtract-button').attr('hidden', true);
+        $('[id*="tabbs"] .subtract-button').prop('hidden', true);
     });
 
 });
@@ -179,7 +179,7 @@ function buttonBehave1(thisBanner) {
             }
 
             $(".input-group1").removeClass("found notfound");
-            $(".input-group1").next('.error').attr('hidden', true);
+            $(".input-group1").next('.error').prop('hidden', true);
         }
     });
 
@@ -193,15 +193,15 @@ function buttonBehave1(thisBanner) {
         if (Number(code) > 250) {
             $(this).addClass('error');
             $(this).parent().next('.error').html('Max value is 250');
-            $(this).parent().next('.error').attr('hidden', false);
+            $(this).parent().next('.error').prop('hidden', false);
         } else if (Number(code) < 0) {
             $(this).addClass('error');
             $(this).parent().next('.error').html('Min value is 0');
-            $(this).parent().next('.error').attr('hidden', false);
+            $(this).parent().next('.error').prop('hidden', false);
         } else {
             $(this).removeClass('error');
             $(this).parent().next('.error').html('');
-            $(this).parent().next('.error').attr('hidden', true);
+            $(this).parent().next('.error').prop('hidden', true);
 
             // if (namespace == 'bg') {
             switch (rgb) {
@@ -262,8 +262,8 @@ function buttonBehave1(thisBanner) {
     $(".bgimgaddress").on({
         focus: function () {
             $(this).parent().removeClass("found notfound");
-            if ($(this).parent().next().attr('hidden', false)) {
-                $(this).parent().next().attr('hidden', true);
+            if ($(this).parent().next().prop('hidden', false)) {
+                $(this).parent().next().prop('hidden', true);
             }
         },
         focusout: function () {
@@ -526,7 +526,7 @@ function renderCopyFields(el1, el2) {
         if (value1 == '') {
             $(el2).css('display', 'none');
         } else {
-            $(el2).attr('hidden', true);
+            $(el2).prop('hidden', true);
         }
 
         if (value1 != value2) {
@@ -607,9 +607,9 @@ function show(thisButton) {
         id = $(thisButton).closest('[id*="props"]').attr('id').substr(-4);
         var bpid = $(thisButton).closest('[name*="bpid_"]').attr('name').substr(-5);
 
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button.breakpoint-tab,[id="content_' + id + '"] [data-domain="breakpoints"] .fields .field').removeClass('showing');
+        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button.breakpoint-tab,[id="content_' + id + '"] [data-domain="breakpoints"] .inputs .input').removeClass('showing');
 
-        $(' [id="content_' + id + '"] [data-domain="breakpoints"] .fields [name="bpid_' + bpid + '"]').addClass('showing');
+        $(' [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"]').addClass('showing');
 
     }
     $(thisButton).addClass('showing');
@@ -644,26 +644,33 @@ function add(thisButton) {
         series = $('[id*="tabbs"]');
 
         if (z.visibleIndex(series) == globalSettings.maxBannerNumber) {
-            $('[data-domain="' + dataDomain + '"] .add-button').attr('hidden', true);
+            $('[data-domain="' + dataDomain + '"] .add-button').prop('hidden', true);
         }
 
-        $('[data-domain="' + dataDomain + '"] .subtract-button').attr('hidden', false);
+        $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', false);
 
         $('[id*="props"],button.banner-tab,.text-render > div').removeClass('showing');
         $('[id="props' + z.id + '"], [id="tabbs' + z.id + '"] .banner-tab, [id="' + z.id + '"]').addClass('showing');
 
-    } else if (dataDomain == 'fields') {
+    } else if (dataDomain == 'inputs') {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
 
         var seriesParent = $(thisButton).closest('[data-domain="' + dataDomain + '"]'),
-            parentValue = $(parent).closest('[data-bp]').data('bp'),
+            bpid = $(thisButton).closest('[name*="bpid"]').attr('name').substr(-5),
             series = $('.editable', parent);
 
+
+        // Add new input to input series and assign latest index
         $(seriesParent).append(bannerObj(id).copyInput($(seriesParent).children('[data-input-index]').last().data('input-index') + 1));
 
-        $('[id="' + id + '"] [data-bp="' + parentValue + '"]').append(bannerObj(id).copyOutput($('[data-domain="fields"]', seriesParent).children('[data-input-index]').last().data('input-index')));
+        // Add new output to output series and assign latest index
+        $('.text-render [id="' + id + '"] [data-bp="bpid_' + bpid + '"]').append(bannerObj(id).copyOutput($(seriesParent).children().last().data('input-index')));
 
-        $('.subtract-button', seriesParent).attr('hidden', false);
+        // Since there is more than one input now, disable hidden attribute for all input subtract buttons
+        $('.subtract-button', seriesParent).prop('hidden', false);
+
+        // Initiate ckeditor on this new textarea
+        $('textarea.editor').ckeditor();
 
     } else {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
@@ -680,17 +687,29 @@ function add(thisButton) {
             }
         }
 
+        // Add new breakpoint tab
         $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab('|A', bpid));
 
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .fields').append(breakpointField(1, bpid));
+        // Add new breakpoint textarea
+        $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs').append(breakpointInput(1, bpid));
 
-        $('[id="background_' + id + '"] .backgroundimg').append(bpBgImage('', bpid));
+        // Add new breakpoint section to banner preview
+        $('.text-render [id="' + id + '"]').append(bannerPreviewBreakpoint(bpid));
 
-        $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').attr('hidden', false);
+        // Add new breakpoint section to background image fields
+        $('[id="background_' + id + '"] .backgroundimg').append(breakpointBackgroundImg('', bpid));
 
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button,[id="content_' + id + '"] [data-domain="breakpoints"] .fields div').removeClass('showing');
+        // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
+        $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
 
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs [name="bpid_' + bpid + '"] .breakpoint-tab, [id="content_' + id + '"] [data-domain="breakpoints"] .fields [name="bpid_' + bpid + '"]').addClass('showing');
+        // Remove showing class from all breakpoint tabs
+        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button,[id="content_' + id + '"] [data-domain="breakpoints"] .inputs div').removeClass('showing');
+
+        // Assign showing class to this new breakpoint tab
+        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs [name="bpid_' + bpid + '"] .breakpoint-tab, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"]').addClass('showing');
+
+        // Initiate ckeditor on the initial textarea of this new breakpoint tab
+        $('textarea.editor').ckeditor();
     }
 }
 
@@ -708,36 +727,42 @@ function remove(thisButton) {
         series = $('[id*="tabbs"]');
 
         if (series.length == globalSettings.minBannerNumber) {
-            $('[data-domain="' + dataDomain + '"] .subtract-button').attr('hidden', true);
+            $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', true);
         }
 
-        $('[data-domain="' + dataDomain + '"] .add-button').attr('hidden', false);
+        $('[data-domain="' + dataDomain + '"] .add-button').prop('hidden', false);
 
-    } else if (dataDomain == 'fields') {
+    } else if (dataDomain == 'inputs') {
         var seriesParent = $(thisButton).closest('[data-domain="' + dataDomain + '"]'),
             dataIndex = $(thisButton).closest('[data-input-index]').attr('data-input-index'),
+            bpid = $(thisButton).closest('[name*="bpid"]').attr('name').substr(-5),
             id = $(thisButton).closest('[id*="content"]').attr('id').substr(-4),
             series;
 
         $('[data-input-index="' + dataIndex + '"]', seriesParent).remove();
+        $('.text-render [id="' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + dataIndex + '"]').remove();
 
         series = $('[data-input-index]', seriesParent);
 
         if (series.length == globalSettings.minBannerNumber) {
-            $('.subtract-button', seriesParent).attr('hidden', true);
+            $('.subtract-button', seriesParent).prop('hidden', true);
         }
     } else {
-        var series = $('[data-domain="breakpoints"] [data-bp]'),
-            bpid = $(thisButton).closest('[name*="bpid"]').attr('name').substr(-5);
+        var seriesParent = $(thisButton).closest('[data-domain="breakpoints"]'),
+            bpid = $(thisButton).closest('[name*="bpid"]').attr('name').substr(-5),
+            id = $(thisButton).closest('[id*="content"]').attr('id').substr(-4),
+            series;
 
         $('[name="bpid_' + bpid + '"]').remove();
 
         $('[data-bp="bg_' + bpid + '"]').remove();
 
-        series = $('[data-domain="breakpoints"] [data-bp]');
+        $('.text-render [id="' + id + '"] [data-bp="bpid_' + bpid + '"]').remove();
+
+        series = $('[data-bp]', seriesParent);
 
         if (series.length == 1) {
-            $('[data-domain="bpconfig"] .subtract-button').attr('hidden', true);
+            $('[data-domain="bpconfig"] .subtract-button').prop('hidden', true);
         }
     }
 }
@@ -794,7 +819,7 @@ function update(el1, el2) {
     $('#msgBox').modal('hide');
 }
 
-function bannerFormHTML(el1) {
+function bannerCreatorForm(el1) {
     var id = el1.id,
         html,
 
@@ -812,7 +837,7 @@ function bannerFormHTML(el1) {
             '<div class="col-xs-12">' +
             '<div class="row-fluid flex-it tabs"></div>' +
             '<hr>' +
-            '<div class="row-fluid fields">' +
+            '<div class="row-fluid inputs">' +
             '<p>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another text group.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a text group.<br>Click on the <span class="glyphicon glyphicon-pencil" style="color:black;"></span> button to open the <b>rich text editor</b> for that text group.</p>' +
             '</div>' +
             '</div>' +
@@ -931,7 +956,7 @@ function bannerFormHTML(el1) {
     return html;
 }
 
-function bannerTabsHTML(el1) {
+function bannerTab(el1) {
     var id = el1.id,
         html = '<div id="tabbs' + id + '" class="col-xs-3">' +
             '<span class="controls-add-subtract">' +
@@ -946,15 +971,15 @@ function bannerTabsHTML(el1) {
     return html;
 }
 
-function bannerCopySnippetHTML(el1) {
-    var html = '<div id="' + el1.id + '" class="banner trigger" style="background-color: ' + el1.css.background.desktop.latestBgColor + ';color: ' + el1.css.textcolor.latestTxtColor + ';" role="button" style="display:block">' +
-        '<div data-bp="desktop">' +
-        '<span class="text-group" data-output-index="1"></span>' +
-        '</div>' +
-        '<div data-bp="mobile">' +
-        '<span class="text-group" data-output-index="1"></span>' +
-        '</div>' +
+function bannerPreview(banner) {
+    var html = '<div id="' + banner.id + '" class="banner trigger" style="background-color: ' + banner.css.background.desktop.latestBgColor + ';color: ' + banner.css.textcolor.latestTxtColor + ';" role="button" style="display:block">' +
         '</div><span class="gutter"></span>';
+
+    return html;
+}
+
+function bannerPreviewBreakpoint(breakpointId) {
+    var html = '<div data-bp="bpid_' + breakpointId + '"><span class="text-group" data-output-index="1"></span></div>';
 
     return html;
 }
@@ -973,8 +998,8 @@ function breakpointTab(name, id) {
     return html;
 }
 
-function breakpointField(number, id) {
-    var html = '<div name="bpid_' + id + '" data-domain="fields" class="field showing">' +
+function breakpointInput(number, id) {
+    var html = '<div name="bpid_' + id + '" data-domain="inputs" class="input showing">' +
         '<span data-input-index="' + number + '">' +
         '<span class="controls-add-subtract">' +
         '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
@@ -982,7 +1007,7 @@ function breakpointField(number, id) {
         '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
         '</span>' +
         '<span class="editablecontainer">' +
-        '<textarea id="ckeditor_' + number + '"></textarea>' +
+        '<textarea id="ckeditor_' + number + '" class="editor"></textarea>' +
         '</span>' +
         '</span>' +
         '</div>';
@@ -1022,7 +1047,7 @@ function breakpointForm() {
     return html;
 }
 
-function bpBgImage(bpName, bannerId) {
+function breakpointBackgroundImg(bpName, bannerId) {
     var name = bpName,
         bpid = bannerId,
         html = '<div class="row" data-bp="bg_' + bpid + '">' +
@@ -1099,8 +1124,8 @@ function bannerObj(el1) {
         breakpointTabs: function (name, id) {
             return breakpointTab(name, id);
         },
-        breakpointFields: function (number, id) {
-            return breakpointField(number, id);
+        breakpointInputs: function (number, id) {
+            return breakpointInput(number, id);
         },
         copyInput: function (number) {
             var html = '<span data-input-index="' + number + '">' +
@@ -1110,7 +1135,7 @@ function bannerObj(el1) {
                 '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
                 '</span>' +
                 '<span class="editablecontainer">' +
-                '<textarea id="ckeditor_' + number + '"></textarea>' +
+                '<textarea id="ckeditor_' + number + '" class="editor"></textarea>' +
                 '</span>' +
                 '</span>';
 
@@ -1132,22 +1157,27 @@ function bannerObj(el1) {
         render: function () {
             var bpId = randomId(10000, 99999);
 
-            $('form > span.dynamic').append(bannerFormHTML(this));
+            $('form > span.dynamic').append(bannerCreatorForm(this));
 
-            $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTabsHTML(this));
+            $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(this));
 
-            $('.row .text-render').append(bannerCopySnippetHTML(this));
-
-            $('[id="background_' + this.id + '"] .backgroundimg').append(bpBgImage('', bpId));
-
-            $('input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
-            this.buttonBehave();
+            $('[id="background_' + this.id + '"] .backgroundimg').append(breakpointBackgroundImg('', bpId));
 
             $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .tabs').append(this.breakpointTabs('|A', bpId));
 
-            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .fields').append(this.breakpointFields(1, bpId));
+            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .inputs').append(this.breakpointInputs(1, bpId));
 
-            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] [data-bp] .subtract-button').attr('hidden', true);
+            $('.row .text-render').append(bannerPreview(this));
+
+            $('.row .text-render [id="' + this.id + '"]').append(bannerPreviewBreakpoint(bpId));
+
+            $('input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
+
+            $('.subtract-button').prop('hidden', true);
+
+            $('textarea.editor').ckeditor();
+
+            this.buttonBehave();
 
         },
         state: 'local'

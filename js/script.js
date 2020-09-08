@@ -310,6 +310,25 @@ function buttonBehave1(thisBanner) {
             }
         }
     });
+
+    $('button#test').on('click', function (e) {
+        e.preventDefault();
+        var allBreakpoints = $('[id="content_' + id + '"] [data-domain="breakpoints"] [name*="bpid"]');
+        for (var q = 0; q < allBreakpoints.length; q++) {
+
+            var bpid = $(allBreakpoints[q]).attr('name').substr(-5),
+                inputs = $('[data-input-index]', allBreakpoints[q]);
+
+            for (var p = 0; p < inputs.length; p++) {
+
+                var index = $(inputs[p]).data('input-index');
+
+                $('.text-render [id="' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
+
+                $('.text-render [id="' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
+            }
+        }
+    });
 }
 
 function websiteURL1() {
@@ -656,8 +675,7 @@ function add(thisButton) {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
 
         var seriesParent = $(thisButton).closest('[data-domain="' + dataDomain + '"]'),
-            bpid = $(thisButton).closest('[name*="bpid"]').attr('name').substr(-5),
-            series = $('.editable', parent);
+            bpid = $(thisButton).closest('[name*="bpid"]').attr('name').substr(-5);
 
 
         // Add new input to input series and assign latest index
@@ -670,7 +688,10 @@ function add(thisButton) {
         $('.subtract-button', seriesParent).prop('hidden', false);
 
         // Initiate ckeditor on this new textarea
-        $('textarea.editor').ckeditor();
+        $(thisButton).closest('[data-input-index]').next().find('textarea').ckeditor(function () {
+            this.config.disallowedContent = 'h1';
+            console.log(this);
+        });
 
     } else {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
@@ -777,8 +798,6 @@ function edit(thisButton) {
             event.preventDefault();
             update(event.target, bp);
         });
-    } else if (dataDomain == 'fields') {
-        msgBox1('<p>This will be the spot for the rich text editor.</p>', 'Update Text');
     }
 
 }
@@ -838,7 +857,11 @@ function bannerCreatorForm(el1) {
             '<div class="row-fluid flex-it tabs"></div>' +
             '<hr>' +
             '<div class="row-fluid inputs">' +
-            '<p>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another text group.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a text group.<br>Click on the <span class="glyphicon glyphicon-pencil" style="color:black;"></span> button to open the <b>rich text editor</b> for that text group.</p>' +
+            '<p>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another text group.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a text group.</p>' +
+            '</div>' +
+            '<hr>' +
+            '<div class="row">' +
+            '<button id="test" type="submit" >Test</button>' +
             '</div>' +
             '</div>' +
             '</div>' +
@@ -1003,7 +1026,6 @@ function breakpointInput(number, id) {
         '<span data-input-index="' + number + '">' +
         '<span class="controls-add-subtract">' +
         '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
-        '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="show(this)" style="color:blue;top:0px;"></button>' +
         '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
         '</span>' +
         '<span class="editablecontainer">' +
@@ -1131,7 +1153,6 @@ function bannerObj(el1) {
             var html = '<span data-input-index="' + number + '">' +
                 '<span class="controls-add-subtract">' +
                 '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
-                '<button type="button" class="edit-button glyphicon glyphicon-pencil" onClick="show(this)" style="color:blue;top:0px;"></button>' +
                 '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
                 '</span>' +
                 '<span class="editablecontainer">' +
@@ -1176,6 +1197,12 @@ function bannerObj(el1) {
             $('.subtract-button').prop('hidden', true);
 
             $('textarea.editor').ckeditor();
+
+            $('textarea.editor').ckeditor(function () {
+                $(this).on('click', function () {
+                    console.log('test');
+                });
+            });
 
             this.buttonBehave();
 

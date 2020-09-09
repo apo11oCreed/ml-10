@@ -25,7 +25,7 @@ var brands = {
         "brandColor": "rgb(255, 97, 84)"
     }]
 },
-    globalSettings = {
+    globals = {
         selectBrand: '',
         layoutMenu: 1,
         desktopmediaquery: '(min-width:768px)',
@@ -34,6 +34,7 @@ var brands = {
         bgMobilePlaceholder: 'Demo-image-575.png',
         maxBannerNumber: 4,
         minBannerNumber: 1,
+        bannerObjects: {}
     },
     bannerTabsLegend = '<legend>' +
         '<h3>Banners</h3>' +
@@ -41,43 +42,37 @@ var brands = {
         '<p>Click on the <b>[ |A ]</b> button to edit the name of the banner and to display the banner\'s properties form.<br>Hover over <b>[ |A ]</b> button(s) to view toolbar.<br>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a banner.</p>' +
         '</div>' +
         '</div>' +
-        '<hr>',
-    deviceTypeRegex = /desktop|mobile/,
-    tabText = '<span style="color:#A0A0A0;font-weight:400;">' +
-        '<span class="tab-visible">' +
-        '<span>|' +
-        '</span>A' +
-        '</span>' +
-        '<span class="header-visible">' +
-        '<span class="blink">|' +
-        '</span>' +
-        ' Enter banner name in tab above.' +
-        '<b>*</b>' +
-        '</span>' +
-        '</span>';
+        '<hr>';
 
 $(document).ready(function () {
 
     $(document).on("hidden.bs.modal", ".modal", function () {
         $(this).remove();
     });
+
     $('[id="bannerTabs"]').prepend(bannerTabsLegend);
     $('[id="bannerTabs"] .dynamic').append('<div class="row-fluid flex-it" data-domain="tabs"></div>');
 
     var idInit = randomId(1000, 9999),
         bannerInit = new bannerObj(idInit);
 
-    bannerInit.render();
+    globals.bannerObjects['banner_' + idInit] = bannerInit;
+    console.log(globals.bannerObjects['banner_' + idInit]);
 
-    $('[id*="tabbs"] .subtract-button').prop('hidden', true);
+    globals.bannerObjects['banner_' + idInit].render();
 
     $('button[name="resetall"]').on('click', function () {
-        $('[id="bannerTabs"] .dynamic .row-fluid.flex-it,form > .dynamic, .text-render').html('');
-        bannerInit = new bannerObj(randomId(1000, 9999));
-        bannerInit.render();
-        $('[id*="tabbs"] .subtract-button').prop('hidden', true);
-    });
 
+        $('[id="bannerTabs"] .dynamic .row-fluid.flex-it,#properties.row .dynamic, .text-render').html('');
+        globals.bannerObjects = {};
+
+        bannerInit = new bannerObj(randomId(1000, 9999));
+
+        globals.bannerObjects['banner_' + idInit] = bannerInit;
+        console.log(globals.bannerObjects['banner_' + idInit]);
+
+        globals.bannerObjects['banner_' + idInit].render();
+    });
 });
 
 function buttonBehave1(thisBanner) {
@@ -91,7 +86,7 @@ function buttonBehave1(thisBanner) {
         var type = $(this).attr('name');
 
         if (type == 'brands') {
-            globalSettings.selectBrand = $(':selected', this).val();
+            globals.selectBrand = $(':selected', this).val();
             if (state == 'remote') {
                 $('[id="props' + id + '"] input[name="lorr1_' + id + '"]').trigger("change");
             }
@@ -149,7 +144,7 @@ function buttonBehave1(thisBanner) {
                     $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("Remote");
                 } else {
                     $(this).val("").attr("placeholder", "Enter Filename...");
-                    $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("/images/evergage/" + globalSettings.selectBrand + "/");
+                    $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("/images/evergage/" + globals.selectBrand + "/");
                 }
             });
 
@@ -184,13 +179,13 @@ function buttonBehave1(thisBanner) {
             // if (namespace == 'bg') {
             switch (rgb) {
                 case "r":
-                    thisBanner.css.background.desktop.bgColor.r = $(this).val();
+                    thisBanner.css.bgColor.r = $(this).val();
                     break;
                 case "g":
-                    thisBanner.css.background.desktop.bgColor.g = $(this).val();;
+                    thisBanner.css.bgColor.g = $(this).val();;
                     break;
                 case "b":
-                    thisBanner.css.background.desktop.bgColor.b = $(this).val();;
+                    thisBanner.css.bgColor.b = $(this).val();;
                     break;
                 default:
                     break;
@@ -200,7 +195,7 @@ function buttonBehave1(thisBanner) {
         if ($('.text-render > [id*="' + id + '"]')) {
 
             $('.text-render > [id="' + id + '"]').attr('style', 'background-color: ' +
-                rgbToHex(Number(thisBanner.css.background.desktop.bgColor.r), Number(thisBanner.css.background.desktop.bgColor.g), Number(thisBanner.css.background.desktop.bgColor.b)) +
+                rgbToHex(Number(thisBanner.css.bgColor.r), Number(thisBanner.css.bgColor.g), Number(thisBanner.css.bgColor.b)) +
                 ';');
         }
     });
@@ -329,16 +324,13 @@ function buttonBehave1(thisBanner) {
     });
 }
 
-//https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-
 function rgbToHex(r, g, b) {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
-
 //https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 
 function websiteURL1() {
-    var brand = globalSettings.selectBrand;
+    var brand = globals.selectBrand;
     var url = "";
 
     switch (brand) {
@@ -381,13 +373,13 @@ function imgURL1(el, flag) {
 
 function checkImageExists1(el, url, banner) {
     var img = new Image(),
-        bp = $(el).closest('[data-bp]').attr('data-bp');
+        bp = $(el).closest('[data-bp]').attr('data-bp').substr(-5);
 
     img.onload = function () {
         $(el).parent().addClass("found");
         $(el).parent().next().prop('hidden', true);
 
-        banner.css.background[bp] = img.src;
+        banner.css.breakpoints['bp_' + bp].background.img = img.src;
         console.log(banner);
 
         reDraw1(banner, bp);
@@ -510,8 +502,9 @@ function msgBox1(msg, title) {
 function reDraw1(el1, el2) {
 
     var id = el1.id;
+    console.log(el2);
 
-    $('.text-render [id="' + id + '"] [data-bp="bpid_' + el2.substr(-5) + '"]').css({ 'background-image': 'url("' + el1.css.background[el2] + '")', 'background-size': 'cover', 'background-repeat': 'no-repeat', 'background-position': 'center center' });
+    $('.text-render [id="' + id + '"] [data-bp="bpid_' + el2.substr(-5) + '"]').css({ 'background-image': 'url("' + el1.css.breakpoints['bp_' + el2].background.img + '")', 'background-size': 'cover', 'background-repeat': 'no-repeat', 'background-position': 'center center' });
 }
 
 function escapeHTML1(text) {
@@ -530,35 +523,6 @@ function escapeHTML1(text) {
 function randomId(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 };
-
-function getTextRenderItem(el1) {
-    var parentbp = $(el1).parents('[data-bp]').attr('data-bp'),
-        bannerId = $(el1).parents('[id*="content"]').attr('id').substr(-4),
-        item = $(el1).parents('[data-input-index]').attr('data-input-index'),
-        itemOutput = document.querySelector('.text-render [id="' + bannerId + '"] [data-bp="' + parentbp + '"] [data-output-index="' + item + '"]');
-
-    return itemOutput;
-}
-
-function renderCopyFields(el1, el2) {
-
-    $(el1).on('input', function () {
-        var value1 = $(el1).html(),
-            value2 = $(el2).html();
-
-        if (value1 == '') {
-            $(el2).css('display', 'none');
-        } else {
-            $(el2).prop('hidden', true);
-        }
-
-        if (value1 != value2) {
-            $(el2).html(value1);
-        } else {
-            $(el2).append(String.fromCharCode(event.which));
-        }
-    });
-}
 
 function displayOnClickBehavior(behaviorSelected, banner) {
     $('[id="props' + banner.id + '"] .row.onclickbehavior .dynamic').html('');
@@ -666,7 +630,7 @@ function add(thisButton) {
 
         series = $('[id*="tabbs"]');
 
-        if (z.visibleIndex(series) == globalSettings.maxBannerNumber) {
+        if (z.visibleIndex(series) == globals.maxBannerNumber) {
             $('[data-domain="' + dataDomain + '"] .add-button').prop('hidden', true);
         }
 
@@ -735,6 +699,9 @@ function add(thisButton) {
         // Assign showing class to this new breakpoint tab
         $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs [name="bpid_' + bpid + '"] .breakpoint-tab, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"]').addClass('showing');
 
+        // Initiate ckeditor on the initial textarea of this new breakpoint tab
+        $('textarea.editor').ckeditor();
+
         // imgaddress
         $(".bgimgaddress").on({
             focus: function () {
@@ -751,9 +718,6 @@ function add(thisButton) {
                 }
             }
         });
-
-        // Initiate ckeditor on the initial textarea of this new breakpoint tab
-        $('textarea.editor').ckeditor();
     }
 }
 
@@ -770,7 +734,7 @@ function remove(thisButton) {
 
         series = $('[id*="tabbs"]');
 
-        if (series.length == globalSettings.minBannerNumber) {
+        if (series.length == globals.minBannerNumber) {
             $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', true);
         }
 
@@ -788,7 +752,7 @@ function remove(thisButton) {
 
         series = $('[data-input-index]', seriesParent);
 
-        if (series.length == globalSettings.minBannerNumber) {
+        if (series.length == globals.minBannerNumber) {
             $('.subtract-button', seriesParent).prop('hidden', true);
         }
     } else {
@@ -827,6 +791,7 @@ function edit(thisButton) {
 
 function update(el1, el2) {
     var bpid = $(el2).attr('name').substr(-5),
+        bpidParentId = $(el2).parents('[id*="content_"]').attr('id').substr(-4),
         name = $('input#bpName', el1).val(),
         minwidth = $('input#bpMinWidth', el1).val(),
         maxwidth = $('input#bpMaxWidth', el1).val(),
@@ -847,10 +812,24 @@ function update(el1, el2) {
         '</dl>'
     );
 
+    console.log(bannerObj(bpidParentId).css);
+
     $(el2).attr('data-bp', name);
     $(el2).attr('data-bp-minwidth', minwidth);
     $(el2).attr('data-bp-maxwidth', maxwidth);
     $(el2).attr('data-bp-height', height);
+
+    //console.log(bannerObj(bpidParentId).css.breakpoints['bp_' + bpid].name);
+    // console.log(bannerObj(bpidParentId).css.breakpoints['bp_' + bpid].minwidth);
+    // console.log(bannerObj(bpidParentId).css.breakpoints['bp_' + bpid].maxwidth);
+    console.log(bannerObj(bpidParentId).css.breakpoints);
+
+    // bannerObj(bpidParentId).css.breakpoints['bp_' + bpid].name = name;
+    // bannerObj(bpidParentId).css.breakpoints['bp_' + bpid].minwidth = minwidth;
+    // bannerObj(bpidParentId).css.breakpoints['bp_' + bpid].maxwidth = maxwidth;
+    // bannerObj(bpidParentId).css.breakpoints['bp_' + bpid].height = height;
+
+    console.log(bannerObj(bpidParentId));
 
     if ($('input[name="bgImg"]:checked').val() == 'yes') {
         $('[data-bp="bg_' + bpid + '"] input').prop('disabled', false);
@@ -890,23 +869,17 @@ function bannerCreatorForm(el1) {
             '<div class="row content" data-domain="breakpoints">' +
             '<div class="col-xs-12">' +
             '<div class="row-fluid flex-it tabs"></div>' +
-
             '<hr>' +
-
             '<div class="row-fluid inputs">' +
             '<div class="col-xs-12">' +
-
             '<div class="row"><div class="col-xs-12"><h3>' +
             'Text Groups' +
             '</h3></div></div>' +
-
             '<div class="row"><div class="col-xs-12"><p>' +
             '<br>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another text group.' +
             '<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a text group.' +
             '</p></div></div>' +
-
             '</div>' +
-
             '</div>' +
             '<div class="row-fluid" style="text-align:right;">' +
             '<div class="col-xs-12">' +
@@ -918,51 +891,18 @@ function bannerCreatorForm(el1) {
             '</fieldset>' +
             '</div>',
 
-        breakpoints = '<div class="row">' +
-            '<div class="col-xs-6">' +
-            '<div class="row-fluid">' +
-            '<fieldset id="breakpoints_' + id + '">' +
-            '<legend> <h3>Breakpoints</h3> </legend>' +
-            '<div class="row">' +
-            '<div class="col-xs-6">' +
-            '<label for="bpDesktopYes_' + id + '">Desktop? Yes</label> <input id="bpDesktopYes_' + id + '" name="bpdesktop_' + id + '" type="radio" value="1" checked> <label for="bpDesktopNo_' + id + '">No</label> <input id="bpDesktopNo_' + id + '" name="bpdesktop_' + id + '" type="radio" value="0"> </div>' +
-            '<div class="col-xs-6">' +
-            '<label for="bpMobileYes_' + id + '">Mobile? Yes</label> <input id="bpMobileYes_' + id + '" name="bpmobile_' + id + '" type="radio" value="1" checked> <label for="bpMobileNo_' + id + '">No</label> <input id="bpMobileNo_' + id + '" name="bpmobile_' + id + '" type="radio" value="0"> </div>' +
-            '</div>' +
-            '</fieldset>' +
-            '</div>' +
-            '</div>' +
-            '</div>',
-
-        campaign = '<div class="row">' +
-            '<div class="col-xs-12">' +
-            '<div class="row-fluid">' +
-            '<fieldset id="campaign_' + id + '">' +
-            '<legend> <h3>Campaign</h3> </legend>' +
-            '<div class="row">' +
-            '<div class="col-xs-6">' +
-            '<label for="campaignName_' + id + '">Name: </label><input id="campaignName_' + id + '" name="campaignName_' + id + '" type="text" placeholder="' + id + '"> </div>' +
-            '</div>' +
-            '</fieldset>' +
-            '</div>' +
-            '</div>' +
-            '</div>',
-
         background = '<div class="row">' +
             '<fieldset id="background_' + id + '" class="col-xs-12">' +
-
             '<div class="row">' +
             '<div class="col-xs-12">' +
             '<legend> <h3>Background Settings</h3> </legend>' +
             '</div>' +
             '</div>' +
-
             '<div class="row">' +
             '<div class="col-xs-12">' +
             '<h5>Enter the background details.</h5>' +
             '</div>' +
             '</div>' +
-
             '<div class="row" data-domain="backgroundimg">' +
             '<div class="col-xs-3">' +
             '<label for="local1_' + id + '">Local</label> <input id="local1_' + id + '" name="lorr1_' + id + '" type="radio" value="local">' +
@@ -971,12 +911,10 @@ function bannerCreatorForm(el1) {
             '<label for="remote1_' + id + '">Remote</label> <input id="remote1_' + id + '" name="lorr1_' + id + '" type="radio" value="remote">' +
             '</div>' +
             '</div>' +
-
             '<div class="row">' +
             '<div class="col-xs-12 backgroundimg">' +
             '</div>' +
             '</div>' +
-
             '<div class="row">' +
             '<div class="col-xs-3">' +
             '<label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span>' +
@@ -989,7 +927,6 @@ function bannerCreatorForm(el1) {
             '<div class="col-xs-3 error" hidden>' +
             '</div>' +
             '</div>' +
-
             '</fieldset>' +
             '</div>',
 
@@ -1028,8 +965,6 @@ function bannerCreatorForm(el1) {
 
     html = '<fieldset id="props' + id + '" class="col-xs-12 banner-properties"><div class="row"><div class="col-xs-12"><legend> <h2><span class="tag"></span>Properties</h2></legend></div></div>'
         + content
-        // + breakpoints
-        // + campaign
         + background
         + clickbehavior
     '</div></fieldset>';
@@ -1135,7 +1070,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '<label for="bg_' + bpid + '">Image for <b class="bpName"></b> breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label>' +
             '</div>' +
             '<div class="col-xs-3 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">Local</span> <input id="bg_' + bpid + '" class="bgimgaddress form-control1" type="text" name="bg_' + bpid + '" placeholder="' + globalSettings.bgDesktopPlaceholder + '" disabled>' +
+            '<span class="input-group-addon1" id="img2label">Local</span> <input id="bg_' + bpid + '" class="bgimgaddress form-control1" type="text" name="bg_' + bpid + '" placeholder="' + globals.bgDesktopPlaceholder + '" disabled>' +
             '</div>' +
             '<div class="col-xs-3 error" hidden>Image not found</div>' +
             '</div>';
@@ -1149,57 +1084,17 @@ function bannerObj(el1) {
     obj = {
         id: el1,
         tag: '|A',
-        get latestTag() {
-            return this.tag;
-        },
         css: {
-            devicetype: {
-                desktop: {
-                    visible: true,
-                    mediaquery: globalSettings.desktopmediaquery
-                },
-                mobile: {
-                    visible: true,
-                    mediaquery: globalSettings.mobilemediaquery
-                }
+            breakpoints: {
+
             },
-            background: {
-                hex: '000000',
-                desktop: {
-                    bgImageDesktop: '',
-                    bgColor: {
-                        r: 184,
-                        g: 117,
-                        b: 174
-                    },
-                    get latestBgColor() {
-                        return 'rgb(' + this.bgColor.r + ',' + this.bgColor.g + ',' + this.bgColor.b + ')';
-                    }
-                },
-                mobile: {
-                    bgImageMobile: '',
-                    bgColor: {
-                        r: function () {
-                            return this.desktop.latestBgColor.r;
-                        },
-                        g: function () {
-                            return this.desktop.latestBgColor.g;
-                        },
-                        b: function () {
-                            return this.desktop.latestBgColor.b;
-                        }
-                    }
-                }
+            bgColor: {
+                r: 184,
+                g: 117,
+                b: 174
             },
-            textcolor: {
-                txtColor: {
-                    r: 250,
-                    g: 250,
-                    b: 250
-                },
-                get latestTxtColor() {
-                    return 'rgb(' + this.txtColor.r + ',' + this.txtColor.g + ',' + this.txtColor.b + ')';
-                }
+            get latestBgColor() {
+                return 'rgb(' + this.bgColor.r + ',' + this.bgColor.g + ',' + this.bgColor.b + ')';
             }
         },
         breakpointTabs: function (name, id) {
@@ -1247,6 +1142,17 @@ function bannerObj(el1) {
 
             $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .inputs > .col-xs-12').append(this.breakpointInputs(1, bpId));
 
+            this.css.breakpoints['bp_' + bpId] = {
+                name: 'breakpoint_' + bpId,
+                background: {
+                    img: 'none',
+                    position: 'center center'
+                },
+                minwidth: 575,
+                maxwidth: 767,
+                height: 56
+            };
+
             $('.row .text-render').append(bannerPreview(this));
 
             $('.row .text-render [id="' + this.id + '"]').append(bannerPreviewBreakpoint(bpId));
@@ -1262,8 +1168,6 @@ function bannerObj(el1) {
                     console.log('test');
                 });
             });
-
-            //$('[id="props' + this.id + '"] input[name*="lorr1_"]').first().attr('checked', true);
 
             this.buttonBehave();
 

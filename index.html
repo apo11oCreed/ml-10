@@ -39,47 +39,53 @@
         </header>
         <main id="mlTen">
             <div class="container">
-            <section>
-                <div class="row">
-                <div class="col-xs-12">
-                <form action="">
-                    <div class="row">
-                    <fieldset id="globalProperties">
-                        <div class="col-xs-12">
-                            <div class="row"><div class="col-xs-12"><legend>
-                                <h2>Global Attributes</h2>
-                            </legend></div></div>
-                            
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <fieldset id="brand">
-                                        <legend>
-                                            <h3>Brand</h3>
-                                        </legend>
-                                        <label for="brand">Choose a brand:<span class="required">*</span></label>
-                                        <select name="brands"
-                                                id="brands"
-                                                required>
-                                            <option value="">-- select --</option>
-                                            <option value="py">Paula Young</option>
-                                            <option value="ey">Especially Yours</option>
-                                            <option value="tl">The Look</option>
-                                            <option value="wg">Wig</option>
-                                        </select>
-                                    </fieldset>
-                                </div>
+                <section class="row">
+                    <div class="col-xs-12">
+
+                        <form action="">
+                            <div id="globals"
+                                 class="row">
+                                <fieldset id="globalProperties"
+                                          class="col-xs-12">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <legend>
+                                                <h2>Global Attributes</h2>
+                                            </legend>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <fieldset id="brand">
+                                                <legend>
+                                                    <h3>Brand</h3>
+                                                </legend>
+                                                <label for="brand">Choose a brand:<span
+                                                          class="required">*</span></label>
+                                                <select name="brands"
+                                                        id="brands"
+                                                        required>
+                                                    <option value="">-- select --</option>
+                                                    <option value="py">Paula Young</option>
+                                                    <option value="ey">Especially Yours</option>
+                                                    <option value="tl">The Look</option>
+                                                    <option value="wg">Wig</option>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <fieldset id="bannerTabs"><span class="dynamic"></span></fieldset>
+                                        </div>
+                                    </div>
+                                </fieldset>
                             </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <fieldset id="bannerTabs"><span class="dynamic"></span></fieldset>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                    <div class="row">
-                        <div class="section-offer-content col-xs-12">
-                            <!-- <h2>
+                            <div id="rendering"
+                                 class="row">
+                                <div class="section-offer-content col-xs-12">
+                                    <!-- <h2>
                            <picture>
                                <source media="(min-width: 576px)"
                                        srcset="https://services.scdirect.net/scripts/images/test-962.png">
@@ -91,12 +97,12 @@
                                     aria-describedby="offer-description"
                                     data-srcset="https://services.scdirect.net/scripts/images/test-575.png">
                            </picture> -->
-                            <div class="row">
-                                <div class="col-xs-12 text-render"></div>
-                            </div>
-                            <!-- </h2> -->
-                        </div>
-                        <!-- <div id="offer-description">
+                                    <div class="row">
+                                        <div class="col-xs-12 text-render"></div>
+                                    </div>
+                                    <!-- </h2> -->
+                                </div>
+                                <!-- <div id="offer-description">
                             <div class="body adMove">
                                 Offer Sub Text Description
                             </div>
@@ -111,26 +117,28 @@
                                     offerImg.src = offerImg.getAttribute("data-srcset");
                             }
                         </script> -->
+                            </div>
+                            <div id="properties"
+                                 class="row">
+                                <div class="dynamic"></div>
+                            </div>
+                            <br>
+                            <div id="actions"
+                                 class="row">
+                                <br>
+                                <div class="col-xs-12"><button type="button"
+                                            name="exporthtml"
+                                            disabled>Export HTML</button>
+                                    <button type="button"
+                                            name="exportcss"
+                                            disabled>Export CSS</button>
+                                    <button id="form-reset"
+                                            type="reset"
+                                            name="resetall">Reset</button></div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12 dynamic"></div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-xs-12"><button type="button"
-                                    name="exporthtml"
-                                    disabled>Export HTML</button>
-                            <button type="button"
-                                    name="exportcss"
-                                    disabled>Export CSS</button>
-                            <button id="form-reset"
-                                    type="reset"
-                                    name="resetall">Reset</button></div>
-                    </div>
-                </div>
-                </form>
-            </div>
-            </section>
+                </section>
             </div>
         </main>
     </body>

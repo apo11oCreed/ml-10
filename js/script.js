@@ -83,11 +83,11 @@ $(document).ready(function () {
 function buttonBehave1(thisBanner) {
     var id = thisBanner.id,
         state = thisBanner.state,
-        bannerTitle;
+        thisBannerH2;
 
     // dropdown events
     $('select[name="brands"],[id="props' + id + '"] select[name="onClickBehavior"]').on('change', function () {
-        
+
         var type = $(this).attr('name');
 
         if (type == 'brands') {
@@ -102,67 +102,67 @@ function buttonBehave1(thisBanner) {
 
     // radio events
     $('input[name="lorr1_' + id + '"]').on('change', function () {
-        
+
         state = $(this).val();
 
-            if (state == "local") {
-                // Disable 'Brand'/'Export'
-                // $(".opt-row.brand .clabel").addClass('disabled');
-                // $("fieldset#brand select").prop('disabled', 'disabled');
+        if (state == "local") {
+            // Disable 'Brand'/'Export'
+            // $(".opt-row.brand .clabel").addClass('disabled');
+            // $("fieldset#brand select").prop('disabled', 'disabled');
 
-                //thisBanner.state = "local";
+            //thisBanner.state = "local";
 
-                $("input[name*='bg']").each(function () {
-                    var curr = $(this).val();
-                    if (curr !== "")
-                        $(this).attr("data-remote", curr);
+            $("input[name*='bg']").each(function () {
+                var curr = $(this).val();
+                if (curr !== "")
+                    $(this).attr("data-remote", curr);
 
-                    if ($(this).data("local"))
-                        $(this).val($(this).data("local"));
+                if ($(this).data("local"))
+                    $(this).val($(this).data("local"));
 
-                    $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("Local");
-                    if ($(this).attr("name") == "bpDesktop_" + id)
-                        var size = 962;
-                    else
-                        var size = 575
-                    $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
-                });
+                $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("Local");
+                if ($(this).attr("name") == "bpDesktop_" + id)
+                    var size = 962;
+                else
+                    var size = 575
+                $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
+            });
 
-                thisBanner.state = 'local';
+            thisBanner.state = 'local';
 
-            } else if (state == "remote") {
+        } else if (state == "remote") {
 
-                //thisBanner.state = "remote";
+            //thisBanner.state = "remote";
 
-                $("input[name*='bg']").each(function () {
-                    var curr = $(this).val();
-                    if (curr !== "") {
-                        $(this).attr("data-local", curr);
-                    }
+            $("input[name*='bg']").each(function () {
+                var curr = $(this).val();
+                if (curr !== "") {
+                    $(this).attr("data-local", curr);
+                }
 
-                    if ($(this).data("remote")) {
-                        $(this).val($(this).data("remote"));
-                    }
+                if ($(this).data("remote")) {
+                    $(this).val($(this).data("remote"));
+                }
 
-                    if ($("select[name='brands']").val() == "") {
-                        $(this).val("").attr("placeholder", "Select a brand");
-                        $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("Remote");
-                    } else {
-                        $(this).val("").attr("placeholder", "Enter Filename...");
-                        $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("/images/evergage/" + globalSettings.selectBrand + "/");
-                    }
-                });
+                if ($("select[name='brands']").val() == "") {
+                    $(this).val("").attr("placeholder", "Select a brand");
+                    $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("Remote");
+                } else {
+                    $(this).val("").attr("placeholder", "Enter Filename...");
+                    $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("/images/evergage/" + globalSettings.selectBrand + "/");
+                }
+            });
 
-                thisBanner.state = 'remote';
-            }
+            thisBanner.state = 'remote';
+        }
 
-            $(".input-group1").removeClass("found notfound");
-            $(".input-group1").next('.error').prop('hidden', true);
+        $(".input-group1").removeClass("found notfound");
+        $(".input-group1").next('.error').prop('hidden', true);
     });
 
     // color events
     $('input[id*="r_bg"],input[id*="g_bg"],input[id*="b_bg"]').on('input', function () {
-        
+
         var code = $(this).val(),
             // namespace = bgTxtRegex.exec($(this).attr('id')),
             id = $(this).attr('id').substr(-4),
@@ -204,14 +204,14 @@ function buttonBehave1(thisBanner) {
 
     // button events
     $("button[name='exporthtml'],button[name='exportcss']").on("click", function () {
-        
+
 
         var type = $(this).attr("name");
         exportCode1(type);
     });
 
     $("span.help1").on("click", function () {
-        
+
         var helpMsg = "";
         switch ($(this).data("help")) {
             case "desktop":
@@ -235,21 +235,21 @@ function buttonBehave1(thisBanner) {
 
     // validation event
     $("input, select, textarea").on("change", function () {
-        
+
         confirmAllRequiredMet();
     });
 
     // imgaddress
     $(".bgimgaddress").on({
         focus: function () {
-            
+
             $(this).parent().removeClass("found notfound");
             if ($(this).parent().next().prop('hidden', false)) {
                 $(this).parent().next().prop('hidden', true);
             }
         },
         focusout: function () {
-            
+
             if ($(this).val() != '') {
                 checkImageExists1(this, $(this).val(), thisBanner);
             }
@@ -258,7 +258,7 @@ function buttonBehave1(thisBanner) {
 
     // Drop Shadow
     $("select[name='dShadow']").on("change", function () {
-        
+
         $("section.section-offer").removeClass("py-shadow-b py-shadow-b-lrg py-shadow-b-sml");
         var shadow = "py-shadow-b";
 
@@ -273,35 +273,35 @@ function buttonBehave1(thisBanner) {
         $("section.section-offer").addClass(shadow);
     });
 
-    $('[data-label="banner"] span').on({
+    $('[id="tabbs' + id + '"] [data-label="banner"] > span').on({
 
         click: function () {
-            
+
             thisBanner.tag = $(this).text();
-            thisBannerH2=$('[id="props' + thisId + '"] h2 .tag').html();
             $(this).text('');
+            thisBannerH2 = $('[id="props' + id + '"] h2 .tag').html();
         },
         focusout: function () {
-            
-            var thisId = $(this).parents('[id*="tabbs"]').attr('id').substr(-4), newBannerTitle = $(this).text();
 
-            if(newBannerTitle){
+            var newBannerTitle = $(this).text();
+
+            if (newBannerTitle) {
                 if (newBannerTitle != thisBanner.tag) {
                     thisBanner.tag = newBannerTitle;
-                    $('[id="props' + thisId + '"] h2 .tag').empty();
-                    $('[id="props' + thisId + '"] h2 .tag').html(thisBanner.tag + " ");
+                    $('[id="props' + id + '"] h2 .tag').empty();
+                    $('[id="props' + id + '"] h2 .tag').html(thisBanner.tag + " ");
                 } else {
                     $(this).text(thisBanner.tag);
-                    $('[id="props' + thisId + '"] h2 .tag').html(thisBannerH2);
+                    $('[id="props' + id + '"] h2 .tag').html(thisBannerH2);
                 }
             } else {
                 $(this).text(thisBanner.tag);
-                $('[id="props' + thisId + '"] h2 .tag').html(thisBannerH2);
+                $('[id="props' + id + '"] h2 .tag').html(thisBannerH2);
             }
         }
     });
 
-    $('button#test').on('click', function (e) {
+    $('button#updateBannerText').on('click', function (e) {
         e.preventDefault();
         var allBreakpoints = $('[id="content_' + id + '"] [data-domain="breakpoints"] [name*="bpid"]');
         for (var q = 0; q < allBreakpoints.length; q++) {
@@ -311,11 +311,16 @@ function buttonBehave1(thisBanner) {
 
             for (var p = 0; p < inputs.length; p++) {
 
-                var index = $(inputs[p]).data('input-index');
+                var index = $(inputs[p]).data('input-index'),
+                    newChildElems;
 
                 $('.text-render [id="' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
 
                 $('.text-render [id="' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
+                newChildElems = $('.text-render [id="' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
+                $.each(newChildElems, function (index, value) {
+                    $(this).css({ 'margin': '0', 'padding': '0' });
+                })
             }
         }
     });
@@ -616,9 +621,9 @@ function show(thisButton) {
         id = $(thisButton).closest('[id*="props"]').attr('id').substr(-4);
         var bpid = $(thisButton).closest('[name*="bpid_"]').attr('name').substr(-5);
 
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button.breakpoint-tab,[id="content_' + id + '"] [data-domain="breakpoints"] .inputs .input').removeClass('showing');
+        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button.breakpoint-tab,[id="content_' + id + '"] [data-domain="breakpoints"] .inputs .col-xs-12 .input').removeClass('showing');
 
-        $(' [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"]').addClass('showing');
+        $(' [id="content_' + id + '"] [data-domain="breakpoints"] .inputs .col-xs-12 [name="bpid_' + bpid + '"]').addClass('showing');
 
     }
     $(thisButton).addClass('showing');
@@ -702,7 +707,7 @@ function add(thisButton) {
         $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab('|A', bpid));
 
         // Add new breakpoint textarea
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs').append(breakpointInput(1, bpid));
+        $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs .col-xs-12').append(breakpointInput(1, bpid));
 
         // Add new breakpoint section to banner preview
         $('.text-render [id="' + id + '"]').append(bannerPreviewBreakpoint(bpid));
@@ -797,21 +802,20 @@ function update(el1, el2) {
         name = $('input#bpName', el1).val(),
         minwidth = $('input#bpMinWidth', el1).val(),
         maxwidth = $('input#bpMaxWidth', el1).val(),
-        height = $('input#bpHeight', el1).val(),
-        bpQty;
+        height = $('input#bpHeight', el1).val();
 
     $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
         name +
-        '</h5>' + 
+        '</h5>' +
         '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon glyphicon-menu-hamburger"></span>' +
-        '<dl id="dl_' + bpid + '" class="collapse">' + 
-        '<dt>Options</dt>' + 
+        '<dl id="dl_' + bpid + '" class="collapse">' +
+        '<dt>Options</dt>' +
         '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
-        minwidth + 'px</span></dd>' + 
+        minwidth + 'px</span></dd>' +
         '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
-        maxwidth + 'px</span></dd>' + 
+        maxwidth + 'px</span></dd>' +
         '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
-        height +'px</span></dd>' +
+        height + 'px</span></dd>' +
         '</dl>'
     );
 
@@ -821,12 +825,12 @@ function update(el1, el2) {
     $(el2).attr('data-bp-height', height);
 
     if ($('input[name="bgImg"]:checked').val() == 'yes') {
-        $('[data-bp="bg_' + bpid + '"] input').prop('disabled',false);
-        $('[data-bp="bg_' + bpid + '"] input').prop('required',true);
+        $('[data-bp="bg_' + bpid + '"] input').prop('disabled', false);
+        $('[data-bp="bg_' + bpid + '"] input').prop('required', true);
         $('[data-bp="bg_' + bpid + '"] .bpName').text(name);
     } else {
         $('[data-bp="bg_' + bpid + '"] input').prop('disabled', true);
-        $('[data-bp="bg_' + bpid + '"] input').prop('required',false);
+        $('[data-bp="bg_' + bpid + '"] input').prop('required', false);
         $('[data-bp="bg_' + bpid + '"] .bpName').text('');
     }
 
@@ -838,31 +842,40 @@ function bannerCreatorForm(el1) {
         html,
 
         content = '<div class="row">' +
-            '<div class="col-xs-12">' +
-            '<fieldset id="content_' + id + '" class="row">' +
-            '<div class="col-xs-12">' +
+            '<fieldset id="content_' + id + '" class="col-xs-12">' +
             '<div class="row">' +
             '<div class="col-xs-12">' +
             '<legend><h3>Breakpoint Settings</h3></legend>' +
-            '<p>Click on the <b>[ |A ]</b> button to display the text group form.<br>Hover over <b>[ |A ]</b> button(s) to view toolbar.<br>Click on the<b> [ <span style="color:green;">+</span> ]</b></b> button to add another breakpoint.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a breakpoint.<br>Click on the <span class="glyphicon glyphicon-cog" style="color:black;"></span> button to set the <b>Name</b>, <b>Min Width</b>, <b>Max Width</b>, <b>Height</b>, and <b>Background Image</b> options of breakpoint.</p>' +
             '</div>' +
             '</div>' +
-            '<div class="row-fluid content" data-domain="breakpoints">' +
+            '<div class="row">' +
+            '<div class="col-xs-12">' +
+            '<p>' +
+            '<br>Hover over <b>[ |A ]</b> button(s) to view breakpoint toolbar.' +
+            '<br>Click on the<b> [ <span style="color:green;">+</span> ]</b> button to add breakpoint.' +
+            '<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove breakpoint.' +
+            '<br>Click on the<b> [ <span class="glyphicon glyphicon-cog" style="color:blue;"></span> ]</b> button to set <b>Name</b>, <b>Min Width</b>, <b>Max Width</b>, <b>Height</b>, and <b>Background Image</b> options of breakpoint.' +
+            '<br>Click on the <b>[ |A ]</b> button to display the text group form.' +
+            '</p>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row content" data-domain="breakpoints">' +
             '<div class="col-xs-12">' +
             '<div class="row-fluid flex-it tabs"></div>' +
             '<hr>' +
             '<div class="row-fluid inputs">' +
+            '<div class="col-xs-12">' +
             '<p>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another text group.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a text group.</p>' +
             '</div>' +
-            '<hr>' +
-            '<div class="row">' +
-            '<button id="test" type="submit" >Test</button>' +
+            '</div>' +
+            '<div class="row-fluid" style="text-align:right;">' +
+            '<div class="col-xs-12">' +
+            '<button id="updateBannerText" type="submit" >Update Banner Text</button>' +
             '</div>' +
             '</div>' +
             '</div>' +
             '</div>' +
             '</fieldset>' +
-            '</div>' +
             '</div>',
 
         breakpoints = '<div class="row">' +
@@ -896,24 +909,34 @@ function bannerCreatorForm(el1) {
             '</div>',
 
         background = '<div class="row">' +
+            '<fieldset id="background_' + id + '" class="col-xs-12">' +
+
+            '<div class="row">' +
             '<div class="col-xs-12">' +
-            '<fieldset id="background_' + id + '" class="row">' +
-            '<div class="col-xs-12">' +
-            '<legend> <h3>Background Settings</h3> </legend> <div class="row">' +
-            '<div class="col-xs-12"><h5>Enter the background details.</h5> </div>' +
+            '<legend> <h3>Background Settings</h3> </legend>' +
             '</div>' +
+            '</div>' +
+
+            '<div class="row">' +
+            '<div class="col-xs-12">' +
+            '<h5>Enter the background details.</h5>' +
+            '</div>' +
+            '</div>' +
+
             '<div class="row" data-domain="backgroundimg">' +
             '<div class="col-xs-3">' +
-            '<label for="local1_' + id + '">Local</label> <input id="local1_' + id + '" name="lorr1_' + id + '" type="radio" value="local" checked>' +
+            '<label for="local1_' + id + '">Local</label> <input id="local1_' + id + '" name="lorr1_' + id + '" type="radio" value="local">' +
             '</div>' +
             '<div class="col-xs-3">' +
             '<label for="remote1_' + id + '">Remote</label> <input id="remote1_' + id + '" name="lorr1_' + id + '" type="radio" value="remote">' +
             '</div>' +
             '</div>' +
+
             '<div class="row">' +
             '<div class="col-xs-12 backgroundimg">' +
             '</div>' +
             '</div>' +
+
             '<div class="row">' +
             '<div class="col-xs-3">' +
             '<label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span>' +
@@ -923,11 +946,11 @@ function bannerCreatorForm(el1) {
             '<span class="input-group-addon1" id="img2label">G</span><input id="g_bg' + id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required>' +
             '<span class="input-group-addon1" id="img2label">B</span><input id="b_bg' + id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required>' +
             '</div>' +
-            '<div class="col-xs-3 error" hidden></div>' +
+            '<div class="col-xs-3 error" hidden>' +
             '</div>' +
             '</div>' +
+
             '</fieldset>' +
-            '</div>' +
             '</div>',
 
         clickbehavior = '<div class="row">' +
@@ -963,7 +986,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>';
 
-    html = '<fieldset id="props' + id + '" class="row banner-properties"><div class="col-xs-12"><legend> <h2><span class="tag"></span>Properties</h2></legend>'
+    html = '<fieldset id="props' + id + '" class="col-xs-12 banner-properties"><div class="row"><div class="col-xs-12"><legend> <h2><span class="tag"></span>Properties</h2></legend></div></div>'
         + content
         // + breakpoints
         // + campaign
@@ -1173,7 +1196,7 @@ function bannerObj(el1) {
         render: function () {
             var bpId = randomId(10000, 99999);
 
-            $('form > .row .col-xs-12.dynamic').append(bannerCreatorForm(this));
+            $('#properties.row .dynamic').append(bannerCreatorForm(this));
 
             $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(this));
 
@@ -1181,13 +1204,13 @@ function bannerObj(el1) {
 
             $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .tabs').append(this.breakpointTabs('|A', bpId));
 
-            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .inputs').append(this.breakpointInputs(1, bpId));
+            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .inputs .col-xs-12').append(this.breakpointInputs(1, bpId));
 
             $('.row .text-render').append(bannerPreview(this));
 
             $('.row .text-render [id="' + this.id + '"]').append(bannerPreviewBreakpoint(bpId));
 
-            $('input[name="lorr1_' + this.id + '"]').first().prop('checked', true);
+            $('[id="background_' + this.id + '"] input:radio[value="local"]').prop('checked', true);
 
             $('.subtract-button').prop('hidden', true);
 
@@ -1198,6 +1221,8 @@ function bannerObj(el1) {
                     console.log('test');
                 });
             });
+
+            //$('[id="props' + this.id + '"] input[name*="lorr1_"]').first().attr('checked', true);
 
             this.buttonBehave();
 

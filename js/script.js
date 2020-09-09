@@ -198,7 +198,10 @@ function buttonBehave1(thisBanner) {
         }
 
         if ($('.text-render > [id*="' + id + '"]')) {
-            $('.text-render > [id="' + id + '"] [data-bp]').attr('style', 'background-color: ' + thisBanner.css.background.desktop.latestBgColor + ';');
+
+            $('.text-render > [id="' + id + '"]').attr('style', 'background-color: ' +
+                rgbToHex(Number(thisBanner.css.background.desktop.bgColor.r), Number(thisBanner.css.background.desktop.bgColor.g), Number(thisBanner.css.background.desktop.bgColor.b)) +
+                ';');
         }
     });
 
@@ -326,6 +329,14 @@ function buttonBehave1(thisBanner) {
     });
 }
 
+//https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+//https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+
 function websiteURL1() {
     var brand = globalSettings.selectBrand;
     var url = "";
@@ -376,11 +387,9 @@ function checkImageExists1(el, url, banner) {
         $(el).parent().addClass("found");
         $(el).parent().next().prop('hidden', true);
 
-        if (bp == 'desktop') {
-            banner.css.background.desktop.bgImageDesktop = img.src;
-        } else {
-            banner.css.background.mobile.bgImageMobile = img.src;
-        }
+        banner.css.background[bp] = img.src;
+        console.log(banner);
+
         reDraw1(banner, bp);
     };
     img.onerror = function () {
@@ -502,7 +511,7 @@ function reDraw1(el1, el2) {
 
     var id = el1.id;
 
-    $('[id="' + id + '"] [data-bp="' + el2 + '"]').css({ 'background-image': 'url("' + el1.css.background.desktop.bgImageDesktop + '")', 'background-size': 'cover', 'background-repeat': 'no-repeat', 'background-position': 'center center' });
+    $('.text-render [id="' + id + '"] [data-bp="bpid_' + el2.substr(-5) + '"]').css({ 'background-image': 'url("' + el1.css.background[el2] + '")', 'background-size': 'cover', 'background-repeat': 'no-repeat', 'background-position': 'center center' });
 }
 
 function escapeHTML1(text) {
@@ -682,8 +691,10 @@ function add(thisButton) {
         // Since there is more than one input now, disable hidden attribute for all input subtract buttons
         $('.subtract-button', seriesParent).prop('hidden', false);
 
+        series = $('textarea', seriesParent);
+
         // Initiate ckeditor on this new textarea
-        $(thisButton).closest('[data-input-index]').next().find('textarea').ckeditor(function () {
+        $(series).last().ckeditor(function () {
             this.config.disallowedContent = 'h1';
             console.log(this);
         });
@@ -707,7 +718,7 @@ function add(thisButton) {
         $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab('|A', bpid));
 
         // Add new breakpoint textarea
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs .col-xs-12').append(breakpointInput(1, bpid));
+        $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs > .col-xs-12').append(breakpointInput(1, bpid));
 
         // Add new breakpoint section to banner preview
         $('.text-render [id="' + id + '"]').append(bannerPreviewBreakpoint(bpid));
@@ -723,6 +734,23 @@ function add(thisButton) {
 
         // Assign showing class to this new breakpoint tab
         $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs [name="bpid_' + bpid + '"] .breakpoint-tab, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"]').addClass('showing');
+
+        // imgaddress
+        $(".bgimgaddress").on({
+            focus: function () {
+
+                $(this).parent().removeClass("found notfound");
+                if ($(this).parent().next().prop('hidden', false)) {
+                    $(this).parent().next().prop('hidden', true);
+                }
+            },
+            focusout: function () {
+
+                if ($(this).val() != '') {
+                    checkImageExists1(this, $(this).val(), bannerObj(id));
+                }
+            }
+        });
 
         // Initiate ckeditor on the initial textarea of this new breakpoint tab
         $('textarea.editor').ckeditor();
@@ -845,7 +873,7 @@ function bannerCreatorForm(el1) {
             '<fieldset id="content_' + id + '" class="col-xs-12">' +
             '<div class="row">' +
             '<div class="col-xs-12">' +
-            '<legend><h3>Breakpoint Settings</h3></legend>' +
+            '<legend><h3>Breakpoints</h3></legend>' +
             '</div>' +
             '</div>' +
             '<div class="row">' +
@@ -862,15 +890,27 @@ function bannerCreatorForm(el1) {
             '<div class="row content" data-domain="breakpoints">' +
             '<div class="col-xs-12">' +
             '<div class="row-fluid flex-it tabs"></div>' +
+
             '<hr>' +
+
             '<div class="row-fluid inputs">' +
             '<div class="col-xs-12">' +
-            '<p>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another text group.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a text group.</p>' +
+
+            '<div class="row"><div class="col-xs-12"><h3>' +
+            'Text Groups' +
+            '</h3></div></div>' +
+
+            '<div class="row"><div class="col-xs-12"><p>' +
+            '<br>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another text group.' +
+            '<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a text group.' +
+            '</p></div></div>' +
+
             '</div>' +
+
             '</div>' +
             '<div class="row-fluid" style="text-align:right;">' +
             '<div class="col-xs-12">' +
-            '<button id="updateBannerText" type="submit" >Update Banner Text</button>' +
+            '<button id="updateBannerText" type="submit">Update Banner Text</button>' +
             '</div>' +
             '</div>' +
             '</div>' +
@@ -1013,7 +1053,7 @@ function bannerTab(el1) {
 }
 
 function bannerPreview(banner) {
-    var html = '<div id="' + banner.id + '" class="banner trigger" style="background-color: ' + banner.css.background.desktop.latestBgColor + ';color: ' + banner.css.textcolor.latestTxtColor + ';" role="button" style="display:block">' +
+    var html = '<div id="' + banner.id + '" class="banner trigger" style="background-color: #b875ae;" role="button" style="display:block">' +
         '</div><span class="gutter"></span>';
 
     return html;
@@ -1124,6 +1164,7 @@ function bannerObj(el1) {
                 }
             },
             background: {
+                hex: '000000',
                 desktop: {
                     bgImageDesktop: '',
                     bgColor: {
@@ -1204,7 +1245,7 @@ function bannerObj(el1) {
 
             $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .tabs').append(this.breakpointTabs('|A', bpId));
 
-            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .inputs .col-xs-12').append(this.breakpointInputs(1, bpId));
+            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .inputs > .col-xs-12').append(this.breakpointInputs(1, bpId));
 
             $('.row .text-render').append(bannerPreview(this));
 

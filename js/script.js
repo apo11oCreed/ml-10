@@ -1173,7 +1173,7 @@ function bannerObj(el1) {
         render: function () {
             var bpId = randomId(10000, 99999);
 
-            $('form > span.dynamic').append(bannerCreatorForm(this));
+            $('form > .row .col-xs-12.dynamic').append(bannerCreatorForm(this));
 
             $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(this));
 

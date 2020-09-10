@@ -564,17 +564,15 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
    } 
 }
 
-.row .text-render .banner [data-bp]  {
-    padding:1rem 0;
+/* .row .text-render .banner > div {
     display:flex;
     flex-direction: row;
     justify-content: space-evenly;
-    align-items: center;
     flex-wrap:wrap;
     width:100%;
-    cursor:pointer;
-}
-
+	cursor:pointer;
+	align-items: center;
+} */
 .row .text-render .banner [data-bp="mobile"]{
     display:none;
 }
@@ -669,3 +667,17 @@ h2 .tab-visible{
 	outline:black;
 	box-shadow:0px 0px 10px rgb(0,0,0);
 } */
+
+::placeholder{
+	color:rgb(200, 200, 200);
+}
+
+.breakpoint-tab span[aria-expanded="false"]:before{
+	content:'\e259';
+	font-size:16px;
+}
+
+.breakpoint-tab span[aria-expanded="true"]:before{
+	content:'\e260';
+	font-size:16px;
+}

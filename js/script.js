@@ -1,28 +1,28 @@
 var brands = {
-    "paulayoung": [{
-        "baseUrl": "https://www.paulayoung.com",
-        "evergagePath": 'py',
-        "brandColor": "rgb(184,117,174)"
+    'paulayoung': [{
+        'baseUrl': 'https://www.paulayoung.com',
+        'evergagePath': 'py',
+        'brandColor': 'rgb(184,117,174)'
     }],
-    "especiallyyours": [{
-        "baseUrl": "https://www.especiallyyours.com",
-        "evergagePath": 'ey',
-        "brandColor": "rgb(23, 95, 180)"
+    'especiallyyours': [{
+        'baseUrl': 'https://www.especiallyyours.com',
+        'evergagePath': 'ey',
+        'brandColor': 'rgb(23, 95, 180)'
     }],
-    "thelook": [{
-        "baseUrl": "https://www.thelook.fashion",
-        "evergagePath": 'tl',
-        "brandColor": "rgb(0, 93, 166);"
+    'thelook': [{
+        'baseUrl': 'https://www.thelook.fashion',
+        'evergagePath': 'tl',
+        'brandColor': 'rgb(0, 93, 166);'
     }],
-    "wig": [{
-        "baseUrl": "https://www.wig.com",
-        "evergagePath": 'wg',
-        "brandColor": "rgb(86, 160, 224);"
+    'wig': [{
+        'baseUrl': 'https://www.wig.com',
+        'evergagePath': 'wg',
+        'brandColor': 'rgb(86, 160, 224);'
     }],
-    "beyondextensions": [{
-        "baseUrl": "https://www.beyondextensions.com",
-        "evergagePath": 'be',
-        "brandColor": "rgb(255, 97, 84)"
+    'beyondextensions': [{
+        'baseUrl': 'https://www.beyondextensions.com',
+        'evergagePath': 'be',
+        'brandColor': 'rgb(255, 97, 84)'
     }]
 },
     globals = {
@@ -46,7 +46,7 @@ var brands = {
 
 $(document).ready(function () {
 
-    $(document).on("hidden.bs.modal", ".modal", function () {
+    $(document).on('hidden.bs.modal', '.modal', function () {
         $(this).remove();
     });
 
@@ -81,14 +81,14 @@ function buttonBehave1(thisBanner) {
         thisBannerH2;
 
     // dropdown events
-    $('select[name="brands"],[id="props' + id + '"] select[name="onClickBehavior"]').on('change', function () {
+    $('select[name="brands"],[id="props_' + id + '"] select[name="onClickBehavior"]').on('change', function () {
 
         var type = $(this).attr('name');
 
         if (type == 'brands') {
             globals.selectBrand = $(':selected', this).val();
             if (state == 'remote') {
-                $('[id="props' + id + '"] input[name="lorr1_' + id + '"]').trigger("change");
+                $('[id="props_' + id + '"] input[name="lorr1_' + id + '"]').trigger('change');
             }
         } else {
             displayOnClickBehavior($(':selected', this).val(), thisBanner);
@@ -100,51 +100,46 @@ function buttonBehave1(thisBanner) {
 
         state = $(this).val();
 
-        if (state == "local") {
-            // Disable 'Brand'/'Export'
-            // $(".opt-row.brand .clabel").addClass('disabled');
-            // $("fieldset#brand select").prop('disabled', 'disabled');
+        if (state == 'local') {
 
-            //thisBanner.state = "local";
-
-            $("input[name*='bg']").each(function () {
+            $('input[name*="bg"]').each(function () {
                 var curr = $(this).val();
-                if (curr !== "")
-                    $(this).attr("data-remote", curr);
+                if (curr !== '')
+                    $(this).attr('data-remote', curr);
 
-                if ($(this).data("local"))
+                if ($(this).data('local'))
                     $(this).val($(this).data("local"));
 
-                $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("Local");
-                if ($(this).attr("name") == "bpDesktop_" + id)
+                $(this).siblings('[id="props_' + id + '"] span.input-group-addon1').text('Local');
+                if ($(this).attr('name') == 'bpDesktop_' + id)
                     var size = 962;
                 else
                     var size = 575
-                $(this).val("").attr("placeholder", "Demo-image-" + size + ".png");
+                $(this).val('').attr('placeholder', 'Demo-image-' + size + '.png');
             });
 
             thisBanner.state = 'local';
 
-        } else if (state == "remote") {
+        } else if (state == 'remote') {
 
             //thisBanner.state = "remote";
 
-            $("input[name*='bg']").each(function () {
+            $('input[name*="bg"]').each(function () {
                 var curr = $(this).val();
-                if (curr !== "") {
-                    $(this).attr("data-local", curr);
+                if (curr !== '') {
+                    $(this).attr('data-local', curr);
                 }
 
-                if ($(this).data("remote")) {
-                    $(this).val($(this).data("remote"));
+                if ($(this).data('remote')) {
+                    $(this).val($(this).data('remote'));
                 }
 
-                if ($("select[name='brands']").val() == "") {
-                    $(this).val("").attr("placeholder", "Select a brand");
-                    $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("Remote");
+                if ($('select[name="brands"]').val() == '') {
+                    $(this).val('').attr('placeholder', 'Select a brand');
+                    $(this).siblings('[id="props_' + id + '"] span.input-group-addon1').text('Remote');
                 } else {
-                    $(this).val("").attr("placeholder", "Enter Filename...");
-                    $(this).siblings("[id='props" + id + "'] span.input-group-addon1").text("/images/evergage/" + globals.selectBrand + "/");
+                    $(this).val('').attr('placeholder', 'Enter Filename&hellip;');
+                    $(this).siblings('[id="props_' + id + '"] span.input-group-addon1').text('/images/evergage/' + globals.selectBrand + '/');
                 }
             });
 
@@ -204,44 +199,44 @@ function buttonBehave1(thisBanner) {
     $("button[name='exporthtml'],button[name='exportcss']").on("click", function () {
 
 
-        var type = $(this).attr("name");
+        var type = $(this).attr('name');
         exportCode1(type);
     });
 
-    $("span.help1").on("click", function () {
+    $("span.help1").on('click', function () {
 
-        var helpMsg = "";
-        switch ($(this).data("help")) {
-            case "desktop":
+        var helpMsg = '';
+        switch ($(this).data('help')) {
+            case 'desktop':
                 helpMsg = 'For local testing, place a 962x430px image in the same directory as this HTML file and enter the filename here <i style="font-style:serif;color:#a1a1a1; ">(png,gif,jpg)</i>.<br>For remote testing, place a 962x430px image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"';
                 break;
-            case "mobile":
+            case 'mobile':
                 helpMsg = 'For local testing, place a 575x683px image in the same directory as this HTML file and enter the filename here <i style="font-style:serif;color:#a1a1a1; ">(png,gif,jpg)</i>.<br>For remote testing, place a 575x683px image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"';
                 break;
-            case "rgb":
+            case 'rgb':
                 helpMsg = 'Enter a number value between the range of 0-250 for each of the RGB fields.';
                 break;
-            case "required":
+            case 'required':
                 helpMsg = 'Whether this text is required for this offer. Certain text cannot be omitted.';
             default:
                 break;
         }
         // console.log(helpMsg);
 
-        msgBox1(helpMsg, "Help");
+        msgBox1(helpMsg, 'Help');
     });
 
     // validation event
-    $("input, select, textarea").on("change", function () {
+    $('input, select, textarea').on('change', function () {
 
         confirmAllRequiredMet();
     });
 
     // imgaddress
-    $(".bgimgaddress").on({
+    $('.bgimgaddress').on({
         focus: function () {
 
-            $(this).parent().removeClass("found notfound");
+            $(this).parent().removeClass('found notfound');
             if ($(this).parent().next().prop('hidden', false)) {
                 $(this).parent().next().prop('hidden', true);
             }
@@ -255,29 +250,29 @@ function buttonBehave1(thisBanner) {
     });
 
     // Drop Shadow
-    $("select[name='dShadow']").on("change", function () {
+    $('select[name="dShadow"]').on('change', function () {
 
-        $("section.section-offer").removeClass("py-shadow-b py-shadow-b-lrg py-shadow-b-sml");
-        var shadow = "py-shadow-b";
+        $('section.section-offer').removeClass('py-shadow-b py-shadow-b-lrg py-shadow-b-sml');
+        var shadow = 'py-shadow-b';
 
         switch ($(this).val()) {
-            case "1": shadow = "py-shadow-b-lrg";
+            case '1': shadow = 'py-shadow-b-lrg';
                 break;
-            case "2": shadow = "py-shadow-b-sml";
+            case '2': shadow = 'py-shadow-b-sml';
                 break;
-            case "3": shadow = "";
+            case '3': shadow = '';
         }
 
-        $("section.section-offer").addClass(shadow);
+        $('section.section-offer').addClass(shadow);
     });
 
-    $('[id="tabbs' + id + '"] [data-label="banner"] > span').on({
+    $('[id="tabbs_' + id + '"] [data-label="banner"] > span').on({
 
         click: function () {
 
             thisBanner.tag = $(this).text();
             $(this).text('');
-            thisBannerH2 = $('[id="props' + id + '"] h2 .tag').html();
+            thisBannerH2 = $('[id="props_' + id + '"] h2 .tag').html();
         },
         focusout: function () {
 
@@ -286,15 +281,15 @@ function buttonBehave1(thisBanner) {
             if (newBannerTitle) {
                 if (newBannerTitle != thisBanner.tag) {
                     thisBanner.tag = newBannerTitle;
-                    $('[id="props' + id + '"] h2 .tag').empty();
-                    $('[id="props' + id + '"] h2 .tag').html(thisBanner.tag + " ");
+                    $('[id="props_' + id + '"] h2 .tag').empty();
+                    $('[id="props_' + id + '"] h2 .tag').html(thisBanner.tag + " ");
                 } else {
                     $(this).text(thisBanner.tag);
-                    $('[id="props' + id + '"] h2 .tag').html(thisBannerH2);
+                    $('[id="props_' + id + '"] h2 .tag').html(thisBannerH2);
                 }
             } else {
                 $(this).text(thisBanner.tag);
-                $('[id="props' + id + '"] h2 .tag').html(thisBannerH2);
+                $('[id="props_' + id + '"] h2 .tag').html(thisBannerH2);
             }
         }
     });
@@ -331,20 +326,20 @@ function rgbToHex(r, g, b) {
 
 function websiteURL1() {
     var brand = globals.selectBrand;
-    var url = "";
+    var url = '';
 
     switch (brand) {
-        case "py":
-            url = "https://www.paulayoung.com";
+        case 'py':
+            url = 'https://www.paulayoung.com';
             break;
-        case "ey":
-            url = "https://www.especiallyyours.com";
+        case 'ey':
+            url = 'https://www.especiallyyours.com';
             break;
-        case "wg":
-            url = "https://www.wig.com";
+        case 'wg':
+            url = 'https://www.wig.com';
             break;
-        case "tl":
-            url = "https://www.thelook.fashion";
+        case 'tl':
+            url = 'https://www.thelook.fashion';
             break;
         default:
             break;
@@ -355,9 +350,9 @@ function websiteURL1() {
 
 function imgURL1(el, flag) {
     var domain = websiteURL1();
-    var fpath = $(el).siblings(".input-group-addon1").text();
-    if (fpath == "Local") {
-        fpath = "";
+    var fpath = $(el).siblings('.input-group-addon1').text();
+    if (fpath == 'Local') {
+        fpath = '';
     }
 
     var fname = $(el).val();
@@ -376,7 +371,7 @@ function checkImageExists1(el, url, banner) {
         bp = $(el).closest('[data-bp]').attr('data-bp').substr(-5);
 
     img.onload = function () {
-        $(el).parent().addClass("found");
+        $(el).parent().addClass('found');
         $(el).parent().next().prop('hidden', true);
 
         banner.css.breakpoints['bp_' + bp].background.img = img.src;
@@ -385,7 +380,7 @@ function checkImageExists1(el, url, banner) {
         reDraw1(banner, bp);
     };
     img.onerror = function () {
-        $(el).parent().addClass("notfound");
+        $(el).parent().addClass('notfound');
         $(el).parent().next().prop('hidden', false);
 
         if (bp == 'desktop') {
@@ -400,10 +395,10 @@ function checkImageExists1(el, url, banner) {
 
 function exportCode1(type) {
     switch (type) {
-        case "exporthtml":
+        case 'exporthtml':
             htmlExport1();
             break;
-        case "exportcss":
+        case 'exportcss':
             styleExport1();
             break;
         default:
@@ -421,65 +416,65 @@ function styleExport1() {
 
 function htmlExport1() {
     // Clone the html to a non visible area
-    $("body").append("<div class='noSeeCode'></div>");
-    $(".faux-website-container .container section").clone().appendTo(".noSeeCode");
+    $('body').append('<div class="noSeeCode"></div>');
+    $('.faux-website-container .container section').clone().appendTo('.noSeeCode');
 
     // Change out all the dummy sections for user input
     // Heading
-    //$(".noSeeCode img#section-offer-img").attr("alt", $("input[type='text'][name='heading']").val().replace(/'/g, "").replace(/"/g, ""));
+    //$(".noSeeCode img#section-offer-img").attr("alt", $("input[type='text'][name='heading']").val().replace(/'/g, '').replace(/"/g, ''));
 
     // Img
-    var bgDesktopsrc = imgURL1($(".imgaddress[name*='bgDesktop_']"), false);
-    var bgMobilesrc = imgURL1($(".imgaddress[name*='bgMobile_']"), false);
+    var bgDesktopsrc = imgURL1($('.imgaddress[name*="bgDesktop_"]'), false);
+    var bgMobilesrc = imgURL1($('.imgaddress[name*="bgMobile_"]'), false);
     // source 962
-    $(".noSeeCode picture source[media*='576']").attr("srcset", bgDesktopsrc);
+    $('.noSeeCode picture source[media*="576"]').attr('srcset', bgDesktopsrc);
     // source 575
-    $(".noSeeCode picture source[media*='575']").attr("srcset", bgMobilesrc);
+    $('.noSeeCode picture source[media*="575"]').attr('srcset', bgMobilesrc);
     // default src and data-srcset
-    $(".noSeeCode img#section-offer-img").attr("src", bgDesktopsrc).attr("data-srcset", bgMobilesrc);
+    $('.noSeeCode img#section-offer-img').attr('src', bgDesktopsrc).attr('data-srcset', bgMobilesrc);
 
     // Body
-    if ($("input[type='checkbox'][name='body']:checked").length == 1)
-        $(".noSeeCode .body").text($("textarea[name='body']").val());
+    if ($('input[type="checkbox"][name="body"]:checked').length == 1)
+        $('.noSeeCode .body').text($('textarea[name="body"]').val());
     else
-        $(".noSeeCode .body").remove();
+        $('.noSeeCode .body').remove();
 
     // Coupon
-    if ($("input[type='checkbox'][name='coupon']:checked").length == 1)
-        $(".noSeeCode .coupon").text($("input[type='text'][name='coupon']").val());
+    if ($('input[type="checkbox"][name="coupon"]:checked').length == 1)
+        $('.noSeeCode .coupon').text($('input[type="text"][name="coupon"]').val());
     else
-        $(".noSeeCode .coupon").remove();
+        $('.noSeeCode .coupon').remove();
 
     // If no Body or Coupon, remove aria-describedby and offer-description
-    if ($("input[type='checkbox'][name='body']:checked").length == 0 && $("input[type='checkbox'][name='coupon']:checked").length == 0) {
-        $(".noSeeCode #offer-description").remove();
-        $(".noSeeCode img#section-offer-img").removeAttr("aria-describedby");
+    if ($('input[type="checkbox"][name="body"]:checked').length == 0 && $('input[type="checkbox"][name="coupon"]:checked').length == 0) {
+        $('.noSeeCode #offer-description').remove();
+        $('.noSeeCode img#section-offer-img').removeAttr('aria-describedby');
     }
 
     // 'a' href
-    $(".noSeeCode a").attr("href", $("input[type='text'][name='href']").val());
+    $('.noSeeCode a').attr('href', $('input[type="text"][name="href"]').val());
 
     // Remove href target
-    $(".noSeeCode a").removeAttr("target");
+    $('.noSeeCode a').removeAttr('target');
 
-    var html = "<textarea>" + escapeHTML1($(".noSeeCode")[0].innerHTML) + "</textarea>";
+    var html = '<textarea>' + escapeHTML1($('.noSeeCode')[0].innerHTML) + '</textarea>';
     html += '<div class="faux-footer"><button class="copy btn btn-default">Copy To Clipboard</button></div>';
-    msgBox1(html, "HTML Export");
+    msgBox1(html, 'HTML Export');
 
     // Clean up any empty lines in the textarea
-    var text = $(".modal textarea").val();
-    text = text.replace(/(?:(?:\r\n|\r|\n)\s*){2}/gm, "");
-    $(".modal textarea").val(text);
+    var text = $('.modal textarea').val();
+    text = text.replace(/(?:(?:\r\n|\r|\n)\s*){2}/gm, '');
+    $('.modal textarea').val(text);
 
-    // console.log($(".noSeeCode"));
+    // console.log($('.noSeeCode'));
 
     // Destroy noSeeCode element
-    $(".noSeeCode").remove();
+    $('.noSeeCode').remove();
 }
 
 function msgBox1(msg, title) {
 
-    if (!title) title = "";
+    if (!title) title = '';
 
     var html = `<div id="msgBox" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -495,8 +490,8 @@ function msgBox1(msg, title) {
     </div>
 </div>`;
 
-    $("body").append(html);
-    $("#msgBox").modal("show");
+    $('body').append(html);
+    $('#msgBox').modal('show');
 }
 
 function reDraw1(el1, el2) {
@@ -551,7 +546,7 @@ function displayOnClickBehavior(behaviorSelected, banner) {
 
     $('[id="props' + banner.id + '"] .row.onclickbehavior .dynamic').append(banner.onClickBehaviorHTML);
 
-    $("input, select, textarea").on("change", function () {
+    $("input, select, textarea").on('change', function () {
         confirmAllRequiredMet();
     });
 }
@@ -571,9 +566,9 @@ function confirmAllRequiredMet() {
     }
 
     if (invalids.length < 1) {
-        $("button[name='exporthtml'],button[name='exportcss']").prop('disabled', false);
+        $('button[name="exporthtml"],button[name="exportcss"]').prop('disabled', false);
     } else {
-        $("button[name='exporthtml'],button[name='exportcss']").prop('disabled', true);
+        $('button[name="exporthtml"],button[name="exportcss"]').prop('disabled', true);
     }
 }
 
@@ -583,11 +578,11 @@ function show(thisButton) {
 
     if (dataDomain == 'tabs') {
 
-        id = $(thisButton).closest('[id*="tabbs"]').attr('id').substr(-4);
+        id = $(thisButton).closest('[id*="tabbs_"]').attr('id').substr(-4);
 
         $('[id*="props"], button.banner-tab, .text-render > div').removeClass('showing');
 
-        $('[id="props' + id + '"], [id="' + id + '"]').addClass('showing');
+        $('[id="props_' + id + '"], [id="' + id + '"]').addClass('showing');
 
     } else {
 
@@ -610,9 +605,9 @@ function add(thisButton) {
     if (dataDomain == 'tabs') {
         id = randomId(1000, 9999);
 
-        var seriesParent = thisButton.closest('[id*="tabbs"]'),
+        var seriesParent = thisButton.closest('[id*="tabbs_"]'),
             parentId,
-            series = $('[id*="tabbs"]'),
+            series = $('[id*="tabbs_"]'),
             z;
 
         // Dedup
@@ -621,14 +616,18 @@ function add(thisButton) {
             if (id == parentId) {
                 id = randomId(1000, 9999);
                 z = new bannerObj(id);
+                globals.bannerObjects['banner_' + id] = z;
             } else {
                 z = new bannerObj(id);
+                globals.bannerObjects['banner_' + id] = z;
             }
         }
 
-        z.render();
+        globals.bannerObjects['banner_' + id].render();
 
-        series = $('[id*="tabbs"]');
+        console.log(globals.bannerObjects);
+
+        series = $('[id*="tabbs_"]');
 
         if (z.visibleIndex(series) == globals.maxBannerNumber) {
             $('[data-domain="' + dataDomain + '"] .add-button').prop('hidden', true);
@@ -637,7 +636,7 @@ function add(thisButton) {
         $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', false);
 
         $('[id*="props"],button.banner-tab,.text-render > div').removeClass('showing');
-        $('[id="props' + z.id + '"], [id="tabbs' + z.id + '"] .banner-tab, [id="' + z.id + '"]').addClass('showing');
+        $('[id="props' + z.id + '"], [id="tabbs_' + z.id + '"] .banner-tab, [id="' + z.id + '"]').addClass('showing');
 
     } else if (dataDomain == 'inputs') {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
@@ -706,7 +705,7 @@ function add(thisButton) {
         $(".bgimgaddress").on({
             focus: function () {
 
-                $(this).parent().removeClass("found notfound");
+                $(this).parent().removeClass('found notfound');
                 if ($(this).parent().next().prop('hidden', false)) {
                     $(this).parent().next().prop('hidden', true);
                 }
@@ -726,13 +725,17 @@ function remove(thisButton) {
     var dataDomain = $(thisButton).closest('[data-domain]').data('domain');
 
     if (dataDomain == 'tabs') {
-        var seriesParent = $(thisButton).closest('[id*="tabbs"]'),
-            id = $(seriesParent).attr('id').substr(5),
+        var seriesParent = $(thisButton).closest('[id*="tabbs_"]'),
+            id = $(seriesParent).attr('id').substr(-4),
             series;
 
-        $('[id="tabbs' + id + '"], [id="props' + id + '"], .row .text-render > [id="' + id + '"], .row .text-render > [id="' + id + '"] + .gutter').remove();
+            delete globals.bannerObjects['banner_' + id];
 
-        series = $('[id*="tabbs"]');
+            console.log(globals.bannerObjects);
+
+        $('[id="tabbs_' + id + '"], [id="props_' + id + '"], .text-render > [id="' + id + '"], .text-render > [id="' + id + '"] + .gutter').remove();
+
+        series = $('[id*="tabbs_"]');
 
         if (series.length == globals.minBannerNumber) {
             $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', true);
@@ -963,7 +966,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>';
 
-    html = '<fieldset id="props' + id + '" class="col-xs-12 banner-properties"><div class="row"><div class="col-xs-12"><legend> <h2><span class="tag"></span>Properties</h2></legend></div></div>'
+    html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties"><div class="row"><div class="col-xs-12"><legend> <h2><span class="tag"></span>Properties</h2></legend></div></div>'
         + content
         + background
         + clickbehavior
@@ -974,7 +977,7 @@ function bannerCreatorForm(el1) {
 
 function bannerTab(el1) {
     var id = el1.id,
-        html = '<div id="tabbs' + id + '" class="col-xs-3">' +
+        html = '<div id="tabbs_' + id + '" class="col-xs-3">' +
             '<span class="controls-add-subtract">' +
             '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
             '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
@@ -1162,12 +1165,6 @@ function bannerObj(el1) {
             $('.subtract-button').prop('hidden', true);
 
             $('textarea.editor').ckeditor();
-
-            $('textarea.editor').ckeditor(function () {
-                $(this).on('click', function () {
-                    console.log('test');
-                });
-            });
 
             this.buttonBehave();
 

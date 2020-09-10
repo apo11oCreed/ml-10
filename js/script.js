@@ -849,19 +849,45 @@ function update(el1, el2) {
         }
     });
 
-    $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
-        name +
-        '</h5>' +
-        '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
-        '<dl id="dl_' + bpid + '" class="collapse">' +
-        '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
-        minwidth + 'px</span></dd>' +
-        '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
-        maxwidth + 'px</span></dd>' +
-        '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
-        height + 'px</span></dd>' +
-        '</dl>'
-    );
+    if (minwidth == 0) {
+        $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
+            name +
+            '</h5>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<dl id="dl_' + bpid + '" class="collapse">' +
+            '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
+            maxwidth + 'px</span></dd>' +
+            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            height + 'px</span></dd>' +
+            '</dl>'
+        );
+    } else if (maxwidth == 0) {
+        $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
+            name +
+            '</h5>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<dl id="dl_' + bpid + '" class="collapse">' +
+            '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
+            minwidth + 'px</span></dd>' +
+            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            height + 'px</span></dd>' +
+            '</dl>'
+        );
+    } else {
+        $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
+            name +
+            '</h5>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<dl id="dl_' + bpid + '" class="collapse">' +
+            '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
+            minwidth + 'px</span></dd>' +
+            '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
+            maxwidth + 'px</span></dd>' +
+            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            height + 'px</span></dd>' +
+            '</dl>'
+        );
+    }
 
     $(el2).attr('data-bp', name);
     $(el2).attr('data-bp-minwidth', minwidth);
@@ -894,9 +920,16 @@ function update(el1, el2) {
 
 function buildStyles(id, bpid, minwidth, maxwidth, height) {
     var embedstyles = $('style#style_' + bpid),
+        styles;
+    if (minwidth == 0) {
+        styles = '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen and (max-width:' + maxwidth + 'px){ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;min-height:100%;}}';
+    } else if (maxwidth == 0) {
+        styles = '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen and (min-width:' + minwidth + 'px){ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;min-height:100%;}}';
+    } else {
         styles = '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen and (min-width:' + minwidth + 'px) and (max-width:' + maxwidth + 'px){ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;min-height:100%;}}';
-    $(embedstyles).html('');
+    }
 
+    $(embedstyles).html('');
     $(embedstyles).html(styles);
 }
 
@@ -1092,10 +1125,10 @@ function breakpointForm(id, bp) {
             '<label for="bpName" class="col-xs-4">Name:</label><input id="bpName" name="bpName" class="col-xs-8" type="text" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].name + '">' +
             '</div>' +
             '<div class="row">' +
-            '<label for="bpMinWidth" class="col-xs-4">Min-width:</label><input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth + '">' +
+            '<label for="bpMinWidth" class="col-xs-4">Min-width:<br><small style="font-weight:400;">Set to 0 to omit</small></label><input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth + '">' +
             '</div>' +
             '<div class="row">' +
-            '<label for="bpMaxWidth" class="col-xs-4">Max-width:</label><input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth + '">' +
+            '<label for="bpMaxWidth" class="col-xs-4">Max-width:<br><small style="font-weight:400;">Set to 0 to omit</small></label><input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth + '">' +
             '</div>' +
             '<div class="row">' +
             '<label for="bpHeight" class="col-xs-4">Height:</label><input id="bpHeight" name="bpHeight" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height + '">' +

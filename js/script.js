@@ -266,30 +266,30 @@ function buttonBehave1(thisBanner) {
         $('section.section-offer').addClass(shadow);
     });
 
-    $('[id="tabbs_' + id + '"] [data-label="banner"] > span').on({
+    $('[id="tabs_' + id + '"] [data-label="banner"] > span').on({
 
         click: function () {
 
-            thisBanner.tag = $(this).text();
+            thisBanner.txtPlaceholder = $(this).text();
             $(this).text('');
-            thisBannerH2 = $('[id="props_' + id + '"] h2 .tag').html();
+            thisBannerH2 = $('[id="props_' + id + '"] h2 .txtPlaceholder').html();
         },
         focusout: function () {
 
             var newBannerTitle = $(this).text();
 
             if (newBannerTitle) {
-                if (newBannerTitle != thisBanner.tag) {
-                    thisBanner.tag = newBannerTitle;
-                    $('[id="props_' + id + '"] h2 .tag').empty();
-                    $('[id="props_' + id + '"] h2 .tag').html(thisBanner.tag + " ");
+                if (newBannerTitle != thisBanner.txtPlaceholder) {
+                    thisBanner.txtPlaceholder = newBannerTitle;
+                    $('[id="props_' + id + '"] h2 .txtPlaceholder').empty();
+                    $('[id="props_' + id + '"] h2 .txtPlaceholder').html(thisBanner.txtPlaceholder + " ");
                 } else {
-                    $(this).text(thisBanner.tag);
-                    $('[id="props_' + id + '"] h2 .tag').html(thisBannerH2);
+                    $(this).text(thisBanner.txtPlaceholder);
+                    $('[id="props_' + id + '"] h2 .txtPlaceholder').html(thisBannerH2);
                 }
             } else {
-                $(this).text(thisBanner.tag);
-                $('[id="props_' + id + '"] h2 .tag').html(thisBannerH2);
+                $(this).text(thisBanner.txtPlaceholder);
+                $('[id="props_' + id + '"] h2 .txtPlaceholder').html(thisBannerH2);
             }
         }
     });
@@ -303,17 +303,27 @@ function buttonBehave1(thisBanner) {
                 inputs = $('[data-input-index]', allBreakpoints[q]);
 
             for (var p = 0; p < inputs.length; p++) {
+                $(inputs[p]).removeAttr('class');
 
                 var index = $(inputs[p]).data('input-index'),
                     newChildElems;
 
                 $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
 
-                $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
-                newChildElems = $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
-                $.each(newChildElems, function (index, value) {
-                    $(this).css({ 'margin': '0', 'padding': '0' });
-                })
+                if ($('textarea.editor', inputs[p]).val()) {
+                    $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
+
+                    newChildElems = $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
+
+                    $.each(newChildElems, function (index, value) {
+                        $(this).css({ 'margin': '0', 'padding': '0' });
+                    })
+                } else {
+                    // $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append('|A');
+
+                    $(inputs[p]).addClass('error');
+                    alert('Missing content in a text group.');
+                }
             }
         }
     });
@@ -582,15 +592,15 @@ function show(thisButton) {
 
     if (dataDomain == 'tabs') {
 
-        id = $(thisButton).closest('[id*="tabbs_"]').attr('id').substr(-4);
+        id = $(thisButton).closest('[id*="tabs_"]').attr('id').substr(-4);
 
-        $('[id*="props"], button.banner-tab, .text-render > div').removeClass('showing');
+        $('[id*="props_"], .banner-tab, .text-render > div').removeClass('showing');
 
         $('[id="props_' + id + '"], [id="banner_' + id + '"]').addClass('showing');
 
     } else {
 
-        id = $(thisButton).closest('[id*="props"]').attr('id').substr(-4);
+        id = $(thisButton).closest('[id*="props_"]').attr('id').substr(-4);
         var bpid = $(thisButton).closest('[name*="bpid_"]').attr('name').substr(-5);
 
         $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button.breakpoint-tab,[id="content_' + id + '"] [data-domain="breakpoints"] .inputs .col-xs-12 .input').removeClass('showing');
@@ -609,12 +619,12 @@ function add(thisButton) {
     if (dataDomain == 'tabs') {
         id = randomId(1000, 9999);
 
-        var seriesParent = thisButton.closest('[id*="tabbs_"]'),
+        var seriesParent = thisButton.closest('[id*="tabs_"]'),
             parentId,
-            series = $('[id*="tabbs_"]'),
+            series = $('[id*="tabs_"]'),
             z;
 
-        // Dedup
+        // Dedup banner ID
         for (var h = 0; h < series.length; h++) {
             parentId = $(series[h]).attr('id').substr(-4);
             if (id == parentId) {
@@ -629,25 +639,29 @@ function add(thisButton) {
 
         globals.bannerObjects['banner_' + id].render();
 
-        console.log(globals.bannerObjects);
+        // Recheck qty of banners
+        series = $('[id*="tabs_"]');
 
-        series = $('[id*="tabbs_"]');
-
-        if (z.visibleIndex(series) == globals.maxBannerNumber) {
+        if (globals.bannerObjects['banner_' + id].visibleIndex(series) == globals.maxBannerNumber) {
             $('[data-domain="' + dataDomain + '"] .add-button').prop('hidden', true);
         }
 
         $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', false);
 
-        $('[id*="props"],button.banner-tab,.text-render > div').removeClass('showing');
-        $('[id="props_' + z.id + '"], [id="tabbs_' + z.id + '"] .banner-tab, [id="banner_' + z.id + '"]').addClass('showing');
+        $('[id*="props_"], .banner-tab, .text-render > div').removeClass('showing');
+
+        $('[id="props_' + z.id + '"], [id="tabs_' + z.id + '"] .banner-tab, [id="banner_' + z.id + '"]').addClass('showing');
 
     } else if (dataDomain == 'inputs') {
+
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
 
         var seriesParent = $(thisButton).closest('[data-domain="' + dataDomain + '"]'),
+            series,
             bpid = $(thisButton).closest('[name*="bpid"]').attr('name').substr(-5);
 
+        //Remove previous error styling
+        $('[data-input-index]', seriesParent).removeAttr('class');
 
         // Add new input to input series and assign latest index
         $(seriesParent).append(bannerObj(id).copyInput($(seriesParent).children('[data-input-index]').last().data('input-index') + 1));
@@ -661,10 +675,7 @@ function add(thisButton) {
         series = $('textarea', seriesParent);
 
         // Initiate ckeditor on this new textarea
-        $(series).last().ckeditor(function () {
-            this.config.disallowedContent = 'h1';
-            console.log(this);
-        });
+        $(series).last().ckeditor();
 
     } else {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
@@ -673,7 +684,8 @@ function add(thisButton) {
             parentId,
             series = $('.tabs', seriesParent);
 
-        // Dedup
+        // Dedup breakpoint ID
+
         for (var h = 0; h < series.length; h++) {
             parentId = $(series[h]).attr('name').substr(-5);
             if (bpid == parentId) {
@@ -682,7 +694,7 @@ function add(thisButton) {
         }
 
         globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid] = {
-            name: 'Update breakpoint name',
+            name: '|A',
             background: {
                 img: 'none',
                 position: 'center center'
@@ -695,14 +707,11 @@ function add(thisButton) {
             }
         };
 
-
-        console.log(globals.bannerObjects);
-
         // Add new breakpoint tab
         $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid));
 
         // Add new breakpoint textarea
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs > .col-xs-12').append(breakpointInput(1, bpid));
+        $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs > div').append(breakpointInput(1, bpid));
 
         // Add new breakpoint section to banner preview
         $('.text-render [id="banner_' + id + '"]').append(bannerPreviewBreakpoint(id, bpid));
@@ -743,20 +752,21 @@ function add(thisButton) {
 
 function remove(thisButton) {
 
-    var dataDomain = $(thisButton).closest('[data-domain]').data('domain');
+    var dataDomain = $(thisButton).closest('[data-domain]').data('domain'),
+        embedstyles = $('#banners'),
+        seriesBreakpoints;
 
     if (dataDomain == 'tabs') {
-        var seriesParent = $(thisButton).closest('[id*="tabbs_"]'),
+        var seriesParent = $(thisButton).closest('[id*="tabs_"]'),
             id = $(seriesParent).attr('id').substr(-4),
             series;
 
         delete globals.bannerObjects['banner_' + id];
 
-        console.log(globals.bannerObjects);
+        $('[id="tabs_' + id + '"], [id="props_' + id + '"], .text-render > [id="banner_' + id + '"], .text-render > [id="banner_' + id + '"] + .gutter').remove();
 
-        $('[id="tabbs_' + id + '"], [id="props_' + id + '"], .text-render > [id="banner_' + id + '"], .text-render > [id="banner_' + id + '"] + .gutter').remove();
-
-        series = $('[id*="tabbs_"]');
+        // Recheck qty of banners
+        series = $('[id*="tabs_"]');
 
         if (series.length == globals.minBannerNumber) {
             $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', true);
@@ -787,20 +797,30 @@ function remove(thisButton) {
 
         delete globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid];
 
-        console.log(globals.bannerObjects);
-
         $('[name="bpid_' + bpid + '"]').remove();
 
         $('[data-bp="bg_' + bpid + '"]').remove();
 
         $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]').remove();
 
+        // Recheck qty of breakpoints
         series = $('[data-bp]', seriesParent);
 
         if (series.length == 1) {
             $('[data-domain="bpconfig"] .subtract-button').prop('hidden', true);
         }
     }
+
+    seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div');
+    console.log(seriesBreakpoints);
+
+    $(embedstyles).html('');
+
+    $.each(seriesBreakpoints, function () {
+        var contentParent = $(this).parents('fieldset')[0];
+        console.log($(this).attr('name').substr(-5) + ' removeButton');
+        $(embedstyles).append(buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
+    });
 }
 
 function edit(thisButton) {
@@ -809,7 +829,7 @@ function edit(thisButton) {
         dataDomain = $(thisButton).closest('[data-domain]').data('domain');
 
     if (dataDomain == 'bpconfig') {
-        msgBox1('<form id="bpForm" class="container-fluid">' + breakpointForm(id, $(bp)) + '</form>', 'Update Options');
+        msgBox1('<form id="bpForm" class="container-fluid">' + breakpointForm(id, $(bp)) + '</form>', 'Breakpoint Options');
         $('#bpForm').on('submit', function () {
             event.preventDefault();
             update(event.target, bp);
@@ -819,18 +839,24 @@ function edit(thisButton) {
 
 function update(el1, el2) {
 
-    var series = $('input[type="text"],input[type="number"]', el1),
+    var seriesInputs = $('input[type="text"],input[type="number"]', el1),
+        seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div'),
         bpid = $(el2).attr('name').substr(-5),
         id = $(el2).parents('[id*="content_"]').attr('id').substr(-4),
+        embedstyles = $('#banners'),
         name = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].name,
         minwidth = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth,
         maxwidth = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth,
         height = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height;
 
-    $.each(series, function () {
-        var id = $(this).attr('id');
+    console.log(seriesBreakpoints);
+
+    $(embedstyles).html('');
+
+    $.each(seriesInputs, function () {
+        var inputId = $(this).attr('id');
         if ($(this).val()) {
-            switch (id) {
+            switch (inputId) {
                 case 'bpName':
                     name = $('input#bpName', el1).val();
                     break;
@@ -899,10 +925,6 @@ function update(el1, el2) {
     globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth = maxwidth;
     globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height = height;
 
-    console.log(globals.bannerObjects);
-
-    $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]').css('height', height);
-
     if ($('input[name="bgImg"]:checked').val() == 'yes') {
         $('[data-bp="bg_' + bpid + '"] input').prop('disabled', false);
         $('[data-bp="bg_' + bpid + '"] input').prop('required', true);
@@ -913,30 +935,30 @@ function update(el1, el2) {
         $('[data-bp="bg_' + bpid + '"] .bpName').text('');
     }
 
-    buildStyles(id, bpid, minwidth, maxwidth, height);
+    $.each(seriesBreakpoints, function () {
+        var contentParent = $(this).parents('fieldset')[0];
+        $(embedstyles).append(buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
+    });
 
     $('#msgBox').modal('hide');
 }
 
 function buildStyles(id, bpid, minwidth, maxwidth, height) {
-    var embedstyles = $('style#style_' + bpid),
-        styles;
-    if (minwidth == 0) {
-        styles = '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen and (max-width:' + maxwidth + 'px){ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;min-height:100%;}}';
-    } else if (maxwidth == 0) {
-        styles = '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen and (min-width:' + minwidth + 'px){ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;min-height:100%;}}';
-    } else {
-        styles = '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen and (min-width:' + minwidth + 'px) and (max-width:' + maxwidth + 'px){ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;min-height:100%;}}';
-    }
+    var styles = '',
+    min=minwidth==0 ? '': ' and (min-width:' + minwidth + 'px)',
+    max=maxwidth==0 ? '': ' and (max-width:' + maxwidth + 'px)',
+    media=minwidth==0&&maxwidth==0 ? '': '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen' +
+    min + 
+    max + 
+    '{ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;height:' + height + 'px;min-height:100%;}}';
 
-    $(embedstyles).html('');
-    $(embedstyles).html(styles);
+    styles+=media;
+
+    return styles;
 }
 
 function bannerCreatorForm(el1) {
     var id = el1.id,
-        html,
-
         content = '<div class="row">' +
             '<fieldset id="content_' + id + '" class="col-xs-12">' +
             '<div class="row">' +
@@ -1009,9 +1031,9 @@ function bannerCreatorForm(el1) {
             '<label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span>' +
             '</div>' +
             '<div class="col-xs-6 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">R</span> <input id="r_bg' + id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" required>' +
-            '<span class="input-group-addon1" id="img2label">G</span><input id="g_bg' + id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required>' +
-            '<span class="input-group-addon1" id="img2label">B</span><input id="b_bg' + id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" required>' +
+            '<span class="input-group-addon1" id="img2label">R</span> <input id="r_bg' + id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" min="0" max="250" required>' +
+            '<span class="input-group-addon1" id="img2label">G</span><input id="g_bg' + id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" min="0" max="250" required>' +
+            '<span class="input-group-addon1" id="img2label">B</span><input id="b_bg' + id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" min="0" max="250" required>' +
             '</div>' +
             '<div class="col-xs-3 error" hidden>' +
             '</div>' +
@@ -1050,26 +1072,34 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</fieldset>' +
             '</div>' +
-            '</div>';
-
-    html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties"><div class="row"><div class="col-xs-12"><legend> <h2><span class="tag"></span>Properties</h2></legend></div></div>'
-        + content
-        + background
-        + clickbehavior
-    '</div></fieldset>';
+            '</div>',
+        html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties">' +
+            '<div class="row">' +
+            '<div class="col-xs-12">' +
+            '<legend>' +
+            '<h2>' +
+            '<span class="txtPlaceholder"></span>Properties' +
+            '</h2>' +
+            '</legend>' +
+            '</div>' +
+            '</div>' +
+            content +
+            background +
+            clickbehavior +
+            '</fieldset>';
 
     return html;
 }
 
 function bannerTab(el1) {
     var id = el1.id,
-        html = '<div id="tabbs_' + id + '" class="col-xs-3">' +
+        html = '<div id="tabs_' + id + '" class="col-xs-3">' +
             '<span class="controls-add-subtract">' +
             '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
             '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
             '</span>' +
             '<span>' +
-            '<button type="button" class="banner-tab" name="bannertab" onClick="show(this)" data-label="banner"><span contenteditable>' + el1.tag + '<span></button>' +
+            '<button type="button" class="banner-tab" name="bannertab" onClick="show(this)" data-label="banner"><span contenteditable>' + el1.txtPlaceholder + '<span></button>' +
             '</span>' +
             '<div>';
 
@@ -1084,7 +1114,7 @@ function bannerPreview(banner) {
 }
 
 function bannerPreviewBreakpoint(id, breakpointId) {
-    var html = '<style id="style_' + breakpointId + '"></style><div data-bp="bpid_' + breakpointId + '" style="height:' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + breakpointId].latestHeight + 'px;"><span class="text-group" data-output-index="1"></span></div>';
+    var html = '<div data-bp="bpid_' + breakpointId + '"><span class="text-group" data-output-index="1"></span></div>';
 
     return html;
 }
@@ -1122,16 +1152,28 @@ function breakpointInput(number, id) {
 function breakpointForm(id, bp) {
     var bpid = bp.data('bp').substr(-5),
         html = '<div class="row">' +
-            '<label for="bpName" class="col-xs-4">Name:</label><input id="bpName" name="bpName" class="col-xs-8" type="text" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].name + '">' +
+            '<label for="bpName" class="col-xs-4">Name:' +
+            '<br><small style="font-weight:400;">Ex. Desktop, Tablet, Mobile</small>' +
+            '<br><small style="font-weight:400;">Default is |A</small>' +
+            '</label>' +
+            '<input id="bpName" name="bpName" class="col-xs-8" type="text" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].name + '">' +
             '</div>' +
             '<div class="row">' +
-            '<label for="bpMinWidth" class="col-xs-4">Min-width:<br><small style="font-weight:400;">Set to 0 to omit</small></label><input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth + '">' +
+            '<label for="bpMinWidth" class="col-xs-4">Min-width:' +
+            '<br><small style="font-weight:400;">Set to 0 to omit</small>' +
+            '<br><small style="font-weight:400;">Default is 575px</small>' +
+            '</label>' +
+            '<input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth + '">' +
             '</div>' +
             '<div class="row">' +
-            '<label for="bpMaxWidth" class="col-xs-4">Max-width:<br><small style="font-weight:400;">Set to 0 to omit</small></label><input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth + '">' +
+            '<label for="bpMaxWidth" class="col-xs-4">Max-width:' +
+            '<br><small style="font-weight:400;">Set to 0 to omit</small>' +
+            '<br><small style="font-weight:400;">Default is 767px</small>' +
+            '</label>' +
+            '<input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth + '">' +
             '</div>' +
             '<div class="row">' +
-            '<label for="bpHeight" class="col-xs-4">Height:</label><input id="bpHeight" name="bpHeight" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height + '">' +
+            '<label for="bpHeight" class="col-xs-4">Height:<br><small style="font-weight:400;">Default is 56px</small></label><input id="bpHeight" name="bpHeight" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height + '">' +
             '</div>' +
             '<div class="row">' +
             '<hr>' +
@@ -1146,7 +1188,7 @@ function breakpointForm(id, bp) {
             '</span>' +
             '</div>' +
             '<div class="row">' +
-            '<button id="bpUpdate" type="submit" name="bpUpdate">Update Options</button>' +
+            '<button id="bpUpdate" type="submit" name="bpUpdate">Update</button>' +
             '</div>';
 
     return html;
@@ -1156,13 +1198,37 @@ function breakpointBackgroundImg(bpName, bannerId) {
     var name = bpName,
         bpid = bannerId,
         html = '<div class="row" data-bp="bg_' + bpid + '">' +
+
             '<div class="col-xs-3">' +
             '<label for="bg_' + bpid + '">Image for <b class="bpName"></b> breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label>' +
             '</div>' +
+
             '<div class="col-xs-3 input-group1">' +
             '<span class="input-group-addon1" id="img2label">Local</span> <input id="bg_' + bpid + '" class="bgimgaddress form-control1" type="text" name="bg_' + bpid + '" placeholder="' + globals.bgDesktopPlaceholder + '" disabled>' +
             '</div>' +
+
             '<div class="col-xs-3 error" hidden>Image not found</div>' +
+            '</div>' +
+
+            '<div class="row" data-bp="bglocation_' + bpid + '">' +
+
+            '<div class="col-xs-3">' +
+
+            '<label for="x_' + bpid + '">X position for <b class="bpName"></b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="xpos" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '</div>' +
+
+            '<div class="col-xs-1">' +
+            '<input id="x_' + bpid + '" name="x_' + bpid + '" type="number" placeholder="0" maxlength="3" min="1" max="100" size="3" style="width:100%;">' +
+            '</div>' +
+
+            '<div class="col-xs-3">' +
+            '<label for="y_' + bpid + '">Y position for <b class="bpName"></b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="ypos" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '</div>' +
+
+            '<div class="col-xs-1">' +
+            '<input id="y_' + bpid + '" name="y_' + bpid + '" type="number" placeholder="0" maxlength="3" min="1" max="100" size="3" style="width:100%;">' +
+            '</div>' +
+
             '</div>';
 
     return html;
@@ -1173,10 +1239,7 @@ function bannerObj(el1) {
 
     obj = {
         id: el1,
-        bpid: function () {
-            return randomId(10000, 99999);
-        },
-        tag: '|A',
+        txtPlaceholder: '|A',
         css: {
             breakpoints: {},
             bgColor: {
@@ -1224,7 +1287,7 @@ function bannerObj(el1) {
             var bpid = randomId(10000, 99999);
 
             this.css.breakpoints['bp_' + bpid] = {
-                name: 'Update breakpoint name',
+                name: '|A',
                 background: {
                     img: 'none',
                     position: 'center center'
@@ -1237,7 +1300,7 @@ function bannerObj(el1) {
                 }
             };
 
-            $('#properties.row .dynamic').append(bannerCreatorForm(this));
+            $('#properties.row > .dynamic').append(bannerCreatorForm(this));
 
             $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(this));
 
@@ -1258,7 +1321,6 @@ function bannerObj(el1) {
             $('textarea.editor').ckeditor();
 
             this.buttonBehave();
-
         },
         state: 'local'
     }

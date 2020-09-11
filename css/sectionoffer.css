@@ -258,11 +258,11 @@ legend {
 	opacity:0.5;
 }
 
-input.error {
+.error {
 	border:1px solid red;
 }
 
-input.error:focus {
+.error:focus {
 	outline-color:red;
 }
 
@@ -444,25 +444,25 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 .faux-website-container {
 	min-height: unset;
 }
-#bannerTabs [id*="tabbs"], [data-domain="bpconfig"]  {
+#bannerTabs [id*="tabs_"], [data-domain="bpconfig"]  {
 	display:flex;
 	flex-direction:column;
 	justify-content: center;
 }
 
-#bannerTabs [id*="tabbs"] span.controls-add-subtract, [id*="props"] span.controls-add-subtract {
+#bannerTabs [id*="tabs_"] span.controls-add-subtract, [id*="props"] span.controls-add-subtract {
 	display:flex;
 	flex-direction:row;
 	justify-content: flex-end;
 }
 
-#bannerTabs [id*="tabbs"] span.controls-add-subtract button, [data-domain="bpconfig"] span.controls-add-subtract button {
+#bannerTabs [id*="tabs_"] span.controls-add-subtract button, [data-domain="bpconfig"] span.controls-add-subtract button {
 	opacity:0.0;
 	pointer-events:none;
 	transition: opacity 0.115s ease-in-out;
 }
 
-#bannerTabs [id*="tabbs"]:hover span.controls-add-subtract button, [data-domain="bpconfig"]:hover span.controls-add-subtract button {
+#bannerTabs [id*="tabs_"]:hover span.controls-add-subtract button, [data-domain="bpconfig"]:hover span.controls-add-subtract button {
 	opacity:1.0;
 	pointer-events:auto;
 }
@@ -573,6 +573,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	cursor:pointer;
 	align-items: center;
 } */
+
 .row .text-render .banner [data-bp="mobile"]{
     display:none;
 }
@@ -661,12 +662,6 @@ h2 .tab-visible{
 	display: flex;
     justify-content: flex-end;
 }
-
-/* input[name*='lorr1']:checked {
-	fill:blue;
-	outline:black;
-	box-shadow:0px 0px 10px rgb(0,0,0);
-} */
 
 ::placeholder{
 	color:rgb(200, 200, 200);

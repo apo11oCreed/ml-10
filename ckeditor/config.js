@@ -8,4 +8,13 @@ CKEDITOR.editorConfig = function (config) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	config.removePlugins = 'exportpdf,iframe,flash,table,tableselection,tabletools,forms,image,liststyle,find,magicline,pagebreak,pastefromdocs,pastefromword,preview,showblocks,templates,wsc,div,print';
+
+	config.toolbar = [
+		{ name: 'document', items: [ 'Source'] },
+		{ name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste','-', 'Undo', 'Redo' ] },
+		{ name: 'editing', items: [ 'Scayt' ] },
+		{ name: 'basicstyles', items: [ 'Bold', 'Italic','Underline' ] },
+		{name: 'styles',items:['FontSize']},
+		{name: 'colors',items:['TextColor','BGColor']}
+	];
 };

@@ -1,41 +1,41 @@
-var brands = {
-    'paulayoung': [{
-        'baseUrl': 'https://www.paulayoung.com',
-        'evergagePath': 'py',
-        'brandColor': 'rgb(184,117,174)'
-    }],
-    'especiallyyours': [{
-        'baseUrl': 'https://www.especiallyyours.com',
-        'evergagePath': 'ey',
-        'brandColor': 'rgb(23, 95, 180)'
-    }],
-    'thelook': [{
-        'baseUrl': 'https://www.thelook.fashion',
-        'evergagePath': 'tl',
-        'brandColor': 'rgb(0, 93, 166);'
-    }],
-    'wig': [{
-        'baseUrl': 'https://www.wig.com',
-        'evergagePath': 'wg',
-        'brandColor': 'rgb(86, 160, 224);'
-    }],
-    'beyondextensions': [{
-        'baseUrl': 'https://www.beyondextensions.com',
-        'evergagePath': 'be',
-        'brandColor': 'rgb(255, 97, 84)'
-    }]
-},
-    globals = {
-        selectBrand: '',
-        layoutMenu: 1,
-        desktopmediaquery: '(min-width:768px)',
-        mobilemediaquery: '(max-width:767px)',
-        bgDesktopPlaceholder: 'Demo-image-962.png',
-        bgMobilePlaceholder: 'Demo-image-575.png',
-        maxBannerNumber: 4,
-        minBannerNumber: 1,
-        bannerObjects: {}
+var globals = {
+    brands: {
+        'paulayoung': [{
+            'baseUrl': 'https://www.paulayoung.com',
+            'evergagePath': 'py',
+            'brandColor': 'rgb(184,117,174)'
+        }],
+        'especiallyyours': [{
+            'baseUrl': 'https://www.especiallyyours.com',
+            'evergagePath': 'ey',
+            'brandColor': 'rgb(23, 95, 180)'
+        }],
+        'thelook': [{
+            'baseUrl': 'https://www.thelook.fashion',
+            'evergagePath': 'tl',
+            'brandColor': 'rgb(0, 93, 166);'
+        }],
+        'wig': [{
+            'baseUrl': 'https://www.wig.com',
+            'evergagePath': 'wg',
+            'brandColor': 'rgb(86, 160, 224);'
+        }],
+        'beyondextensions': [{
+            'baseUrl': 'https://www.beyondextensions.com',
+            'evergagePath': 'be',
+            'brandColor': 'rgb(255, 97, 84)'
+        }]
     },
+    selectBrand: '',
+    layoutMenu: 1,
+    desktopmediaquery: '(min-width:768px)',
+    mobilemediaquery: '(max-width:767px)',
+    bgDesktopPlaceholder: 'Demo-image-962.png',
+    bgMobilePlaceholder: 'Demo-image-575.png',
+    maxBannerNumber: 4,
+    minBannerNumber: 1,
+    bannerObjects: {}
+},
     bannerTabsLegend = '<legend>' +
         '<h3>Banners</h3>' +
         '</legend>' +
@@ -57,9 +57,11 @@ $(document).ready(function () {
         bannerInit = new bannerObj(idInit);
 
     globals.bannerObjects['banner_' + idInit] = bannerInit;
-    console.log(globals.bannerObjects['banner_' + idInit]);
 
     globals.bannerObjects['banner_' + idInit].render();
+
+    console.log(globals);
+
 
     $('button[name="resetall"]').on('click', function () {
 
@@ -69,10 +71,12 @@ $(document).ready(function () {
         bannerInit = new bannerObj(randomId(1000, 9999));
 
         globals.bannerObjects['banner_' + idInit] = bannerInit;
-        console.log(globals.bannerObjects['banner_' + idInit]);
+        console.log(globals);
 
         globals.bannerObjects['banner_' + idInit].render();
     });
+
+
 });
 
 function buttonBehave1(thisBanner) {
@@ -88,66 +92,11 @@ function buttonBehave1(thisBanner) {
         if (type == 'brands') {
             globals.selectBrand = $(':selected', this).val();
             if (state == 'remote') {
-                $('[id="props_' + id + '"] input[name="lorr1_' + id + '"]').trigger('change');
+                $('[id="props_' + id + '"] input[name="lorr1_' + Object.keys(thisBanner.css.breakpoints)[0].substr(-5) + '"]').trigger('change');
             }
         } else {
             displayOnClickBehavior($(':selected', this).val(), thisBanner);
         }
-    });
-
-    // radio events
-    $('input[name="lorr1_' + id + '"]').on('change', function () {
-
-        state = $(this).val();
-
-        if (state == 'local') {
-
-            $('input[name*="bg"]').each(function () {
-                var curr = $(this).val();
-                if (curr !== '')
-                    $(this).attr('data-remote', curr);
-
-                if ($(this).data('local'))
-                    $(this).val($(this).data("local"));
-
-                $(this).siblings('[id="props_' + id + '"] span.input-group-addon1').text('Local');
-                if ($(this).attr('name') == 'bpDesktop_' + id)
-                    var size = 962;
-                else
-                    var size = 575
-                $(this).val('').attr('placeholder', 'Demo-image-' + size + '.png');
-            });
-
-            thisBanner.state = 'local';
-
-        } else if (state == 'remote') {
-
-            //thisBanner.state = "remote";
-
-            $('input[name*="bg"]').each(function () {
-                var curr = $(this).val();
-                if (curr !== '') {
-                    $(this).attr('data-local', curr);
-                }
-
-                if ($(this).data('remote')) {
-                    $(this).val($(this).data('remote'));
-                }
-
-                if ($('select[name="brands"]').val() == '') {
-                    $(this).val('').attr('placeholder', 'Select a brand');
-                    $(this).siblings('[id="props_' + id + '"] span.input-group-addon1').text('Remote');
-                } else {
-                    $(this).val('').attr('placeholder', 'Enter Filename&hellip;');
-                    $(this).siblings('[id="props_' + id + '"] span.input-group-addon1').text('/images/evergage/' + globals.selectBrand + '/');
-                }
-            });
-
-            thisBanner.state = 'remote';
-        }
-
-        $(".input-group1").removeClass("found notfound");
-        $(".input-group1").next('.error').prop('hidden', true);
     });
 
     // color events
@@ -192,7 +141,9 @@ function buttonBehave1(thisBanner) {
             $('.text-render > [id="banner_' + id + '"]').attr('style', 'background-color: ' +
                 rgbToHex(Number(thisBanner.css.bgColor.r), Number(thisBanner.css.bgColor.g), Number(thisBanner.css.bgColor.b)) +
                 ';');
+            thisBanner.css.hex = rgbToHex(Number(thisBanner.css.bgColor.r), Number(thisBanner.css.bgColor.g), Number(thisBanner.css.bgColor.b));
         }
+        console.log(thisBanner);
     });
 
     // button events
@@ -230,23 +181,6 @@ function buttonBehave1(thisBanner) {
     $('input, select, textarea').on('change', function () {
 
         confirmAllRequiredMet();
-    });
-
-    // imgaddress
-    $('.bgimgaddress').on({
-        focus: function () {
-
-            $(this).parent().removeClass('found notfound');
-            if ($(this).parent().next().prop('hidden', false)) {
-                $(this).parent().next().prop('hidden', true);
-            }
-        },
-        focusout: function () {
-
-            if ($(this).val() != '') {
-                checkImageExists1(this, $(this).val(), thisBanner);
-            }
-        }
     });
 
     // Drop Shadow
@@ -326,6 +260,7 @@ function buttonBehave1(thisBanner) {
                 }
             }
         }
+        console.log(globals);
     });
 }
 
@@ -379,6 +314,7 @@ function imgURL1(el, flag) {
 function checkImageExists1(el, url, banner) {
     var img = new Image(),
         bp = $(el).closest('[data-bp]').attr('data-bp').substr(-5);
+    console.log(globals);
 
     img.onload = function () {
         $(el).parent().addClass('found');
@@ -388,9 +324,11 @@ function checkImageExists1(el, url, banner) {
 
         globals.bannerObjects['banner_' + banner.id].css.breakpoints['bp_' + bp].background.img = img.src;
 
-        console.log(globals.bannerObjects);
+        console.log(globals);
 
-        reDraw1(banner, bp);
+        //reDraw1(banner, bp);
+
+        update(el1, el2);
     };
     img.onerror = function () {
         $(el).parent().addClass('notfound');
@@ -510,8 +448,7 @@ function reDraw1(el1, el2) {
     //banners/mothersday.gif
 
     var id = el1.id;
-    console.log(el1);
-    console.log(el2);
+    console.log(globals);
 
     $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + el2.substr(-5) + '"]').css({ 'background-image': 'url("' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + el2].background.img + '")', 'background-size': 'cover', 'background-repeat': 'no-repeat', 'background-position': 'center center' });
 }
@@ -603,9 +540,9 @@ function show(thisButton) {
         id = $(thisButton).closest('[id*="props_"]').attr('id').substr(-4);
         var bpid = $(thisButton).closest('[name*="bpid_"]').attr('name').substr(-5);
 
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button.breakpoint-tab,[id="content_' + id + '"] [data-domain="breakpoints"] .inputs .col-xs-12 .input').removeClass('showing');
+        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button.breakpoint-tab,[id="content_' + id + '"] [data-domain="breakpoints"] .inputs .col-xs-12 .input,[id="background_' + id + '"]  .backgroundimages [data-bp*="bg_"]').removeClass('showing');
 
-        $(' [id="content_' + id + '"] [data-domain="breakpoints"] .inputs .col-xs-12 [name="bpid_' + bpid + '"]').addClass('showing');
+        $(' [id="content_' + id + '"] [data-domain="breakpoints"] .inputs .col-xs-12 [name="bpid_' + bpid + '"], .backgroundimages [data-bp="bg_' + bpid + '"]').addClass('showing');
 
     }
     $(thisButton).addClass('showing');
@@ -677,7 +614,7 @@ function add(thisButton) {
         // Initiate ckeditor on this new textarea
         $(series).last().ckeditor();
 
-    } else {
+    } else if (dataDomain == 'bpconfig') {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
         var bpid = randomId(10000, 99999),
             seriesParent = thisButton.closest('[data-domain]'),
@@ -692,62 +629,19 @@ function add(thisButton) {
                 bpid = randomId(10000, 99999);
             }
         }
-
-        globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid] = {
-            name: '|A',
-            background: {
-                img: 'none',
-                position: 'center center'
-            },
-            minwidth: 575,
-            maxwidth: 767,
-            height: 56,
-            get latestHeight() {
-                return this.height;
-            }
-        };
-
-        // Add new breakpoint tab
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid));
-
-        // Add new breakpoint textarea
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs > div').append(breakpointInput(1, bpid));
-
-        // Add new breakpoint section to banner preview
-        $('.text-render [id="banner_' + id + '"]').append(bannerPreviewBreakpoint(id, bpid));
-
-        // Add new breakpoint section to background image fields
-        $('[id="background_' + id + '"] .backgroundimg').append(breakpointBackgroundImg('', bpid));
-
+        globals.bannerObjects['banner_' + id].bp(bpid);
+        globals.bannerObjects['banner_' + id].bgSettingsRender(id, bpid);
+        globals.bannerObjects['banner_' + id].bgEventListeners(id, bpid);
         // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
         $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
 
-        // Remove showing class from all breakpoint tabs
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button,[id="content_' + id + '"] [data-domain="breakpoints"] .inputs div').removeClass('showing');
-
-        // Assign showing class to this new breakpoint tab
-        $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs [name="bpid_' + bpid + '"] .breakpoint-tab, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"]').addClass('showing');
-
-        // Initiate ckeditor on the initial textarea of this new breakpoint tab
-        $('textarea.editor').ckeditor();
-
-        // imgaddress
-        $(".bgimgaddress").on({
-            focus: function () {
-
-                $(this).parent().removeClass('found notfound');
-                if ($(this).parent().next().prop('hidden', false)) {
-                    $(this).parent().next().prop('hidden', true);
-                }
-            },
-            focusout: function () {
-
-                if ($(this).val() != '') {
-                    checkImageExists1(this, $(this).val(), bannerObj(id));
-                }
-            }
-        });
+    } else {
+        globals.bannerObjects['banner_' + id].bp(bpid);
+        globals.bannerObjects['banner_' + id].bgSettingsRender(id, bpid);
+        globals.bannerObjects['banner_' + id].bgEventListeners(id, bpid);
     }
+
+    console.log(globals);
 }
 
 function remove(thisButton) {
@@ -804,7 +698,7 @@ function remove(thisButton) {
         $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]').remove();
 
         // Recheck qty of breakpoints
-        series = $('[data-bp]', seriesParent);
+        series = $('[data-domain="bpconfig"]', seriesParent);
 
         if (series.length == 1) {
             $('[data-domain="bpconfig"] .subtract-button').prop('hidden', true);
@@ -812,15 +706,14 @@ function remove(thisButton) {
     }
 
     seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div');
-    console.log(seriesBreakpoints);
 
     $(embedstyles).html('');
 
     $.each(seriesBreakpoints, function () {
         var contentParent = $(this).parents('fieldset')[0];
-        console.log($(this).attr('name').substr(-5) + ' removeButton');
         $(embedstyles).append(buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
     });
+    console.log(globals);
 }
 
 function edit(thisButton) {
@@ -848,8 +741,6 @@ function update(el1, el2) {
         minwidth = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth,
         maxwidth = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth,
         height = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height;
-
-    console.log(seriesBreakpoints);
 
     $(embedstyles).html('');
 
@@ -925,36 +816,14 @@ function update(el1, el2) {
     globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth = maxwidth;
     globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height = height;
 
-    if ($('input[name="bgImg"]:checked').val() == 'yes') {
-        $('[data-bp="bg_' + bpid + '"] input').prop('disabled', false);
-        $('[data-bp="bg_' + bpid + '"] input').prop('required', true);
-        $('[data-bp="bg_' + bpid + '"] .bpName').text(name);
-    } else {
-        $('[data-bp="bg_' + bpid + '"] input').prop('disabled', true);
-        $('[data-bp="bg_' + bpid + '"] input').prop('required', false);
-        $('[data-bp="bg_' + bpid + '"] .bpName').text('');
-    }
-
     $.each(seriesBreakpoints, function () {
         var contentParent = $(this).parents('fieldset')[0];
-        $(embedstyles).append(buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
+        $(embedstyles).append(globals.bannerObjects['banner_' + id].css.buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
     });
 
     $('#msgBox').modal('hide');
-}
 
-function buildStyles(id, bpid, minwidth, maxwidth, height) {
-    var styles = '',
-    min=minwidth==0 ? '': ' and (min-width:' + minwidth + 'px)',
-    max=maxwidth==0 ? '': ' and (max-width:' + maxwidth + 'px)',
-    media=minwidth==0&&maxwidth==0 ? '': '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen' +
-    min + 
-    max + 
-    '{ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;height:' + height + 'px;min-height:100%;}}';
-
-    styles+=media;
-
-    return styles;
+    console.log(globals);
 }
 
 function bannerCreatorForm(el1) {
@@ -994,7 +863,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '<div class="row-fluid" style="text-align:right;">' +
             '<div class="col-xs-12">' +
-            '<button id="updateBannerText" type="submit">Update Banner Text</button>' +
+            '<button id="updateBannerText" type="submit">Update Text Groups</button>' +
             '</div>' +
             '</div>' +
             '</div>' +
@@ -1011,24 +880,23 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '<div class="row">' +
             '<div class="col-xs-12">' +
-            '<h5>Enter the background details.</h5>' +
+            '<h5>BREAKPOINT</h5>' +
             '</div>' +
             '</div>' +
             '<div class="row" data-domain="backgroundimg">' +
-            '<div class="col-xs-3">' +
-            '<label for="local1_' + id + '">Local</label> <input id="local1_' + id + '" name="lorr1_' + id + '" type="radio" value="local">' +
             '</div>' +
-            '<div class="col-xs-3">' +
-            '<label for="remote1_' + id + '">Remote</label> <input id="remote1_' + id + '" name="lorr1_' + id + '" type="radio" value="remote">' +
+            '<div class="row">' +
+            '<div class="col-xs-12 backgroundimages">' +
             '</div>' +
             '</div>' +
             '<div class="row">' +
-            '<div class="col-xs-12 backgroundimg">' +
+            '<div class="col-xs-12">' +
+            '<h5>BANNER</h5>' +
             '</div>' +
             '</div>' +
             '<div class="row">' +
             '<div class="col-xs-3">' +
-            '<label for="bgColor">Background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span>' +
+            '<label for="bgColor">Banner background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span>' +
             '</div>' +
             '<div class="col-xs-6 input-group1">' +
             '<span class="input-group-addon1" id="img2label">R</span> <input id="r_bg' + id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" min="0" max="250" required>' +
@@ -1038,55 +906,58 @@ function bannerCreatorForm(el1) {
             '<div class="col-xs-3 error" hidden>' +
             '</div>' +
             '</div>' +
-            '</fieldset>' +
-            '</div>',
+            '<br>' +
+            '<div class="row-fluid" style="text-align:right;"><div class="col-xs-12"><button id="updateBannerText" type="submit">Update Background Settings</button></div></div>'
+    '<br>' +
+        '</fieldset>' +
+        '</div>',
 
         clickbehavior = '<div class="row">' +
-            '<div class="col-xs-12">' +
-            '<fieldset id="clickbehavior_' + id + '" class="row">' +
-            '<div class="col-xs-12">' +
-            '<legend><h3>Click Behavior Settings</h3></legend>' +
-            '<div class="row">' +
-            '<div class="col-xs-3">' +
-            '<label for="onClickBehavior_' + id + '">OnClick behavior:<span class="required">*</span></label>' +
-            '</div>' +
-            '<div class="col-xs-2">' +
-            '<select name="onClickBehavior" id="onClickBehavior_' + id + '" required>' +
-            '<option value="">-- select --</option>' +
-            '<option value="fireModal">Fire modal</option>' +
-            '<option value="linkToPage">Link to page</option>' +
-            '<option value="linkToAnchor">Link to anchor</option>' +
-            '<option value="doNothing">Do nothing </option>' +
-            '</select>' +
-            '</div>' +
-            '</div>' +
-            '<div class="row onclickbehavior">' +
-            '<div class="col-xs-12">' +
-            '<span class="dynamic"></span>' +
-            '</div>' +
-            '</div>' +
-            '</fieldset>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</fieldset>' +
-            '</div>' +
-            '</div>',
+        '<div class="col-xs-12">' +
+        '<fieldset id="clickbehavior_' + id + '" class="row">' +
+        '<div class="col-xs-12">' +
+        '<legend><h3>Click Behavior Settings</h3></legend>' +
+        '<div class="row">' +
+        '<div class="col-xs-3">' +
+        '<label for="onClickBehavior_' + id + '">Banner OnClick behavior:<span class="required">*</span></label>' +
+        '</div>' +
+        '<div class="col-xs-2">' +
+        '<select name="onClickBehavior" id="onClickBehavior_' + id + '" required>' +
+        '<option value="">-- select --</option>' +
+        '<option value="fireModal">Fire modal</option>' +
+        '<option value="linkToPage">Link to page</option>' +
+        '<option value="linkToAnchor">Link to anchor</option>' +
+        '<option value="doNothing">Do nothing </option>' +
+        '</select>' +
+        '</div>' +
+        '</div>' +
+        '<div class="row onclickbehavior">' +
+        '<div class="col-xs-12">' +
+        '<span class="dynamic"></span>' +
+        '</div>' +
+        '</div>' +
+        '</fieldset>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</fieldset>' +
+        '</div>' +
+        '</div>',
         html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties">' +
-            '<div class="row">' +
-            '<div class="col-xs-12">' +
-            '<legend>' +
-            '<h2>' +
-            '<span class="txtPlaceholder"></span>Properties' +
-            '</h2>' +
-            '</legend>' +
-            '</div>' +
-            '</div>' +
-            content +
-            background +
-            clickbehavior +
-            '</fieldset>';
+        '<div class="row">' +
+        '<div class="col-xs-12">' +
+        '<legend>' +
+        '<h2>' +
+        '<span class="txtPlaceholder"></span>Properties' +
+        '</h2>' +
+        '</legend>' +
+        '</div>' +
+        '</div>' +
+        content +
+        background +
+        clickbehavior +
+        '</fieldset>';
 
     return html;
 }
@@ -1176,19 +1047,7 @@ function breakpointForm(id, bp) {
             '<label for="bpHeight" class="col-xs-4">Height:<br><small style="font-weight:400;">Default is 56px</small></label><input id="bpHeight" name="bpHeight" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height + '">' +
             '</div>' +
             '<div class="row">' +
-            '<hr>' +
-            '<span class="col-xs-4">' +
-            'Background image?' +
-            '</span>' +
-            '<span class="col-xs-2">' +
-            '<label for="bgImgYes">Yes</label>&nbsp;<input id="bgImgYes" name="bgImg" type="radio" value="yes" checked>' +
-            '</span>' +
-            '<span class="col-xs-2">' +
-            '<label for="bgImgNo">No</label>&nbsp;<input id="bgImgNo" name="bgImg" type="radio" value="no">' +
-            '</span>' +
-            '</div>' +
-            '<div class="row">' +
-            '<button id="bpUpdate" type="submit" name="bpUpdate">Update</button>' +
+            '<button id="bpUpdate" type="submit" name="bpUpdate">Update Breakpoint</button>' +
             '</div>';
 
     return html;
@@ -1197,20 +1056,32 @@ function breakpointForm(id, bp) {
 function breakpointBackgroundImg(bpName, bannerId) {
     var name = bpName,
         bpid = bannerId,
-        html = '<div class="row" data-bp="bg_' + bpid + '">' +
+        html = '<div class="row showing" data-bp="bg_' + bpid + '">' +
+            '<div class="col-xs-12">' +
+            '<div class="row" data-bp="bgorigin_' + bpid + '">' +
 
             '<div class="col-xs-3">' +
-            '<label for="bg_' + bpid + '">Image for <b class="bpName"></b> breakpoint <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '<label for="local1_' + bpid + '">Local</label> <input id="local1_' + bpid + '" name="lorr1_' + bpid + '" type="radio" value="local">' +
+            '</div>' +
+            '<div class="col-xs-3">' +
+            '<label for="remote1_' + bpid + '">Remote</label> <input id="remote1_' + bpid + '" name="lorr1_' + bpid + '" type="radio" value="remote">' +
+            '</div>' +
+
+            '</div>' +
+            '<div class="row" data-bp="bgimg_' + bpid + '">' +
+
+            '<div class="col-xs-3">' +
+            '<label for="bgimg_' + bpid + '">Breakpoint <b class="bpName"></b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label>' +
             '</div>' +
 
             '<div class="col-xs-3 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">Local</span> <input id="bg_' + bpid + '" class="bgimgaddress form-control1" type="text" name="bg_' + bpid + '" placeholder="' + globals.bgDesktopPlaceholder + '" disabled>' +
+            '<span class="input-group-addon1" id="img2label">Local</span> <input id="bgimg_' + bpid + '" class="bgimgaddress form-control1" type="text" name="bg_' + bpid + '" placeholder="' + globals.bgDesktopPlaceholder + '">' +
             '</div>' +
 
             '<div class="col-xs-3 error" hidden>Image not found</div>' +
             '</div>' +
 
-            '<div class="row" data-bp="bglocation_' + bpid + '">' +
+            '<div class="row" data-bp="bgpos">' +
 
             '<div class="col-xs-3">' +
 
@@ -1228,7 +1099,9 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '<div class="col-xs-1">' +
             '<input id="y_' + bpid + '" name="y_' + bpid + '" type="number" placeholder="0" maxlength="3" min="1" max="100" size="3" style="width:100%;">' +
             '</div>' +
-
+            '</div>' +
+            '<hr>' +
+            '</div>' +
             '</div>';
 
     return html;
@@ -1240,16 +1113,30 @@ function bannerObj(el1) {
     obj = {
         id: el1,
         txtPlaceholder: '|A',
+        hex: '',
         css: {
             breakpoints: {},
             bgColor: {
                 r: 184,
                 g: 117,
                 b: 174
-            },
-            get latestBgColor() {
-                return 'rgb(' + this.bgColor.r + ',' + this.bgColor.g + ',' + this.bgColor.b + ')';
             }
+        },
+        buildStyles: function (id, bpid, minwidth, maxwidth, height) {
+            console.log(id + '\n' + bpid + '\n' + minwidth + '\n' + maxwidth + '\n' + height);
+            var styles = '',
+                bgimg = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].img,
+                bgcolor = globals.bannerObjects['banner_' + id].css.hex,
+                min = Number(minwidth) == 0 ? '' : ' and (min-width:' + minwidth + 'px)',
+                max = Number(maxwidth) == 0 ? '' : ' and (max-width:' + maxwidth + 'px)',
+                media = Number(minwidth) == 0 && Number(maxwidth) == 0 ? '' : '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen' +
+                    min +
+                    max +
+                    '{ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;height:' + height + 'px;min-height:100%;background-color:' + bgcolor + ';background-image:url("' + bgimg + '");}}';
+
+            styles += media;
+
+            return styles;
         },
         breakpointTabs: function (id) {
             return breakpointTab(id);
@@ -1283,46 +1170,142 @@ function bannerObj(el1) {
         buttonBehave: function () {
             buttonBehave1(this);
         },
-        render: function () {
-            var bpid = randomId(10000, 99999);
-
-            this.css.breakpoints['bp_' + bpid] = {
+        bp: function (number) {
+            this.css.breakpoints['bp_' + number] = {
                 name: '|A',
                 background: {
                     img: 'none',
-                    position: 'center center'
+                    position: 'center center',
+                    state: 'local'
                 },
                 minwidth: 575,
                 maxwidth: 767,
-                height: 56,
-                get latestHeight() {
-                    return this.height;
-                }
+                height: 56
             };
+        },
+        bgSettingsRender: function (id, bpid) {
+            // Add new breakpoint tab
+            $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid));
+
+            // Add new breakpoint textarea
+            $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs > div').append(breakpointInput(1, bpid));
+
+            // Add new breakpoint section to banner preview
+            $('.text-render [id="banner_' + id + '"]').append(bannerPreviewBreakpoint(id, bpid));
+
+            // Add new breakpoint section to background image fields
+            $('[id="background_' + id + '"] .backgroundimages').append(breakpointBackgroundImg('', bpid));
+
+            // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
+            // $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
+
+            // Remove showing class from all breakpoint tabs
+            $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs div, [id="background_' + id + '"] .backgroundimages [data-bp*="bg_"]').removeClass('showing');
+
+            // Assign showing class to this new breakpoint tab
+            $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs [name="bpid_' + bpid + '"] .breakpoint-tab, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"], [id="background_' + id + '"] .backgroundimages [data-bp="bg_' + bpid + '"]').addClass('showing');
+
+            $('[data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
+
+            // Initiate ckeditor on the initial textarea of this new breakpoint tab
+            $('textarea.editor').ckeditor();
+
+            $('select[name="brands"]').on('change', function () {
+                $('input[name="lorr1_' + bpid + '"]').trigger('change');
+            });
+        },
+        bgEventListeners: function (id, bpid) {
+            $('input[name="lorr1_' + bpid + '"]').on('change', function () {
+
+                globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].background.state = $(this).val();
+
+                if (globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].background.state == 'local') {
+
+                    globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].background.state = 'local';
+
+                    $('input[name*="bg"]').each(function () {
+                        var curr = $(this).val();
+                        if (curr !== '')
+                            $(this).attr('data-remote', curr);
+
+                        if ($(this).data('local'))
+                            $(this).val($(this).data("local"));
+
+                        $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('Local');
+                        if ($(this).attr('name') == 'bpDesktop_' + bpid)
+                            var size = 962;
+                        else
+                            var size = 575
+                        $(this).val('').attr('placeholder', 'Demo-image-' + size + '.png');
+                    });
+
+                } else if (globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].background.state == 'remote') {
+
+                    globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].background.state = 'remote';
+
+                    $('input[name*="bg"]').each(function () {
+                        var curr = $(this).val();
+                        if (curr !== '') {
+                            $(this).attr('data-local', curr);
+                        }
+
+                        if ($(this).data('remote')) {
+                            $(this).val($(this).data('remote'));
+                        }
+
+                        if ($('select[name="brands"]').val() == '') {
+                            $(this).val('').attr('placeholder', 'Select a brand');
+                            $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('Remote');
+                        } else {
+                            $(this).val('').attr('placeholder', 'Enter Filename...');
+                            $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('/images/evergage/' + globals.selectBrand + '/');
+                        }
+                    });
+                }
+                $(".input-group1").removeClass("found notfound");
+                $(".input-group1").next('.error').prop('hidden', true);
+
+                console.log(globals);
+            });
+
+            // imgaddress
+            $(".bgimgaddress").on({
+                focus: function () {
+
+                    $(this).parent().removeClass('found notfound');
+                    if ($(this).parent().next().prop('hidden', false)) {
+                        $(this).parent().next().prop('hidden', true);
+                    }
+                },
+                focusout: function () {
+
+                    if ($(this).val() != '') {
+                        checkImageExists1(this, $(this).val(), bannerObj(id));
+                    }
+
+                    console.log(globals);
+                }
+            });
+        },
+        render: function () {
+            var bpid = randomId(10000, 99999);
+
+            this.bp(bpid);
 
             $('#properties.row > .dynamic').append(bannerCreatorForm(this));
 
             $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(this));
 
-            $('[id="background_' + this.id + '"] .backgroundimg').append(breakpointBackgroundImg('', bpid));
-
-            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .tabs').append(this.breakpointTabs(bpid));
-
-            $('[id="content_' + this.id + '"] [data-domain="breakpoints"] .inputs > .col-xs-12').append(this.breakpointInputs(1, bpid));
-
             $('.row .text-render').append(bannerPreview(this));
-
-            $('.row .text-render [id="banner_' + this.id + '"]').append(bannerPreviewBreakpoint(this.id, bpid));
-
-            $('[id="background_' + this.id + '"] input:radio[value="local"]').prop('checked', true);
 
             $('.subtract-button').prop('hidden', true);
 
             $('textarea.editor').ckeditor();
 
+            this.bgSettingsRender(this.id, bpid);
+            this.bgEventListeners(this.id, bpid);
             this.buttonBehave();
-        },
-        state: 'local'
+        }
     }
     return obj;
 }

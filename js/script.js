@@ -137,11 +137,17 @@ function buttonBehave1(thisBanner) {
         }
 
         if ($('.text-render > [id*="' + id + '"]')) {
+            thisBanner.hex = rgbToHex(Number(thisBanner.css.bgColor.r), Number(thisBanner.css.bgColor.g), Number(thisBanner.css.bgColor.b));
 
-            $('.text-render > [id="banner_' + id + '"]').attr('style', 'background-color: ' +
-                rgbToHex(Number(thisBanner.css.bgColor.r), Number(thisBanner.css.bgColor.g), Number(thisBanner.css.bgColor.b)) +
-                ';');
-            thisBanner.css.hex = rgbToHex(Number(thisBanner.css.bgColor.r), Number(thisBanner.css.bgColor.g), Number(thisBanner.css.bgColor.b));
+            var seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div');
+            var embedstyles = $('#banners');
+
+            $(embedstyles).html('');
+
+            $.each(seriesBreakpoints, function () {
+                var contentParent = $(this).parents('fieldset')[0];
+                $(embedstyles).append(globals.bannerObjects['banner_' + id].buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
+            });
         }
         console.log(thisBanner);
     });
@@ -228,39 +234,49 @@ function buttonBehave1(thisBanner) {
         }
     });
 
-    $('button#updateBannerText').on('click', function (e) {
+    $('[name="update"]').on('click', function (e) {
         e.preventDefault();
-        var allBreakpoints = $('[id="content_' + id + '"] [data-domain="breakpoints"] [name*="bpid"]');
-        for (var q = 0; q < allBreakpoints.length; q++) {
+        var buttonId = $(e.target).attr('id');
+        console.log(e.target);
 
-            var bpid = $(allBreakpoints[q]).attr('name').substr(-5),
-                inputs = $('[data-input-index]', allBreakpoints[q]);
+        if (buttonId == 'textGroups') {
+            console.log(this);
+            var allBreakpoints = $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name*="bpid"]');
+            console.log(allBreakpoints);
+            for (var q = 0; q < allBreakpoints.length; q++) {
 
-            for (var p = 0; p < inputs.length; p++) {
-                $(inputs[p]).removeAttr('class');
+                var bpid = $(allBreakpoints[q]).attr('name').substr(-5),
+                    inputs = $('[data-input-index]', allBreakpoints[q]);
 
-                var index = $(inputs[p]).data('input-index'),
-                    newChildElems;
+                for (var p = 0; p < inputs.length; p++) {
+                    $(inputs[p]).removeAttr('class');
 
-                $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
+                    var index = $(inputs[p]).data('input-index'),
+                        newChildElems;
 
-                if ($('textarea.editor', inputs[p]).val()) {
-                    $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
+                    $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
 
-                    newChildElems = $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
+                    if ($('textarea.editor', inputs[p]).val()) {
+                        $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
 
-                    $.each(newChildElems, function (index, value) {
-                        $(this).css({ 'margin': '0', 'padding': '0' });
-                    })
-                } else {
-                    // $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append('|A');
+                        newChildElems = $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
 
-                    $(inputs[p]).addClass('error');
-                    alert('Missing content in a text group.');
+                        $.each(newChildElems, function (index, value) {
+                            $(this).css({ 'margin': '0', 'padding': '0' });
+                        })
+                    } else {
+                        // $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append('|A');
+
+                        $(inputs[p]).addClass('error');
+                        alert('Missing content in a text group.');
+                    }
                 }
             }
+            console.log(globals);
+        } else if (buttonId == 'backgroundSettings') {
+            //thisBanner.css.
+            console.log(globals);
         }
-        console.log(globals);
     });
 }
 
@@ -328,7 +344,15 @@ function checkImageExists1(el, url, banner) {
 
         //reDraw1(banner, bp);
 
-        update(el1, el2);
+        var seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div');
+        var embedstyles = $('#banners');
+
+        $(embedstyles).html('');
+
+        $.each(seriesBreakpoints, function () {
+            var contentParent = $(this).parents('fieldset')[0];
+            $(embedstyles).append(globals.bannerObjects['banner_' + banner.id].buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
+        });
     };
     img.onerror = function () {
         $(el).parent().addClass('notfound');
@@ -732,6 +756,8 @@ function edit(thisButton) {
 
 function update(el1, el2) {
 
+    
+
     var seriesInputs = $('input[type="text"],input[type="number"]', el1),
         seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div'),
         bpid = $(el2).attr('name').substr(-5),
@@ -818,7 +844,7 @@ function update(el1, el2) {
 
     $.each(seriesBreakpoints, function () {
         var contentParent = $(this).parents('fieldset')[0];
-        $(embedstyles).append(globals.bannerObjects['banner_' + id].css.buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
+        $(embedstyles).append(globals.bannerObjects['banner_' + id].buildStyles($(contentParent).attr('id').substr(-4),$(this).attr('name').substr(-5), globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth, globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth, globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height));
     });
 
     $('#msgBox').modal('hide');
@@ -863,7 +889,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '<div class="row-fluid" style="text-align:right;">' +
             '<div class="col-xs-12">' +
-            '<button id="updateBannerText" type="submit">Update Text Groups</button>' +
+            '<button id="textGroups" name="update" type="submit">Update Text Groups</button>' +
             '</div>' +
             '</div>' +
             '</div>' +
@@ -907,7 +933,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
             '<br>' +
-            '<div class="row-fluid" style="text-align:right;"><div class="col-xs-12"><button id="updateBannerText" type="submit">Update Background Settings</button></div></div>'
+            '<div class="row-fluid" style="text-align:right;"><div class="col-xs-12"><button id="backgroundSettings" name="update" type="submit">Update Background Settings</button></div></div>'
     '<br>' +
         '</fieldset>' +
         '</div>',
@@ -978,7 +1004,7 @@ function bannerTab(el1) {
 }
 
 function bannerPreview(banner) {
-    var html = '<div id="banner_' + banner.id + '" class="banner trigger" style="background-color: #b875ae;" role="button" style="display:block">' +
+    var html = '<div id="banner_' + banner.id + '" class="banner trigger" role="button" style="display:block">' +
         '</div><span class="gutter"></span>';
 
     return html;
@@ -1132,7 +1158,7 @@ function bannerObj(el1) {
                 media = Number(minwidth) == 0 && Number(maxwidth) == 0 ? '' : '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen' +
                     min +
                     max +
-                    '{ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;height:' + height + 'px;min-height:100%;background-color:' + bgcolor + ';background-image:url("' + bgimg + '");}}';
+                    '{ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;height:' + height + 'px;min-height:100%;background-color:' + this.hex + ';background-image:url("' + this.css.breakpoints['bp_' + bpid].background.img + '");}}';
 
             styles += media;
 

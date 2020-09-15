@@ -93,7 +93,7 @@ $(document).ready(function () {
     // Run the new banner object render function
     globals.bannerObjects['banner_' + idInit].render();
 
-    console.log(globals);
+    // console.log(globals);
 
     $('button[name="resetall"]').on('click', function () {
 
@@ -107,15 +107,13 @@ $(document).ready(function () {
 
         globals.bannerObjects['banner_' + idInit].render();
 
-        console.log(globals);
+        // console.log(globals);
     });
-
 
 });
 
 function buttonBehave1(thisBanner) {
     var id = thisBanner.id,
-        state = thisBanner.state,
         thisBannerH2;
 
     // dropdown events
@@ -126,11 +124,8 @@ function buttonBehave1(thisBanner) {
         if (type == 'brands') {
 
             globals.selectBrand = $(':selected', this).val();
+            $('input[name*="lorr1_"]').trigger('change');
 
-            if (state == 'remote') {
-                $('[id="props_' + id + '"] input[name="lorr1_' + Object.keys(thisBanner.css.breakpoints)[0].substr(-5) + '"]').trigger('change');
-
-            }
         } else {
 
             displayOnClickBehavior($(':selected', this).val(), thisBanner);
@@ -183,7 +178,7 @@ function buttonBehave1(thisBanner) {
             $(embedstyles).html('');
             $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
         }
-        console.log(globals);
+        // console.log(globals);
     });
 
     // button events
@@ -306,10 +301,10 @@ function buttonBehave1(thisBanner) {
                     }
                 }
             }
-            console.log(globals);
+            // console.log(globals);
         } else if (buttonId == 'backgroundSettings') {
             //thisBanner.css.
-            console.log(globals);
+            // console.log(globals);
         }
     });
 }
@@ -364,7 +359,7 @@ function imgURL1(el, flag) {
 function checkImageExists1(el, url, banner) {
     var img = new Image(),
         bp = $(el).closest('[data-bp]').attr('data-bp').substr(-5);
-    console.log(globals);
+    // console.log(globals);
 
     img.onload = function () {
         $(el).parent().addClass('found');
@@ -499,7 +494,7 @@ function reDraw1(el1, el2) {
     //banners/mothersday.gif
 
     var id = el1.id;
-    console.log(globals);
+    // console.log(globals);
 
     $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + el2.substr(-5) + '"]').css({ 'background-image': 'url("' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + el2].background.img + '")', 'background-size': 'cover', 'background-repeat': 'no-repeat', 'background-position': 'center center' });
 }
@@ -665,7 +660,7 @@ function add(thisButton) {
         // Initiate ckeditor on this new textarea
         $(series).last().ckeditor();
 
-    } else if (dataDomain == 'bpconfig') {
+    } else {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
         var bpid = randomId(10000, 99999),
             seriesParent = thisButton.closest('[data-domain]'),
@@ -683,16 +678,13 @@ function add(thisButton) {
         globals.bannerObjects['banner_' + id].bp(bpid);
         globals.bannerObjects['banner_' + id].bgSettingsRender(id, bpid);
         globals.bannerObjects['banner_' + id].bgEventListeners(id, bpid);
+
         // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
         $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
 
-    } else {
-        globals.bannerObjects['banner_' + id].bp(bpid);
-        globals.bannerObjects['banner_' + id].bgSettingsRender(id, bpid);
-        globals.bannerObjects['banner_' + id].bgEventListeners(id, bpid);
     }
 
-    console.log(globals);
+    // console.log(globals);
 }
 
 function remove(thisButton) {
@@ -762,7 +754,7 @@ function remove(thisButton) {
 
     $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
 
-    console.log(globals);
+    // console.log(globals);
 }
 
 function edit(thisButton) {
@@ -784,14 +776,14 @@ function update(el1, el2) {
 
 
     var seriesInputs = $('input[type="text"],input[type="number"]', el1),
-        seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div'),
         bpid = $(el2).attr('name').substr(-5),
         id = $(el2).parents('[id*="content_"]').attr('id').substr(-4),
         embedstyles = $('#banners'),
         name = globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name,
         minwidth = globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].minwidth,
         maxwidth = globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth,
-        height = globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height;
+        height = globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height,
+        embedstyles = $('style#banners');;
 
     $(embedstyles).html('');
 
@@ -867,14 +859,14 @@ function update(el1, el2) {
     globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth = maxwidth;
     globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height = height;
 
-    var embedstyles = $('style#banners');
+    $('[data-bp="bg_' + bpid + '"] b.bpName').html(name);
 
     $(embedstyles).html('');
     $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
 
     $('#msgBox').modal('hide');
 
-    console.log(globals);
+    // console.log(globals);
 }
 
 function bannerCreatorForm(el1) {
@@ -958,57 +950,57 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
             '<br>' +
-            '<div class="row-fluid" style="text-align:right;"><div class="col-xs-12"><button id="backgroundSettings" name="update" type="submit">Update Background Settings</button></div></div>'
-    '<br>' +
-        '</fieldset>' +
-        '</div>',
+            '<div class="row-fluid" style="text-align:right;"><div class="col-xs-12"><button id="backgroundSettings" name="update" type="submit">Update Background Settings</button></div></div>' +
+            '<br>' +
+            '</fieldset>' +
+            '</div>',
 
         clickbehavior = '<div class="row">' +
-        '<div class="col-xs-12">' +
-        '<fieldset id="clickbehavior_' + id + '" class="row">' +
-        '<div class="col-xs-12">' +
-        '<legend><h3>Click Behavior Settings</h3></legend>' +
-        '<div class="row">' +
-        '<div class="col-xs-3">' +
-        '<label for="onClickBehavior_' + id + '">Banner OnClick behavior:<span class="required">*</span></label>' +
-        '</div>' +
-        '<div class="col-xs-2">' +
-        '<select name="onClickBehavior" id="onClickBehavior_' + id + '" required>' +
-        '<option value="">-- select --</option>' +
-        '<option value="fireModal">Fire modal</option>' +
-        '<option value="linkToPage">Link to page</option>' +
-        '<option value="linkToAnchor">Link to anchor</option>' +
-        '<option value="doNothing">Do nothing </option>' +
-        '</select>' +
-        '</div>' +
-        '</div>' +
-        '<div class="row onclickbehavior">' +
-        '<div class="col-xs-12">' +
-        '<span class="dynamic"></span>' +
-        '</div>' +
-        '</div>' +
-        '</fieldset>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</fieldset>' +
-        '</div>' +
-        '</div>',
+            '<div class="col-xs-12">' +
+            '<fieldset id="clickbehavior_' + id + '" class="row">' +
+            '<div class="col-xs-12">' +
+            '<legend><h3>Click Behavior Settings</h3></legend>' +
+            '<div class="row">' +
+            '<div class="col-xs-3">' +
+            '<label for="onClickBehavior_' + id + '">Banner OnClick behavior:<span class="required">*</span></label>' +
+            '</div>' +
+            '<div class="col-xs-2">' +
+            '<select name="onClickBehavior" id="onClickBehavior_' + id + '" required>' +
+            '<option value="">-- select --</option>' +
+            '<option value="fireModal">Fire modal</option>' +
+            '<option value="linkToPage">Link to page</option>' +
+            '<option value="linkToAnchor">Link to anchor</option>' +
+            '<option value="doNothing">Do nothing </option>' +
+            '</select>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row onclickbehavior">' +
+            '<div class="col-xs-12">' +
+            '<span class="dynamic"></span>' +
+            '</div>' +
+            '</div>' +
+            '</fieldset>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</fieldset>' +
+            '</div>' +
+            '</div>',
         html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties">' +
-        '<div class="row">' +
-        '<div class="col-xs-12">' +
-        '<legend>' +
-        '<h2>' +
-        '<span class="txtPlaceholder"></span>Properties' +
-        '</h2>' +
-        '</legend>' +
-        '</div>' +
-        '</div>' +
-        content +
-        background +
-        clickbehavior +
-        '</fieldset>';
+            '<div class="row">' +
+            '<div class="col-xs-12">' +
+            '<legend>' +
+            '<h2>' +
+            '<span class="txtPlaceholder"></span>Properties' +
+            '</h2>' +
+            '</legend>' +
+            '</div>' +
+            '</div>' +
+            content +
+            background +
+            clickbehavior +
+            '</fieldset>';
 
     return html;
 }
@@ -1122,7 +1114,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '<div class="row" data-bp="bgimg_' + bpid + '">' +
 
             '<div class="col-xs-3">' +
-            '<label for="bgimg_' + bpid + '">Breakpoint <b class="bpName"></b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '<label for="bgimg_' + bpid + '">Breakpoint <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label>' +
             '</div>' +
 
             '<div class="col-xs-3 input-group1">' +
@@ -1132,25 +1124,48 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '<div class="col-xs-3 error" hidden>Image not found</div>' +
             '</div>' +
 
+
+            '<div class="row" data-bp="bgdimensions">' +
+
+            '<div class="col-xs-3">' +
+
+            '<label for="width_' + bpid + '">Width for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="width" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '</div>' +
+
+            '<div class="col-xs-1">' +
+            '<input id="width_' + bpid + '" name="width_' + bpid + '" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
+            '</div>' +
+
+            '<div class="col-xs-3">' +
+            '<label for="height_' + bpid + '">Height for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="height" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '</div>' +
+
+            '<div class="col-xs-1">' +
+            '<input id="height_' + bpid + '" name="height_' + bpid + '" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
+            '</div>' +
+            '</div>' +
+
+
             '<div class="row" data-bp="bgpos">' +
 
             '<div class="col-xs-3">' +
 
-            '<label for="x_' + bpid + '">X position for <b class="bpName"></b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="xpos" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '<label for="x_' + bpid + '">X position for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="xpos" aria-hidden="true"></span>:<span class="required">*</span></label>' +
             '</div>' +
 
             '<div class="col-xs-1">' +
-            '<input id="x_' + bpid + '" name="x_' + bpid + '" type="number" placeholder="0" maxlength="3" min="1" max="100" size="3" style="width:100%;">' +
+            '<input id="x_' + bpid + '" name="x_' + bpid + '" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
             '</div>' +
 
             '<div class="col-xs-3">' +
-            '<label for="y_' + bpid + '">Y position for <b class="bpName"></b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="ypos" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '<label for="y_' + bpid + '">Y position for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="ypos" aria-hidden="true"></span>:<span class="required">*</span></label>' +
             '</div>' +
 
             '<div class="col-xs-1">' +
-            '<input id="y_' + bpid + '" name="y_' + bpid + '" type="number" placeholder="0" maxlength="3" min="1" max="100" size="3" style="width:100%;">' +
+            '<input id="y_' + bpid + '" name="y_' + bpid + '" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
             '</div>' +
             '</div>' +
+
             '<hr>' +
             '</div>' +
             '</div>';
@@ -1249,14 +1264,14 @@ function bannerObj(el1) {
             // Initiate ckeditor on the initial textarea of this new breakpoint tab
             $('textarea.editor').ckeditor();
 
-            $('select[name="brands"]').on('change', function () {
-                $('input[name="lorr1_' + bpid + '"]').trigger('change');
-            });
+            // $('select[name="brands"]').on('change', function () {
+            //     $('input[name="lorr1_' + bpid + '"]').trigger('change');
+            // });
         },
         bgEventListeners: function (id, bpid) {
             $('input[name="lorr1_' + bpid + '"]').on('change', function () {
 
-                globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $(this).val();
+                globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $('input[name="lorr1_' + bpid + '"]:checked').val();
 
                 if (globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'local') {
 
@@ -1304,7 +1319,7 @@ function bannerObj(el1) {
                 $(".input-group1").removeClass("found notfound");
                 $(".input-group1").next('.error').prop('hidden', true);
 
-                console.log(globals);
+                // console.log(globals);
             });
 
             // imgaddress
@@ -1322,27 +1337,38 @@ function bannerObj(el1) {
                         checkImageExists1(this, $(this).val(), bannerObj(id));
                     }
 
-                    console.log(globals);
+                    // console.log(globals);
                 }
             });
         },
         render: function () {
+
+            // Create the first breakpoint object ID
             var bpid = randomId(10000, 99999);
 
+            // Add the first breakpoint object to this banner object
             this.bp(bpid);
 
-            $('#properties.row > .dynamic').append(bannerCreatorForm(this));
-
+            // Place the first banner navigation button
             $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(this));
 
+            // Place the first banner create form
+            $('#properties.row > .dynamic').append(bannerCreatorForm(this));
+
+            // Place the first banner simulation
             $('.row .text-render').append(bannerPreview(this));
 
+            // Since this is the first of all, hide all remove buttons
             $('.subtract-button').prop('hidden', true);
 
+            // Initial CKEditor on the first designated text area
             $('textarea.editor').ckeditor();
 
+
             this.bgSettingsRender(this.id, bpid);
+
             this.bgEventListeners(this.id, bpid);
+
             this.buttonBehave();
         }
     }

@@ -669,8 +669,14 @@ h2 .tab-visible{
 	display:none;
 }
 
-.banner-properties.showing, .content p.showing, [data-bp*="bg_"].showing {
+.banner-properties.showing, .content p.showing, [id*="background_"] .row.showing {
 	display:block;
+}
+
+[id*="background_"] .row.showing .row {
+	display:flex;
+	flex-direction:row;
+	align-items:center;
 }
 
 .content .input.showing {

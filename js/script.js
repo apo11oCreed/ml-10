@@ -1133,7 +1133,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '</div>' +
 
             '<div class="col-xs-1">' +
-            '<input id="width_' + bpid + '" name="width_' + bpid + '" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
+            '<input id="width_' + bpid + '" name="width" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
             '</div>' +
 
             '<div class="col-xs-3">' +
@@ -1141,7 +1141,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '</div>' +
 
             '<div class="col-xs-1">' +
-            '<input id="height_' + bpid + '" name="height_' + bpid + '" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
+            '<input id="height_' + bpid + '" name="height" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
             '</div>' +
             '</div>' +
 
@@ -1154,7 +1154,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '</div>' +
 
             '<div class="col-xs-1">' +
-            '<input id="x_' + bpid + '" name="x_' + bpid + '" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
+            '<input id="x_' + bpid + '" name="x" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
             '</div>' +
 
             '<div class="col-xs-3">' +
@@ -1162,7 +1162,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '</div>' +
 
             '<div class="col-xs-1">' +
-            '<input id="y_' + bpid + '" name="y_' + bpid + '" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
+            '<input id="y_' + bpid + '" name="y" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
             '</div>' +
             '</div>' +
 
@@ -1269,7 +1269,7 @@ function bannerObj(el1) {
             // });
         },
         bgEventListeners: function (id, bpid) {
-            $('input[name="lorr1_' + bpid + '"]').on('change', function () {
+            $('.backgroundimages .row.showing[data-bp="bg_' + bpid + '"] input[name="lorr1_' + bpid + '"]').on('change', function () {
 
                 globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $('input[name="lorr1_' + bpid + '"]:checked').val();
 
@@ -1323,7 +1323,7 @@ function bannerObj(el1) {
             });
 
             // imgaddress
-            $(".bgimgaddress").on({
+            $('.backgroundimages .row.showing[data-bp="bg_' + bpid + '"] .bgimgaddress').on({
                 focus: function () {
 
                     $(this).parent().removeClass('found notfound');
@@ -1339,6 +1339,36 @@ function bannerObj(el1) {
 
                     // console.log(globals);
                 }
+            });
+
+            $('.backgroundimages .row.showing[data-bp*="bg_"] [data-bp="bgdimensions"] input,.backgroundimages .row.showing[data-bp*="bg_"] [data-bp="bgpos"] input').on('focusout', function () {
+                var bpid = $(this).attr('id').substr(-5),
+                    id = $(this).parents('[id*="background_"]').attr('id').substr(-4);
+                console.log(bpid);
+                console.log(id);
+
+                switch ($(this).attr('name')) {
+                    case 'width':
+                        globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.bgwidth = $(this).val();
+                        break;
+                    case 'height':
+                        globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.bgheight = $(this).val();
+                        break;
+                    case 'x':
+                        globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.positionx = $(this).val();
+                        break;
+                    case 'y':
+                        globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.positiony = $(this).val();
+                        break;
+                    default:
+                        break;
+                }
+
+                var embedstyles = $('style#banners');
+
+                $(embedstyles).html('');
+                $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
+
             });
         },
         render: function () {

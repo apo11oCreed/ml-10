@@ -27,14 +27,38 @@ var globals = {
         }]
     },
     selectBrand: '',
-    layoutMenu: 1,
-    desktopmediaquery: '(min-width:768px)',
-    mobilemediaquery: '(max-width:767px)',
     bgDesktopPlaceholder: 'Demo-image-962.png',
     bgMobilePlaceholder: 'Demo-image-575.png',
     maxBannerNumber: 4,
     minBannerNumber: 1,
-    bannerObjects: {}
+    bannerObjects: {},
+    buildStyles: function (elObject) {
+        var styles = '';
+        for (x in Object.values(elObject)) {
+            var id = Object.values(elObject)[x]['id'],
+                hex = Object.values(elObject)[x]['hex'],
+                breakpoints = Object.values(elObject)[x]['css']['breakpoints'];
+
+            for (y in Object.values(breakpoints)) {
+
+                var bpid = Object.keys(breakpoints)[y],
+                    max = Number(Object.values(breakpoints)[y]['maxwidth']) == 0 ? '' : ' and (max-width:' + Object.values(breakpoints)[y]['maxwidth'] + 'px)',
+                    min = Number(Object.values(breakpoints)[y]['minwidth']) == 0 ? '' : ' and (min-width:' + Object.values(breakpoints)[y]['minwidth'] + 'px)',
+                    height = Object.values(breakpoints)[y]['height'],
+                    bgImg = Object.values(breakpoints)[y]['background']['img'],
+                    bgPosition = Object.values(breakpoints)[y]['background']['position'],
+                    bgState = Object.values(breakpoints)[y]['background']['state'],
+                    media = Number(Object.values(breakpoints)[y]['minwidth']) == 0 && Number(Object.values(breakpoints)[y]['maxwidth']) == 0 ? '' : '[id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:none;}@media screen' +
+                        min +
+                        max +
+                        '{ [id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;height:auto;min-height:' + height + 'px;background-color:' + hex + ';background-image:url("' + bgImg + '");background-position:' + bgPosition + ';background-repeat:no-repeat;background-size:cover;}}';
+
+                styles += media;
+            }
+        }
+
+        return styles;
+    }
 },
     bannerTabsLegend = '<legend>' +
         '<h3>Banners</h3>' +
@@ -45,6 +69,8 @@ var globals = {
         '<hr>';
 
 $(document).ready(function () {
+    var idInit = '',
+        bannerInit;
 
     $(document).on('hidden.bs.modal', '.modal', function () {
         $(this).remove();
@@ -53,27 +79,31 @@ $(document).ready(function () {
     $('[id="bannerTabs"]').prepend(bannerTabsLegend);
     $('[id="bannerTabs"] .dynamic').append('<div class="row-fluid flex-it" data-domain="tabs"></div>');
 
-    var idInit = randomId(1000, 9999),
-        bannerInit = new bannerObj(idInit);
+    // Create new banner object
+    idInit = randomId(1000, 9999);
+    bannerInit = new bannerObj(idInit);
 
+    // Add new banner object to global banner objects container
     globals.bannerObjects['banner_' + idInit] = bannerInit;
 
+    // Run the new banner object render function
     globals.bannerObjects['banner_' + idInit].render();
 
     console.log(globals);
-
 
     $('button[name="resetall"]').on('click', function () {
 
         $('[id="bannerTabs"] .dynamic .row-fluid.flex-it,#properties.row .dynamic, .text-render').html('');
         globals.bannerObjects = {};
 
-        bannerInit = new bannerObj(randomId(1000, 9999));
+        idInit = randomId(1000, 9999);
+        bannerInit = new bannerObj(idInit);
 
         globals.bannerObjects['banner_' + idInit] = bannerInit;
-        console.log(globals);
 
         globals.bannerObjects['banner_' + idInit].render();
+
+        console.log(globals);
     });
 
 
@@ -90,12 +120,17 @@ function buttonBehave1(thisBanner) {
         var type = $(this).attr('name');
 
         if (type == 'brands') {
+
             globals.selectBrand = $(':selected', this).val();
+
             if (state == 'remote') {
                 $('[id="props_' + id + '"] input[name="lorr1_' + Object.keys(thisBanner.css.breakpoints)[0].substr(-5) + '"]').trigger('change');
+
             }
         } else {
+
             displayOnClickBehavior($(':selected', this).val(), thisBanner);
+
         }
     });
 
@@ -139,17 +174,12 @@ function buttonBehave1(thisBanner) {
         if ($('.text-render > [id*="' + id + '"]')) {
             thisBanner.hex = rgbToHex(Number(thisBanner.css.bgColor.r), Number(thisBanner.css.bgColor.g), Number(thisBanner.css.bgColor.b));
 
-            var seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div');
-            var embedstyles = $('#banners');
+            var embedstyles = $('style#banners');
 
             $(embedstyles).html('');
-
-            $.each(seriesBreakpoints, function () {
-                var contentParent = $(this).parents('fieldset')[0];
-                $(embedstyles).append(globals.bannerObjects['banner_' + id].buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
-            });
+            $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
         }
-        console.log(thisBanner);
+        console.log(globals);
     });
 
     // button events
@@ -344,15 +374,10 @@ function checkImageExists1(el, url, banner) {
 
         //reDraw1(banner, bp);
 
-        var seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div');
-        var embedstyles = $('#banners');
+        var embedstyles = $('style#banners');
 
         $(embedstyles).html('');
-
-        $.each(seriesBreakpoints, function () {
-            var contentParent = $(this).parents('fieldset')[0];
-            $(embedstyles).append(globals.bannerObjects['banner_' + banner.id].buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
-        });
+        $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
     };
     img.onerror = function () {
         $(el).parent().addClass('notfound');
@@ -713,7 +738,7 @@ function remove(thisButton) {
             id = $(thisButton).closest('[id*="content"]').attr('id').substr(-4),
             series;
 
-        delete globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid];
+        delete globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid];
 
         $('[name="bpid_' + bpid + '"]').remove();
 
@@ -729,14 +754,12 @@ function remove(thisButton) {
         }
     }
 
-    seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div');
+    var embedstyles = $('style#banners');
 
     $(embedstyles).html('');
 
-    $.each(seriesBreakpoints, function () {
-        var contentParent = $(this).parents('fieldset')[0];
-        $(embedstyles).append(buildStyles($(contentParent).attr('id').substr(-4), $(this).attr('name').substr(-5), $(this).data('bp-minwidth'), $(this).data('bp-maxwidth'), $(this).data('bp-height')));
-    });
+    $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
+
     console.log(globals);
 }
 
@@ -756,17 +779,17 @@ function edit(thisButton) {
 
 function update(el1, el2) {
 
-    
+
 
     var seriesInputs = $('input[type="text"],input[type="number"]', el1),
         seriesBreakpoints = $('[data-domain="breakpoints"] .flex-it.tabs > div'),
         bpid = $(el2).attr('name').substr(-5),
         id = $(el2).parents('[id*="content_"]').attr('id').substr(-4),
         embedstyles = $('#banners'),
-        name = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].name,
-        minwidth = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth,
-        maxwidth = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth,
-        height = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height;
+        name = globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name,
+        minwidth = globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].minwidth,
+        maxwidth = globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth,
+        height = globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height;
 
     $(embedstyles).html('');
 
@@ -837,15 +860,15 @@ function update(el1, el2) {
     $(el2).attr('data-bp-maxwidth', maxwidth);
     $(el2).attr('data-bp-height', height);
 
-    globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].name = name;
-    globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth = minwidth;
-    globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth = maxwidth;
-    globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height = height;
+    globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name = name;
+    globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].minwidth = minwidth;
+    globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth = maxwidth;
+    globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height = height;
 
-    $.each(seriesBreakpoints, function () {
-        var contentParent = $(this).parents('fieldset')[0];
-        $(embedstyles).append(globals.bannerObjects['banner_' + id].buildStyles($(contentParent).attr('id').substr(-4),$(this).attr('name').substr(-5), globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth, globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth, globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height));
-    });
+    var embedstyles = $('style#banners');
+
+    $(embedstyles).html('');
+    $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
 
     $('#msgBox').modal('hide');
 
@@ -1053,24 +1076,24 @@ function breakpointForm(id, bp) {
             '<br><small style="font-weight:400;">Ex. Desktop, Tablet, Mobile</small>' +
             '<br><small style="font-weight:400;">Default is |A</small>' +
             '</label>' +
-            '<input id="bpName" name="bpName" class="col-xs-8" type="text" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].name + '">' +
+            '<input id="bpName" name="bpName" class="col-xs-8" type="text" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name + '">' +
             '</div>' +
             '<div class="row">' +
             '<label for="bpMinWidth" class="col-xs-4">Min-width:' +
             '<br><small style="font-weight:400;">Set to 0 to omit</small>' +
             '<br><small style="font-weight:400;">Default is 575px</small>' +
             '</label>' +
-            '<input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].minwidth + '">' +
+            '<input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].minwidth + '">' +
             '</div>' +
             '<div class="row">' +
             '<label for="bpMaxWidth" class="col-xs-4">Max-width:' +
             '<br><small style="font-weight:400;">Set to 0 to omit</small>' +
             '<br><small style="font-weight:400;">Default is 767px</small>' +
             '</label>' +
-            '<input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].maxwidth + '">' +
+            '<input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth + '">' +
             '</div>' +
             '<div class="row">' +
-            '<label for="bpHeight" class="col-xs-4">Height:<br><small style="font-weight:400;">Default is 56px</small></label><input id="bpHeight" name="bpHeight" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].height + '">' +
+            '<label for="bpHeight" class="col-xs-4">Height:<br><small style="font-weight:400;">Default is 56px</small></label><input id="bpHeight" name="bpHeight" class="col-xs-8" type="number" placeholder="' + globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height + '">' +
             '</div>' +
             '<div class="row">' +
             '<button id="bpUpdate" type="submit" name="bpUpdate">Update Breakpoint</button>' +
@@ -1139,7 +1162,7 @@ function bannerObj(el1) {
     obj = {
         id: el1,
         txtPlaceholder: '|A',
-        hex: '',
+        hex: '#b875ae',
         css: {
             breakpoints: {},
             bgColor: {
@@ -1147,22 +1170,6 @@ function bannerObj(el1) {
                 g: 117,
                 b: 174
             }
-        },
-        buildStyles: function (id, bpid, minwidth, maxwidth, height) {
-            console.log(id + '\n' + bpid + '\n' + minwidth + '\n' + maxwidth + '\n' + height);
-            var styles = '',
-                bgimg = globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].img,
-                bgcolor = globals.bannerObjects['banner_' + id].css.hex,
-                min = Number(minwidth) == 0 ? '' : ' and (min-width:' + minwidth + 'px)',
-                max = Number(maxwidth) == 0 ? '' : ' and (max-width:' + maxwidth + 'px)',
-                media = Number(minwidth) == 0 && Number(maxwidth) == 0 ? '' : '[id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:none;}@media screen' +
-                    min +
-                    max +
-                    '{ [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;height:' + height + 'px;min-height:100%;background-color:' + this.hex + ';background-image:url("' + this.css.breakpoints['bp_' + bpid].background.img + '");}}';
-
-            styles += media;
-
-            return styles;
         },
         breakpointTabs: function (id) {
             return breakpointTab(id);
@@ -1197,7 +1204,7 @@ function bannerObj(el1) {
             buttonBehave1(this);
         },
         bp: function (number) {
-            this.css.breakpoints['bp_' + number] = {
+            this.css.breakpoints['bpid_' + number] = {
                 name: '|A',
                 background: {
                     img: 'none',
@@ -1243,11 +1250,11 @@ function bannerObj(el1) {
         bgEventListeners: function (id, bpid) {
             $('input[name="lorr1_' + bpid + '"]').on('change', function () {
 
-                globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].background.state = $(this).val();
+                globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $(this).val();
 
-                if (globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].background.state == 'local') {
+                if (globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'local') {
 
-                    globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].background.state = 'local';
+                    globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = 'local';
 
                     $('input[name*="bg"]').each(function () {
                         var curr = $(this).val();
@@ -1265,9 +1272,9 @@ function bannerObj(el1) {
                         $(this).val('').attr('placeholder', 'Demo-image-' + size + '.png');
                     });
 
-                } else if (globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].background.state == 'remote') {
+                } else if (globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'remote') {
 
-                    globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + bpid].background.state = 'remote';
+                    globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = 'remote';
 
                     $('input[name*="bg"]').each(function () {
                         var curr = $(this).val();

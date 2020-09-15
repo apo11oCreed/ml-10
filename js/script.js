@@ -47,11 +47,15 @@ var globals = {
                     height = Object.values(breakpoints)[y]['height'],
                     bgImg = Object.values(breakpoints)[y]['background']['img'],
                     bgPosition = Object.values(breakpoints)[y]['background']['position'],
+                    bgPositionX = Number(Object.values(breakpoints)[y]['background']['positionx']) == 0 || Object.values(breakpoints)[y]['background']['positionx'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['positionx'] + '%',
+                    bgPositionY = Number(Object.values(breakpoints)[y]['background']['positiony']) == 0 || Object.values(breakpoints)[y]['background']['positiony'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['positiony'] + '%',
+                    bgwidth = Number(Object.values(breakpoints)[y]['background']['bgwidth']) == 0 || Object.values(breakpoints)[y]['background']['bgwidth'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['bgwidth'] + '%',
+                    bgheight = Number(Object.values(breakpoints)[y]['background']['bgheight']) == 0 || Object.values(breakpoints)[y]['background']['bgheight'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['bgheight'] + '%',
                     bgState = Object.values(breakpoints)[y]['background']['state'],
                     media = Number(Object.values(breakpoints)[y]['minwidth']) == 0 && Number(Object.values(breakpoints)[y]['maxwidth']) == 0 ? '' : '[id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:none;}@media screen' +
                         min +
                         max +
-                        '{ [id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;height:auto;min-height:' + height + 'px;background-color:' + hex + ';background-image:url("' + bgImg + '");background-position:' + bgPosition + ';background-repeat:no-repeat;background-size:cover;}}';
+                        '{ [id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;height:auto;min-height:' + height + 'px;background-color:' + hex + ';background-image:url("' + bgImg + '");background-position:' + bgPosition + ';background-position-x:' + bgPositionX + ';background-position-y:' + bgPositionY + ';background-repeat:no-repeat;background-size:' + bgwidth + ' ' + bgheight + ';}}';
 
                 styles += media;
             }
@@ -366,13 +370,7 @@ function checkImageExists1(el, url, banner) {
         $(el).parent().addClass('found');
         $(el).parent().next().prop('hidden', true);
 
-        //banner.css.breakpoints['bp_' + bp].background.img = img.src;
-
-        globals.bannerObjects['banner_' + banner.id].css.breakpoints['bp_' + bp].background.img = img.src;
-
-        console.log(globals);
-
-        //reDraw1(banner, bp);
+        globals.bannerObjects['banner_' + banner.id].css.breakpoints['bpid_' + bp].background.img = img.src;
 
         var embedstyles = $('style#banners');
 
@@ -383,8 +381,12 @@ function checkImageExists1(el, url, banner) {
         $(el).parent().addClass('notfound');
         $(el).parent().next().prop('hidden', false);
 
-        banner.css.breakpoints['bp_' + bp].background.img = 'none';
-        globals.bannerObjects['banner_' + banner.id].css.breakpoints['bp_' + bp].background.img = 'none';
+        globals.bannerObjects['banner_' + banner.id].css.breakpoints['bpid_' + bp].background.img = 'none';
+
+        var embedstyles = $('style#banners');
+
+        $(embedstyles).html('');
+        $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
     };
 
     img.src = imgURL1(el, true);
@@ -1209,6 +1211,10 @@ function bannerObj(el1) {
                 background: {
                     img: 'none',
                     position: 'center center',
+                    positionx: 50,
+                    positiony: 50,
+                    bgwidth: 100,
+                    bgheight: 'auto',
                     state: 'local'
                 },
                 minwidth: 575,

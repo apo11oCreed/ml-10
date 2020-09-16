@@ -128,7 +128,7 @@ function buttonBehave1(thisBanner) {
 
         } else {
 
-            displayOnClickBehavior($(':selected', this).val(), thisBanner);
+            displayOnClickBehavior($(':selected', this).val(), id);
 
         }
     });
@@ -516,32 +516,85 @@ function randomId(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 };
 
-function displayOnClickBehavior(behaviorSelected, banner) {
-    $('[id="props' + banner.id + '"] .row.onclickbehavior .dynamic').html('');
+function displayOnClickBehavior(behaviorSelected, id) {
+    $('[id="props_' + id + '"] .row.onclickbehavior .dynamic').html('');
 
-    var modalHTML = '<div class="row-fluid"><h4>Modal</h4><hr><div class="col-xs-6"> <div class="row enter-text-modal flex-it"> <div> <label for="modalHeader">Modal Header</label> <br><input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50"></div><br><div> <label for="modalBody">Modal Body<span class="required">*</span></label> <br><textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea> </div><br><div> <label for="modalFooter">Modal Footer</label> <br><input id="modalFooter" name="modalFooter" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50"></div></div></div><div class="col-xs-6"> <span class="example-modal"> <h5>Example Modal</h5> <img src="img/test.png" alt="Example modal"> </span> </div></div>',
-        linkHMTL = '<br><div class="row"> <div class="col-xs-3"><label for="offerLink">Link to another page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required></div></div>',
-        linkAnchorHTML = '<br><div class="row"> <div class="col-xs-3"><label for="anchorLink">Link to point on same page:<span class="required">*</span></label></div><div class="col-xs-6"> <input id="anchorLink" placeholder="#anchor" type="text" required></div></div>',
-        doNothing = '<br><p>This will be a static banner.</p>';
+    var modalHTML = '<div class="row-fluid">' +
+        '<h4>Modal</h4>' +
+        '<hr>' +
+        '<div class="col-xs-6">' +
+        '<div class="row enter-text-modal flex-it">' +
+        '<div>' +
+        '<label for="modalHeader">Modal Header</label>' +
+        '<br>' +
+        '<input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50">' +
+        '</div>' +
+        '<br>' +
+        '<div>' +
+        '<label for="modalBody">Modal Body<span class="required">*</span>' +
+        '</label>' +
+        '<br>' +
+        '<textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required>' +
+        '</textarea>' +
+        '</div>' +
+        '<br>' +
+        '<div>' +
+        '<label for="modalFooter">Modal Footer</label>' +
+        '<br>' +
+        '<input id="modalFooter" name="modalFooter" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50">' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="col-xs-6">' +
+        '<span class="example-modal">' +
+        '<h5>Example Modal</h5>' +
+        '<img src="img/test.png" alt="Example modal">' +
+        '</span>' +
+        '</div>' +
+        '</div>',
+        linkHMTL = '<br>' +
+            '<div class="row">' +
+            '<div class="col-xs-3">' +
+            '<label for="offerLink">Link to another page:<span class="required">*</span>' +
+            '</label>' +
+            '</div>' +
+            '<div class="col-xs-6">' +
+            '<input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
+            '</div>' +
+            '</div>',
+        linkAnchorHTML = '<br>' +
+            '<div class="row">' +
+            '<div class="col-xs-3">' +
+            '<label for="anchorLink">Link to point on same page:<span class="required">*</span>' +
+            '</label>' +
+            '</div>' +
+            '<div class="col-xs-6">' +
+            '<input id="anchorLink" placeholder="#anchor" type="text" required>' +
+            '</div>' +
+            '</div>',
+        doNothing = '<br>' +
+            '<p>This will be a static banner.</p>';
 
     switch (behaviorSelected) {
         case 'fireModal':
-            banner.onClickBehaviorHTML = modalHTML;
+            globals.bannerObjects['banner_' + id].onClickBehaviorHTML = modalHTML;
             break;
         case 'linkToPage':
-            banner.onClickBehaviorHTML = linkHMTL;
+            globals.bannerObjects['banner_' + id].onClickBehaviorHTML = linkHMTL;
             break;
         case 'linkToAnchor':
-            banner.onClickBehaviorHTML = linkAnchorHTML;
+            globals.bannerObjects['banner_' + id].onClickBehaviorHTML = linkAnchorHTML;
             break;
         case 'doNothing':
-            banner.onClickBehaviorHTML = doNothing;
+            globals.bannerObjects['banner_' + id].onClickBehaviorHTML = doNothing;
             break;
         default:
             break;
     }
 
-    $('[id="props' + banner.id + '"] .row.onclickbehavior .dynamic').append(banner.onClickBehaviorHTML);
+    $('[id="props_' + id + '"] .row.onclickbehavior .dynamic').append(globals.bannerObjects['banner_' + id].onClickBehaviorHTML);
+
+    console.log(globals);
 
     $("input, select, textarea").on('change', function () {
         confirmAllRequiredMet();

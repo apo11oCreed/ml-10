@@ -76,7 +76,7 @@ $(document).ready(function () {
     var idInit = '',
         bannerInit;
 
-    $(document).on('hidden.bs.modal', '.modal', function () {
+    $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
         $(this).remove();
     });
 
@@ -183,8 +183,6 @@ function buttonBehave1(thisBanner) {
 
     // button events
     $("button[name='exporthtml'],button[name='exportcss']").on("click", function () {
-
-
         var type = $(this).attr('name');
         exportCode1(type);
     });
@@ -294,17 +292,12 @@ function buttonBehave1(thisBanner) {
                             $(this).css({ 'margin': '0', 'padding': '0' });
                         })
                     } else {
-                        // $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append('|A');
 
                         $(inputs[p]).addClass('error');
                         alert('Missing content in a text group.');
                     }
                 }
             }
-            // console.log(globals);
-        } else if (buttonId == 'backgroundSettings') {
-            //thisBanner.css.
-            // console.log(globals);
         }
     });
 }
@@ -519,86 +512,119 @@ function randomId(min, max) {
 function displayOnClickBehavior(behaviorSelected, id) {
     $('[id="props_' + id + '"] .row.onclickbehavior .dynamic').html('');
 
-    var modalHTML = '<div class="row-fluid">' +
-        '<h4>Modal</h4>' +
-        '<hr>' +
-        '<div class="col-xs-6">' +
-        '<div class="row enter-text-modal flex-it">' +
-        '<div>' +
-        '<label for="modalHeader">Modal Header</label>' +
-        '<br>' +
-        '<input id="modalHeader" name="modalHeader" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50">' +
-        '</div>' +
-        '<br>' +
-        '<div>' +
-        '<label for="modalBody">Modal Body<span class="required">*</span>' +
-        '</label>' +
-        '<br>' +
-        '<textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required>' +
-        '</textarea>' +
-        '</div>' +
-        '<br>' +
-        '<div>' +
-        '<label for="modalFooter">Modal Footer</label>' +
-        '<br>' +
-        '<input id="modalFooter" name="modalFooter" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50">' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<div class="col-xs-6">' +
-        '<span class="example-modal">' +
-        '<h5>Example Modal</h5>' +
-        '<img src="img/test.png" alt="Example modal">' +
-        '</span>' +
-        '</div>' +
-        '</div>',
-        linkHMTL = '<br>' +
-            '<div class="row">' +
-            '<div class="col-xs-3">' +
-            '<label for="offerLink">Link to another page:<span class="required">*</span>' +
-            '</label>' +
-            '</div>' +
-            '<div class="col-xs-6">' +
-            '<input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
-            '</div>' +
-            '</div>',
-        linkAnchorHTML = '<br>' +
-            '<div class="row">' +
-            '<div class="col-xs-3">' +
-            '<label for="anchorLink">Link to point on same page:<span class="required">*</span>' +
-            '</label>' +
-            '</div>' +
-            '<div class="col-xs-6">' +
-            '<input id="anchorLink" placeholder="#anchor" type="text" required>' +
-            '</div>' +
-            '</div>',
-        doNothing = '<br>' +
-            '<p>This will be a static banner.</p>';
+    // var modalHTML = '<div class="row-fluid">' +
+    //     '<div class="col-xs-12">' +
+    //     '<h4>Modal</h4>' +
+    //     '</div>' +
+    //     '</div>' +
+    //     '<hr>' +
+    //     '<div class="row-fluid">' +
+    //     '<div class="col-xs-6">' +
+    //     '<div class="row enter-text-modal flex-it">' +
+    //     '<div>' +
+    //     '<label for="modalTitle">Modal Title</label>' +
+    //     '<br>' +
+    //     '<input id="modalTitle" name="modalTitle" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50">' +
+    //     '</div>' +
+    //     '<br>' +
+    //     '<div>' +
+    //     '<label for="modalBody">Modal Body<span class="required">*</span>' +
+    //     '</label>' +
+    //     '<br>' +
+    //     '<textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required>' +
+    //     '</textarea>' +
+    //     '</div>' +
+    //     '<br>' +
+    //     '<div>' +
+    //     '<label for="modalFooter">Modal Footer</label>' +
+    //     '<br>' +
+    //     '<input id="modalFooter" name="modalFooter" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50">' +
+    //     '</div>' +
+    //     '</div>' +
+    //     '</div>' +
+    //     '<div class="col-xs-6">' +
+    //     '<span class="example-modal">' +
+    //     '<h5>Example Modal</h5>' +
+    //     '<img src="img/test.png" alt="Example modal">' +
+    //     '</span>' +
+    //     '</div>' +
+    //     '</div>' +
+    //     '<div class="row-fluid" style="text-align:right;"><div class="col-xs-12"><button id="bannerModal" name="update" type="button">Update Banner Modal</button></div></div>',
+    //     linkHMTL = '<br>' +
+    //         '<div class="row">' +
+    //         '<div class="col-xs-3">' +
+    //         '<label for="offerLink">Link to another page:<span class="required">*</span>' +
+    //         '</label>' +
+    //         '</div>' +
+    //         '<div class="col-xs-6">' +
+    //         '<input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
+    //         '</div>' +
+    //         '</div>',
+    //     linkAnchorHTML = '<br>' +
+    //         '<div class="row">' +
+    //         '<div class="col-xs-3">' +
+    //         '<label for="anchorLink">Link to point on same page:<span class="required">*</span>' +
+    //         '</label>' +
+    //         '</div>' +
+    //         '<div class="col-xs-6">' +
+    //         '<input id="anchorLink" placeholder="#anchor" type="text" required>' +
+    //         '</div>' +
+    //         '</div>',
+    //     doNothing = '<br>' +
+    //         '<p>This will be a static banner.</p>';
 
     switch (behaviorSelected) {
         case 'fireModal':
-            globals.bannerObjects['banner_' + id].onClickBehaviorHTML = modalHTML;
+            globals.bannerObjects['banner_' + id].onClickBehaviorForm = modalHTML;
+            fireModal('banner_' + id);
             break;
         case 'linkToPage':
-            globals.bannerObjects['banner_' + id].onClickBehaviorHTML = linkHMTL;
+            globals.bannerObjects['banner_' + id].onClickBehaviorForm = linkHMTL;
+            linkToPage('banner_' + id);
             break;
         case 'linkToAnchor':
-            globals.bannerObjects['banner_' + id].onClickBehaviorHTML = linkAnchorHTML;
+            globals.bannerObjects['banner_' + id].onClickBehaviorForm = linkAnchorHTML;
+            linkToAnchor('banner_' + id);
             break;
         case 'doNothing':
-            globals.bannerObjects['banner_' + id].onClickBehaviorHTML = doNothing;
+            globals.bannerObjects['banner_' + id].onClickBehaviorForm = doNothing;
+            doNothing('banner_' + id);
             break;
         default:
             break;
     }
 
-    $('[id="props_' + id + '"] .row.onclickbehavior .dynamic').append(globals.bannerObjects['banner_' + id].onClickBehaviorHTML);
-
-    console.log(globals);
+    $('[id="props_' + id + '"] .row.onclickbehavior .dynamic').append(globals.bannerObjects['banner_' + id].onClickBehaviorForm);
 
     $("input, select, textarea").on('change', function () {
         confirmAllRequiredMet();
     });
+}
+
+function fireModal(banner) {
+    if ($('[id="modal_' + banner + '"].modal')) {
+        $('[id="modal_' + banner + '"].modal').remove();
+    }
+
+    globals.bannerObjects[banner].onClickBehavior.name = 'fireModal';
+    $('.text-render').append(globals.bannerObjects[banner].onClickBehavior.modal.html(banner));
+    $('.text-render #' + banner).attr('data-toggle', 'modal');
+    $('.text-render #' + banner).attr('data-target', '#modal_' + banner);
+
+    globals.bannerObjects[banner].onClickBehavior.modal.formSubmitListener(banner);
+
+}
+
+function linkToPage(banner) {
+    globals.bannerObjects[banner].onClickBehavior.name = 'linkToPage';
+}
+
+function linkToAnchor(banner) {
+    globals.bannerObjects[banner].onClickBehavior.name = 'linkToAnchor';
+}
+
+function doNothing(banner) {
+    globals.bannerObjects[banner].onClickBehavior.name = 'doNothing';
 }
 
 function confirmAllRequiredMet() {
@@ -740,7 +766,7 @@ function add(thisButton) {
     // console.log(globals);
 }
 
-function remove(thisButton) {
+function removeThis(thisButton) {
 
     var dataDomain = $(thisButton).closest('[data-domain]').data('domain'),
         embedstyles = $('#banners'),
@@ -1009,8 +1035,8 @@ function bannerCreatorForm(el1) {
             '</div>',
 
         clickbehavior = '<div class="row">' +
-            '<div class="col-xs-12">' +
-            '<fieldset id="clickbehavior_' + id + '" class="row">' +
+            '<fieldset id="clickbehavior_' + id + '" class="col-xs-12">' +
+            '<div class="row">' +
             '<div class="col-xs-12">' +
             '<legend><h3>Click Behavior Settings</h3></legend>' +
             '<div class="row">' +
@@ -1027,18 +1053,83 @@ function bannerCreatorForm(el1) {
             '</select>' +
             '</div>' +
             '</div>' +
+
             '<div class="row onclickbehavior">' +
             '<div class="col-xs-12">' +
-            '<span class="dynamic"></span>' +
+
+            '<div id="modalHTML_' + id + '" class="row">' +
+            '<div class="col-xs-12">' +
+            '<div class="row">' +
+            '<div class="col-xs-12">' +
+            '<h4>Modal</h4>' +
+            '</div>' +
+            '</div>' +
+            '<hr>' +
+            '<div class="row">' +
+            '<div class="col-xs-6">' +
+            '<div class="row-fluid enter-text-modal flex-it">' +
+            '<label for="modalTitle">Modal Title</label>' +
+            '<br>' +
+            '<input id="modalTitle" name="modalTitle" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50">' +
+            '</div>' +
+            '<br>' +
+            '<div class="row-fluid enter-text-modal flex-it">' +
+            '<label for="modalBody">Modal Body<span class="required">*</span></label>' +
+            '<br>' +
+            '<textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea>' +
+            '</div>' +
+            '<br>' +
+            '<div class="row-fluid enter-text-modal flex-it">' +
+            '<label for="modalFooter">Modal Footer</label>' +
+            '<br>' +
+            '<input id="modalFooter" name="modalFooter" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50">' +
+            '</div>' +
+            '</div>' +
+            '<div class="col-xs-6">' +
+            '<div class="row-fluid">' +
+            '<span class="example-modal">' +
+            '<h5>Example Modal</h5>' +
+            '<img src="img/test.png" alt="Example modal">' +
+            '</span>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row" style="text-align:right;">' +
+            '<div class="col-xs-12">' +
+            '<button id="bannerModal" name="update" type="button">Update Banner Modal</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div id="linkHMTL_' + id + '" class="row">' +
+            '<br>' +
+            '<div class="col-xs-3">' +
+            '<label for="offerLink">Link to another page:<span class="required">*</span></label>' +
+            '</div>' +
+            '<div class="col-xs-6">' +
+            '<input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
+            '</div>' +
+            '</div>' +
+            '<div id="linkAnchorHTML_' + id + '" class="row">' +
+            '<br>' +
+            '<div class="col-xs-3">' +
+            '<label for="anchorLink">Link to point on same page:<span class="required">*</span></label>' +
+            '</div>' +
+            '<div class="col-xs-6">' +
+            '<input id="anchorLink" placeholder="#anchor" type="text" required>' +
+            '</div>' +
+            '</div>' +
+            '<div id="doNothing_' + id + '" class="row">' +
+            '<br>' +
+            '<div class="col-xs-12">' +
+            '<p>This will be a static banner.</p>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
             '</div>' +
             '</div>' +
             '</fieldset>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</fieldset>' +
-            '</div>' +
             '</div>',
         html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties">' +
             '<div class="row">' +
@@ -1062,7 +1153,7 @@ function bannerTab(el1) {
     var id = el1.id,
         html = '<div id="tabs_' + id + '" class="col-xs-3">' +
             '<span class="controls-add-subtract">' +
-            '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
+            '<button type="button" class="subtract-button" onClick="removeThis(this)" style="color:red;">x</button>' +
             '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
             '</span>' +
             '<span>' +
@@ -1090,7 +1181,7 @@ function breakpointTab(bpid) {
 
     var html = '<div name="bpid_' + bpid + '" class="col-xs-3" data-domain="bpconfig" data-bp="bpid_' + bpid + '">' +
         '<span class="controls-add-subtract">' +
-        '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
+        '<button type="button" class="subtract-button" onClick="removeThis(this)" style="color:red;" hidden>x</button>' +
         '<button type="button" class="edit-button glyphicon glyphicon-cog" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
         '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
         '</span>' +
@@ -1104,7 +1195,7 @@ function breakpointInput(number, id) {
     var html = '<div name="bpid_' + id + '" data-domain="inputs" class="input showing">' +
         '<span data-input-index="' + number + '">' +
         '<span class="controls-add-subtract">' +
-        '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;" hidden>x</button>' +
+        '<button type="button" class="subtract-button" onClick="removeThis(this)" style="color:red;" hidden>x</button>' +
         '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
         '</span>' +
         '<span class="editablecontainer">' +
@@ -1250,7 +1341,7 @@ function bannerObj(el1) {
         copyInput: function (number) {
             var html = '<span data-input-index="' + number + '">' +
                 '<span class="controls-add-subtract">' +
-                '<button type="button" class="subtract-button" onClick="remove(this)" style="color:red;">x</button>' +
+                '<button type="button" class="subtract-button" onClick="removeThis(this)" style="color:red;">x</button>' +
                 '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
                 '</span>' +
                 '<span class="editablecontainer">' +
@@ -1269,9 +1360,52 @@ function bannerObj(el1) {
             var tabs = e1.length;
             return tabs;
         },
-        onClickBehaviorHTML: '<br><p>This will be a static banner.</p>',
+        onClickBehaviorForm: '<br><p>This will be a static banner.</p>',
         buttonBehave: function () {
             buttonBehave1(this);
+        },
+        onClickBehavior: {
+            name: 'doNothing',
+            modal: {
+                html: function (id) {
+                    var modal = '<div id="modal_' + id + '" class="modal fade" tabindex="-1" role="dialog">' +
+                        '<div class="modal-dialog" role="document">' +
+                        '<div class="modal-content">' +
+                        '<div class="modal-header">' +
+                        '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                        '<h4 class="modal-title">' + this.title + '</h4>' +
+                        '</div>' +
+                        '<div class="modal-body">' + this.body +
+                        '</div>' +
+                        '<div class="modal-footer" style="text-align:left;">' + this.footer +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+
+                    return modal;
+                },
+                formSubmitListener: function (banner) {
+                    console.log(globals);
+                    var id = $('#' + banner).attr('id').substr(-4);
+                    var collection = document.querySelectorAll('input');
+
+                    console.log($('.modal'));
+                    console.log(collection);
+
+                    $('#bannerModal').on('click', function () {
+                        console.log(globals);
+                        this.title = $('[id="clickbehavior_' + id + '"] input#modalTitle').val();
+                        this.body = $('[id="clickbehavior_' + id + '"] input#modalBody').val();
+                        this.footer = $('[id="clickbehavior_' + id + '"] input#modalFooter').val();
+                    });
+                },
+                title: 'Enter Title text under Click Behavior Settings',
+                body: 'Enter Body text under Click Behavior Settings',
+                footer: 'Enter Footer text under Click Behavior Settings'
+            },
+            anchor: '#',
+            link: '#'
         },
         bp: function (number) {
             this.css.breakpoints['bpid_' + number] = {

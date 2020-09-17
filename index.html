@@ -41,6 +41,15 @@
             <div class="container">
                 <section class="row">
                     <div class="col-xs-12">
+                        <div id="actionsArchiving"
+                             class="row">
+                            <br>
+                            <div class="col-xs-12"><button type="button"
+                                        name="importjson">Import JSON</button>
+                                <button type="button"
+                                        name="exportjson"
+                                        disabled>Export JSON</button></div>
+                        </div>
 
                         <form action="">
                             <div id="globals"
@@ -58,37 +67,82 @@
                                     <div class="row">
                                         <fieldset id="brand"
                                                   class="col-xs-12">
-                                            <legend>
-                                                <h3>Brand</h3>
-                                            </legend>
-                                            <label for="brand">Choose a brand:<span class="required">*</span></label>
-                                            <select name="brands"
-                                                    id="brands"
-                                                    required>
-                                                <option value="">-- select --</option>
-                                                <option value="py">Paula Young</option>
-                                                <option value="ey">Especially Yours</option>
-                                                <option value="tl">The Look</option>
-                                                <option value="wg">Wig</option>
-                                            </select>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <legend>
+                                                        <h3>Brand</h3>
+                                                    </legend>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <label for="brand">Choose a brand:<span
+                                                              class="required">*</span></label>
+                                                    <select name="brands"
+                                                            id="brands"
+                                                            required>
+                                                        <option value="">-- select --</option>
+                                                        <option value="py">Paula Young</option>
+                                                        <option value="ey">Especially Yours</option>
+                                                        <option value="tl">The Look</option>
+                                                        <option value="wg">Wig</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </fieldset>
                                     </div>
                                     <div class="row">
-                                        <fieldset id="bannerTabs"
-                                                  class="col-xs-12"><span class="dynamic"></span></fieldset>
+                                        <fieldset id="stackingBreakpoint"
+                                                  class="col-xs-12">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <legend>
+                                                        <h3>Stacking Breakpoint</h3>
+                                                    </legend>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <p>Enter the max width whereby the banners will render as a column
+                                                        stack. This layout is optimal for small screens.</p>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-2">
+                                                    <label for="stackingBp">Enter number:</label></div>
+                                                <div class="col-xs-3"><input id="stackingBp"
+                                                           name="stackingBp"
+                                                           type="number"
+                                                           placeholder="575">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12"
+                                                     style="text-align:right;">
+                                                    <button id="stackingBpUpdate"
+                                                            type="button"
+                                                            name="update">Update Stacking Breakpoint</button></div>
+                                            </div>
                                     </div>
                                 </fieldset>
                             </div>
-                            <div id="rendering"
-                                 class="row">
-                                <div class="section-offer-content col-xs-12">
-                                    <div class="row">
-                                        <div class="col-xs-12 text-render">
-                                            <style id="banners"></style>
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                <fieldset id="bannerTabs"
+                                          class="col-xs-12"><span class="dynamic"></span></fieldset>
+                            </div>
+                            </fieldset>
+                    </div>
+                    <div id="rendering"
+                         class="row">
+                        <div class="section-offer-content col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12 render">
+                                    <style id="banners"></style>
                                 </div>
-                                <!-- <div id="offer-description">
+                            </div>
+                        </div>
+                        <!-- <div id="offer-description">
                             <div class="body adMove">
                                 Offer Sub Text Description
                             </div>
@@ -103,28 +157,28 @@
                                     offerImg.src = offerImg.getAttribute("data-srcset");
                             }
                         </script> -->
-                            </div>
-                            <div id="properties"
-                                 class="row">
-                                <div class="dynamic"></div>
-                            </div>
-                            <br>
-                            <div id="actions"
-                                 class="row">
-                                <br>
-                                <div class="col-xs-12"><button type="button"
-                                            name="exporthtml"
-                                            disabled>Export HTML</button>
-                                    <button type="button"
-                                            name="exportcss"
-                                            disabled>Export CSS</button>
-                                    <button id="form-reset"
-                                            type="button"
-                                            name="resetall">Reset</button></div>
-                            </div>
-                        </form>
                     </div>
-                </section>
+                    <div id="properties"
+                         class="row">
+                        <div class="dynamic"></div>
+                    </div>
+                    <br>
+                    <div id="actionsOutput"
+                         class="row">
+                        <br>
+                        <div class="col-xs-12"><button type="button"
+                                    name="exporthtml"
+                                    disabled>Export HTML</button>
+                            <button type="button"
+                                    name="exportcss"
+                                    disabled>Export CSS</button>
+                            <button id="form-reset"
+                                    type="button"
+                                    name="resetall">Reset</button></div>
+                    </div>
+                    </form>
+            </div>
+            </section>
             </div>
         </main>
     </body>

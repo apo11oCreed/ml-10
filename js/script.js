@@ -32,11 +32,14 @@ var globals = {
     maxBannerNumber: 4,
     minBannerNumber: 1,
     bannerObjects: {},
+    stackbreakpoint: '575',
     buildStyles: function (elObject) {
-        var styles = '';
+        var stackbreakpoint = this.stackbreakpoint = '' || this.stackbreakpoint < 1 ? '575' : this.stackbreakpoint,
+            styles = '.row .render{display:flex; flex-direction: row;}@media all and (max-width:' + stackbreakpoint + 'px){.row .render{flex-direction: column;}}.banner{width:100%;}';
         for (x in Object.values(elObject)) {
             var id = Object.values(elObject)[x]['id'],
                 hex = Object.values(elObject)[x]['hex'],
+                cursor = Object.values(elObject)[x]['cursor'],
                 breakpoints = Object.values(elObject)[x]['css']['breakpoints'];
 
             for (y in Object.values(breakpoints)) {
@@ -51,15 +54,18 @@ var globals = {
                     bgPositionY = Number(Object.values(breakpoints)[y]['background']['positiony']) == 0 || Object.values(breakpoints)[y]['background']['positiony'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['positiony'] + '%',
                     bgwidth = Number(Object.values(breakpoints)[y]['background']['bgwidth']) == 0 || Object.values(breakpoints)[y]['background']['bgwidth'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['bgwidth'] + '%',
                     bgheight = Number(Object.values(breakpoints)[y]['background']['bgheight']) == 0 || Object.values(breakpoints)[y]['background']['bgheight'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['bgheight'] + '%',
-                    bgState = Object.values(breakpoints)[y]['background']['state'],
-                    media = Number(Object.values(breakpoints)[y]['minwidth']) == 0 && Number(Object.values(breakpoints)[y]['maxwidth']) == 0 ? '' : '[id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:none;}@media screen' +
+                    //bgState = Object.values(breakpoints)[y]['background']['state'],
+                    media = Number(Object.values(breakpoints)[y]['minwidth']) == 0 && Number(Object.values(breakpoints)[y]['maxwidth']) == 0 ? '[id="banner_' + id + '"] [data-bp="' + bpid + '"]{cursor: ' + cursor + ';display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:' + height + 'px;background-color:' + hex + ';background-image:url("' + bgImg + '");background-position:' + bgPosition + ';background-position-x:' + bgPositionX + ';background-position-y:' + bgPositionY + ';background-repeat:no-repeat;background-size:' + bgwidth + ' ' + bgheight + ';}' : '[id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:none;}@media screen' +
                         min +
                         max +
-                        '{ [id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;cursor:pointer;align-items: center;height:auto;min-height:' + height + 'px;background-color:' + hex + ';background-image:url("' + bgImg + '");background-position:' + bgPosition + ';background-position-x:' + bgPositionX + ';background-position-y:' + bgPositionY + ';background-repeat:no-repeat;background-size:' + bgwidth + ' ' + bgheight + ';}}';
+                        '{ [id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:' + height + 'px;background-color:' + hex + ';background-image:url("' + bgImg + '");background-position:' + bgPosition + ';background-position-x:' + bgPositionX + ';background-position-y:' + bgPositionY + ';background-repeat:no-repeat;background-size:' + bgwidth + ' ' + bgheight + ';}}';
+
 
                 styles += media;
             }
         }
+
+        styles += '.modal{padding-right:0px!important;}@media all and (max-width:' + stackbreakpoint + 'px){.modal-dialog{width:auto; margin: 30px auto;}}.gutter{padding:0 2px 0 0;}@media all and (max-width:' + stackbreakpoint + 'px){.gutter{padding:0 0 2px 0;}}.gutter:last-child{display:none;}'
 
         return styles;
     }
@@ -95,7 +101,7 @@ $(document).ready(function () {
 
     $('button[name="resetall"]').on('click', function () {
 
-        $('[id="bannerTabs"] .dynamic .row-fluid.flex-it, #properties.row .dynamic, .text-render').html('');
+        $('[id="bannerTabs"] .dynamic .row-fluid.flex-it, #properties.row .dynamic, .render').html('');
         globals.bannerObjects = {};
 
         // Create new banner object
@@ -107,11 +113,6 @@ $(document).ready(function () {
 
         // Run the new banner object render function
         globals.bannerObjects['banner_' + idInit].render();
-
-        //$('input:radio[value="local"]').prop('checked', true);
-
-        console.log($('[type="radio"]:checked').val());
-        console.log($('[type="radio"]:checked').parents().html());
 
     });
 
@@ -175,7 +176,7 @@ function buttonBehave1(thisBanner) {
             }
         }
 
-        if ($('.text-render > [id*="' + id + '"]')) {
+        if ($('.render > [id*="' + id + '"]')) {
             thisBanner.hex = rgbToHex(Number(thisBanner.css.bgColor.r), Number(thisBanner.css.bgColor.g), Number(thisBanner.css.bgColor.b));
 
             var embedstyles = $('style#banners');
@@ -286,12 +287,12 @@ function buttonBehave1(thisBanner) {
                     var index = $(inputs[p]).data('input-index'),
                         newChildElems;
 
-                    $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
+                    $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
 
                     if ($('textarea.editor', inputs[p]).val()) {
-                        $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
+                        $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
 
-                        newChildElems = $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
+                        newChildElems = $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
 
                         $.each(newChildElems, function (index, value) {
                             $(this).css({ 'margin': '0', 'padding': '0' });
@@ -303,6 +304,15 @@ function buttonBehave1(thisBanner) {
                     }
                 }
             }
+        } else if (buttonId == 'stackingBpUpdate') {
+            globals.stackbreakpoint = $('input#stackingBp').val();
+
+            var embedstyles = $('style#banners');
+
+            $(embedstyles).html('');
+
+            $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
+
         }
     });
 }
@@ -494,7 +504,7 @@ function reDraw1(el1, el2) {
     var id = el1.id;
     // console.log(globals);
 
-    $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + el2.substr(-5) + '"]').css({ 'background-image': 'url("' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + el2].background.img + '")', 'background-size': 'cover', 'background-repeat': 'no-repeat', 'background-position': 'center center' });
+    $('.render [id="banner_' + id + '"] [data-bp="bpid_' + el2.substr(-5) + '"]').css({ 'background-image': 'url("' + globals.bannerObjects['banner_' + id].css.breakpoints['bp_' + el2].background.img + '")', 'background-size': 'cover', 'background-repeat': 'no-repeat', 'background-position': 'center center' });
 }
 
 function escapeHTML1(text) {
@@ -545,9 +555,9 @@ function displayOnClickBehavior(behaviorSelected, id) {
             break;
     }
 
-    $("input, select, textarea").on('change', function () {
-        confirmAllRequiredMet();
-    });
+    // $("input, select, textarea").on('change', function () {
+    //     confirmAllRequiredMet();
+    // });
 }
 
 function fireModal(id) {
@@ -555,11 +565,12 @@ function fireModal(id) {
         body,
         footer;
 
-    $('.text-render #banner_' + id).attr('role', 'button');
-    $('.text-render #banner_' + id).removeAttr('onclick');
-    $('.text-render #banner_' + id).css('cursor', 'pointer');
+    $('.render #banner_' + id).attr('role', 'button');
+    $('.render #banner_' + id).removeAttr('onclick');
+    $('.render #banner_' + id).css('cursor', 'pointer');
 
     globals.bannerObjects['banner_' + id].onClickBehavior.name = 'fireModal';
+    globals.bannerObjects['banner_' + id].cursor = 'pointer';
 
     $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
 
@@ -569,11 +580,15 @@ function fireModal(id) {
             title = $('[id="modalHTML_' + id + '"] input#modalTitle').val() ? $('[id="modalHTML_' + id + '"] input#modalTitle').val() : 'Enter Title text under Click Behavior Settings';
             body = $('[id="modalHTML_' + id + '"] textarea#modalBody').val() ? $('[id="modalHTML_' + id + '"] textarea#modalBody').val() : 'Enter Body text under Click Behavior Settings';
             footer = $('[id="modalHTML_' + id + '"] input#modalFooter').val() ? $('[id="modalHTML_' + id + '"] input#modalFooter').val() : 'Enter Footer text under Click Behavior Setting';
-            $('.text-render').append(globals.bannerObjects['banner_' + id].onClickBehavior.modal.html(id, title, body, footer));
+            $('.render').append(globals.bannerObjects['banner_' + id].onClickBehavior.modal.html(id, title, body, footer));
 
-            $('.text-render #banner_' + id).attr('data-toggle', 'modal');
-            $('.text-render #banner_' + id).attr('data-target', '#modal_' + id);
+            $('.render #banner_' + id).attr('data-toggle', 'modal');
+            $('.render #banner_' + id).attr('data-target', '#modal_' + id);
         }
+        var embedstyles = $('style#banners');
+
+        $(embedstyles).html('');
+        $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
     });
 }
 
@@ -581,13 +596,14 @@ function linkToPage(id) {
     var link = '#';
 
     globals.bannerObjects['banner_' + id].onClickBehavior.name = 'linkToPage';
+    globals.bannerObjects['banner_' + id].cursor = 'pointer';
 
-    $('.text-render #banner_' + id).removeAttr('data-toggle');
-    $('.text-render #banner_' + id).removeAttr('data-target');
+    $('.render #banner_' + id).removeAttr('data-toggle');
+    $('.render #banner_' + id).removeAttr('data-target');
 
-    $('.text-render #banner_' + id).attr('role', 'button');
-    $('.text-render #banner_' + id).attr('target', '_blank');
-    $('.text-render #banner_' + id).css('cursor', 'pointer');
+    $('.render #banner_' + id).attr('role', 'button');
+    $('.render #banner_' + id).attr('target', '_blank');
+    $('.render #banner_' + id).css('cursor', 'pointer');
 
     $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
 
@@ -596,7 +612,12 @@ function linkToPage(id) {
         link = $('[id="clickbehavior_' + id + '"] input#offerLink').val() ? $('[id="clickbehavior_' + id + '"] input#offerLink').val() : '#';
 
         globals.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.selectBrand].baseUrl + link;
-        $('.text-render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
+        $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
+
+        var embedstyles = $('style#banners');
+
+        $(embedstyles).html('');
+        $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
     });
 
 }
@@ -605,13 +626,14 @@ function linkToAnchor(id) {
     var link = '#';
 
     globals.bannerObjects['banner_' + id].onClickBehavior.name = 'linkToAnchor';
+    globals.bannerObjects['banner_' + id].cursor = 'pointer';
 
-    $('.text-render #banner_' + id).removeAttr('data-toggle');
-    $('.text-render #banner_' + id).removeAttr('data-target');
+    $('.render #banner_' + id).removeAttr('data-toggle');
+    $('.render #banner_' + id).removeAttr('data-target');
 
-    $('.text-render #banner_' + id).attr('role', 'button');
-    $('.text-render #banner_' + id).attr('target', '_blank');
-    $('.text-render #banner_' + id).css('cursor', 'pointer');
+    $('.render #banner_' + id).attr('role', 'button');
+    $('.render #banner_' + id).attr('target', '_blank');
+    $('.render #banner_' + id).css('cursor', 'pointer');
 
     $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
 
@@ -620,21 +642,32 @@ function linkToAnchor(id) {
         link = $('[id="clickbehavior_' + id + '"] input#anchorLink').val() ? $('[id="clickbehavior_' + id + '"] input#anchorLink').val() : 'mlTen';
 
         globals.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.selectBrand].baseUrl + link;
-        $('.text-render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
+        $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
+
+        var embedstyles = $('style#banners');
+
+        $(embedstyles).html('');
+        $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
     });
 }
 
 function doNothing(id) {
     globals.bannerObjects['banner_' + id].onClickBehavior.name = 'doNothing';
+    globals.bannerObjects['banner_' + id].cursor = 'none';
 
-    $('.text-render #banner_' + id).removeAttr('data-toggle');
-    $('.text-render #banner_' + id).removeAttr('data-target');
+    $('.render #banner_' + id).removeAttr('data-toggle');
+    $('.render #banner_' + id).removeAttr('data-target');
 
-    $('.text-render #banner_' + id).attr('role', 'presentation');
-    $('.text-render #banner_' + id).removeAttr('onclick');
-    $('.text-render #banner_' + id).css('cursor', 'none');
+    $('.render #banner_' + id).attr('role', 'presentation');
+    $('.render #banner_' + id).removeAttr('onclick');
+    $('.render #banner_' + id).css('cursor', 'auto');
 
     $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'none');
+
+    var embedstyles = $('style#banners');
+
+    $(embedstyles).html('');
+    $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
 }
 
 function confirmAllRequiredMet() {
@@ -666,7 +699,7 @@ function show(thisButton) {
 
         id = $(thisButton).closest('[id*="tabs_"]').attr('id').substr(-4);
 
-        $('[id*="props_"], .banner-tab, .text-render > div').removeClass('showing');
+        $('[id*="props_"], .banner-tab, .render > div').removeClass('showing');
 
         $('[id="props_' + id + '"], [id="banner_' + id + '"]').addClass('showing');
 
@@ -684,8 +717,6 @@ function show(thisButton) {
     }
     $(thisButton).addClass('showing');
 
-    console.log($('[type="radio"]:checked').val());
-    console.log($('[type="radio"]:checked').parents().html());
 }
 
 function add(thisButton) {
@@ -725,7 +756,7 @@ function add(thisButton) {
 
         $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', false);
 
-        $('[id*="props_"], .banner-tab, .text-render > div').removeClass('showing');
+        $('[id*="props_"], .banner-tab, .render > div').removeClass('showing');
 
         $('[id="props_' + z.id + '"], [id="tabs_' + z.id + '"] .banner-tab, [id="banner_' + z.id + '"]').addClass('showing');
 
@@ -744,7 +775,7 @@ function add(thisButton) {
         $(seriesParent).append(bannerObj(id).copyInput($(seriesParent).children('[data-input-index]').last().data('input-index') + 1));
 
         // Add new output to output series and assign latest index
-        $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]').append(bannerObj(id).copyOutput($(seriesParent).children().last().data('input-index')));
+        $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]').append(bannerObj(id).copyOutput($(seriesParent).children().last().data('input-index')));
 
         // Since there is more than one input now, disable hidden attribute for all input subtract buttons
         $('.subtract-button', seriesParent).prop('hidden', false);
@@ -777,8 +808,6 @@ function add(thisButton) {
         $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
 
     }
-
-    // console.log(globals);
 }
 
 function removeThis(thisButton) {
@@ -794,7 +823,7 @@ function removeThis(thisButton) {
 
         delete globals.bannerObjects['banner_' + id];
 
-        $('[id="tabs_' + id + '"], [id="props_' + id + '"], .text-render > [id="banner_' + id + '"], .text-render > [id="banner_' + id + '"] + .gutter').remove();
+        $('[id="tabs_' + id + '"], [id="props_' + id + '"], .render > [id="banner_' + id + '"], .render > [id="banner_' + id + '"] + .gutter').remove();
 
         // Recheck qty of banners
         series = $('[id*="tabs_"]');
@@ -813,7 +842,7 @@ function removeThis(thisButton) {
             series;
 
         $('[data-input-index="' + dataIndex + '"]', seriesParent).remove();
-        $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + dataIndex + '"]').remove();
+        $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + dataIndex + '"]').remove();
 
         series = $('[data-input-index]', seriesParent);
 
@@ -832,7 +861,7 @@ function removeThis(thisButton) {
 
         $('[data-bp="bg_' + bpid + '"]').remove();
 
-        $('.text-render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]').remove();
+        $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]').remove();
 
         // Recheck qty of breakpoints
         series = $('[data-domain="bpconfig"]', seriesParent);
@@ -848,7 +877,6 @@ function removeThis(thisButton) {
 
     $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
 
-    // console.log(globals);
 }
 
 function edit(thisButton) {
@@ -1336,6 +1364,7 @@ function bannerObj(el1) {
         id: el1,
         txtPlaceholder: '|A',
         hex: '#b875ae',
+        cursor: 'pointer',
         css: {
             breakpoints: {},
             bgColor: {
@@ -1426,7 +1455,7 @@ function bannerObj(el1) {
             $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs > div').append(breakpointInput(1, bpid));
 
             // Add new breakpoint section to banner preview
-            $('.text-render [id="banner_' + id + '"]').append(bannerPreviewBreakpoint(id, bpid));
+            $('.render [id="banner_' + id + '"]').append(bannerPreviewBreakpoint(id, bpid));
 
             // Add new breakpoint section to background image fields
             $('[id="background_' + id + '"] .backgroundimages').append(breakpointBackgroundImg('', bpid));
@@ -1563,7 +1592,7 @@ function bannerObj(el1) {
             $('#properties.row > .dynamic').append(bannerCreatorForm(this));
 
             // Place the first banner simulation
-            $('.row .text-render').append(bannerPreview(this));
+            $('.row .render').append(bannerPreview(this));
 
             // Since this is the first of all, hide all remove buttons
             $('.subtract-button').prop('hidden', true);

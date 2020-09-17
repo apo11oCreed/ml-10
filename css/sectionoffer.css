@@ -477,11 +477,11 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	font-weight:700;
 }
 
-.text-render > div.showing{
+.render > div.showing{
 	position:relative;
 }
 
-.text-render > div.showing:after{
+.render > div.showing:after{
 	display: block;
     content: '\00a0';
     font-size: 1px;
@@ -532,48 +532,24 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 	background-color:white;
 }
 
-.row .text-render > div{
+/* .row .render > div{
 	width:100%;
-}
+} */
 
-.row .text-render {
+/* .row .render {
     display:flex;
     flex-direction: row;
 }
 
 @media all and (max-width:991px){
-   .row .text-render {
+   .row .render {
     flex-direction: column;
    } 
-}
-
-/* .row .text-render .banner > div {
-    display:flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    flex-wrap:wrap;
-    width:100%;
-	cursor:pointer;
-	align-items: center;
 } */
 
-.row .text-render .banner [data-bp="mobile"]{
-    display:none;
+.modal {
+	padding-right: 0px!important;
 }
-
-@media all and (max-width:992px){
-    .row .text-render .banner [data-bp="desktop"]{
-        display:none;
-    }
-    .row .text-render .banner [data-bp="mobile"]{
-        display:flex;
-    }
-}
-
-/* .row .text-render .banner .text-group{
-    text-align:center;
-    white-space: pre;
-} */
 
 @media all and (max-width:991px){
  .modal-dialog{
@@ -582,7 +558,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
  }   
 }
 
-.gutter{
+/* .gutter{
     padding:0 2px 0 0;
 }
 
@@ -598,7 +574,7 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 
 #modal_campaign .modal-body{
     clear:both;
-}
+} */
 
 .blink{
 	animation: blink 1s infinite;

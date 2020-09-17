@@ -669,7 +669,11 @@ h2 .tab-visible{
 	display:none;
 }
 
-.banner-properties.showing, .content p.showing, [id*="background_"] .row.showing {
+.onclickbehavior {
+	display:none;
+}
+
+.banner-properties.showing, .content p.showing, [id*="background_"] .row.showing, .onclickbehavior.showing {
 	display:block;
 }
 

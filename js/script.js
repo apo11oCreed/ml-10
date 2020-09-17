@@ -510,85 +510,33 @@ function randomId(min, max) {
 };
 
 function displayOnClickBehavior(behaviorSelected, id) {
-    $('[id="props_' + id + '"] .row.onclickbehavior .dynamic').html('');
-
-    // var modalHTML = '<div class="row-fluid">' +
-    //     '<div class="col-xs-12">' +
-    //     '<h4>Modal</h4>' +
-    //     '</div>' +
-    //     '</div>' +
-    //     '<hr>' +
-    //     '<div class="row-fluid">' +
-    //     '<div class="col-xs-6">' +
-    //     '<div class="row enter-text-modal flex-it">' +
-    //     '<div>' +
-    //     '<label for="modalTitle">Modal Title</label>' +
-    //     '<br>' +
-    //     '<input id="modalTitle" name="modalTitle" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50">' +
-    //     '</div>' +
-    //     '<br>' +
-    //     '<div>' +
-    //     '<label for="modalBody">Modal Body<span class="required">*</span>' +
-    //     '</label>' +
-    //     '<br>' +
-    //     '<textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required>' +
-    //     '</textarea>' +
-    //     '</div>' +
-    //     '<br>' +
-    //     '<div>' +
-    //     '<label for="modalFooter">Modal Footer</label>' +
-    //     '<br>' +
-    //     '<input id="modalFooter" name="modalFooter" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50">' +
-    //     '</div>' +
-    //     '</div>' +
-    //     '</div>' +
-    //     '<div class="col-xs-6">' +
-    //     '<span class="example-modal">' +
-    //     '<h5>Example Modal</h5>' +
-    //     '<img src="img/test.png" alt="Example modal">' +
-    //     '</span>' +
-    //     '</div>' +
-    //     '</div>' +
-    //     '<div class="row-fluid" style="text-align:right;"><div class="col-xs-12"><button id="bannerModal" name="update" type="button">Update Banner Modal</button></div></div>',
-    //     linkHMTL = '<br>' +
-    //         '<div class="row">' +
-    //         '<div class="col-xs-3">' +
-    //         '<label for="offerLink">Link to another page:<span class="required">*</span>' +
-    //         '</label>' +
-    //         '</div>' +
-    //         '<div class="col-xs-6">' +
-    //         '<input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
-    //         '</div>' +
-    //         '</div>',
-    //     linkAnchorHTML = '<br>' +
-    //         '<div class="row">' +
-    //         '<div class="col-xs-3">' +
-    //         '<label for="anchorLink">Link to point on same page:<span class="required">*</span>' +
-    //         '</label>' +
-    //         '</div>' +
-    //         '<div class="col-xs-6">' +
-    //         '<input id="anchorLink" placeholder="#anchor" type="text" required>' +
-    //         '</div>' +
-    //         '</div>',
-    //     doNothing = '<br>' +
-    //         '<p>This will be a static banner.</p>';
+    //$('[id="props_' + id + '"] .row.onclickbehavior .dynamic').html('');
+    console.log(behaviorSelected);
 
     switch (behaviorSelected) {
         case 'fireModal':
-            globals.bannerObjects['banner_' + id].onClickBehaviorForm = modalHTML;
+            //globals.bannerObjects['banner_' + id].onClickBehaviorForm = modalHTML;
             fireModal('banner_' + id);
+            $('[id="clickbehavior_' + id + '"] .onclickbehavior').removeClass('showing');
+            $('[id="modalHTML_' + id + '"]').addClass('showing');
             break;
         case 'linkToPage':
-            globals.bannerObjects['banner_' + id].onClickBehaviorForm = linkHMTL;
+            //globals.bannerObjects['banner_' + id].onClickBehaviorForm = linkHMTL;
             linkToPage('banner_' + id);
+            $('[id="clickbehavior_' + id + '"] .onclickbehavior').removeClass('showing');
+            $('[id="linkHMTL_' + id + '"]').addClass('showing');
             break;
         case 'linkToAnchor':
-            globals.bannerObjects['banner_' + id].onClickBehaviorForm = linkAnchorHTML;
+            //globals.bannerObjects['banner_' + id].onClickBehaviorForm = linkAnchorHTML;
             linkToAnchor('banner_' + id);
+            $('[id="clickbehavior_' + id + '"] .onclickbehavior').removeClass('showing');
+            $('[id="linkAnchorHTML_' + id + '"]').addClass('showing');
             break;
         case 'doNothing':
-            globals.bannerObjects['banner_' + id].onClickBehaviorForm = doNothing;
+            //globals.bannerObjects['banner_' + id].onClickBehaviorForm = doNothing;
             doNothing('banner_' + id);
+            $('[id="clickbehavior_' + id + '"] .onclickbehavior').removeClass('showing');
+            $('[id="doNothing_' + id + '"]').addClass('showing');
             break;
         default:
             break;
@@ -1054,10 +1002,10 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
 
-            '<div class="row onclickbehavior">' +
+            '<div class="row">' +
             '<div class="col-xs-12">' +
 
-            '<div id="modalHTML_' + id + '" class="row">' +
+            '<div id="modalHTML_' + id + '" class="row onclickbehavior">' +
             '<div class="col-xs-12">' +
             '<div class="row">' +
             '<div class="col-xs-12">' +
@@ -1102,7 +1050,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
 
-            '<div id="linkHMTL_' + id + '" class="row">' +
+            '<div id="linkHMTL_' + id + '" class="row onclickbehavior">' +
             '<br>' +
             '<div class="col-xs-3">' +
             '<label for="offerLink">Link to another page:<span class="required">*</span></label>' +
@@ -1111,7 +1059,7 @@ function bannerCreatorForm(el1) {
             '<input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
             '</div>' +
             '</div>' +
-            '<div id="linkAnchorHTML_' + id + '" class="row">' +
+            '<div id="linkAnchorHTML_' + id + '" class="row onclickbehavior">' +
             '<br>' +
             '<div class="col-xs-3">' +
             '<label for="anchorLink">Link to point on same page:<span class="required">*</span></label>' +
@@ -1120,7 +1068,7 @@ function bannerCreatorForm(el1) {
             '<input id="anchorLink" placeholder="#anchor" type="text" required>' +
             '</div>' +
             '</div>' +
-            '<div id="doNothing_' + id + '" class="row">' +
+            '<div id="doNothing_' + id + '" class="row onclickbehavior">' +
             '<br>' +
             '<div class="col-xs-12">' +
             '<p>This will be a static banner.</p>' +

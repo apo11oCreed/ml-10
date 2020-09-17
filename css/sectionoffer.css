@@ -539,7 +539,6 @@ fieldset#breakpoints h5, fieldset#breakpoints h5 + span input {
 .row .text-render {
     display:flex;
     flex-direction: row;
-    text-transform:uppercase;
 }
 
 @media all and (max-width:991px){

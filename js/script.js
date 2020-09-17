@@ -93,21 +93,26 @@ $(document).ready(function () {
     // Run the new banner object render function
     globals.bannerObjects['banner_' + idInit].render();
 
-    // console.log(globals);
-
     $('button[name="resetall"]').on('click', function () {
 
-        $('[id="bannerTabs"] .dynamic .row-fluid.flex-it,#properties.row .dynamic, .text-render').html('');
+        $('[id="bannerTabs"] .dynamic .row-fluid.flex-it, #properties.row .dynamic, .text-render').html('');
         globals.bannerObjects = {};
 
+        // Create new banner object
         idInit = randomId(1000, 9999);
         bannerInit = new bannerObj(idInit);
 
+        // Add new banner object to global banner objects container
         globals.bannerObjects['banner_' + idInit] = bannerInit;
 
+        // Run the new banner object render function
         globals.bannerObjects['banner_' + idInit].render();
 
-        // console.log(globals);
+        //$('input:radio[value="local"]').prop('checked', true);
+
+        console.log($('[type="radio"]:checked').val());
+        console.log($('[type="radio"]:checked').parents().html());
+
     });
 
 });
@@ -665,10 +670,12 @@ function show(thisButton) {
 
         $('[id="props_' + id + '"], [id="banner_' + id + '"]').addClass('showing');
 
+        console.log('tabs clicked');
+
     } else {
 
         id = $(thisButton).closest('[id*="props_"]').attr('id').substr(-4);
-        var bpid = $(thisButton).closest('[name*="bpid_"]').attr('name').substr(-5);
+        var bpid = $(thisButton).closest('[id="props_' + id + '"] [name*="bpid_"]').attr('name').substr(-5);
 
         $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button.breakpoint-tab,[id="content_' + id + '"] [data-domain="breakpoints"] .inputs .col-xs-12 .input,[id="background_' + id + '"]  .backgroundimages [data-bp*="bg_"]').removeClass('showing');
 
@@ -676,6 +683,9 @@ function show(thisButton) {
 
     }
     $(thisButton).addClass('showing');
+
+    console.log($('[type="radio"]:checked').val());
+    console.log($('[type="radio"]:checked').parents().html());
 }
 
 function add(thisButton) {
@@ -1421,23 +1431,17 @@ function bannerObj(el1) {
             // Add new breakpoint section to background image fields
             $('[id="background_' + id + '"] .backgroundimages').append(breakpointBackgroundImg('', bpid));
 
-            // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
-            // $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
-
             // Remove showing class from all breakpoint tabs
             $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs div, [id="background_' + id + '"] .backgroundimages [data-bp*="bg_"]').removeClass('showing');
 
             // Assign showing class to this new breakpoint tab
             $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs [name="bpid_' + bpid + '"] .breakpoint-tab, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"], [id="background_' + id + '"] .backgroundimages [data-bp="bg_' + bpid + '"]').addClass('showing');
 
-            $('[data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
+            $('[id="background_' + id + '"] [data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
 
             // Initiate ckeditor on the initial textarea of this new breakpoint tab
             $('textarea.editor').ckeditor();
 
-            // $('select[name="brands"]').on('change', function () {
-            //     $('input[name="lorr1_' + bpid + '"]').trigger('change');
-            // });
         },
         bgEventListeners: function (id, bpid) {
             $('.backgroundimages .row.showing[data-bp="bg_' + bpid + '"] input[name="lorr1_' + bpid + '"]').on('change', function () {
@@ -1511,7 +1515,6 @@ function bannerObj(el1) {
                         checkImageExists1(this, $(this).val(), bannerObj(id));
                     }
 
-                    // console.log(globals);
                 }
             });
 

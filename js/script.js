@@ -1,30 +1,30 @@
 var globals = {
     brands: {
-        'paulayoung': [{
+        'py': {
             'baseUrl': 'https://www.paulayoung.com',
             'evergagePath': 'py',
             'brandColor': 'rgb(184,117,174)'
-        }],
-        'especiallyyours': [{
+        },
+        'ey': {
             'baseUrl': 'https://www.especiallyyours.com',
             'evergagePath': 'ey',
             'brandColor': 'rgb(23, 95, 180)'
-        }],
-        'thelook': [{
+        },
+        'tl': {
             'baseUrl': 'https://www.thelook.fashion',
             'evergagePath': 'tl',
             'brandColor': 'rgb(0, 93, 166);'
-        }],
-        'wig': [{
+        },
+        'wg': {
             'baseUrl': 'https://www.wig.com',
             'evergagePath': 'wg',
             'brandColor': 'rgb(86, 160, 224);'
-        }],
-        'beyondextensions': [{
+        },
+        'be': {
             'baseUrl': 'https://www.beyondextensions.com',
             'evergagePath': 'be',
             'brandColor': 'rgb(255, 97, 84)'
-        }]
+        }
     },
     selectBrand: '',
     bgDesktopPlaceholder: 'Demo-image-962.png',
@@ -264,7 +264,7 @@ function buttonBehave1(thisBanner) {
     $('[name="update"]').on('click', function (e) {
         e.preventDefault();
         var buttonId = $(e.target).attr('id');
-        console.log(e.target);
+        //console.log(e.target);
 
         if (buttonId == 'textGroups') {
             console.log(this);
@@ -510,31 +510,29 @@ function randomId(min, max) {
 };
 
 function displayOnClickBehavior(behaviorSelected, id) {
-    //$('[id="props_' + id + '"] .row.onclickbehavior .dynamic').html('');
-    console.log(behaviorSelected);
 
     switch (behaviorSelected) {
         case 'fireModal':
             //globals.bannerObjects['banner_' + id].onClickBehaviorForm = modalHTML;
-            fireModal('banner_' + id);
+            fireModal(id);
             $('[id="clickbehavior_' + id + '"] .onclickbehavior').removeClass('showing');
             $('[id="modalHTML_' + id + '"]').addClass('showing');
             break;
         case 'linkToPage':
-            //globals.bannerObjects['banner_' + id].onClickBehaviorForm = linkHMTL;
-            linkToPage('banner_' + id);
+            //globals.bannerObjects[id].onClickBehaviorForm = linkHMTL;
+            linkToPage(id);
             $('[id="clickbehavior_' + id + '"] .onclickbehavior').removeClass('showing');
             $('[id="linkHMTL_' + id + '"]').addClass('showing');
             break;
         case 'linkToAnchor':
-            //globals.bannerObjects['banner_' + id].onClickBehaviorForm = linkAnchorHTML;
-            linkToAnchor('banner_' + id);
+            //globals.bannerObjects[id].onClickBehaviorForm = linkAnchorHTML;
+            linkToAnchor(id);
             $('[id="clickbehavior_' + id + '"] .onclickbehavior').removeClass('showing');
             $('[id="linkAnchorHTML_' + id + '"]').addClass('showing');
             break;
         case 'doNothing':
-            //globals.bannerObjects['banner_' + id].onClickBehaviorForm = doNothing;
-            doNothing('banner_' + id);
+            //globals.bannerObjects[id].onClickBehaviorForm = doNothing;
+            doNothing(id);
             $('[id="clickbehavior_' + id + '"] .onclickbehavior').removeClass('showing');
             $('[id="doNothing_' + id + '"]').addClass('showing');
             break;
@@ -542,37 +540,96 @@ function displayOnClickBehavior(behaviorSelected, id) {
             break;
     }
 
-    $('[id="props_' + id + '"] .row.onclickbehavior .dynamic').append(globals.bannerObjects['banner_' + id].onClickBehaviorForm);
-
     $("input, select, textarea").on('change', function () {
         confirmAllRequiredMet();
     });
 }
 
-function fireModal(banner) {
-    if ($('[id="modal_' + banner + '"].modal')) {
-        $('[id="modal_' + banner + '"].modal').remove();
-    }
+function fireModal(id) {
+    var title,
+        body,
+        footer;
 
-    globals.bannerObjects[banner].onClickBehavior.name = 'fireModal';
-    $('.text-render').append(globals.bannerObjects[banner].onClickBehavior.modal.html(banner));
-    $('.text-render #' + banner).attr('data-toggle', 'modal');
-    $('.text-render #' + banner).attr('data-target', '#modal_' + banner);
+    $('.text-render #banner_' + id).attr('role', 'button');
+    $('.text-render #banner_' + id).removeAttr('onclick');
+    $('.text-render #banner_' + id).css('cursor', 'pointer');
 
-    globals.bannerObjects[banner].onClickBehavior.modal.formSubmitListener(banner);
+    globals.bannerObjects['banner_' + id].onClickBehavior.name = 'fireModal';
+
+    $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
+
+    $('[id="clickbehavior_' + id + '"] #updateOnClick').on('click', function () {
+        if ($('[id="modal_' + id + '"].modal')) {
+            $('[id="modal_' + id + '"].modal').remove();
+            title = $('[id="modalHTML_' + id + '"] input#modalTitle').val() ? $('[id="modalHTML_' + id + '"] input#modalTitle').val() : 'Enter Title text under Click Behavior Settings';
+            body = $('[id="modalHTML_' + id + '"] textarea#modalBody').val() ? $('[id="modalHTML_' + id + '"] textarea#modalBody').val() : 'Enter Body text under Click Behavior Settings';
+            footer = $('[id="modalHTML_' + id + '"] input#modalFooter').val() ? $('[id="modalHTML_' + id + '"] input#modalFooter').val() : 'Enter Footer text under Click Behavior Setting';
+            $('.text-render').append(globals.bannerObjects['banner_' + id].onClickBehavior.modal.html(id, title, body, footer));
+
+            $('.text-render #banner_' + id).attr('data-toggle', 'modal');
+            $('.text-render #banner_' + id).attr('data-target', '#modal_' + id);
+        }
+    });
+}
+
+function linkToPage(id) {
+    var link = '#';
+
+    globals.bannerObjects['banner_' + id].onClickBehavior.name = 'linkToPage';
+
+    $('.text-render #banner_' + id).removeAttr('data-toggle');
+    $('.text-render #banner_' + id).removeAttr('data-target');
+
+    $('.text-render #banner_' + id).attr('role', 'button');
+    $('.text-render #banner_' + id).attr('target', '_blank');
+    $('.text-render #banner_' + id).css('cursor', 'pointer');
+
+    $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
+
+    $('[id="clickbehavior_' + id + '"] #updateOnClick').on('click', function () {
+
+        link = $('[id="clickbehavior_' + id + '"] input#offerLink').val() ? $('[id="clickbehavior_' + id + '"] input#offerLink').val() : '#';
+
+        globals.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.selectBrand].baseUrl + link;
+        $('.text-render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
+    });
 
 }
 
-function linkToPage(banner) {
-    globals.bannerObjects[banner].onClickBehavior.name = 'linkToPage';
+function linkToAnchor(id) {
+    var link = '#';
+
+    globals.bannerObjects['banner_' + id].onClickBehavior.name = 'linkToAnchor';
+
+    $('.text-render #banner_' + id).removeAttr('data-toggle');
+    $('.text-render #banner_' + id).removeAttr('data-target');
+
+    $('.text-render #banner_' + id).attr('role', 'button');
+    $('.text-render #banner_' + id).attr('target', '_blank');
+    $('.text-render #banner_' + id).css('cursor', 'pointer');
+
+    $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
+
+    $('[id="clickbehavior_' + id + '"] #updateOnClick').on('click', function () {
+
+        link = $('[id="clickbehavior_' + id + '"] input#anchorLink').val() ? $('[id="clickbehavior_' + id + '"] input#anchorLink').val() : 'mlTen';
+
+        globals.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.selectBrand].baseUrl + link;
+        $('.text-render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
+    });
 }
 
-function linkToAnchor(banner) {
-    globals.bannerObjects[banner].onClickBehavior.name = 'linkToAnchor';
-}
+function doNothing(id) {
+    globals.bannerObjects['banner_' + id].onClickBehavior.name = 'doNothing';
 
-function doNothing(banner) {
-    globals.bannerObjects[banner].onClickBehavior.name = 'doNothing';
+    $('.text-render #banner_' + id).removeAttr('data-toggle');
+    $('.text-render #banner_' + id).removeAttr('data-target');
+
+    $('.text-render #banner_' + id).attr('role', 'presentation');
+    $('.text-render #banner_' + id).removeAttr('onclick');
+    $('.text-render #banner_' + id).css('cursor', 'none');
+
+    $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'none');
 }
 
 function confirmAllRequiredMet() {
@@ -800,8 +857,6 @@ function edit(thisButton) {
 
 function update(el1, el2) {
 
-
-
     var seriesInputs = $('input[type="text"],input[type="number"]', el1),
         bpid = $(el2).attr('name').substr(-5),
         id = $(el2).parents('[id*="content_"]').attr('id').substr(-4),
@@ -987,6 +1042,8 @@ function bannerCreatorForm(el1) {
             '<div class="row">' +
             '<div class="col-xs-12">' +
             '<legend><h3>Click Behavior Settings</h3></legend>' +
+            '</div>' +
+            '</div>' +
             '<div class="row">' +
             '<div class="col-xs-3">' +
             '<label for="onClickBehavior_' + id + '">Banner OnClick behavior:<span class="required">*</span></label>' +
@@ -1001,10 +1058,8 @@ function bannerCreatorForm(el1) {
             '</select>' +
             '</div>' +
             '</div>' +
-
             '<div class="row">' +
             '<div class="col-xs-12">' +
-
             '<div id="modalHTML_' + id + '" class="row onclickbehavior">' +
             '<div class="col-xs-12">' +
             '<div class="row">' +
@@ -1024,7 +1079,7 @@ function bannerCreatorForm(el1) {
             '<div class="row-fluid enter-text-modal flex-it">' +
             '<label for="modalBody">Modal Body<span class="required">*</span></label>' +
             '<br>' +
-            '<textarea name="modalBody" id="modalBody" cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea>' +
+            '<textarea name="modalBody" id="modalBody" class="editor"  cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea>' +
             '</div>' +
             '<br>' +
             '<div class="row-fluid enter-text-modal flex-it">' +
@@ -1042,21 +1097,15 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
             '</div>' +
-            '<div class="row" style="text-align:right;">' +
-            '<div class="col-xs-12">' +
-            '<button id="bannerModal" name="update" type="button">Update Banner Modal</button>' +
             '</div>' +
             '</div>' +
-            '</div>' +
-            '</div>' +
-
             '<div id="linkHMTL_' + id + '" class="row onclickbehavior">' +
             '<br>' +
             '<div class="col-xs-3">' +
             '<label for="offerLink">Link to another page:<span class="required">*</span></label>' +
             '</div>' +
-            '<div class="col-xs-6">' +
-            '<input id="offerLink" placeholder="/category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
+            '<div class="col-xs-9 input-group1">' +
+            '<span class="input-group-addon1" id="img2label">Choose Brand</span><input id="offerLink" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
             '</div>' +
             '</div>' +
             '<div id="linkAnchorHTML_' + id + '" class="row onclickbehavior">' +
@@ -1064,8 +1113,8 @@ function bannerCreatorForm(el1) {
             '<div class="col-xs-3">' +
             '<label for="anchorLink">Link to point on same page:<span class="required">*</span></label>' +
             '</div>' +
-            '<div class="col-xs-6">' +
-            '<input id="anchorLink" placeholder="#anchor" type="text" required>' +
+            '<div class="col-xs-9 input-group1">' +
+            '<span class="input-group-addon1" id="img2label">Choose Brand</span><input id="anchorLink" placeholder="Ex. /home.do#anchor" type="text" required>' +
             '</div>' +
             '</div>' +
             '<div id="doNothing_' + id + '" class="row onclickbehavior">' +
@@ -1076,9 +1125,14 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
             '</div>' +
+            '<div class="row">' +
+            '<div class="col-xs-12" style="display: flex;justify-content: flex-end;">' +
+            '<button id="updateOnClick" name="update" type="button" style="display:none;">Update onclick</button>' +
+            '</div>' +
             '</div>' +
             '</fieldset>' +
             '</div>',
+
         html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties">' +
             '<div class="row">' +
             '<div class="col-xs-12">' +
@@ -1113,7 +1167,7 @@ function bannerTab(el1) {
 }
 
 function bannerPreview(banner) {
-    var html = '<div id="banner_' + banner.id + '" class="banner trigger" role="button" style="display:block">' +
+    var html = '<div id="banner_' + banner.id + '" class="banner trigger" role="presentation" style="display:block">' +
         '</div><span class="gutter"></span>';
 
     return html;
@@ -1315,45 +1369,27 @@ function bannerObj(el1) {
         onClickBehavior: {
             name: 'doNothing',
             modal: {
-                html: function (id) {
+                html: function (id, title, body, footer) {
                     var modal = '<div id="modal_' + id + '" class="modal fade" tabindex="-1" role="dialog">' +
                         '<div class="modal-dialog" role="document">' +
                         '<div class="modal-content">' +
                         '<div class="modal-header">' +
                         '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-                        '<h4 class="modal-title">' + this.title + '</h4>' +
+                        '<h4 class="modal-title">' + title + '</h4>' +
                         '</div>' +
-                        '<div class="modal-body">' + this.body +
+                        '<div class="modal-body">' + body +
                         '</div>' +
-                        '<div class="modal-footer" style="text-align:left;">' + this.footer +
+                        '<div class="modal-footer" style="text-align:left;">' + footer +
                         '</div>' +
                         '</div>' +
                         '</div>' +
                         '</div>';
 
                     return modal;
-                },
-                formSubmitListener: function (banner) {
-                    console.log(globals);
-                    var id = $('#' + banner).attr('id').substr(-4);
-                    var collection = document.querySelectorAll('input');
-
-                    console.log($('.modal'));
-                    console.log(collection);
-
-                    $('#bannerModal').on('click', function () {
-                        console.log(globals);
-                        this.title = $('[id="clickbehavior_' + id + '"] input#modalTitle').val();
-                        this.body = $('[id="clickbehavior_' + id + '"] input#modalBody').val();
-                        this.footer = $('[id="clickbehavior_' + id + '"] input#modalFooter').val();
-                    });
-                },
-                title: 'Enter Title text under Click Behavior Settings',
-                body: 'Enter Body text under Click Behavior Settings',
-                footer: 'Enter Footer text under Click Behavior Settings'
+                }
             },
-            anchor: '#',
-            link: '#'
+            link: '#',
+            anchor: '#'
         },
         bp: function (number) {
             this.css.breakpoints['bpid_' + number] = {
@@ -1451,6 +1487,9 @@ function bannerObj(el1) {
                         }
                     });
                 }
+
+                $('[id="clickbehavior_' + id + '"] span.input-group-addon1').text(globals.brands[globals.selectBrand].baseUrl);
+
                 $(".input-group1").removeClass("found notfound");
                 $(".input-group1").next('.error').prop('hidden', true);
 

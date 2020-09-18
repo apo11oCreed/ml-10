@@ -27,6 +27,10 @@ var globals = {
         }
     },
     selectBrand: '',
+    get selectBrandPath(){
+        var path=this.selectBrand==''?'Choose Brand':this.brands[this.selectBrand].baseUrl;
+        return path;
+    },
     bgDesktopPlaceholder: 'Demo-image-962.png',
     bgMobilePlaceholder: 'Demo-image-575.png',
     maxBannerNumber: 4,
@@ -35,7 +39,7 @@ var globals = {
     stackbreakpoint: '575',
     buildStyles: function (elObject) {
         var stackbreakpoint = this.stackbreakpoint = '' || this.stackbreakpoint < 1 ? '575' : this.stackbreakpoint,
-            styles = '.row .render{display:flex; flex-direction: row;}@media all and (max-width:' + stackbreakpoint + 'px){.row .render{flex-direction: column;}}.banner{width:100%;}';
+            styles = '#rendering.row .section-offer-content.col-xs-12 .row .render{display:flex; flex-direction: row;}@media all and (max-width:' + stackbreakpoint + 'px){.row .render{flex-direction: column;}}.banner{width:100%;}';
         for (x in Object.values(elObject)) {
             var id = Object.values(elObject)[x]['id'],
                 hex = Object.values(elObject)[x]['hex'],
@@ -68,7 +72,9 @@ var globals = {
         styles += '.modal{padding-right:0px!important;}@media all and (max-width:' + stackbreakpoint + 'px){.modal-dialog{width:auto; margin: 30px auto;}}.gutter{padding:0 2px 0 0;}@media all and (max-width:' + stackbreakpoint + 'px){.gutter{padding:0 0 2px 0;}}.gutter:last-child{display:none;}'
 
         return styles;
-    }
+    },
+    exportcss:'',
+    exporthtml:''
 },
     bannerTabsLegend = '<legend>' +
         '<h3>Banners</h3>' +
@@ -217,10 +223,10 @@ function buttonBehave1(thisBanner) {
     });
 
     // validation event
-    $('input, select, textarea').on('change', function () {
+    // $('input, select, textarea').on('change', function () {
 
-        confirmAllRequiredMet();
-    });
+    //     confirmAllRequiredMet();
+    // });
 
     // Drop Shadow
     $('select[name="dShadow"]').on('change', function () {
@@ -398,10 +404,38 @@ function checkImageExists1(el, url, banner) {
 function exportCode1(type) {
     switch (type) {
         case 'exporthtml':
-            htmlExport1();
+            if($('#rendering .section-offer-content .row .render').html()){
+                htmlExport1();
+                if(globals.exporthtml){
+                    delete globals.exporthtml
+                globals['exporthtml']=$('#rendering .section-offer-content .row .render').html();
+                } else {
+                    globals['exporthtml']=$('#rendering .section-offer-content .row .render').html();
+                }
+                $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
+                    $(this).remove();
+                });
+                console.log(globals);
+            } else {
+                alert('Banners have not been created.');
+            }          
             break;
         case 'exportcss':
-            styleExport1();
+            if($('style#banners').html()){
+                styleExport1();
+                if(globals.exportcss){
+                    delete globals.exportcss;
+                globals['exportcss']=$('style#banners').html();
+                } else {
+                    globals['exportcss']=$('style#banners').html();
+                }
+                $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
+                    $(this).remove();
+                });
+                console.log(globals);
+            } else {
+                alert('Banners have not been created');
+            } 
             break;
         default:
             break;
@@ -411,7 +445,7 @@ function exportCode1(type) {
 function styleExport1() {
     // Form the CSS
     var css = `section.section-offer { position: relative; width: 100%; } section.section-offer h2 { margin: 0; } section.section-offer img { height: auto; width: 100%; } @media screen and (min-width:576px) { section.py-shadow-b-lrg { box-shadow: 0 12px 9px -9px #aaa; } } @media screen and (max-width:575px) { section.py-shadow-b-sml { box-shadow: 0 12px 9px -9px #aaa; } }`;
-    var html = "<textarea>" + css + "</textarea>";
+    var html = "<textarea>" + $('style#banners').html() + "</textarea>";
     html += '<div class="faux-footer"><button class="copy btn btn-default">Copy To Clipboard</button></div>';
     msgBox1(html, "CSS Export");
 }
@@ -419,45 +453,45 @@ function styleExport1() {
 function htmlExport1() {
     // Clone the html to a non visible area
     $('body').append('<div class="noSeeCode"></div>');
-    $('.faux-website-container .container section').clone().appendTo('.noSeeCode');
+    $('#rendering .section-offer-content .row .render').clone().appendTo('.noSeeCode');
 
     // Change out all the dummy sections for user input
     // Heading
     //$(".noSeeCode img#section-offer-img").attr("alt", $("input[type='text'][name='heading']").val().replace(/'/g, '').replace(/"/g, ''));
 
     // Img
-    var bgDesktopsrc = imgURL1($('.imgaddress[name*="bgDesktop_"]'), false);
-    var bgMobilesrc = imgURL1($('.imgaddress[name*="bgMobile_"]'), false);
+    //var bgDesktopsrc = imgURL1($('.imgaddress[name*="bgDesktop_"]'), false);
+    //var bgMobilesrc = imgURL1($('.imgaddress[name*="bgMobile_"]'), false);
     // source 962
-    $('.noSeeCode picture source[media*="576"]').attr('srcset', bgDesktopsrc);
+    //$('.noSeeCode picture source[media*="576"]').attr('srcset', bgDesktopsrc);
     // source 575
-    $('.noSeeCode picture source[media*="575"]').attr('srcset', bgMobilesrc);
+    //$('.noSeeCode picture source[media*="575"]').attr('srcset', bgMobilesrc);
     // default src and data-srcset
-    $('.noSeeCode img#section-offer-img').attr('src', bgDesktopsrc).attr('data-srcset', bgMobilesrc);
+    //$('.noSeeCode img#section-offer-img').attr('src', bgDesktopsrc).attr('data-srcset', bgMobilesrc);
 
     // Body
-    if ($('input[type="checkbox"][name="body"]:checked').length == 1)
-        $('.noSeeCode .body').text($('textarea[name="body"]').val());
-    else
-        $('.noSeeCode .body').remove();
+    // if ($('input[type="checkbox"][name="body"]:checked').length == 1)
+    //     $('.noSeeCode .body').text($('textarea[name="body"]').val());
+    // else
+    //     $('.noSeeCode .body').remove();
 
     // Coupon
-    if ($('input[type="checkbox"][name="coupon"]:checked').length == 1)
-        $('.noSeeCode .coupon').text($('input[type="text"][name="coupon"]').val());
-    else
-        $('.noSeeCode .coupon').remove();
+    // if ($('input[type="checkbox"][name="coupon"]:checked').length == 1)
+    //     $('.noSeeCode .coupon').text($('input[type="text"][name="coupon"]').val());
+    // else
+    //     $('.noSeeCode .coupon').remove();
 
     // If no Body or Coupon, remove aria-describedby and offer-description
-    if ($('input[type="checkbox"][name="body"]:checked').length == 0 && $('input[type="checkbox"][name="coupon"]:checked').length == 0) {
-        $('.noSeeCode #offer-description').remove();
-        $('.noSeeCode img#section-offer-img').removeAttr('aria-describedby');
-    }
+    // if ($('input[type="checkbox"][name="body"]:checked').length == 0 && $('input[type="checkbox"][name="coupon"]:checked').length == 0) {
+    //     $('.noSeeCode #offer-description').remove();
+    //     $('.noSeeCode img#section-offer-img').removeAttr('aria-describedby');
+    // }
 
     // 'a' href
-    $('.noSeeCode a').attr('href', $('input[type="text"][name="href"]').val());
+    //$('.noSeeCode a').attr('href', $('input[type="text"][name="href"]').val());
 
     // Remove href target
-    $('.noSeeCode a').removeAttr('target');
+    //$('.noSeeCode a').removeAttr('target');
 
     var html = '<textarea>' + escapeHTML1($('.noSeeCode')[0].innerHTML) + '</textarea>';
     html += '<div class="faux-footer"><button class="copy btn btn-default">Copy To Clipboard</button></div>';
@@ -670,26 +704,26 @@ function doNothing(id) {
     $(embedstyles).append(globals.buildStyles(globals.bannerObjects));
 }
 
-function confirmAllRequiredMet() {
+// function confirmAllRequiredMet() {
 
-    var invalids = [],
-        valids = [],
-        allRequireds = $(':required');
+//     var invalids = [],
+//         valids = [],
+//         allRequireds = $(':required');
 
-    for (var j = 0; j < allRequireds.length; j++) {
-        if (allRequireds[j].value == '') {
-            invalids.push(Number(j) + ':' + allRequireds[j].getAttribute('id'));
-        } else {
-            valids.push(Number(j) + ':' + allRequireds[j].getAttribute('id'));
-        }
-    }
+//     for (var j = 0; j < allRequireds.length; j++) {
+//         if (allRequireds[j].value == '') {
+//             invalids.push(Number(j) + ':' + allRequireds[j].getAttribute('id'));
+//         } else {
+//             valids.push(Number(j) + ':' + allRequireds[j].getAttribute('id'));
+//         }
+//     }
 
-    if (invalids.length < 1) {
-        $('button[name="exporthtml"],button[name="exportcss"]').prop('disabled', false);
-    } else {
-        $('button[name="exporthtml"],button[name="exportcss"]').prop('disabled', true);
-    }
-}
+//     if (invalids.length < 1) {
+//         $('button[name="exporthtml"],button[name="exportcss"]').prop('disabled', false);
+//     } else {
+//         $('button[name="exporthtml"],button[name="exportcss"]').prop('disabled', true);
+//     }
+// }
 
 function show(thisButton) {
     var dataDomain = $(thisButton).closest('[data-domain]').data('domain'),
@@ -991,14 +1025,10 @@ function update(el1, el2) {
 
 function bannerCreatorForm(el1) {
     var id = el1.id,
-        content = '<div class="row">' +
+        content = '<div class="row-fluid">' +
             '<fieldset id="content_' + id + '" class="col-xs-12">' +
-            '<div class="row">' +
-            '<div class="col-xs-12">' +
             '<legend><h3>Breakpoints</h3></legend>' +
-            '</div>' +
-            '</div>' +
-            '<div class="row">' +
+            '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
             '<p>' +
             '<br>Hover over <b>[ |A ]</b> button(s) to view breakpoint toolbar.' +
@@ -1034,32 +1064,28 @@ function bannerCreatorForm(el1) {
             '</fieldset>' +
             '</div>',
 
-        background = '<div class="row">' +
+        background = '<div class="row-fluid">' +
             '<fieldset id="background_' + id + '" class="col-xs-12">' +
-            '<div class="row">' +
-            '<div class="col-xs-12">' +
             '<legend> <h3>Background Settings</h3> </legend>' +
-            '</div>' +
-            '</div>' +
-            '<div class="row">' +
+            '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
             '<h5>BREAKPOINT</h5>' +
             '</div>' +
             '</div>' +
-            '<div class="row" data-domain="backgroundimg">' +
+            '<div class="row-fluid" data-domain="backgroundimg">' +
             '</div>' +
-            '<div class="row">' +
+            '<div class="row-fluid">' +
             '<div class="col-xs-12 backgroundimages">' +
             '</div>' +
             '</div>' +
-            '<div class="row">' +
+            '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
             '<h5>BANNER</h5>' +
             '</div>' +
             '</div>' +
-            '<div class="row">' +
+            '<div class="row-fluid">' +
             '<div class="col-xs-3">' +
-            '<label for="bgColor">Banner background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label><span class="required">*</span>' +
+            '<label for="bgColor">Banner background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label>' +
             '</div>' +
             '<div class="col-xs-6 input-group1">' +
             '<span class="input-group-addon1" id="img2label">R</span> <input id="r_bg' + id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" min="0" max="250" required>' +
@@ -1075,16 +1101,12 @@ function bannerCreatorForm(el1) {
             '</fieldset>' +
             '</div>',
 
-        clickbehavior = '<div class="row">' +
+        clickbehavior = '<div class="row-fluid">' +
             '<fieldset id="clickbehavior_' + id + '" class="col-xs-12">' +
-            '<div class="row">' +
-            '<div class="col-xs-12">' +
             '<legend><h3>Click Behavior Settings</h3></legend>' +
-            '</div>' +
-            '</div>' +
-            '<div class="row">' +
+            '<div class="row-fluid">' +
             '<div class="col-xs-3">' +
-            '<label for="onClickBehavior_' + id + '">Banner OnClick behavior:<span class="required">*</span></label>' +
+            '<label for="onClickBehavior_' + id + '">Banner OnClick behavior:</label>' +
             '</div>' +
             '<div class="col-xs-2">' +
             '<select name="onClickBehavior" id="onClickBehavior_' + id + '" required>' +
@@ -1096,17 +1118,17 @@ function bannerCreatorForm(el1) {
             '</select>' +
             '</div>' +
             '</div>' +
-            '<div class="row">' +
+            '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
-            '<div id="modalHTML_' + id + '" class="row onclickbehavior">' +
+            '<div id="modalHTML_' + id + '" class="row-fluid onclickbehavior">' +
             '<div class="col-xs-12">' +
-            '<div class="row">' +
+            '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
             '<h4>Modal</h4>' +
             '</div>' +
             '</div>' +
             '<hr>' +
-            '<div class="row">' +
+            '<div class="row-fluid">' +
             '<div class="col-xs-6">' +
             '<div class="row-fluid enter-text-modal flex-it">' +
             '<label for="modalTitle">Modal Title</label>' +
@@ -1115,7 +1137,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '<br>' +
             '<div class="row-fluid enter-text-modal flex-it">' +
-            '<label for="modalBody">Modal Body<span class="required">*</span></label>' +
+            '<label for="modalBody">Modal Body</label>' +
             '<br>' +
             '<textarea name="modalBody" id="modalBody" class="editor"  cols="50" rows="10" placeholder="Free shipping offer excludes&hellip; Not valid in conjuction with any other offer." required></textarea>' +
             '</div>' +
@@ -1137,25 +1159,25 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
             '</div>' +
-            '<div id="linkHMTL_' + id + '" class="row onclickbehavior">' +
+            '<div id="linkHMTL_' + id + '" class="row-fluid onclickbehavior">' +
             '<br>' +
             '<div class="col-xs-3">' +
-            '<label for="offerLink">Link to another page:<span class="required">*</span></label>' +
+            '<label for="offerLink">Link to another page:</label>' +
             '</div>' +
             '<div class="col-xs-9 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">Choose Brand</span><input id="offerLink" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
+            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="offerLink" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
             '</div>' +
             '</div>' +
-            '<div id="linkAnchorHTML_' + id + '" class="row onclickbehavior">' +
+            '<div id="linkAnchorHTML_' + id + '" class="row-fluid onclickbehavior">' +
             '<br>' +
             '<div class="col-xs-3">' +
-            '<label for="anchorLink">Link to point on same page:<span class="required">*</span></label>' +
+            '<label for="anchorLink">Link to point on same page:</label>' +
             '</div>' +
             '<div class="col-xs-9 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">Choose Brand</span><input id="anchorLink" placeholder="Ex. /home.do#anchor" type="text" required>' +
+            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="anchorLink" placeholder="Ex. /home.do#anchor" type="text" required>' +
             '</div>' +
             '</div>' +
-            '<div id="doNothing_' + id + '" class="row onclickbehavior">' +
+            '<div id="doNothing_' + id + '" class="row-fluid onclickbehavior">' +
             '<br>' +
             '<div class="col-xs-12">' +
             '<p>This will be a static banner.</p>' +
@@ -1172,15 +1194,11 @@ function bannerCreatorForm(el1) {
             '</div>',
 
         html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties">' +
-            '<div class="row">' +
-            '<div class="col-xs-12">' +
             '<legend>' +
             '<h2>' +
             '<span class="txtPlaceholder"></span>Properties' +
             '</h2>' +
             '</legend>' +
-            '</div>' +
-            '</div>' +
             content +
             background +
             clickbehavior +
@@ -1298,7 +1316,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '<div class="row" data-bp="bgimg_' + bpid + '">' +
 
             '<div class="col-xs-3">' +
-            '<label for="bgimg_' + bpid + '">Breakpoint <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '<label for="bgimg_' + bpid + '">Breakpoint <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="desktop" aria-hidden="true"></span>:</label>' +
             '</div>' +
 
             '<div class="col-xs-3 input-group1">' +
@@ -1313,7 +1331,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
 
             '<div class="col-xs-3">' +
 
-            '<label for="width_' + bpid + '">Width for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="width" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '<label for="width_' + bpid + '">Width for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="width" aria-hidden="true"></span>:</label>' +
             '</div>' +
 
             '<div class="col-xs-1">' +
@@ -1321,7 +1339,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '</div>' +
 
             '<div class="col-xs-3">' +
-            '<label for="height_' + bpid + '">Height for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="height" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '<label for="height_' + bpid + '">Height for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="height" aria-hidden="true"></span>:</label>' +
             '</div>' +
 
             '<div class="col-xs-1">' +
@@ -1334,7 +1352,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
 
             '<div class="col-xs-3">' +
 
-            '<label for="x_' + bpid + '">X position for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="xpos" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '<label for="x_' + bpid + '">X position for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="xpos" aria-hidden="true"></span>:</label>' +
             '</div>' +
 
             '<div class="col-xs-1">' +
@@ -1342,7 +1360,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '</div>' +
 
             '<div class="col-xs-3">' +
-            '<label for="y_' + bpid + '">Y position for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="ypos" aria-hidden="true"></span>:<span class="required">*</span></label>' +
+            '<label for="y_' + bpid + '">Y position for <b class="bpName">' + name + '</b> background image <span class="help1 glyphicon glyphicon-question-sign" data-help="ypos" aria-hidden="true"></span>:</label>' +
             '</div>' +
 
             '<div class="col-xs-1">' +

@@ -669,3 +669,44 @@ h2 .tab-visible{
 			align-items: center;
     line-height: 100%;
 }
+
+span.vertical{
+	width:20px;
+	display:inline-flex;
+	flex-direction: column;
+	text-align:center;
+	justify-content: center;
+}
+
+/* span.vertical:after{
+	content:'=====';
+	letter-spacing: -10px;
+	font-weight:700;
+} */
+
+/* #stackingBreakpoint p {
+	display:flex;
+	align-items:center;
+}
+
+span.vertical,span.horizontal{
+	display:inline-block;
+}
+
+span.vertical > span,span.horizontal > span{
+	display:flex;
+	justify-content: space-between;
+}
+
+span.vertical > span{
+	flex-direction:column;
+	height: 10px;
+	width: 10px;
+}
+
+span.horizontal > span{
+	flex-direction:row;
+	align-items: center;
+	height: 10px;
+	width: 36px;
+} */

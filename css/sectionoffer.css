@@ -640,7 +640,7 @@ h2 .tab-visible{
 	display:none;
 }
 
-.backgroundimages [data-bp*="bg_"]{
+.backgroundimage [data-bp*="bg_"]{
 	display:none;
 }
 
@@ -648,7 +648,7 @@ h2 .tab-visible{
 	display:none;
 }
 
-.banner-properties.showing, .content p.showing, [id*="background_"] .row.showing, .onclickbehavior.showing {
+.banner-properties.showing, .content p.showing, [id*="content_"] .row.showing, .onclickbehavior.showing {
 	display:block;
 }
 

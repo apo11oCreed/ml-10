@@ -128,6 +128,32 @@ function coreBehaviors() {
         exportCode1(type);
     });
 
+    $("button[name='importjson']").on("click", function () {
+
+        msgBox1(importjsonForm(), 'Import JSON');
+
+        console.log(globals);
+
+        $('button#UpdateJSON').on('click', function () {
+            globals.bannerObjects = JSON.parse($('textarea#pastedjson').val());
+            console.log(globals);
+            for (items in globals.bannerObjects) {
+                // globals.bannerObjects[items][this.thisBannerBgSettingsExtended(this.id, this.bpid)];
+
+                // globals.bannerObjects[items][this.thisBannerExtendedBehaviors(this.id, this.bpid)];
+
+                // globals.bannerObjects[items][this.thisBannerBaseBehaviors(this)];
+
+                console.log(globals.bannerObjects[items]);
+            }
+            $('#msgBox').modal('hide');
+        });
+
+
+
+
+    });
+
     //https://stackoverflow.com/questions/15657686/jquery-event-detect-changes-to-the-html-text-of-a-div
 
     $('button[name="resetall"]').on('click', function () {
@@ -1435,6 +1461,22 @@ function breakpointBackgroundImg(bpName, bannerId) {
 
             '</div>' +
             '</div>';
+
+    return html;
+}
+
+function importjsonForm() {
+    var html = '<div class="row">' +
+        '<div class="col-xs-12">' +
+        '<p>Paste the JSON into the Textarea below. Then, click <b>Submit JSON</b>.</p>' +
+        '<textarea id="pastedjson"></textarea>' +
+        '</div>' +
+        '</div>' +
+        '<div class="row">' +
+        '<div class="col-xs-12" style="text-align:right;">' +
+        '<button id="UpdateJSON" type="button" name="UpdateJSON">Submit JSON</button>' +
+        '</div>' +
+        '</div>';
 
     return html;
 }

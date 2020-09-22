@@ -75,14 +75,7 @@ var globals = {
     },
     exportcss: '',
     exporthtml: ''
-},
-    bannerTabsLegend = '<legend>' +
-        '<h3>Banners</h3>' +
-        '</legend>' +
-        '<p>Click on the <b>[ |A ]</b> button to edit the name of the banner and to display the banner\'s properties form.<br>Hover over <b>[ |A ]</b> button(s) to view toolbar.<br>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a banner.</p>' +
-        '</div>' +
-        '</div>' +
-        '<hr>';
+};
 
 $(document).ready(function () {
     var idInit = '',
@@ -92,7 +85,7 @@ $(document).ready(function () {
         $(this).remove();
     });
 
-    $('[id="bannerTabs"]').prepend(bannerTabsLegend);
+    //$('[id="bannerTabs"]').prepend(bannerTabsLegend);
     $('[id="bannerTabs"] .dynamic').append('<div class="row-fluid flex-it" data-domain="tabs"></div>');
 
     // Create new banner object
@@ -105,21 +98,26 @@ $(document).ready(function () {
     // Run the new banner object render function
     globals.bannerObjects['banner_' + idInit].render();
 
+    // When embedded styles have been generated, enable export buttons
     $('body').on('DOMSubtreeModified', 'style#banners', function () {
         $('button[name="exportjson"]').prop('disabled', false);
         $('button[name="exporthtml"]').prop('disabled', false);
         $('button[name="exportcss"]').prop('disabled', false);
     });
 
-    $('button[name="exportjson"]').on('click', function () {
-
-    });
-
     //https://stackoverflow.com/questions/15657686/jquery-event-detect-changes-to-the-html-text-of-a-div
 
     $('button[name="resetall"]').on('click', function () {
 
-        $('[id="bannerTabs"] .dynamic .row-fluid.flex-it, #properties.row .dynamic, .render').html('');
+        // Remove banner tabs, banner property forms, embedded styles, rendered banners
+        $('#bannerTabs .dynamic .row-fluid.flex-it, #properties .dynamic, style#banners, .render').html('');
+
+        // Since embedded styles now removed, disable export buttons
+        $('button[name="exportjson"]').prop('disabled', true);
+        $('button[name="exporthtml"]').prop('disabled', true);
+        $('button[name="exportcss"]').prop('disabled', true);
+
+        // Empty out banner objects
         globals.bannerObjects = {};
 
         // Create new banner object
@@ -596,9 +594,10 @@ function displayOnClickBehavior(behaviorSelected, id) {
             //globals.bannerObjects[id].onClickBehaviorForm = doNothing;
             //doNothing(id);
             $('[id="doNothing_' + id + '"]').addClass('showing');
-            $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'none');
+            $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
             break;
         default:
+            $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'none');
             break;
     }
 }
@@ -1583,9 +1582,10 @@ function bannerObj(el1) {
             // Assign showing class to this new breakpoint tab
             $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs [name="bpid_' + bpid + '"] .breakpoint-tab, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"], [id="content_' + id + '"] .backgroundimage [data-bp="bg_' + bpid + '"]').addClass('showing');
 
+            // Init background image source to local
             $('[id="content_' + id + '"] [data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
 
-            // Initiate ckeditor on the initial textarea of this new breakpoint tab
+            // Init ckeditor on the initial textarea of this new breakpoint tab
             $('textarea.editor').ckeditor();
 
         },
@@ -1726,7 +1726,7 @@ function bannerObj(el1) {
 
             this.bgEventListeners(this.id, bpid);
 
-            this.buttonBehave();
+            this.buttonBehave(this);
         }
     }
     return obj;

@@ -1,4 +1,7 @@
 var globals = {
+    campaign: function (el) {
+        return el == '' ? 'campaign' : el;
+    },
     brands: {
         'py': {
             'baseUrl': 'https://www.paulayoung.com',
@@ -101,6 +104,11 @@ $(document).ready(function () {
 });
 
 function coreBehaviors() {
+    // When brand selected/changed, update all address fields
+    $('input#campaignName').on('focusout', function () {
+        globals.campaign($(this).val());
+    });
+
     // When brand selected/changed, update all address fields
     $('select[name="brands"]').on('change', function () {
         globals.selectBrand = $(':selected', this).val();
@@ -411,15 +419,15 @@ function exportCode1(type) {
 
 function jsonExport1() {
     // Form the CSS
-    var html = "<textarea>" + JSON.stringify(globals.bannerObjects) + "</textarea>";
-    html += '<div class="faux-footer"><button class="copy btn btn-default">Copy To Clipboard</button></div>';
+    var html = "<textarea id='export'>" + JSON.stringify(globals.bannerObjects) + "</textarea>";
+    html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button><button onClick="saveToJson();" class="save btn btn-default">Save as JSON</button></div>';
     msgBox1(html, "JSON Export");
 }
 
 function styleExport1() {
     // Form the CSS
-    var html = "<textarea>" + $('style#banners').html() + "</textarea>";
-    html += '<div class="faux-footer"><button class="copy btn btn-default">Copy To Clipboard</button></div>';
+    var html = "<textarea id='export'>" + $('style#banners').html() + "</textarea>";
+    html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button></div>';
     msgBox1(html, "CSS Export");
 }
 
@@ -466,8 +474,8 @@ function htmlExport1() {
     // Remove href target
     //$('.noSeeCode a').removeAttr('target');
 
-    var html = '<textarea>' + escapeHTML1($('.noSeeCode')[0].innerHTML) + '</textarea>';
-    html += '<div class="faux-footer"><button class="copy btn btn-default">Copy To Clipboard</button></div>';
+    var html = '<textarea id="export">' + escapeHTML1($('.noSeeCode')[0].innerHTML) + '</textarea>';
+    html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button></div>';
     msgBox1(html, 'HTML Export');
 
     // Clean up any empty lines in the textarea
@@ -1035,6 +1043,21 @@ function rgbToHex(r, g, b) {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 //https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+
+function saveToJson() {
+    var text = $("#export").val();
+    //var filename = $("#input-fileName").val();
+    var filename = globals.campaign($('input#campaignName').val());
+    var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, filename + ".json");
+}
+
+function copyToClipBoard() {
+    var text = document.getElementById('export');
+    text.select();
+    text.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+}
 
 function updateStyles() {
     var embedstyles = $('style#banners');

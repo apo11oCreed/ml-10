@@ -678,6 +678,25 @@ span.vertical{
 	justify-content: center;
 }
 
+.field-unit{
+	display:flex;
+	align-items:flex-end;
+}
+
+.field-group .row {
+	margin-bottom:1rem;
+	display:flex;
+	flex-direction: row;
+	align-items:flex-end;
+}
+
+input + span{
+	padding:0 15px;
+}
+
+label{
+	margin-bottom:0;
+}
 /* span.vertical:after{
 	content:'=====';
 	letter-spacing: -10px;

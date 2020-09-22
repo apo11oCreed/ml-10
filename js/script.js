@@ -173,14 +173,11 @@ function coreBehaviors() {
     $('button#stackingBpUpdate').on('click', function (e) {
         e.preventDefault();
 
-        if (buttonId == 'stackingBpUpdate') {
-            // Update to stacking breakpoint triggers update to global object and embedded stylesheet
+        // Update to stacking breakpoint triggers update to global object and embedded stylesheet
 
-            globals.stackbreakpoint = $('input#stackingBp').val();
+        globals.stackbreakpoint = $('input#stackingBp').val();
 
-            updateStyles();
-
-        }
+        updateStyles();
     });
 }
 
@@ -601,9 +598,9 @@ function assignOnClickBehavior(id) {
         link = $('[id="clickbehavior_' + id + '"] input#offerLink').val() ? $('[id="clickbehavior_' + id + '"] input#offerLink').val() : '#';
 
         if (globals.selectBrand == '') {
-            $('[id="clickbehavior_' + id + '"] input#offerLink').css('border', '1px solid red');
+            $('[id="clickbehavior_' + id + '"] input#offerLink.form-control1').addClass('error');
         } else {
-            $('[id="clickbehavior_' + id + '"] input#offerLink').css('border', '1px solid #ddd');
+            $('[id="clickbehavior_' + id + '"] input#offerLink.form-control1').removeClass('error');
             globals.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.selectBrand].baseUrl + link;
             $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
         }
@@ -623,9 +620,9 @@ function assignOnClickBehavior(id) {
         link = $('[id="clickbehavior_' + id + '"] input#anchorLink').val() ? $('[id="clickbehavior_' + id + '"] input#anchorLink').val() : 'mlTen';
 
         if (globals.selectBrand == '') {
-            $('[id="clickbehavior_' + id + '"] input#anchorLink').css('border', '1px solid red');
+            $('[id="clickbehavior_' + id + '"] input#anchorLink.form-control1').addClass('error');
         } else {
-            $('[id="clickbehavior_' + id + '"] input#anchorLink').css('border', '1px solid #ddd');
+            $('[id="clickbehavior_' + id + '"] input#anchorLink.form-control1').removeClass('error');
             globals.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.selectBrand].baseUrl + link;
             $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
         }
@@ -1210,7 +1207,7 @@ function bannerCreatorForm(el1) {
             '<label for="offerLink">Link to another page:</label>' +
             '</div>' +
             '<div class="col-xs-9 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="offerLink" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
+            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="offerLink" class="form-control1" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
             '</div>' +
             '</div>' +
             '<div id="linkAnchorHTML_' + id + '" class="row-fluid onclickbehavior" name="linkAnchorHTML">' +
@@ -1219,7 +1216,7 @@ function bannerCreatorForm(el1) {
             '<label for="anchorLink">Link to point on same page:</label>' +
             '</div>' +
             '<div class="col-xs-9 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="anchorLink" placeholder="Ex. /home.do#anchor" type="text" required>' +
+            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="anchorLink" class="form-control1" placeholder="Ex. /home.do#anchor" type="text" required>' +
             '</div>' +
             '</div>' +
             '<div id="doNothing_' + id + '" class="row-fluid onclickbehavior" name="doNothing">' +
@@ -1541,6 +1538,7 @@ function bannerObj(el1) {
                 globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $('input[name="lorr1_' + bpid + '"]:checked').val();
 
                 if (globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'local') {
+                    $('[data-bp="bg_' + bpid + '"] input.form-control1').removeClass('error');
 
                     globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = 'local';
 
@@ -1562,29 +1560,36 @@ function bannerObj(el1) {
 
                 } else if (globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'remote') {
 
-                    globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = 'remote';
+                    if (globals.selectBrand == '') {
+                        $('[data-bp="bg_' + bpid + '"] input.form-control1').addClass('error');
+                    } else {
+                        $('[data-bp="bg_' + bpid + '"] input.form-control1').removeClass('error');
 
-                    $('input[name*="bg"]').each(function () {
-                        var curr = $(this).val();
-                        if (curr !== '') {
-                            $(this).attr('data-local', curr);
-                        }
+                        $('[data-bp="bg_' + bpid + '"] input.form-control1').text(globals.brands[globals.selectBrand].baseUrl);
 
-                        if ($(this).data('remote')) {
-                            $(this).val($(this).data('remote'));
-                        }
+                        globals.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = 'remote';
 
-                        if ($('select[name="brands"]').val() == '') {
-                            $(this).val('').attr('placeholder', 'Select a brand');
-                            $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('Remote');
-                        } else {
-                            $(this).val('').attr('placeholder', 'Enter Filename...');
-                            $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('/images/evergage/' + globals.selectBrand + '/');
-                        }
-                    });
+                        $('input[name*="bg"]').each(function () {
+                            var curr = $(this).val();
+                            if (curr !== '') {
+                                $(this).attr('data-local', curr);
+                            }
+
+                            if ($(this).data('remote')) {
+                                $(this).val($(this).data('remote'));
+                            }
+
+                            if ($('select[name="brands"]').val() == '') {
+                                $(this).val('').attr('placeholder', 'Select a brand');
+                                $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('Remote');
+                            } else {
+                                $(this).val('').attr('placeholder', 'Enter Filename...');
+                                $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('/images/evergage/' + globals.selectBrand + '/');
+                            }
+                        });
+                    }
+
                 }
-
-                $('[id="clickbehavior_' + id + '"] span.input-group-addon1').text(globals.brands[globals.selectBrand].baseUrl);
 
                 $(".input-group1").removeClass("found notfound");
                 $(".input-group1").next('.error').prop('hidden', true);

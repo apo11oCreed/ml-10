@@ -697,6 +697,10 @@ input + span{
 label{
 	margin-bottom:0;
 }
+
+.form-control1.error {
+border:red solid 1px;
+}
 /* span.vertical:after{
 	content:'=====';
 	letter-spacing: -10px;

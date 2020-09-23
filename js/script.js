@@ -127,15 +127,17 @@ $(document).ready(function () {
             console.log(globals);
 
             $('button#UpdateJSON').on('click', function () {
-                globals.campaign.bannerObjects = JSON.parse($('textarea#pastedjson').val());
+                globals.campaign = JSON.parse($('textarea#pastedjson').val());
 
                 $('#campaign .col-xs-12').html('');
 
                 $('#campaign .col-xs-12').append(sections);
 
-                coreBehaviors();
-
                 $('#msgBox').modal('hide');
+
+                processJSON(globals.campaign);
+
+                coreBehaviors();
             });
         }
 
@@ -143,6 +145,10 @@ $(document).ready(function () {
 
 
 });
+
+function processJSON(obj) {
+    $('input#campaignName').val(obj.name);
+}
 
 function coreBehaviors() {
     // When brand selected/changed, update all address fields
@@ -460,6 +466,8 @@ function exportCode1(type) {
 
 function jsonExport1() {
     // Form the CSS
+    globals.campaign.evergagecss = $('style#banners').html();
+    globals.campaign.evergagehtml = $('#rendering .section-offer-content .row .render').html();
     var html = "<textarea id='export'>" + JSON.stringify(globals.campaign) + "</textarea>";
     html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button><button onClick="saveToJson();" class="save btn btn-default">Save as JSON</button></div>';
     msgBox1(html, "JSON Export");

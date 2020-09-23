@@ -122,16 +122,16 @@ $(document).ready(function () {
 
         } else {
 
-            $('#campaign .col-xs-12').html('');
-
-            $('#campaign .col-xs-12').append(sections);
-
             msgBox1(importjsonForm(), 'Import JSON');
 
             console.log(globals);
 
             $('button#UpdateJSON').on('click', function () {
                 globals.campaign.bannerObjects = JSON.parse($('textarea#pastedjson').val());
+
+                $('#campaign .col-xs-12').html('');
+
+                $('#campaign .col-xs-12').append(sections);
 
                 coreBehaviors();
 
@@ -1131,6 +1131,11 @@ function updateStyles() {
 
 function sections() {
     var html = '<br>' +
+        '<div class="row">' +
+        '<p class="col-xs-12">' +
+        '<span class="required">*</span> - Indicates a required field.</p>' +
+        '</div>' +
+        '</div>' +
         '<div id="globals" class="row">' +
         '<fieldset id="globalProperties" class="col-xs-12">' +
         '<legend>' +

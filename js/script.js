@@ -39,6 +39,7 @@ var globals = {
     maxBannerNumber: 4,
     minBannerNumber: 1,
     campaign: {
+        name: 'campaign',
         evergagehtml: '',
         evergagecss: '',
         bannerObjects: {}
@@ -82,9 +83,7 @@ var globals = {
         for (banner in this.campaign.bannerObjects) {
             this.campaign.bannerObjects[banner].render();
         }
-    },
-    css: '',
-    html: ''
+    }
 };
 
 $(document).ready(function () {
@@ -148,7 +147,7 @@ $(document).ready(function () {
 function coreBehaviors() {
     // When brand selected/changed, update all address fields
     $('input#campaignName').on('focusout', function () {
-        globals.campaign($(this).val());
+        globals.campaign.name = ($(this).val());
     });
 
     // When brand selected/changed, update all address fields
@@ -1111,7 +1110,7 @@ function rgbToHex(r, g, b) {
 function saveToJson() {
     var text = $("#export").val();
     //var filename = $("#input-fileName").val();
-    var filename = globals.campaign($('input#campaignName').val());
+    var filename = globals.campaign.name;
     var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     saveAs(blob, filename + ".json");
 }
@@ -1145,7 +1144,7 @@ function sections() {
         '<label for="brand">Enter your campaign name:<span class="required">*</span></label>' +
         '</div>' +
         '<div class="col-xs-2">' +
-        '<input id="campaignName" type="text" placeholder="Your Campaign Name">' +
+        '<input id="campaignName" type="text" placeholder="' + globals.campaign.name + '" value="' + globals.campaign.name + '">' +
         '</div>' +
         '</div>' +
         '</fieldset>' +

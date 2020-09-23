@@ -46,170 +46,19 @@
                         <form class="row"
                               action="">
                             <div class="col-xs-12">
-                                <div id="actionsArchiving"
+                                <div id="initControls"
                                      class="row">
                                     <br>
                                     <div class="col-xs-12"><button type="button"
+                                                name="newCampaign">New Campaign</button><button type="button"
                                                 name="importjson">Import JSON</button>
                                         <button type="button"
                                                 name="exportjson"
                                                 disabled>Export JSON</button></div>
                                 </div>
-                                <br>
-                                <div id="globals"
+                                <div id="campaign"
                                      class="row">
-                                    <fieldset id="globalProperties"
-                                              class="col-xs-12">
-                                        <legend>
-                                            <h2>Global Attributes</h2>
-                                        </legend>
-                                        <div class="row-fluid">
-                                            <fieldset id="brand"
-                                                      class="col-xs-12">
-                                                <legend>
-                                                    <h3>Campaign</h3>
-                                                </legend>
-                                                <div class="row">
-                                                    <div class="col-xs-2">
-                                                        <label for="brand">Enter your campaign name:<span
-                                                                  class="required">*</span></label>
-                                                    </div>
-                                                    <div class="col-xs-2">
-                                                        <input id="campaignName"
-                                                               type="text"
-                                                               placeholder="Your Campaign Name">
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-
-                                        <div class="row-fluid">
-                                            <fieldset id="brand"
-                                                      class="col-xs-12">
-                                                <legend>
-                                                    <h3>Brand</h3>
-                                                </legend>
-                                                <div class="row">
-                                                    <div class="col-xs-2">
-                                                        <label for="brand">Choose a brand:<span
-                                                                  class="required">*</span></label></div>
-                                                    <div class="col-xs-3">
-                                                        <select name="brands"
-                                                                id="brands"
-                                                                required>
-                                                            <option value="">-- select --</option>
-                                                            <option value="py">Paula Young</option>
-                                                            <option value="ey">Especially Yours</option>
-                                                            <option value="tl">The Look</option>
-                                                            <option value="wg">Wig</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                        <div class="row-fluid">
-                                            <fieldset id="stackingBreakpoint"
-                                                      class="col-xs-12">
-                                                <legend>
-                                                    <h3>Stacking Breakpoint</h3>
-                                                </legend>
-                                                <div class="row">
-                                                    <div class="col-xs-12">
-                                                        <p>Enter the max width whereby the banners will render as a
-                                                            column
-                                                            stack (
-                                                            &nbsp;<span class="vertical"><svg width="10"
-                                                                     height="2">
-                                                                    <rect width="10"
-                                                                          height="2"
-                                                                          style="fill:rgb(0,0,0);stroke-width:0;stroke:rbg(0,0,0);" />
-                                                                </svg><br><svg width="10"
-                                                                     height="2">
-                                                                    <rect width="10"
-                                                                          height="2"
-                                                                          style="fill:rgb(0,0,0);stroke-width:0;stroke:rbg(0,0,0);" />
-                                                                </svg><br><svg width="10"
-                                                                     height="2">
-                                                                    <rect width="10"
-                                                                          height="2"
-                                                                          style="fill:rgb(0,0,0);stroke-width:0;stroke:rbg(0,0,0);" />
-                                                                </svg></span>&nbsp;vs&nbsp;<span
-                                                                  class="vertical"></span>&nbsp;). By default, banners
-                                                            will
-                                                            render as stacked in screenwidths of up to 575px when there
-                                                            is
-                                                            more than one banner.</p>
-                                                    </div>
-
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xs-2">
-                                                        <label for="stackingBp">Enter number:</label></div>
-                                                    <div class="col-xs-3 field-unit"><input id="stackingBp"
-                                                               name="stackingBp"
-                                                               type="number"
-                                                               min="0"
-                                                               placeholder="575"
-                                                               required>
-                                                        <span>px</span>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xs-12"
-                                                         style="text-align:right;">
-                                                        <button id="stackingBpUpdate"
-                                                                type="button"
-                                                                name="update">Update
-                                                            Stacking Breakpoint</button></div>
-                                                </div>
-                                        </div>
-
-                                        <div class="row-fluid">
-                                            <fieldset id="bannerTabs"
-                                                      class="col-xs-12">
-                                                <legend>
-                                                    <h3>Banners</h3>
-                                                </legend>
-                                                <p>Click on the <b>[ |A ]</b> button to edit the name of the banner and
-                                                    to display the banner's properties form.<br>Hover over <b>[ |A ]</b>
-                                                    button(s) to view toolbar.<br>Click on the <b>[ <span
-                                                              style="color:green;">+</span> ]</b></b> button to add
-                                                    another banner.<br>Click on the <b>[ <span
-                                                              style="color:red;">x</span> ]</b> button to remove a
-                                                    banner.</p>
-                                                <hr><span class="dynamic"></span>
-                                            </fieldset>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                                <style id="banners"></style>
-                                <div id="rendering"
-                                     class="row">
-                                    <div class="section-offer-content col-xs-12">
-                                        <div class="row">
-                                            <div class="col-xs-12 render">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="properties"
-                                     class="row">
-                                    <div class="dynamic"></div>
-                                </div>
-                                <br>
-                                <div id="actionsOutput"
-                                     class="row">
-                                    <br>
-                                    <div class="col-xs-12"><button type="button"
-                                                name="exporthtml"
-                                                disabled>Export
-                                            HTML</button>
-                                        <button type="button"
-                                                name="exportcss"
-                                                disabled>Export CSS</button>
-                                        <button id="form-reset"
-                                                type="button"
-                                                name="resetall">Reset</button></div>
+                                    <div class="col-xs-12"></div>
                                 </div>
                         </form>
                     </div>

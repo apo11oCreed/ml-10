@@ -76,7 +76,7 @@ var globals = {
                 styles += media;
             }
         };
-        styles += '.modal{padding-right:0px!important;}@media all and (max-width:' + stackbreakpoint + 'px){.modal-dialog{width:auto; margin: 30px auto;}}.gutter{padding:0 2px 0 0;}@media all and (max-width:' + stackbreakpoint + 'px){.gutter{padding:0 0 2px 0;}}.gutter:last-child{display:none;}';
+        styles += '[id*="modal_"]{padding-right:0px!important;}[id*="modal_"] p{padding:0;margin:0;}[id*="modal_"] .modal-dialog {width:auto;}[id*="modal_"] .modal-dialog .modal-body{padding-top:15px;}@media all and (max-width:' + stackbreakpoint + 'px){.modal-dialog{width:auto; margin: 30px auto;}}.gutter{padding:0 2px 0 0;}@media all and (max-width:' + stackbreakpoint + 'px){.gutter{padding:0 0 2px 0;}}.gutter:last-child{display:none;}';
         return styles;
     },
     render: function () {
@@ -536,7 +536,7 @@ function bannerBaseBehaviors(thisBanner) {
 
                         $.each(newChildElems, function (index, value) {
                             $(this).css({ 'margin': '0', 'padding': '0' });
-                        })
+                        });
                     } else {
 
                         $(inputs[p]).addClass('error');
@@ -620,9 +620,9 @@ function exportCode1(type) {
             htmlExport1();
             if (globals.campaign.evergagehtml) {
                 delete globals.campaign.evergagehtml;
-                globals.campaign['evergagehtml'] = $('#rendering .section-offer-content .row .render').html();
+                globals.campaign['evergagehtml'] = $('#rendering .section-offer-content').html();
             } else {
-                globals.campaign['evergagehtml'] = $('#rendering .section-offer-content .row .render').html();
+                globals.campaign['evergagehtml'] = $('#rendering .section-offer-content').html();
             }
             $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
                 $(this).remove();
@@ -654,7 +654,7 @@ function exportCode1(type) {
 function jsonExport1() {
     // Form the CSS
     globals.campaign.evergagecss = $('style#banners').html();
-    globals.campaign.evergagehtml = $('#rendering .section-offer-content .row .render').html();
+    globals.campaign.evergagehtml = $('#rendering .section-offer-content').html();
     var html = "<textarea id='export'>" + JSON.stringify(globals.campaign) + "</textarea>";
     html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button><button onClick="saveToJson();" class="save btn btn-default">Save as JSON</button></div>';
     console.log(globals.campaign);
@@ -671,7 +671,7 @@ function styleExport1() {
 function htmlExport1() {
     // Clone the html to a non visible area
     $('body').append('<div class="noSeeCode"></div>');
-    $('#rendering .section-offer-content .row .render').clone().appendTo('.noSeeCode');
+    $('#rendering .section-offer-content').clone().appendTo('.noSeeCode');
 
     // Change out all the dummy sections for user input
     // Heading
@@ -1416,8 +1416,8 @@ function sections() {
         '<style id="banners"></style>' +
         '<div id="rendering" class="row">' +
         '<div class="section-offer-content col-xs-12">' +
-        '<div class="row">' +
-        '<div class="col-xs-12 render">' +
+        '<div class="row-fluid">' +
+        '<div class="render">' +
         '</div>' +
         '</div>' +
         '</div>' +

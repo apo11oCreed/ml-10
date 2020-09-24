@@ -1,45 +1,45 @@
 var globals = {
-    campaign: function (el) {
-        return el == '' ? 'campaign' : el;
-    },
-    brands: {
-        'py': {
-            'baseUrl': 'https://www.paulayoung.com',
-            'evergagePath': 'py',
-            'brandColor': 'rgb(184,117,174)'
-        },
-        'ey': {
-            'baseUrl': 'https://www.especiallyyours.com',
-            'evergagePath': 'ey',
-            'brandColor': 'rgb(23, 95, 180)'
-        },
-        'tl': {
-            'baseUrl': 'https://www.thelook.fashion',
-            'evergagePath': 'tl',
-            'brandColor': 'rgb(0, 93, 166);'
-        },
-        'wg': {
-            'baseUrl': 'https://www.wig.com',
-            'evergagePath': 'wg',
-            'brandColor': 'rgb(86, 160, 224);'
-        },
-        'be': {
-            'baseUrl': 'https://www.beyondextensions.com',
-            'evergagePath': 'be',
-            'brandColor': 'rgb(255, 97, 84)'
-        }
-    },
-    selectBrand: '',
-    get selectBrandPath() {
-        var path = this.selectBrand == '' ? 'Choose Brand <span class="required">*</span>' : this.brands[this.selectBrand].baseUrl;
-        return path;
-    },
     bgDesktopPlaceholder: 'Demo-image-962.png',
     bgMobilePlaceholder: 'Demo-image-575.png',
     maxBannerNumber: 4,
     minBannerNumber: 1,
     campaign: {
+        campaign: function (el) {
+            return el == '' ? 'campaign' : el;
+        },
+        brands: {
+            'py': {
+                'baseUrl': 'https://www.paulayoung.com',
+                'evergagePath': 'py',
+                'brandColor': 'rgb(184,117,174)'
+            },
+            'ey': {
+                'baseUrl': 'https://www.especiallyyours.com',
+                'evergagePath': 'ey',
+                'brandColor': 'rgb(23, 95, 180)'
+            },
+            'tl': {
+                'baseUrl': 'https://www.thelook.fashion',
+                'evergagePath': 'tl',
+                'brandColor': 'rgb(0, 93, 166);'
+            },
+            'wg': {
+                'baseUrl': 'https://www.wig.com',
+                'evergagePath': 'wg',
+                'brandColor': 'rgb(86, 160, 224);'
+            },
+            'be': {
+                'baseUrl': 'https://www.beyondextensions.com',
+                'evergagePath': 'be',
+                'brandColor': 'rgb(255, 97, 84)'
+            }
+        },
         name: 'campaign',
+        selectBrand: '',
+        get selectBrandPath() {
+        var path = this.selectBrand == '' ? 'Choose Brand <span class="required">*</span>' : this.brands[this.selectBrand].baseUrl;
+        return path;
+    },
         evergagehtml: '',
         evergagecss: '',
         bannerObjects: {}
@@ -148,6 +148,7 @@ $(document).ready(function () {
 
 function processJSON(obj) {
     $('input#campaignName').val(obj.name);
+    $('select#brands:selected').val(obj.selectBrand);
 }
 
 function coreBehaviors() {
@@ -158,7 +159,7 @@ function coreBehaviors() {
 
     // When brand selected/changed, update all address fields
     $('select[name="brands"]').on('change', function () {
-        globals.selectBrand = $(':selected', this).val();
+        globals.campaign.selectBrand = $(':selected', this).val();
         $('input[name*="lorr1_"]').trigger('change');
     });
 
@@ -345,6 +346,8 @@ function bannerBaseBehaviors(thisBanner) {
                     if ($('textarea.editor', inputs[p]).val()) {
                         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
 
+                        globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][p]={'html':$('textarea.editor', inputs[p]).val()};
+
                         newChildElems = $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
 
                         $.each(newChildElems, function (index, value) {
@@ -362,7 +365,7 @@ function bannerBaseBehaviors(thisBanner) {
 }
 
 function websiteURL1() {
-    var brand = globals.selectBrand;
+    var brand = globals.campaign.selectBrand;
     var url = '';
 
     switch (brand) {
@@ -445,9 +448,9 @@ function exportCode1(type) {
             styleExport1();
             if (globals.campaign.evergagecss) {
                 delete globals.campaign.evergagecss;
-                globals.campaign['exportcss'] = $('style#banners').html();
+                globals.campaign['evergagecss'] = $('style#banners').html();
             } else {
-                globals.campaign['exportcss'] = $('style#banners').html();
+                globals.campaign['evergagecss'] = $('style#banners').html();
             }
             $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
                 $(this).remove();
@@ -476,7 +479,7 @@ function jsonExport1() {
 
 function styleExport1() {
     // Form the CSS
-    var html = "<textarea id='export'>" + $('style#banners').html() + "</textarea>";
+    var html = "<textarea id='export'>" + globals.campaign.evergagecss + "</textarea>";
     html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button></div>';
     msgBox1(html, "CSS Export");
 }
@@ -524,7 +527,7 @@ function htmlExport1() {
     // Remove href target
     //$('.noSeeCode a').removeAttr('target');
 
-    var html = '<textarea id="export">' + escapeHTML1($('.noSeeCode')[0].innerHTML) + '</textarea>';
+    var html = '<textarea id="export">' + escapeHTML1(globals.campaign.evergagehtml) + '</textarea>';
     html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button></div>';
     msgBox1(html, 'HTML Export');
 
@@ -655,12 +658,12 @@ function assignOnClickBehavior(id) {
 
         link = $('[id="clickbehavior_' + id + '"] input#offerLink').val() ? $('[id="clickbehavior_' + id + '"] input#offerLink').val() : '#';
 
-        if (globals.selectBrand == '') {
+        if (globals.campaign.selectBrand == '') {
             $('[id="clickbehavior_' + id + '"] input#offerLink.form-control1').addClass('error');
         } else {
             $('[id="clickbehavior_' + id + '"] input#offerLink.form-control1').removeClass('error');
-            globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.selectBrand].baseUrl + link;
-            $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
+            globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.campaign.selectBrand].baseUrl + link;
+            $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.campaign.selectBrand].baseUrl + link + '\',\'new_window\');');
         }
 
     } else if (type == 'linkAnchorHTML') {
@@ -677,12 +680,12 @@ function assignOnClickBehavior(id) {
 
         link = $('[id="clickbehavior_' + id + '"] input#anchorLink').val() ? $('[id="clickbehavior_' + id + '"] input#anchorLink').val() : 'mlTen';
 
-        if (globals.selectBrand == '') {
+        if (globals.campaign.selectBrand == '') {
             $('[id="clickbehavior_' + id + '"] input#anchorLink.form-control1').addClass('error');
         } else {
             $('[id="clickbehavior_' + id + '"] input#anchorLink.form-control1').removeClass('error');
-            globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.selectBrand].baseUrl + link;
-            $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
+            globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.campaign.selectBrand].baseUrl + link;
+            $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.campaign.selectBrand].baseUrl + link + '\',\'new_window\');');
         }
 
     } else {
@@ -719,8 +722,8 @@ function assignOnClickBehavior(id) {
 
 //         link = $('[id="clickbehavior_' + id + '"] input#offerLink').val() ? $('[id="clickbehavior_' + id + '"] input#offerLink').val() : '#';
 
-//         globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.selectBrand].baseUrl + link;
-//         $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
+//         globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.campaign.selectBrand].baseUrl + link;
+//         $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.campaign.selectBrand].baseUrl + link + '\',\'new_window\');');
 
 //         var embedstyles = $('style#banners');
 
@@ -749,8 +752,8 @@ function assignOnClickBehavior(id) {
 
 //         link = $('[id="clickbehavior_' + id + '"] input#anchorLink').val() ? $('[id="clickbehavior_' + id + '"] input#anchorLink').val() : 'mlTen';
 
-//         globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.selectBrand].baseUrl + link;
-//         $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.selectBrand].baseUrl + link + '\',\'new_window\');');
+//         globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.brands[globals.campaign.selectBrand].baseUrl + link;
+//         $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.brands[globals.campaign.selectBrand].baseUrl + link + '\',\'new_window\');');
 
 //         var embedstyles = $('style#banners');
 
@@ -866,9 +869,6 @@ function add(thisButton) {
 
         $('[id="props_' + z.id + '"], [id="tabs_' + z.id + '"] .banner-tab, [id="banner_' + z.id + '"]').addClass('showing');
 
-        globals.campaign.bannershtml = $('[data-domain="tabs"]').html();
-        console.log(globals);
-
     } else if (dataDomain == 'inputs') {
 
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
@@ -894,7 +894,7 @@ function add(thisButton) {
         // Initiate ckeditor on this new textarea
         $(series).last().ckeditor();
 
-        globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][$(seriesParent).children('[data-input-index]').last().data('input-index')] = { 'html': '' };
+        globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][$(seriesParent).children('[data-input-index]').last().data('input-index')];
 
         console.log(globals);
 
@@ -1403,7 +1403,7 @@ function bannerCreatorForm(el1) {
             '<label for="offerLink">Link to another page:</label>' +
             '</div>' +
             '<div class="col-xs-9 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="offerLink" class="form-control1" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
+            '<span class="input-group-addon1" id="img2label">' + globals.campaign.selectBrandPath + '</span><input id="offerLink" class="form-control1" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
             '</div>' +
             '</div>' +
             '<div id="linkAnchorHTML_' + id + '" class="row-fluid onclickbehavior" name="linkAnchorHTML">' +
@@ -1412,7 +1412,7 @@ function bannerCreatorForm(el1) {
             '<label for="anchorLink">Link to point on same page:</label>' +
             '</div>' +
             '<div class="col-xs-9 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="anchorLink" class="form-control1" placeholder="Ex. /home.do#anchor" type="text" required>' +
+            '<span class="input-group-addon1" id="img2label">' + globals.campaign.selectBrandPath + '</span><input id="anchorLink" class="form-control1" placeholder="Ex. /home.do#anchor" type="text" required>' +
             '</div>' +
             '</div>' +
             '<div id="doNothing_' + id + '" class="row-fluid onclickbehavior" name="doNothing">' +
@@ -1517,17 +1517,17 @@ function breakpointForm(id, bp) {
             '<br><small style="font-weight:400;">Set to 0 to omit</small>' +
             '<br><small style="font-weight:400;">Default is 575px</small>' +
             '</label>' +
-            '<input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="' + global.campaigns.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].minwidth + '">' +
+            '<input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].minwidth + '">' +
             '</div>' +
             '<div class="row">' +
             '<label for="bpMaxWidth" class="col-xs-4">Max-width:' +
             '<br><small style="font-weight:400;">Set to 0 to omit</small>' +
             '<br><small style="font-weight:400;">Default is 767px</small>' +
             '</label>' +
-            '<input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="' + global.campaigns.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth + '">' +
+            '<input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth + '">' +
             '</div>' +
             '<div class="row">' +
-            '<label for="bpHeight" class="col-xs-4">Height:<br><small style="font-weight:400;">Default is 56px</small></label><input id="bpHeight" name="bpHeight" class="col-xs-8" type="number" placeholder="' + global.campaigns.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height + '">' +
+            '<label for="bpHeight" class="col-xs-4">Height:<br><small style="font-weight:400;">Default is 56px</small></label><input id="bpHeight" name="bpHeight" class="col-xs-8" type="number" placeholder="' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height + '">' +
             '</div>' +
             '<div class="row">' +
             '<button id="bpUpdate" type="submit" name="bpUpdate">Update Breakpoint</button>' +
@@ -1773,12 +1773,12 @@ function bannerObj(el1) {
 
                 } else if (globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'remote') {
 
-                    if (globals.selectBrand == '') {
+                    if (globals.campaign.selectBrand == '') {
                         $('[data-bp="bg_' + bpid + '"] input.form-control1').addClass('error');
                     } else {
                         $('[data-bp="bg_' + bpid + '"] input.form-control1').removeClass('error');
 
-                        $('[data-bp="bg_' + bpid + '"] input.form-control1').text(globals.brands[globals.selectBrand].baseUrl);
+                        $('[data-bp="bg_' + bpid + '"] input.form-control1').text(globals.brands[globals.campaign.selectBrand].baseUrl);
 
                         globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = 'remote';
 
@@ -1797,7 +1797,7 @@ function bannerObj(el1) {
                                 $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('Remote');
                             } else {
                                 $(this).val('').attr('placeholder', 'Enter Filename...');
-                                $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('/images/evergage/' + globals.selectBrand + '/');
+                                $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('/images/evergage/' + globals.campaign.selectBrand + '/');
                             }
                         });
                     }

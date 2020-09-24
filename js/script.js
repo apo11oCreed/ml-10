@@ -35,6 +35,7 @@ var globals = {
             }
         },
         name: 'campaign',
+        stackbreakpoint: '575',
         selectBrand: '',
         get selectBrandPath() {
             var path = this.selectBrand == '' ? 'Choose Brand <span class="required">*</span>' : this.brands[this.selectBrand].baseUrl;
@@ -44,9 +45,9 @@ var globals = {
         evergagecss: '',
         bannerObjects: {}
     },
-    stackbreakpoint: '575',
+
     buildStyles: function (elObject) {
-        var stackbreakpoint = this.stackbreakpoint = '' || this.stackbreakpoint < 1 ? '575' : this.stackbreakpoint,
+        var stackbreakpoint = this.campaign.stackbreakpoint = '' || this.campaign.stackbreakpoint < 1 ? '575' : this.campaign.stackbreakpoint,
             styles = '.render{display:flex; flex-direction: row;}@media all and (max-width:' + stackbreakpoint + 'px){.render{flex-direction: column;}}.banner{width:100%;}';
         for (x in Object.values(elObject)) {
             var id = Object.values(elObject)[x]['id'],
@@ -116,15 +117,9 @@ $(document).ready(function () {
             // Run the new banner object render function
             globals.render();
 
-            console.log(globals.campaign.bannerObjects);
-
-            coreBehaviors();
-
         } else {
 
             msgBox1(importjsonForm(), 'Import JSON');
-
-            console.log(globals);
 
             $('button#UpdateJSON').on('click', function () {
                 globals.campaign = JSON.parse($('textarea#pastedjson').val());
@@ -135,20 +130,42 @@ $(document).ready(function () {
 
                 $('#msgBox').modal('hide');
 
-                processJSON(globals.campaign);
+                console.log(globals.campaign);
 
-                coreBehaviors();
+                jsonRender(globals.campaign);
+
             });
         }
+
+        coreBehaviors();
 
     });
 
 
 });
 
-function processJSON(obj) {
+function jsonRender(obj) {
     $('input#campaignName').val(obj.name);
-    $('select#brands:selected').val(obj.selectBrand);
+    $('select#brands').val(obj.selectBrand);
+    $('input#stackingBp').val(obj.stackingBp);
+    $('style#banners').append(obj.evergagecss);
+    $('.row .render').append(obj.evergagehtml);
+
+    for (banner in globals.campaign.bannerObjects) {
+        $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(globals.campaign.bannerObjects[banner]));
+        $('#properties.row > .dynamic').append(bannerCreatorForm(globals.campaign.bannerObjects[banner]));
+
+        bannerBaseBehaviors(globals.campaign.bannerObjects[banner]);
+
+        for (breakpoints in banner) {
+
+            for (textgroups in breakpoints) {
+
+            }
+
+        }
+    }
+
 }
 
 function coreBehaviors() {
@@ -225,7 +242,7 @@ function coreBehaviors() {
 
         // Update to stacking breakpoint triggers update to global object and embedded stylesheet
 
-        globals.stackbreakpoint = $('input#stackingBp').val();
+        globals.campaign.stackbreakpoint = $('input#stackingBp').val();
 
         updateStyles();
     });
@@ -479,8 +496,8 @@ function jsonExport1() {
     globals.campaign.evergagehtml = $('#rendering .section-offer-content .row .render').html();
     var html = "<textarea id='export'>" + JSON.stringify(globals.campaign) + "</textarea>";
     html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button><button onClick="saveToJson();" class="save btn btn-default">Save as JSON</button></div>';
-    msgBox1(html, "JSON Export");
     console.log(globals.campaign);
+    msgBox1(html, "JSON Export");
 }
 
 function styleExport1() {
@@ -922,8 +939,6 @@ function add(thisButton) {
 
         globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][$(seriesParent).children('[data-input-index]').last().data('input-index')];
 
-        console.log(globals);
-
     } else {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
         var bpid = randomId(10000, 99999),
@@ -951,9 +966,6 @@ function add(thisButton) {
 
         // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
         $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
-
-        console.log(globals);
-
     }
 }
 
@@ -996,7 +1008,7 @@ function removeThis(thisButton) {
         if (series.length == globals.minBannerNumber) {
             $('.subtract-button', seriesParent).prop('hidden', true);
         }
-        console.log(globals);
+
     } else {
         var seriesParent = $(thisButton).closest('[data-domain="breakpoints"]'),
             bpid = $(thisButton).closest('[name*="bpid"]').attr('name').substr(-5),
@@ -1019,7 +1031,7 @@ function removeThis(thisButton) {
         if (series.length == 1) {
             $('[id="content_' + id + '"] .subtract-button').prop('hidden', true);
         }
-        console.log(globals);
+
     }
 
     updateStyles();
@@ -1804,8 +1816,6 @@ function bannerObj(el1) {
 
                 } else if (globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'remote') {
 
-                    //$('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input.form-control1', '[id="props_' + id + '"]').text('Remote');
-
                     if (globals.campaign.selectBrand == '') {
 
                         $('[data-bp="bg_' + bpid + '"] input.form-control1').prop('disabled', true);
@@ -1819,8 +1829,6 @@ function bannerObj(el1) {
                         $('[data-bp="bg_' + bpid + '"] input.form-control1').prop('disabled', false);
 
                         $('[data-bp="bg_' + bpid + '"] input.form-control1').text(globals.campaign.brands[globals.campaign.selectBrand].baseUrl);
-
-                        //globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = 'remote';
 
                         $('input[name*="bg"]').each(function () {
                             var curr = $(this).val();
@@ -1929,6 +1937,6 @@ function bannerObj(el1) {
             globals.campaign.bannerObjects['banner_' + this.id].bpjson[bpid][1] = { 'html': '' };
         }
     }
-    console.log(globals);
+
     return obj;
 }

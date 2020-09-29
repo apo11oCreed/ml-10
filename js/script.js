@@ -39,15 +39,22 @@ var globals = {
         selectBrand: '',
         evergagehtml: '',
         evergagecss: '',
+        evergagejs: '',
         bannerObjects: {}
     },
     get selectBrandPath() {
         var path = this.campaign.selectBrand == '' ? 'Choose Brand <span class="required">*</span>' : this.campaign.brands[this.campaign.selectBrand].baseUrl;
         return path;
     },
+    buildScript: function () {
+        var html = '$(\'${message.cssSelector}\').parents(\'.container\').addClass(\'evergage-campaign-banners\');' +
+            '$(\'head\').append(\'<style id="evergageCampaignBanners">.container.evergage-campaign-banners{display:flex; flex-direction: row;}@media all and (max-width:' + this.campaign.stackbreakpoint + 'px){.container.evergage-campaign-banners{flex-direction: column;}}}</style>\');';
+
+        return html;
+    },
     buildStyles: function (elObject) {
         var stackbreakpoint = this.campaign.stackbreakpoint = '' || this.campaign.stackbreakpoint < 1 ? '575' : this.campaign.stackbreakpoint,
-            styles = '.render{display:flex; flex-direction: row;}@media all and (max-width:' + stackbreakpoint + 'px){.render{flex-direction: column;}}.banner{width:100%;}';
+            styles = '@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap");${message.cssSelector} {background-color: rgb(250, 250, 250);width: 100%!important;font-family: "Roboto Condensed", sans-serif;border-top:solid white 2px;border-bottom:solid white 2px;}.render{display:flex; flex-direction: row;}@media all and (max-width:' + stackbreakpoint + 'px){.render{flex-direction: column;}}.banner{width:100%;}';
         for (x in Object.values(elObject)) {
             var id = Object.values(elObject)[x]['id'],
                 hex = Object.values(elObject)[x]['hex'],
@@ -76,7 +83,7 @@ var globals = {
                 styles += media;
             }
         };
-        styles += '[id*="modal_"]{padding-right:0px!important;}[id*="modal_"] p{padding:0;margin:0;}[id*="modal_"] .modal-dialog {width:auto;}[id*="modal_"] .modal-dialog .modal-body{padding-top:15px;}@media all and (max-width:' + stackbreakpoint + 'px){.modal-dialog{width:auto; margin: 30px auto;}}.gutter{padding:0 2px 0 0;}@media all and (max-width:' + stackbreakpoint + 'px){.gutter{padding:0 0 2px 0;}}.gutter:last-child{display:none;}';
+        styles += '[id*="modal_"]{padding-right:0px!important;}[id*="modal_"] p{padding:0;margin:0;}[id*="modal_"] .modal-dialog {width:600px;margin:30px auto;position:relative;}[id*="modal_"] .modal-dialog .modal-body{padding-top:15px;}@media all and (max-width:' + stackbreakpoint + 'px){.modal-dialog{width:auto; margin: 30px auto;}}span.gutter{padding:0 2px 0 0;}@media all and (max-width:' + stackbreakpoint + 'px){span.gutter{padding:0 0 2px 0;}}span.gutter:last-of-type{display:none;}';
         return styles;
     },
     render: function () {
@@ -148,24 +155,25 @@ function jsonRender(obj) {
     $('select#brands').val(obj.selectBrand);
     $('input#stackingBp').val(obj.stackingBp);
     $('style#banners').append(obj.evergagecss);
-    $('.row .render').append(obj.evergagehtml);
+    $('.row .render').replaceWith(obj.evergagehtml);
 
     for (banner in globals.campaign.bannerObjects) {
         var id = banner.substr(-4);
-        console.log(id);
+        //console.log(id);
         $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(globals.campaign.bannerObjects[banner]));
+
         $('#properties.row > .dynamic').append(bannerCreatorForm(globals.campaign.bannerObjects[banner]));
 
 
         for (breakpoint in globals.campaign.bannerObjects[banner].bpjson) {
             var bpid = breakpoint;
 
+            $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs', '[id="props_' + id + '"]').append(breakpointTab(bpid,'|A'));
+
             $('.row.backgroundimage > .col-xs-12', '[id="props_' + id + '"]').append(breakpointBackgroundImg('', breakpoint));
 
             $('.row.inputs > .col-xs-12', '[id="props_' + id + '"]').append('<div name="bpid_' + bpid + '" data-domain="inputs" class="row input">' +
                 '</div>');
-
-            $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id="props_' + id + '"]').last().addClass('showing');
 
             // Init background image source to local
             $('[id="content_' + id + '"] [data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
@@ -173,11 +181,7 @@ function jsonRender(obj) {
             globals.campaign.bannerObjects[banner]['thisBannerExtendedBehaviors'] = function (id, bpid) {
                 $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input[name="lorr1_' + bpid + '"]', '[id="props_' + id + '"]').on('change', function () {
 
-
-
                     globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $('input[name="lorr1_' + bpid + '"]:checked').val();
-
-
 
                     if (globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'local') {
 
@@ -278,10 +282,7 @@ function jsonRender(obj) {
                             break;
                     }
 
-                    var embedstyles = $('style#banners');
-
-                    $(embedstyles).html('');
-                    $(embedstyles).append(globals.buildStyles(globals.campaign.bannerObjects));
+                    updateStyles();
 
                 });
 
@@ -302,18 +303,34 @@ function jsonRender(obj) {
                     '</span>');
             }
 
-            $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').addClass('showing');
+            // $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').removeClass('showing');
+            // $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').last().addClass('showing');
 
             globals.campaign.bannerObjects[banner].thisBannerExtendedBehaviors(id, bpid);
 
         }
 
-        $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id="props_' + id + '"]').removeClass('showing');
+        $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs button.breakpoint-tab', '[id="props_' + id + '"]').removeClass('showing');
+
+        $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs button.breakpoint-tab', '[id="props_' + id + '"]').last().addClass('showing');
+
+        $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id*="props_"]').removeClass('showing');
+
         $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id="props_' + id + '"]').last().addClass('showing');
+
+        $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').removeClass('showing');
+        
+            $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').last().addClass('showing');
 
         bannerBaseBehaviors(globals.campaign.bannerObjects[banner]);
 
     }
+
+    // $('.row.inputs [name*="bpid_"]', '[id*="props_"]').removeClass('showing');
+    // $('.row.inputs [name*="bpid_"]', '[id*="props_"]').last().addClass('showing');
+
+    // $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id*="props_"]').removeClass('showing');
+    // $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id*="props_"]').last().addClass('showing');
 
     $('[id*="props_"]').removeClass('showing');
     $('[id*="props_"]').last().addClass('showing');
@@ -339,10 +356,11 @@ function coreBehaviors() {
         $('button[name="exportjson"]').prop('disabled', false);
         $('button[name="exporthtml"]').prop('disabled', false);
         $('button[name="exportcss"]').prop('disabled', false);
+        $('button[name="exportjs"]').prop('disabled', false);
     });
 
     // button events
-    $("button[name='exporthtml'],button[name='exportcss'],button[name='exportjson']").on("click", function () {
+    $("button[name*='export']").on("click", function () {
         var type = $(this).attr('name');
         exportCode1(type);
     });
@@ -512,34 +530,53 @@ function bannerBaseBehaviors(thisBanner) {
         if (buttonId == 'textGroups') {
             //Text groups specific to breakpoint
 
+            // Get all breakpoint instances for this banner
             var allBreakpoints = $('[data-domain="breakpoints"] .inputs [name*="bpid"]', '[id="content_' + id + '"]');
 
+            // For each one of these breakpoint instances...
             for (var q = 0; q < allBreakpoints.length; q++) {
 
+                // Get the bpid of this breakpoint
+                // Get all of the textgroup instances of this breakpoint
                 var bpid = $(allBreakpoints[q]).attr('name').substr(-5),
                     inputs = $('[data-input-index]', allBreakpoints[q]);
 
+                // For each one of these textgroup instances...
                 for (var p = 0; p < inputs.length; p++) {
+
+                    // Remove this textgroup instance's class attribute (error class) assuming it exists
                     $(inputs[p]).removeAttr('class');
 
+                    // Get the index number of this textgroup instance
+                    // Create new variable to store children of textgroup output instance
                     var index = $(inputs[p]).data('input-index'),
                         newChildElems;
 
+                    // Empty contents of all existing textgroup output instances
                     $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
 
+                    // If textgroup instance contains anything...
                     if ($('textarea.editor', inputs[p]).val()) {
+
+                        // Insert into the respective textgroup output instance
                         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
 
+                        // Add an instance object to the parent breakpoint object
                         globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][p] = { 'html': $('textarea.editor', inputs[p]).val() };
 
+                        // Get all of the children of respective textgroup output instance
                         newChildElems = $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
 
+                        // For each child of respective textgroup output instance, define styles
                         $.each(newChildElems, function (index, value) {
                             $(this).css({ 'margin': '0', 'padding': '0' });
                         });
                     } else {
 
+                        // If textgroup instance does not contain anything...
                         $(inputs[p]).addClass('error');
+
+                        // Alert error
                         alert('Missing content in a text group.');
                     }
                 }
@@ -620,9 +657,9 @@ function exportCode1(type) {
             htmlExport1();
             if (globals.campaign.evergagehtml) {
                 delete globals.campaign.evergagehtml;
-                globals.campaign['evergagehtml'] = $('#rendering .section-offer-content').html();
+                globals.campaign['evergagehtml'] = $('#rendering .section-offer-content .row-fluid').html();
             } else {
-                globals.campaign['evergagehtml'] = $('#rendering .section-offer-content').html();
+                globals.campaign['evergagehtml'] = $('#rendering .section-offer-content .row-fluid').html();
             }
             $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
                 $(this).remove();
@@ -635,6 +672,18 @@ function exportCode1(type) {
                 globals.campaign['evergagecss'] = $('style#banners').html();
             } else {
                 globals.campaign['evergagecss'] = $('style#banners').html();
+            }
+            $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
+                $(this).remove();
+            });
+            break;
+        case 'exportjs':
+            jsExport1();
+            if (globals.campaign.evergagejs) {
+                delete globals.campaign.evergagejs;
+                globals.campaign['evergagejs'] = globals.buildScript();
+            } else {
+                globals.campaign['evergagejs'] = globals.buildScript();
             }
             $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
                 $(this).remove();
@@ -659,6 +708,13 @@ function jsonExport1() {
     html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button><button onClick="saveToJson();" class="save btn btn-default">Save as JSON</button></div>';
     console.log(globals.campaign);
     msgBox1(html, "JSON Export");
+}
+
+function jsExport1() {
+    // Form the CSS
+    var html = "<textarea id='export'>" + globals.campaign.evergagejs + "</textarea>";
+    html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button></div>';
+    msgBox1(html, "JS Export");
 }
 
 function styleExport1() {
@@ -1431,6 +1487,7 @@ function sections() {
         '<div class="col-xs-12">' +
         '<button type="button" name="exporthtml" disabled>Export HTML</button>' +
         '<button type="button" name="exportcss" disabled>Export CSS</button>' +
+        '<button type="button" name="exportjs" disabled>Export Javascript</button>' +
         '<button id="form-reset" type="button" name="resetall">Reset</button>' +
         '</div>' +
         '</div>';
@@ -1672,7 +1729,7 @@ function bannerPreviewBreakpoint(id, breakpointId) {
     return html;
 }
 
-function breakpointTab(bpid) {
+function breakpointTab(bpid,name) {
 
     var html = '<div name="bpid_' + bpid + '" class="col-xs-3" data-domain="bpconfig" data-bp="bpid_' + bpid + '">' +
         '<span class="controls-add-subtract">' +
@@ -1680,7 +1737,7 @@ function breakpointTab(bpid) {
         '<button type="button" class="edit-button glyphicon glyphicon-cog" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
         '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
         '</span>' +
-        '<span><button type="button" class="breakpoint-tab showing" name="copyTab" onClick="show(this);"><h5 style="margin-top:0;margin-bottom:0;"><span class="bpName">|A</span></h5></button></span>' +
+        '<span><button type="button" class="breakpoint-tab showing" name="copyTab" onClick="show(this);"><h5 style="margin-top:0;margin-bottom:0;"><span class="bpName">' + name + '</span></h5></button></span>' +
         '</div>';
 
     return html;
@@ -1844,8 +1901,8 @@ function bannerObj(el1) {
             }
         },
         bpjson: {},
-        breakpointTabs: function (id) {
-            return breakpointTab(id);
+        breakpointTabs: function (id,name) {
+            return breakpointTab(id,name);
         },
         breakpointInputs: function (number, id) {
             return breakpointInput(number, id);
@@ -1920,7 +1977,7 @@ function bannerObj(el1) {
         },
         thisBannerBgSettingsExtended: function (id, bpid) {
             // Add new breakpoint tab
-            $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid));
+            $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid,'|A'));
 
             // Add new breakpoint textarea
             $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs > div').append(breakpointInput(1, bpid));

@@ -110,6 +110,9 @@ $(document).ready(function () {
 
             $('#campaign .col-xs-12').html('');
             globals.campaign.bannerObjects = {};
+            globals.campaign.name = 'campaign';
+            globals.campaign.selectBrand = '';
+            globals.campaign.stackbreakpoint = 575;
 
             $('#campaign .col-xs-12').append(sections);
 
@@ -156,13 +159,16 @@ function jsonRender(obj) {
     $('input#stackingBp').val(obj.stackingBp);
     $('style#banners').append(obj.evergagecss);
     $('.row .render').replaceWith(obj.evergagehtml);
+    $('#globalProperties > legend > h2 > span.txtPlaceholder').text(obj.name + ' ');
 
     for (banner in obj.bannerObjects) {
         var id = banner.substr(-4);
-        //console.log(id);
+
         $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(obj.bannerObjects[banner]));
 
         $('#properties.row > .dynamic').append(bannerCreatorForm(obj.bannerObjects[banner]));
+
+        $('h2 span.txtPlaceholder', '[id="props_' + id + '"]').text(obj.bannerObjects[banner].txtPlaceholder + ' ');
 
         $('select#onClickBehavior_' + id).val(obj.bannerObjects[banner].onClickBehavior.name);
 
@@ -171,66 +177,64 @@ function jsonRender(obj) {
 
         for (breakpoint in obj.bannerObjects[banner].bpjson) {
             var bpid = breakpoint,
-            name=obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].name,
-            minwidth=obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].minwidth,
-            maxwidth=obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].maxwidth,
-            height=obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].height;
+                name = obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].name,
+                minwidth = obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].minwidth,
+                maxwidth = obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].maxwidth,
+                height = obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].height;
 
             $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs', '[id="props_' + id + '"]').append(breakpointTab(bpid, name));
 
-
-
             if (minwidth == 0 && maxwidth == 0) {
-        $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
-            name +
-            '</h5>' +
-            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
-            '<dl id="dl_' + bpid + '" class="collapse">' +
-            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
-            height + 'px</span></dd>' +
-            '</dl>'
-        );
-    } else if (minwidth == 0) {
-        $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
-            name +
-            '</h5>' +
-            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
-            '<dl id="dl_' + bpid + '" class="collapse">' +
-            '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
-            maxwidth + 'px</span></dd>' +
-            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
-            height + 'px</span></dd>' +
-            '</dl>'
-        );
-    } else if (maxwidth == 0) {
-        $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
-            name +
-            '</h5>' +
-            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
-            '<dl id="dl_' + bpid + '" class="collapse">' +
-            '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
-            minwidth + 'px</span></dd>' +
-            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
-            height + 'px</span></dd>' +
-            '</dl>'
-        );
-    } else {
-        $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
-            name +
-            '</h5>' +
-            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
-            '<dl id="dl_' + bpid + '" class="collapse">' +
-            '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
-            minwidth + 'px</span></dd>' +
-            '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
-            maxwidth + 'px</span></dd>' +
-            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
-            height + 'px</span></dd>' +
-            '</dl>'
-        );
-    }
+                $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
+                    name +
+                    '</h5>' +
+                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+                    '<dl id="dl_' + bpid + '" class="collapse">' +
+                    '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+                    height + 'px</span></dd>' +
+                    '</dl>'
+                );
+            } else if (minwidth == 0) {
+                $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
+                    name +
+                    '</h5>' +
+                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+                    '<dl id="dl_' + bpid + '" class="collapse">' +
+                    '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
+                    maxwidth + 'px</span></dd>' +
+                    '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+                    height + 'px</span></dd>' +
+                    '</dl>'
+                );
+            } else if (maxwidth == 0) {
+                $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
+                    name +
+                    '</h5>' +
+                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+                    '<dl id="dl_' + bpid + '" class="collapse">' +
+                    '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
+                    minwidth + 'px</span></dd>' +
+                    '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+                    height + 'px</span></dd>' +
+                    '</dl>'
+                );
+            } else {
+                $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
+                    name +
+                    '</h5>' +
+                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+                    '<dl id="dl_' + bpid + '" class="collapse">' +
+                    '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
+                    minwidth + 'px</span></dd>' +
+                    '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
+                    maxwidth + 'px</span></dd>' +
+                    '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+                    height + 'px</span></dd>' +
+                    '</dl>'
+                );
+            }
 
-            $('.row.backgroundimage > .col-xs-12', '[id="props_' + id + '"]').append(breakpointBackgroundImg(bpid,id));
+            $('.row.backgroundimage > .col-xs-12', '[id="props_' + id + '"]').append(breakpointBackgroundImg(bpid, id));
 
             $('.row.inputs > .col-xs-12', '[id="props_' + id + '"]').append('<div name="bpid_' + bpid + '" data-domain="inputs" class="row input">' +
                 '</div>');
@@ -407,8 +411,10 @@ function jsonRender(obj) {
 
 function coreBehaviors() {
     // When brand selected/changed, update all address fields
-    $('input#campaignName').on('focusout', function () {
-        globals.campaign.name = ($(this).val());
+    $('button#campaignNameUpdate').on('click', function () {
+        globals.campaign.name = ($('input#campaignName').val());
+        $('#globalProperties > legend > h2 > span.txtPlaceholder').text(globals.campaign.name + ' ');
+        console.log(globals);
     });
 
     // When embedded styles have been generated, enable export buttons
@@ -430,7 +436,15 @@ function coreBehaviors() {
     $('button[name="resetall"]').on('click', function () {
 
         // Remove banner tabs, banner property forms, embedded styles, rendered banners
-        $('#bannerTabs .dynamic .row-fluid.flex-it, #properties .dynamic, style#banners, .render').html('');
+        $('#bannerTabs .dynamic .row-fluid.flex-it, #properties .dynamic, style#banners, .render').html('')
+
+        // Reset campaign settings
+        $('input#campaignName').val('campaign');
+        $('input#campaignName').attr('placeholder', 'campaign');
+
+        // Reset brand settings
+        $('select#brands').val('');
+        $('select#brands:selected').val('-- select --');
 
         // Since embedded styles now removed, disable export buttons
         $('button[name="exportjson"]').prop('disabled', true);
@@ -475,30 +489,32 @@ function coreBehaviors() {
         msgBox1(helpMsg, 'Help');
     });
 
-    $('button#stackingBpUpdate').on('click', function (e) {
-        e.preventDefault();
+    $('button#stackingBpUpdate').on('click', function () {
 
         // Update to stacking breakpoint triggers update to global object and embedded stylesheet
-
         globals.campaign.stackbreakpoint = $('input#stackingBp').val();
 
+        // Update media query reference to flex in embedded stylesheet
         updateStyles();
     });
 
     // When brand selected/changed, update all address fields
     $('select[name="brands"]').on('change', function () {
+
+        // Update selected brand in campaign object
         globals.campaign.selectBrand = $(':selected', this).val();
 
+        // Trigger update in ALL background image forms in remote status to enable/disable
         $('input[name*="lorr1_"]').trigger('change');
 
+        // Trigger update in ALL banner click behavior forms to enable/disable
         $('select[name="onClickBehavior"]').trigger('change');
-
-        //$('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
 
     });
 }
 
 function bannerBaseBehaviors(thisBanner) {
+
     var id = thisBanner.id,
         thisBannerH2;
 
@@ -601,7 +617,7 @@ function bannerBaseBehaviors(thisBanner) {
                 var bpid = $(allBreakpoints[q]).attr('name').substr(-5),
                     inputs = $('[data-input-index]', allBreakpoints[q]);
 
-                    console.log(inputs);
+                console.log(inputs);
 
                 // For each one of these textgroup instances...
                 for (var p = 0; p < inputs.length; p++) {
@@ -1462,14 +1478,20 @@ function sections() {
         '</div>' +
         '</div>' +
         '<div id="globals" class="row">' +
+
         '<fieldset id="globalProperties" class="col-xs-12">' +
         '<legend>' +
-        '<h2>Global Attributes</h2>' +
+        '<h2><span class="txtPlaceholder"></span>Global Attributes</h2>' +
         '</legend>' +
+
         '<div class="row-fluid">' +
+
         '<fieldset id="brand" class="col-xs-12">' +
-        '<legend> <h3>Campaign</h3>' +
-        '</legend> <div class="row">' +
+        '<legend>' +
+        '<h3>Campaign</h3>' +
+        '</legend>' +
+
+        '<div class="row">' +
         '<div class="col-xs-2">' +
         '<label for="brand">Enter your campaign name:<span class="required">*</span></label>' +
         '</div>' +
@@ -1477,7 +1499,15 @@ function sections() {
         '<input id="campaignName" type="text" placeholder="' + globals.campaign.name + '" value="' + globals.campaign.name + '">' +
         '</div>' +
         '</div>' +
+
+        '<div class="row">' +
+        '<div class="col-xs-12" style="text-align:right;">' +
+        '<button id="campaignNameUpdate" type="button" name="update">Update Campaign Name</button>' +
+        '</div>' +
+        '</div>' +
+
         '</fieldset>' +
+
         '</div>' +
         '<div class="row-fluid">' +
         '<fieldset id="brand" class="col-xs-12">' +
@@ -1856,10 +1886,10 @@ function breakpointForm(id, bp) {
 
 function breakpointBackgroundImg(bpid, bannerId) {
     var name = globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].name,
-    width=globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.bgwidth,
-    height=globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.bgheight,
-    horizontal=globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.positionx,
-    vertical=globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.positiony,
+        width = globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.bgwidth,
+        height = globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.bgheight,
+        horizontal = globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.positionx,
+        vertical = globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.positiony,
         html = '<div class="row showing" data-bp="bg_' + bpid + '">' +
             '<div class="col-xs-12 field-group">' +
             '<div class="row" data-bp="bgorigin_' + bpid + '">' +

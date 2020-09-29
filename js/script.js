@@ -157,20 +157,80 @@ function jsonRender(obj) {
     $('style#banners').append(obj.evergagecss);
     $('.row .render').replaceWith(obj.evergagehtml);
 
-    for (banner in globals.campaign.bannerObjects) {
+    for (banner in obj.bannerObjects) {
         var id = banner.substr(-4);
         //console.log(id);
-        $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(globals.campaign.bannerObjects[banner]));
+        $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(obj.bannerObjects[banner]));
 
-        $('#properties.row > .dynamic').append(bannerCreatorForm(globals.campaign.bannerObjects[banner]));
+        $('#properties.row > .dynamic').append(bannerCreatorForm(obj.bannerObjects[banner]));
+
+        $('select#onClickBehavior_' + id).val(obj.bannerObjects[banner].onClickBehavior.name);
+
+        $('#' + obj.bannerObjects[banner].onClickBehavior.name + '_' + id).addClass('showing');
 
 
-        for (breakpoint in globals.campaign.bannerObjects[banner].bpjson) {
-            var bpid = breakpoint;
+        for (breakpoint in obj.bannerObjects[banner].bpjson) {
+            var bpid = breakpoint,
+            name=obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].name,
+            minwidth=obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].minwidth,
+            maxwidth=obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].maxwidth,
+            height=obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].height;
 
-            $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs', '[id="props_' + id + '"]').append(breakpointTab(bpid,'|A'));
+            $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs', '[id="props_' + id + '"]').append(breakpointTab(bpid, name));
 
-            $('.row.backgroundimage > .col-xs-12', '[id="props_' + id + '"]').append(breakpointBackgroundImg('', breakpoint));
+
+
+            if (minwidth == 0 && maxwidth == 0) {
+        $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
+            name +
+            '</h5>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<dl id="dl_' + bpid + '" class="collapse">' +
+            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            height + 'px</span></dd>' +
+            '</dl>'
+        );
+    } else if (minwidth == 0) {
+        $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
+            name +
+            '</h5>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<dl id="dl_' + bpid + '" class="collapse">' +
+            '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
+            maxwidth + 'px</span></dd>' +
+            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            height + 'px</span></dd>' +
+            '</dl>'
+        );
+    } else if (maxwidth == 0) {
+        $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
+            name +
+            '</h5>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<dl id="dl_' + bpid + '" class="collapse">' +
+            '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
+            minwidth + 'px</span></dd>' +
+            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            height + 'px</span></dd>' +
+            '</dl>'
+        );
+    } else {
+        $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
+            name +
+            '</h5>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<dl id="dl_' + bpid + '" class="collapse">' +
+            '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
+            minwidth + 'px</span></dd>' +
+            '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
+            maxwidth + 'px</span></dd>' +
+            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            height + 'px</span></dd>' +
+            '</dl>'
+        );
+    }
+
+            $('.row.backgroundimage > .col-xs-12', '[id="props_' + id + '"]').append(breakpointBackgroundImg(bpid,id));
 
             $('.row.inputs > .col-xs-12', '[id="props_' + id + '"]').append('<div name="bpid_' + bpid + '" data-domain="inputs" class="row input">' +
                 '</div>');
@@ -178,12 +238,12 @@ function jsonRender(obj) {
             // Init background image source to local
             $('[id="content_' + id + '"] [data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
 
-            globals.campaign.bannerObjects[banner]['thisBannerExtendedBehaviors'] = function (id, bpid) {
+            obj.bannerObjects[banner]['thisBannerExtendedBehaviors'] = function (id, bpid) {
                 $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input[name="lorr1_' + bpid + '"]', '[id="props_' + id + '"]').on('change', function () {
 
-                    globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $('input[name="lorr1_' + bpid + '"]:checked').val();
+                    obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $('input[name="lorr1_' + bpid + '"]:checked').val();
 
-                    if (globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'local') {
+                    if (obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'local') {
 
                         $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input.form-control1', '[id="props_' + id + '"]').removeClass('error');
 
@@ -205,9 +265,9 @@ function jsonRender(obj) {
                             $(this).val('').attr('placeholder', 'Demo-image-' + size + '.png');
                         });
 
-                    } else if (globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'remote') {
+                    } else if (obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'remote') {
 
-                        if (globals.campaign.selectBrand == '') {
+                        if (obj.selectBrand == '') {
 
                             $('[data-bp="bg_' + bpid + '"] input.form-control1').prop('disabled', true);
 
@@ -219,7 +279,7 @@ function jsonRender(obj) {
                             $('[data-bp="bg_' + bpid + '"] input.form-control1').removeClass('error');
                             $('[data-bp="bg_' + bpid + '"] input.form-control1').prop('disabled', false);
 
-                            $('[data-bp="bg_' + bpid + '"] input.form-control1').text(globals.campaign.brands[globals.campaign.selectBrand].baseUrl);
+                            $('[data-bp="bg_' + bpid + '"] input.form-control1').text(obj.brands[obj.selectBrand].baseUrl);
 
                             $('input[name*="bg"]').each(function () {
                                 var curr = $(this).val();
@@ -232,7 +292,7 @@ function jsonRender(obj) {
                                 }
                                 $(this).val('').attr('placeholder', 'Enter Filename...');
 
-                                $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('/images/evergage/' + globals.campaign.selectBrand + '/');
+                                $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('/images/evergage/' + obj.selectBrand + '/');
                             });
                         }
 
@@ -267,16 +327,16 @@ function jsonRender(obj) {
 
                     switch ($(this).attr('name')) {
                         case 'width':
-                            globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.bgwidth = $(this).val();
+                            obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.bgwidth = $(this).val();
                             break;
                         case 'height':
-                            globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.bgheight = $(this).val();
+                            obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.bgheight = $(this).val();
                             break;
                         case 'x':
-                            globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.positionx = $(this).val();
+                            obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.positionx = $(this).val();
                             break;
                         case 'y':
-                            globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.positiony = $(this).val();
+                            obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.positiony = $(this).val();
                             break;
                         default:
                             break;
@@ -291,7 +351,7 @@ function jsonRender(obj) {
                 });
             }
 
-            for (textgroups in globals.campaign.bannerObjects[banner].bpjson[breakpoint]) {
+            for (textgroups in obj.bannerObjects[banner].bpjson[breakpoint]) {
                 $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').append('<span data-input-index="' + textgroups + '">' +
                     '<span class="controls-add-subtract">' +
                     '<button type="button" class="subtract-button" onClick="removeThis(this)" style="color:red;">x</button>' +
@@ -306,7 +366,7 @@ function jsonRender(obj) {
             // $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').removeClass('showing');
             // $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').last().addClass('showing');
 
-            globals.campaign.bannerObjects[banner].thisBannerExtendedBehaviors(id, bpid);
+            obj.bannerObjects[banner].thisBannerExtendedBehaviors(id, bpid);
 
         }
 
@@ -314,15 +374,15 @@ function jsonRender(obj) {
 
         $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs button.breakpoint-tab', '[id="props_' + id + '"]').last().addClass('showing');
 
-        $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id*="props_"]').removeClass('showing');
+        $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id="props_' + id + '"]').removeClass('showing');
 
         $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id="props_' + id + '"]').last().addClass('showing');
 
         $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').removeClass('showing');
-        
-            $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').last().addClass('showing');
 
-        bannerBaseBehaviors(globals.campaign.bannerObjects[banner]);
+        $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').last().addClass('showing');
+
+        bannerBaseBehaviors(obj.bannerObjects[banner]);
 
     }
 
@@ -433,7 +493,7 @@ function coreBehaviors() {
 
         $('select[name="onClickBehavior"]').trigger('change');
 
-        //$('[id*="linkAnchorHTML_"] span.input-group-addon1, [id*="linkHMTL_"] span.input-group-addon1').html(globals.selectBrandPath);
+        //$('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
 
     });
 }
@@ -541,6 +601,8 @@ function bannerBaseBehaviors(thisBanner) {
                 var bpid = $(allBreakpoints[q]).attr('name').substr(-5),
                     inputs = $('[data-input-index]', allBreakpoints[q]);
 
+                    console.log(inputs);
+
                 // For each one of these textgroup instances...
                 for (var p = 0; p < inputs.length; p++) {
 
@@ -575,13 +637,11 @@ function bannerBaseBehaviors(thisBanner) {
 
                         // If textgroup instance does not contain anything...
                         $(inputs[p]).addClass('error');
-
-                        // Alert error
-                        alert('Missing content in a text group.');
                     }
                 }
             }
         }
+        console.log(globals);
     });
 }
 
@@ -830,27 +890,27 @@ function displayOnClickBehavior(behaviorSelected, id) {
 
     switch (behaviorSelected) {
         case 'fireModal':
-            $('[id="modalHTML_' + id + '"]').addClass('showing');
+            $('[id="fireModal_' + id + '"]').addClass('showing');
             $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
             break;
         case 'linkToPage':
-            $('[id="linkHMTL_' + id + '"]').addClass('showing');
+            $('[id="linkToPage_' + id + '"]').addClass('showing');
             $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
             if (globals.campaign.selectBrand == '') {
-                $('[id*="linkAnchorHTML_"] span.input-group-addon1, [id*="linkHMTL_"] span.input-group-addon1').html(globals.selectBrandPath);
+                $('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
             } else {
                 $('[id="clickbehavior_' + id + '"] input#offerLink.form-control1').removeClass('error');
-                $('[id*="linkAnchorHTML_"] span.input-group-addon1, [id*="linkHMTL_"] span.input-group-addon1').html(globals.selectBrandPath);
+                $('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
             }
             break;
         case 'linkToAnchor':
-            $('[id="linkAnchorHTML_' + id + '"]').addClass('showing');
+            $('[id="linkToAnchor_' + id + '"]').addClass('showing');
             $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
             if (globals.campaign.selectBrand == '') {
-                $('[id*="linkAnchorHTML_"] span.input-group-addon1, [id*="linkHMTL_"] span.input-group-addon1').html(globals.selectBrandPath);
+                $('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
             } else {
                 $('[id="clickbehavior_' + id + '"] input#anchorLink.form-control1').removeClass('error');
-                $('[id*="linkAnchorHTML_"] span.input-group-addon1, [id*="linkHMTL_"] span.input-group-addon1').html(globals.selectBrandPath);
+                $('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
             }
             break;
         case 'doNothing':
@@ -866,7 +926,7 @@ function displayOnClickBehavior(behaviorSelected, id) {
 function assignOnClickBehavior(id) {
     var type = $('[id="clickbehavior_' + id + '"] .showing').attr('name');
 
-    if (type == 'modalHTML') {
+    if (type == 'fireModal') {
         var title,
             body,
             footer;
@@ -884,11 +944,11 @@ function assignOnClickBehavior(id) {
             // If a modal exists with the same ID, remove and create a new one
             $('[id="modal_' + id + '"].modal').remove();
 
-            title = $('[id="modalHTML_' + id + '"] input#modalTitle').val() ? $('[id="modalHTML_' + id + '"] input#modalTitle').val() : 'Enter Title text under Click Behavior Settings';
+            title = $('[id="fireModal_' + id + '"] input#modalTitle').val() ? $('[id="fireModal_' + id + '"] input#modalTitle').val() : 'Enter Title text under Click Behavior Settings';
 
-            body = $('[id="modalHTML_' + id + '"] textarea#modalBody').val() ? $('[id="modalHTML_' + id + '"] textarea#modalBody').val() : 'Enter Body text under Click Behavior Settings';
+            body = $('[id="fireModal_' + id + '"] textarea#modalBody').val() ? $('[id="fireModal_' + id + '"] textarea#modalBody').val() : 'Enter Body text under Click Behavior Settings';
 
-            footer = $('[id="modalHTML_' + id + '"] input#modalFooter').val() ? $('[id="modalHTML_' + id + '"] input#modalFooter').val() : 'Enter Footer text under Click Behavior Setting';
+            footer = $('[id="fireModal_' + id + '"] input#modalFooter').val() ? $('[id="fireModal_' + id + '"] input#modalFooter').val() : 'Enter Footer text under Click Behavior Setting';
 
             $('.render').append(globals.campaign.bannerObjects['banner_' + id].onClickBehavior.modal.html(id, title, body, footer));
 
@@ -896,7 +956,7 @@ function assignOnClickBehavior(id) {
             $('.render #banner_' + id).attr('data-target', '#modal_' + id);
         }
 
-    } else if (type == 'linkHMTL') {
+    } else if (type == 'linkToPage') {
         var link = '#';
 
         $('.render #banner_' + id).removeAttr('data-toggle');
@@ -912,17 +972,17 @@ function assignOnClickBehavior(id) {
 
         if (globals.campaign.selectBrand == '') {
             $('[id="clickbehavior_' + id + '"] input#offerLink.form-control1').addClass('error');
-            $('[id*="linkAnchorHTML_"] span.input-group-addon1, [id*="linkHMTL_"] span.input-group-addon1').html(globals.selectBrandPath);
+            $('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
         } else {
             $('[id="clickbehavior_' + id + '"] input#offerLink.form-control1').removeClass('error');
-            $('[id*="linkAnchorHTML_"] span.input-group-addon1, [id*="linkHMTL_"] span.input-group-addon1').html(globals.selectBrandPath);
+            $('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
 
             globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.campaign.brands[globals.campaign.selectBrand].baseUrl + link;
 
             $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.campaign.brands[globals.campaign.selectBrand].baseUrl + link + '\',\'new_window\');');
         }
 
-    } else if (type == 'linkAnchorHTML') {
+    } else if (type == 'linkToAnchor') {
         var link = '#';
 
         $('.render #banner_' + id).removeAttr('data-toggle');
@@ -938,10 +998,10 @@ function assignOnClickBehavior(id) {
 
         if (globals.campaign.selectBrand == '') {
             $('[id="clickbehavior_' + id + '"] input#anchorLink.form-control1').addClass('error');
-            $('[id*="linkAnchorHTML_"] span.input-group-addon1, [id*="linkHMTL_"] span.input-group-addon1').html(globals.selectBrandPath);
+            $('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
         } else {
             $('[id="clickbehavior_' + id + '"] input#anchorLink.form-control1').removeClass('error');
-            $('[id*="linkAnchorHTML_"] span.input-group-addon1, [id*="linkHMTL_"] span.input-group-addon1').html(globals.selectBrandPath);
+            $('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
 
             globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.campaign.brands[globals.campaign.selectBrand].baseUrl + link;
 
@@ -1354,7 +1414,9 @@ function update(el1, el2) {
     globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth = maxwidth;
     globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height = height;
 
-    $('[data-bp="bg_' + bpid + '"] b.bpName').html(name);
+
+
+    $('[data-bp="bg_' + bpid + '"] b.bpName').html(globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name);
 
     updateStyles();
 
@@ -1448,7 +1510,7 @@ function sections() {
         '<label for="stackingBp">Enter number:</label>' +
         '</div>' +
         '<div class="col-xs-3 field-unit">' +
-        '<input id="stackingBp" name="stackingBp" type="number" min="0" placeholder="575" required> <span>px</span> </div>' +
+        '<input id="stackingBp" name="stackingBp" type="number" min="0" placeholder="' + globals.campaign.stackbreakpoint + '" required> <span>px</span> </div>' +
         '</div>' +
         '<div class="row">' +
         '<div class="col-xs-12" style="text-align:right;">' +
@@ -1614,7 +1676,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
-            '<div id="modalHTML_' + id + '" class="row-fluid onclickbehavior" name="modalHTML">' +
+            '<div id="fireModal_' + id + '" class="row-fluid onclickbehavior" name="fireModal">' +
             '<div class="col-xs-12">' +
             '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
@@ -1653,7 +1715,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
             '</div>' +
-            '<div id="linkHMTL_' + id + '" class="row-fluid onclickbehavior" name="linkHMTL">' +
+            '<div id="linkToPage_' + id + '" class="row-fluid onclickbehavior" name="linkToPage">' +
             '<br>' +
             '<div class="col-xs-3">' +
             '<label for="offerLink">Link to another page:</label>' +
@@ -1662,7 +1724,7 @@ function bannerCreatorForm(el1) {
             '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="offerLink" class="form-control1" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
             '</div>' +
             '</div>' +
-            '<div id="linkAnchorHTML_' + id + '" class="row-fluid onclickbehavior" name="linkAnchorHTML">' +
+            '<div id="linkToAnchor_' + id + '" class="row-fluid onclickbehavior" name="linkToAnchor">' +
             '<br>' +
             '<div class="col-xs-3">' +
             '<label for="anchorLink">Link to point on same page:</label>' +
@@ -1729,7 +1791,7 @@ function bannerPreviewBreakpoint(id, breakpointId) {
     return html;
 }
 
-function breakpointTab(bpid,name) {
+function breakpointTab(bpid, name) {
 
     var html = '<div name="bpid_' + bpid + '" class="col-xs-3" data-domain="bpconfig" data-bp="bpid_' + bpid + '">' +
         '<span class="controls-add-subtract">' +
@@ -1792,9 +1854,12 @@ function breakpointForm(id, bp) {
     return html;
 }
 
-function breakpointBackgroundImg(bpName, bannerId) {
-    var name = bpName,
-        bpid = bannerId,
+function breakpointBackgroundImg(bpid, bannerId) {
+    var name = globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].name,
+    width=globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.bgwidth,
+    height=globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.bgheight,
+    horizontal=globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.positionx,
+    vertical=globals.campaign.bannerObjects['banner_' + bannerId].css.breakpoints['bpid_' + bpid].background.positiony,
         html = '<div class="row showing" data-bp="bg_' + bpid + '">' +
             '<div class="col-xs-12 field-group">' +
             '<div class="row" data-bp="bgorigin_' + bpid + '">' +
@@ -1829,16 +1894,16 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '</div>' +
 
             '<div class="col-xs-2 field-unit">' +
-            '<input id="width_' + bpid + '" name="width" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
-            '<span>px</span></div>' +
+            '<input id="width_' + bpid + '" name="width" type="number" placeholder="' + width + '" maxlength="3" size="3" style="width:100%;">' +
+            '<span>%</span></div>' +
 
             '<div class="col-xs-3">' +
             '<label for="height_' + bpid + '">Height for <b class="bpName">' + name + '</b> image <span class="help1 glyphicon glyphicon-question-sign" data-help="height" aria-hidden="true"></span>:</label>' +
             '</div>' +
 
             '<div class="col-xs-2 field-unit">' +
-            '<input id="height_' + bpid + '" name="height" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
-            '<span>px</span></div>' +
+            '<input id="height_' + bpid + '" name="height" type="number" placeholder="' + height + '" maxlength="3" size="3" style="width:100%;">' +
+            '<span>%</span></div>' +
             '</div>' +
 
 
@@ -1850,7 +1915,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '</div>' +
 
             '<div class="col-xs-2 field-unit">' +
-            '<input id="x_' + bpid + '" name="x" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
+            '<input id="x_' + bpid + '" name="x" type="number" placeholder="' + horizontal + '" maxlength="3" size="3" style="width:100%;">' +
             '<span>%</span></div>' +
 
             '<div class="col-xs-3">' +
@@ -1858,7 +1923,7 @@ function breakpointBackgroundImg(bpName, bannerId) {
             '</div>' +
 
             '<div class="col-xs-2 field-unit">' +
-            '<input id="y_' + bpid + '" name="y" type="number" placeholder="0" maxlength="3" size="3" style="width:100%;">' +
+            '<input id="y_' + bpid + '" name="y" type="number" placeholder="' + vertical + '" maxlength="3" size="3" style="width:100%;">' +
             '<span>%</span></div>' +
             '</div>' +
 
@@ -1901,8 +1966,8 @@ function bannerObj(el1) {
             }
         },
         bpjson: {},
-        breakpointTabs: function (id,name) {
-            return breakpointTab(id,name);
+        breakpointTabs: function (id, name) {
+            return breakpointTab(id, name);
         },
         breakpointInputs: function (number, id) {
             return breakpointInput(number, id);
@@ -1977,7 +2042,7 @@ function bannerObj(el1) {
         },
         thisBannerBgSettingsExtended: function (id, bpid) {
             // Add new breakpoint tab
-            $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid,'|A'));
+            $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid, '|A'));
 
             // Add new breakpoint textarea
             $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs > div').append(breakpointInput(1, bpid));
@@ -1986,7 +2051,7 @@ function bannerObj(el1) {
             $('.render [id="banner_' + id + '"]').append(bannerPreviewBreakpoint(id, bpid));
 
             // Add new breakpoint section to background image fields
-            $('[id="content_' + id + '"] .backgroundimage > .col-xs-12').append(breakpointBackgroundImg('', bpid));
+            $('[id="content_' + id + '"] .backgroundimage > .col-xs-12').append(breakpointBackgroundImg(bpid, id));
 
             // Remove showing class from all breakpoint tabs
             $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs div, [id="content_' + id + '"] .backgroundimage [data-bp*="bg_"]').removeClass('showing');

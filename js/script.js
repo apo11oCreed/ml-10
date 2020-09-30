@@ -4,8 +4,8 @@ var globals = {
     maxBannerNumber: 4,
     minBannerNumber: 1,
     campaign: {
-        campaign: function (el) {
-            return el == '' ? 'campaign' : el;
+        get getname() {
+            return this.name == '' ? 'Campaign' : this.name;
         },
         brands: {
             'py': {
@@ -174,6 +174,9 @@ function jsonRender(obj) {
 
         $('#' + obj.bannerObjects[banner].onClickBehavior.name + '_' + id).addClass('showing');
 
+        $('[name="r"]', '[id="props_' + id + '"]').attr('placeholder', obj.bannerObjects[banner].css.bgColor.r);
+        $('[name="b"]', '[id="props_' + id + '"]').attr('placeholder', obj.bannerObjects[banner].css.bgColor.b);
+        $('[name="g"]', '[id="props_' + id + '"]').attr('placeholder', obj.bannerObjects[banner].css.bgColor.g);
 
         for (breakpoint in obj.bannerObjects[banner].bpjson) {
             var bpid = breakpoint,
@@ -182,8 +185,10 @@ function jsonRender(obj) {
                 maxwidth = obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].maxwidth,
                 height = obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].height;
 
+            // Add breakpoint tab
             $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs', '[id="props_' + id + '"]').append(breakpointTab(bpid, name));
 
+            // Render breakpoint properties under tab
             if (minwidth == 0 && maxwidth == 0) {
                 $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
                     name +
@@ -234,14 +239,63 @@ function jsonRender(obj) {
                 );
             }
 
+            // Add breakpoint background image form
             $('.row.backgroundimage > .col-xs-12', '[id="props_' + id + '"]').append(breakpointBackgroundImg(bpid, id));
 
+            // Add breakpoint textgroup container
             $('.row.inputs > .col-xs-12', '[id="props_' + id + '"]').append('<div name="bpid_' + bpid + '" data-domain="inputs" class="row input">' +
                 '</div>');
 
-            // Init background image source to local
+            // Init breakpoint background image source to local status
             $('[id="content_' + id + '"] [data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
 
+            // Bind thisBannerExtendedBehaviors to this banner
+            obj.bannerObjects[banner]['bp'] = function (number) {
+                this.css.breakpoints['bpid_' + number] = {
+                    name: '|A',
+                    background: {
+                        img: 'none',
+                        position: 'center center',
+                        positionx: 50,
+                        positiony: 50,
+                        bgwidth: 100,
+                        bgheight: 'auto',
+                        state: 'local'
+                    },
+                    minwidth: 575,
+                    maxwidth: 767,
+                    height: 56
+                };
+            }
+
+            // Bind thisBannerExtendedBehaviors to this banner
+            obj.bannerObjects[banner]['thisBannerBgSettingsExtended'] = function (id, bpid) {
+                // Add new breakpoint tab
+                $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid, '|A'));
+
+                // Add new breakpoint textarea
+                $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs > div').append(breakpointInput(1, bpid));
+
+                // Add new breakpoint section to banner preview
+                $('.render [id="banner_' + id + '"]').append(bannerPreviewBreakpoint(id, bpid));
+
+                // Add new breakpoint section to background image fields
+                $('[id="content_' + id + '"] .backgroundimage > .col-xs-12').append(breakpointBackgroundImg(bpid, id));
+
+                // Remove showing class from all breakpoint tabs
+                $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs div, [id="content_' + id + '"] .backgroundimage [data-bp*="bg_"]').removeClass('showing');
+
+                // Assign showing class to this new breakpoint tab
+                $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs [name="bpid_' + bpid + '"] .breakpoint-tab, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"], [id="content_' + id + '"] .backgroundimage [data-bp="bg_' + bpid + '"]').addClass('showing');
+
+                // Init background image source to local
+                $('[id="content_' + id + '"] [data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
+
+                // Init ckeditor on the initial textarea of this new breakpoint tab
+                $('textarea.editor').ckeditor();
+            }
+
+            // Bind thisBannerExtendedBehaviors to this banner
             obj.bannerObjects[banner]['thisBannerExtendedBehaviors'] = function (id, bpid) {
                 $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input[name="lorr1_' + bpid + '"]', '[id="props_' + id + '"]').on('change', function () {
 
@@ -356,15 +410,19 @@ function jsonRender(obj) {
             }
 
             for (textgroups in obj.bannerObjects[banner].bpjson[breakpoint]) {
-                $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').append('<span data-input-index="' + textgroups + '">' +
+
+                console.log(textgroups);
+
+                $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').append('<span data-input-index="' + (Number(textgroups) + 1) + '">' +
                     '<span class="controls-add-subtract">' +
                     '<button type="button" class="subtract-button" onClick="removeThis(this)" style="color:red;">x</button>' +
                     '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
                     '</span>' +
                     '<span class="editablecontainer">' +
-                    '<textarea id="ckeditor_' + textgroups + '" class="editor"></textarea>' +
+                    '<textarea id="ckeditor_' + (Number(textgroups) + 1) + '" class="editor"></textarea>' +
                     '</span>' +
                     '</span>');
+
             }
 
             // $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').removeClass('showing');
@@ -402,6 +460,16 @@ function jsonRender(obj) {
     $('[id*="tabs_"] .banner-tab').removeClass('showing');
     $('[id*="tabs_"] .banner-tab').last().addClass('showing');
 
+    var bptabs = $('[data-domain="breakpoints"] .subtract-button', '[id="content_' + id + '"]');
+
+    if (bptabs.length > 1) {
+        $('[data-domain="breakpoints"] .subtract-button', '[id="content_' + id + '"]').prop('hidden', false);
+        console.log('test1');
+    } else {
+        $('[data-domain="breakpoints"] .subtract-button', '[id="content_' + id + '"]').prop('hidden', true);
+        console.log('test2');
+    }
+
     // Initial CKEditor on the first designated text area
     $('textarea.editor').ckeditor();
 
@@ -410,28 +478,44 @@ function jsonRender(obj) {
 }
 
 function coreBehaviors() {
-    // When brand selected/changed, update all address fields
+
+    // When 'Update Campaign Name' is clicked, update campaign object and Global Attributes label
     $('button#campaignNameUpdate').on('click', function () {
         globals.campaign.name = ($('input#campaignName').val());
-        $('#globalProperties > legend > h2 > span.txtPlaceholder').text(globals.campaign.name + ' ');
+        $('#globalProperties > legend > h2 > span.txtPlaceholder').text(globals.campaign.getname + ' ');
         console.log(globals);
+    });
+
+    // When brand selected/changed, update all address fields
+    $('select[name="brands"]').on('change', function () {
+
+        // Update selected brand in campaign object
+        globals.campaign.selectBrand = $(':selected', this).val();
+
+        // Trigger update in ALL background image forms in remote status to enable/disable
+        $('input[name*="lorr1_"]').trigger('change');
+
+        // Trigger update in ALL banner click behavior forms to enable/disable
+        $('select[name="onClickBehavior"]').trigger('change');
+
     });
 
     // When embedded styles have been generated, enable export buttons
     $('body').on('DOMSubtreeModified', 'style#banners', function () {
+
         $('button[name="exportjson"]').prop('disabled', false);
         $('button[name="exporthtml"]').prop('disabled', false);
         $('button[name="exportcss"]').prop('disabled', false);
         $('button[name="exportjs"]').prop('disabled', false);
+        //https://stackoverflow.com/questions/15657686/jquery-event-detect-changes-to-the-html-text-of-a-div
+
     });
 
-    // button events
+    // When enabled, pending which export button is clicked, run it through a function with switch case
     $("button[name*='export']").on("click", function () {
         var type = $(this).attr('name');
         exportCode1(type);
     });
-
-    //https://stackoverflow.com/questions/15657686/jquery-event-detect-changes-to-the-html-text-of-a-div
 
     $('button[name="resetall"]').on('click', function () {
 
@@ -451,7 +535,7 @@ function coreBehaviors() {
         $('button[name="exporthtml"]').prop('disabled', true);
         $('button[name="exportcss"]').prop('disabled', true);
 
-        // Empty out banner objects
+        // Empty banner objects
         globals.campaign.bannerObjects = {};
 
         // Create new banner object
@@ -466,29 +550,6 @@ function coreBehaviors() {
 
     });
 
-    // Interchangeable messaging for help modal
-    $("span.help1").on('click', function () {
-
-        var helpMsg = '';
-        switch ($(this).data('help')) {
-            case 'desktop':
-                helpMsg = 'For local testing, place a 962x430px image in the same directory as this HTML file and enter the filename here <i style="font-style:serif;color:#a1a1a1; ">(png,gif,jpg)</i>.<br>For remote testing, place a 962x430px image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"';
-                break;
-            case 'mobile':
-                helpMsg = 'For local testing, place a 575x683px image in the same directory as this HTML file and enter the filename here <i style="font-style:serif;color:#a1a1a1; ">(png,gif,jpg)</i>.<br>For remote testing, place a 575x683px image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"';
-                break;
-            case 'rgb':
-                helpMsg = 'Enter a number value between the range of 0-250 for each of the RGB fields.';
-                break;
-            case 'required':
-                helpMsg = 'Whether this text is required for this offer. Certain text cannot be omitted.';
-            default:
-                break;
-        }
-
-        msgBox1(helpMsg, 'Help');
-    });
-
     $('button#stackingBpUpdate').on('click', function () {
 
         // Update to stacking breakpoint triggers update to global object and embedded stylesheet
@@ -498,19 +559,6 @@ function coreBehaviors() {
         updateStyles();
     });
 
-    // When brand selected/changed, update all address fields
-    $('select[name="brands"]').on('change', function () {
-
-        // Update selected brand in campaign object
-        globals.campaign.selectBrand = $(':selected', this).val();
-
-        // Trigger update in ALL background image forms in remote status to enable/disable
-        $('input[name*="lorr1_"]').trigger('change');
-
-        // Trigger update in ALL banner click behavior forms to enable/disable
-        $('select[name="onClickBehavior"]').trigger('change');
-
-    });
 }
 
 function bannerBaseBehaviors(thisBanner) {
@@ -630,11 +678,12 @@ function bannerBaseBehaviors(thisBanner) {
                     var index = $(inputs[p]).data('input-index'),
                         newChildElems;
 
-                    // Empty contents of all existing textgroup output instances
-                    $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
 
                     // If textgroup instance contains anything...
                     if ($('textarea.editor', inputs[p]).val()) {
+
+                        // Empty contents of all existing textgroup output instances
+                        $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
 
                         // Insert into the respective textgroup output instance
                         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
@@ -650,7 +699,7 @@ function bannerBaseBehaviors(thisBanner) {
                             $(this).css({ 'margin': '0', 'padding': '0' });
                         });
                     } else {
-
+                        console.log('test');
                         // If textgroup instance does not contain anything...
                         $(inputs[p]).addClass('error');
                     }
@@ -659,6 +708,39 @@ function bannerBaseBehaviors(thisBanner) {
         }
         console.log(globals);
     });
+
+    // Interchangeable messaging for help modal
+    $("span.help1").on('click', function () {
+
+        var helpMsg = '';
+        switch ($(this).data('help')) {
+            case 'desktop':
+                helpMsg = '<h4>For breakpoints in which the width is <u>above</u> 575px</h4><ul><li><b>Local</b> Place a 962px wide (desktop,tablet) image in the same directory as this HTML file and enter the filename here.</li><li><b>Remote</b> Place a 962px wide (desktop,tablet) image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"</li></ul><h4>For breakpoints in which the width is <u>below</u> 575px</h4><ul><li><b>Local</b> Place a 575px wide (mobile) image in the same directory as this HTML file and enter the filename here.</li><li><b>Remote</b> Place a 575px wide (mobile) image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"</li></ul>';
+                break;
+            case 'width':
+                helpMsg = 'Enter a number value between the range of 0-100 to fit the image within the breakpoint container. Enter a number value above 100 to scale the image beyond the breakpoint container. To keep dimensions proportional relative to width, set the <b>Height</b> to \'auto\'.';
+                break;
+            case 'height':
+                helpMsg = 'Enter a number value between the range of 0-100 to fit the image within the breakpoint container. Enter a number value above 100 to scale the image beyond the breakpoint container. To keep dimensions proportional relative to height, set the <b>Width</b> to \'auto\'.';
+                break;
+            case 'xpos':
+                helpMsg = 'Enter a number value between the range of 0-100 to position the image within the breakpoint container. Enter a number value above 100 to position the image beyond the breakpoint container. <b>NOTE</b> For positioning to work, make sure the image width is below the width of the breakpoint container.';
+                break;
+            case 'ypos':
+                helpMsg = 'Enter a number value between the range of 0-100 to position the image within the breakpoint container. Enter a number value above 100 to position the image beyond the breakpoint container. <b>NOTE</b> For positioning to work, make sure the image height is below the height of the breakpoint container.';
+                break;
+            case 'rgb':
+                helpMsg = 'Enter a number value between the range of 0-250 for each of the RGB fields.';
+                break;
+            case 'required':
+                helpMsg = 'Whether this text is required for this offer. Certain text cannot be omitted.';
+            default:
+                break;
+        }
+
+        msgBox1(helpMsg, 'Help');
+    });
+
 }
 
 function websiteURL1() {
@@ -730,37 +812,40 @@ function checkImageExists1(el, url, banner) {
 function exportCode1(type) {
     switch (type) {
         case 'exporthtml':
-            htmlExport1();
+
             if (globals.campaign.evergagehtml) {
                 delete globals.campaign.evergagehtml;
                 globals.campaign['evergagehtml'] = $('#rendering .section-offer-content .row-fluid').html();
             } else {
                 globals.campaign['evergagehtml'] = $('#rendering .section-offer-content .row-fluid').html();
             }
+            htmlExport1();
             $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
                 $(this).remove();
             });
             break;
         case 'exportcss':
-            styleExport1();
+
             if (globals.campaign.evergagecss) {
                 delete globals.campaign.evergagecss;
                 globals.campaign['evergagecss'] = $('style#banners').html();
             } else {
                 globals.campaign['evergagecss'] = $('style#banners').html();
             }
+            styleExport1();
             $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
                 $(this).remove();
             });
             break;
         case 'exportjs':
-            jsExport1();
+
             if (globals.campaign.evergagejs) {
                 delete globals.campaign.evergagejs;
                 globals.campaign['evergagejs'] = globals.buildScript();
             } else {
                 globals.campaign['evergagejs'] = globals.buildScript();
             }
+            jsExport1();
             $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
                 $(this).remove();
             });
@@ -779,7 +864,7 @@ function exportCode1(type) {
 function jsonExport1() {
     // Form the CSS
     globals.campaign.evergagecss = $('style#banners').html();
-    globals.campaign.evergagehtml = $('#rendering .section-offer-content').html();
+    globals.campaign.evergagehtml = $('#rendering .section-offer-content .row-fluid').html();
     var html = "<textarea id='export'>" + JSON.stringify(globals.campaign) + "</textarea>";
     html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button><button onClick="saveToJson();" class="save btn btn-default">Save as JSON</button></div>';
     console.log(globals.campaign);
@@ -803,7 +888,7 @@ function styleExport1() {
 function htmlExport1() {
     // Clone the html to a non visible area
     $('body').append('<div class="noSeeCode"></div>');
-    $('#rendering .section-offer-content').clone().appendTo('.noSeeCode');
+    $('#rendering .section-offer-content .row-fluid').clone().appendTo('.noSeeCode');
 
     // Change out all the dummy sections for user input
     // Heading
@@ -1474,7 +1559,7 @@ function sections() {
     var html = '<br>' +
         '<div class="row">' +
         '<p class="col-xs-12">' +
-        '<span class="required">*</span> - Indicates a required field.</p>' +
+        '<span class="required">*</span> - Required.</p>' +
         '</div>' +
         '</div>' +
         '<div id="globals" class="row">' +
@@ -1496,7 +1581,7 @@ function sections() {
         '<label for="brand">Enter your campaign name:<span class="required">*</span></label>' +
         '</div>' +
         '<div class="col-xs-2">' +
-        '<input id="campaignName" type="text" placeholder="' + globals.campaign.name + '" value="' + globals.campaign.name + '">' +
+        '<input id="campaignName" type="text" placeholder="' + globals.campaign.getname + '" value="' + globals.campaign.getname + '">' +
         '</div>' +
         '</div>' +
 
@@ -1553,11 +1638,12 @@ function sections() {
         '<legend>' +
         '<h3>Banners</h3>' +
         '</legend>' +
-        '<p>Click on the <b>[ |A]</b> button to edit the name of the banner and to display the banner\'s properties form.<br>Hover over <b>[ |A]</b> button(s) to view toolbar.<br>Click on the <b>[ <span style="color:green;">+</span>]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span>]</b> button to remove a banner.</p>' +
+        '<p>Click on the <b>[ |A]</b> button to edit the name of the banner and to begin customizing the banner in the banner\'s properties form.<span class="required">*</span><br>Hover over <b>[ |A]</b> button(s) to view toolbar.<br>Click on the <b>[ <span style="color:green;">+</span>]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span>]</b> button to remove a banner.</p>' +
         '<hr>' +
         '<span class="dynamic">' +
         '<div class="row-fluid flex-it" data-domain="tabs"></div>' +
         '</span>' +
+        '<br>' +
         '</fieldset>' +
         '</div></fieldset>' +
         '</div>' +
@@ -1602,6 +1688,7 @@ function bannerCreatorForm(el1) {
             '<br>Click on the<b> [ <span style="color:green;">+</span> ]</b> button to add breakpoint.' +
             '<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove breakpoint.' +
             '<br>Click on the<b> [ <span class="glyphicon glyphicon-cog" style="color:blue;"></span> ]</b> button to set <b>Name</b>, <b>Min Width</b>, <b>Max Width</b>, <b>Height</b>, and <b>Background Image</b> options of breakpoint.' +
+            '<span class="required">*</span>' +
             '<br>Click on the <b>[ |A ]</b> button to display the text group form.' +
             '</p>' +
             '</div>' +
@@ -1785,8 +1872,8 @@ function bannerCreatorForm(el1) {
             '<span class="txtPlaceholder"></span>Properties' +
             '</h2>' +
             '</legend>' +
-            background +
             content +
+            background +
             clickbehavior +
             '</fieldset>';
 
@@ -1801,7 +1888,7 @@ function bannerTab(el1) {
             '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
             '</span>' +
             '<span>' +
-            '<button type="button" class="banner-tab" name="bannertab" onClick="show(this)" data-label="banner"><span contenteditable>' + el1.txtPlaceholder + '<span></button>' +
+            '<button type="button" class="banner-tab" name="bannertab" onClick="show(this)" data-label="banner" style="box-shadow:3px 6px 10px rgb(100,100,100);"><span contenteditable>' + el1.txtPlaceholder + '<span></button>' +
             '</span>' +
             '<div>';
 
@@ -1816,7 +1903,7 @@ function bannerPreview(banner) {
 }
 
 function bannerPreviewBreakpoint(id, breakpointId) {
-    var html = '<div data-bp="bpid_' + breakpointId + '"><span class="text-group" data-output-index="1"></span></div>';
+    var html = '<div data-bp="bpid_' + breakpointId + '"><span class="text-group" data-output-index="1"><span style="text-align:center;font-size:16px;text-transform:uppercase;margin:0 auto;display:block;padding:16px;background-color:#b875ae;width:100%;">&nbsp;</span></span></div>';
 
     return html;
 }
@@ -1829,7 +1916,7 @@ function breakpointTab(bpid, name) {
         '<button type="button" class="edit-button glyphicon glyphicon-cog" onClick="edit(this)" style="color:blue;top:0px;"></button>' +
         '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
         '</span>' +
-        '<span><button type="button" class="breakpoint-tab showing" name="copyTab" onClick="show(this);"><h5 style="margin-top:0;margin-bottom:0;"><span class="bpName">' + name + '</span></h5></button></span>' +
+        '<span><button type="button" class="breakpoint-tab showing" name="copyTab" onClick="show(this);" style="box-shadow:3px 6px 10px rgb(100,100,100);"><h5 style="margin-top:0;margin-bottom:0;"><span class="bpName">' + name + '</span></h5></button></span>' +
         '</div>';
 
     return html;

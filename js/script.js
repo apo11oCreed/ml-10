@@ -409,6 +409,10 @@ function jsonRender(obj) {
                 });
             }
 
+            obj.bannerObjects[banner]['thisBannerBaseBehaviors'] = function () {
+                bannerBaseBehaviors(this);
+            }
+
             for (textgroups in obj.bannerObjects[banner].bpjson[breakpoint]) {
 
                 console.log(textgroups);
@@ -429,7 +433,7 @@ function jsonRender(obj) {
             // $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').last().addClass('showing');
 
             obj.bannerObjects[banner].thisBannerExtendedBehaviors(id, bpid);
-
+            obj.bannerObjects[banner].thisBannerBaseBehaviors(obj.bannerObjects[banner]);
         }
 
         $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs button.breakpoint-tab', '[id="props_' + id + '"]').removeClass('showing');
@@ -444,7 +448,7 @@ function jsonRender(obj) {
 
         $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').last().addClass('showing');
 
-        bannerBaseBehaviors(obj.bannerObjects[banner]);
+
 
     }
 
@@ -1337,10 +1341,13 @@ function add(thisButton) {
 
         globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][1] = { 'html': '' };
 
-
         globals.campaign.bannerObjects['banner_' + id].bp(bpid);
+
         globals.campaign.bannerObjects['banner_' + id].thisBannerBgSettingsExtended(id, bpid);
+
         globals.campaign.bannerObjects['banner_' + id].thisBannerExtendedBehaviors(id, bpid);
+
+        globals.campaign.bannerObjects['banner_' + id].thisBannerBaseBehaviors(id, bpid);
 
         // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
         $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);

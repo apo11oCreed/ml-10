@@ -1,5 +1,5 @@
 {
-    "getname": "campaign",
+    "getname": "Nelson's Campaign",
     "brands": {
         "py": {
             "baseUrl": "https://www.paulayoung.com",
@@ -27,19 +27,19 @@
             "brandColor": "rgb(255, 97, 84)"
         }
     },
-    "name": "campaign",
-    "stackbreakpoint": "767",
+    "name": "Nelson's Campaign",
+    "stackbreakpoint": "1199",
     "selectBrand": "py",
-    "evergagejs": "$('${message.cssSelector}').parents('.container').addClass('evergage-campaign-banners');$('head').append('<style id=\"evergageCampaignBanners\">.container.evergage-campaign-banners{display:flex; flex-direction: row;}@media all and (max-width:767px){.container.evergage-campaign-banners{flex-direction: column;}}}</style>');",
+    "evergagejs": "$('${message.cssSelector}').parents('.container').addClass('evergage-campaign-banners');$('head').append('<style id=\"evergageCampaignBanners\">.container.evergage-campaign-banners{display:flex; flex-direction: row;}@media all and (max-width:1199px){.container.evergage-campaign-banners{flex-direction: column;}}}</style>');",
     "bannerObjects": {
-        "banner_6975": {
-            "id": 6975,
-            "txtPlaceholder": "|A",
+        "banner_3740": {
+            "id": 3740,
+            "txtPlaceholder": "Banner 1",
             "hex": "#ec0d77",
             "cursor": "pointer",
             "css": {
                 "breakpoints": {
-                    "bpid_44501": {
+                    "bpid_26239": {
                         "name": "Desktop",
                         "background": {
                             "img": "none",
@@ -54,7 +54,7 @@
                         "maxwidth": "0",
                         "height": "60"
                     },
-                    "bpid_83829": {
+                    "bpid_63041": {
                         "name": "Mobile",
                         "background": {
                             "img": "none",
@@ -77,23 +77,23 @@
                 }
             },
             "bpjson": {
-                "44501": {
+                "26239": {
                     "0": {
-                        "html": "<p><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">FREE </span></strong><span style=\"font-size:24px\">STANDARD </span><strong><span style=\"font-size:24px\">SHIPPING</span></strong><span style=\"font-size:24px\">!</span></span></p>\n"
+                        "html": "<p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">FREE </span></strong><span style=\"font-size:24px\">STANDARD </span><strong><span style=\"font-size:24px\">SHIPPING</span></strong><span style=\"font-size:24px\">!</span></span></p>"
                     },
                     "1": {
-                        "html": "<p><span style=\"color:#ffffff\">ON $59 OR MORE</span></p>\n"
+                        "html": "<p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\">ON $59 OR MORE</span></p>"
                     },
                     "2": {
-                        "html": "<p><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS »</span></span></p>\n"
+                        "html": "<p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS » DESKTOP</span></span></p>"
                     }
                 },
-                "83829": {
+                "63041": {
                     "0": {
-                        "html": "<p><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">FREE </span></strong><span style=\"font-size:24px\">STANDARD </span><strong><span style=\"font-size:24px\">SHIPPING</span></strong><span style=\"font-size:24px\">!</span></span></p>\n"
+                        "html": "<p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">FREE </span></strong><span style=\"font-size:24px\">STANDARD </span><strong><span style=\"font-size:24px\">SHIPPING</span></strong><span style=\"font-size:24px\">!</span></span></p>"
                     },
                     "1": {
-                        "html": "<p><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS »</span></span></p>\n"
+                        "html": "<p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS » MOBILE</span></span></p>"
                     }
                 }
             },
@@ -105,14 +105,14 @@
                 "anchor": "#"
             }
         },
-        "banner_9733": {
-            "id": 9733,
-            "txtPlaceholder": "|A",
+        "banner_1260": {
+            "id": 1260,
+            "txtPlaceholder": "Banner 2",
             "hex": "#921c56",
             "cursor": "pointer",
             "css": {
                 "breakpoints": {
-                    "bpid_12704": {
+                    "bpid_92209": {
                         "name": "Desktop",
                         "background": {
                             "img": "none",
@@ -127,7 +127,7 @@
                         "maxwidth": "0",
                         "height": "60"
                     },
-                    "bpid_18012": {
+                    "bpid_33202": {
                         "name": "Mobile",
                         "background": {
                             "img": "none",
@@ -150,20 +150,20 @@
                 }
             },
             "bpjson": {
-                "12704": {
+                "33202": {
                     "0": {
-                        "html": "<p><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">150% </span></strong><span style=\"font-size:24px\">PRICE </span><strong><span style=\"font-size:24px\">GUARANTEE</span></strong><span style=\"font-size:24px\">!</span></span></p>\n"
+                        "html": "<p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">150% </span></strong><span style=\"font-size:24px\">PRICE </span><strong><span style=\"font-size:24px\">GUARANTEE</span></strong><span style=\"font-size:24px\">!</span></span></p>"
                     },
                     "1": {
-                        "html": "<p><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS »</span></span></p>\n"
+                        "html": "<p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS » MOBILE</span></span></p>"
                     }
                 },
-                "18012": {
+                "92209": {
                     "0": {
-                        "html": "<p><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">150% </span></strong><span style=\"font-size:24px\">PRICE </span><strong><span style=\"font-size:24px\">GUARANTEE</span></strong><span style=\"font-size:24px\">!</span></span></p>\n"
+                        "html": "<p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">150% </span></strong><span style=\"font-size:24px\">PRICE </span><strong><span style=\"font-size:24px\">GUARANTEE</span></strong><span style=\"font-size:24px\">!</span></span></p>"
                     },
                     "1": {
-                        "html": "<p><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS »</span></span></p>\n"
+                        "html": "<p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS » DESKTOP</span></span></p>"
                     }
                 }
             },
@@ -172,10 +172,10 @@
                 "name": "linkToPage",
                 "modal": {},
                 "link": "#",
-                "anchor": "https://www.paulayoung.com/category/about-us/low-price-wigs-guarantee.do"
+                "anchor": "https://www.paulayoung.com#"
             }
         }
     },
-    "evergagehtml": "<div class=\"render\"><div id=\"banner_6975\" class=\"banner trigger showing\" role=\"button\" style=\"display: block; cursor: pointer;\" data-toggle=\"modal\" data-target=\"#modal_6975\"><div data-bp=\"bpid_44501\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">FREE </span></strong><span style=\"font-size:24px\">STANDARD </span><strong><span style=\"font-size:24px\">SHIPPING</span></strong><span style=\"font-size:24px\">!</span></span></p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\">ON $59 OR MORE</span></p>\n</span><span class=\"text-group\" data-output-index=\"3\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS »</span></span></p>\n</span></div><div data-bp=\"bpid_83829\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">FREE </span></strong><span style=\"font-size:24px\">STANDARD </span><strong><span style=\"font-size:24px\">SHIPPING</span></strong><span style=\"font-size:24px\">!</span></span></p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS »</span></span></p>\n</span></div></div><span class=\"gutter\"></span><div id=\"banner_9733\" class=\"banner trigger\" role=\"button\" style=\"display: block; cursor: pointer;\" target=\"_blank\" onclick=\"window.open('https://www.paulayoung.com/category/about-us/low-price-wigs-guarantee.do','new_window');\"><div data-bp=\"bpid_12704\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">150% </span></strong><span style=\"font-size:24px\">PRICE </span><strong><span style=\"font-size:24px\">GUARANTEE</span></strong><span style=\"font-size:24px\">!</span></span></p>\n</span><span class=\"text-group\" data-output-index=\"3\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS »</span></span></p>\n</span></div><div data-bp=\"bpid_18012\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">150% </span></strong><span style=\"font-size:24px\">PRICE </span><strong><span style=\"font-size:24px\">GUARANTEE</span></strong><span style=\"font-size:24px\">!</span></span></p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS »</span></span></p>\n</span></div></div><span class=\"gutter\"></span><div id=\"modal_6975\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\"><div class=\"modal-dialog\" role=\"document\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button><h4 class=\"modal-title\">For free standard shipping on orders of $59+</h4></div><div class=\"modal-body\"><p>Enter coupon code 903055 at checkout.</p>\n\n<p>Free shipping offer excludes personal protective grear and rush or expedited delivery methods and is valid on deliveires to addresses within the Continental U.S. only. No adjustments to prior purchases or orders in progress. Not valid in conjuction with any other offer.</p>\n</div><div class=\"modal-footer\" style=\"text-align:left;\">*Offer expires 8/28/20 at 11:59 pm PDT.</div></div></div></div></div>",
-    "evergagecss": "@import url(\"https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap\");${message.cssSelector} {background-color: rgb(250, 250, 250);width: 100%!important;font-family: \"Roboto Condensed\", sans-serif;border-top:solid white 2px;border-bottom:solid white 2px;}.render{display:flex; flex-direction: row;}@media all and (max-width:767px){.render{flex-direction: column;}}.banner{width:100%;}[id=\"banner_6975\"] [data-bp=\"bpid_44501\"]{ display:none;}@media screen and (min-width:1200px){ [id=\"banner_6975\"] [data-bp=\"bpid_44501\"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:60px;background-color:#ec0d77;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id=\"banner_6975\"] [data-bp=\"bpid_83829\"]{ display:none;}@media screen and (max-width:1199px){ [id=\"banner_6975\"] [data-bp=\"bpid_83829\"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:60px;background-color:#ec0d77;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id=\"banner_9733\"] [data-bp=\"bpid_12704\"]{ display:none;}@media screen and (min-width:1200px){ [id=\"banner_9733\"] [data-bp=\"bpid_12704\"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:60px;background-color:#921c56;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id=\"banner_9733\"] [data-bp=\"bpid_18012\"]{ display:none;}@media screen and (max-width:1199px){ [id=\"banner_9733\"] [data-bp=\"bpid_18012\"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:60px;background-color:#921c56;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id*=\"modal_\"]{padding-right:0px!important;}[id*=\"modal_\"] p{padding:0;margin:0;}[id*=\"modal_\"] .modal-dialog {width:600px;margin:30px auto;position:relative;}[id*=\"modal_\"] .modal-dialog .modal-body{padding-top:15px;}@media all and (max-width:767px){.modal-dialog{width:auto; margin: 30px auto;}}span.gutter{padding:0 2px 0 0;}@media all and (max-width:767px){span.gutter{padding:0 0 2px 0;}}span.gutter:last-of-type{display:none;}"
+    "evergagecss": "@import url(\"https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap\");${message.cssSelector} {background-color: rgb(250, 250, 250);width: 100%!important;font-family: \"Roboto Condensed\", sans-serif;border-top:solid white 2px;border-bottom:solid white 2px;}.render{display:flex; flex-direction: row;}@media all and (max-width:1199px){.render{flex-direction: column;}}.banner{width:100%;}[id=\"banner_3740\"],[id=\"banner_3740\"] [data-bp=\"bpid_26239\"]{display:none;}@media screen and (min-width:1200px){[id=\"banner_3740\"]{display:block!important;}[id=\"banner_3740\"] [data-bp=\"bpid_26239\"]{display:flex!important;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:60px;background-color:#ec0d77;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id=\"banner_3740\"],[id=\"banner_3740\"] [data-bp=\"bpid_63041\"]{display:none;}@media screen and (max-width:1199px){[id=\"banner_3740\"]{display:block!important;}[id=\"banner_3740\"] [data-bp=\"bpid_63041\"]{display:flex!important;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:60px;background-color:#ec0d77;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id=\"banner_1260\"],[id=\"banner_1260\"] [data-bp=\"bpid_92209\"]{display:none;}@media screen and (min-width:1200px){[id=\"banner_1260\"]{display:block!important;}[id=\"banner_1260\"] [data-bp=\"bpid_92209\"]{display:flex!important;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:60px;background-color:#921c56;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id=\"banner_1260\"],[id=\"banner_1260\"] [data-bp=\"bpid_33202\"]{display:none;}@media screen and (max-width:1199px){[id=\"banner_1260\"]{display:block!important;}[id=\"banner_1260\"] [data-bp=\"bpid_33202\"]{display:flex!important;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:60px;background-color:#921c56;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id*=\"modal_\"]{padding-right:0px!important;}[id*=\"modal_\"] p{padding:0;margin:0;}[id*=\"modal_\"] .modal-dialog{width:600px;margin:30px auto;position:relative;}[id*=\"modal_\"] .modal-dialog .modal-body{padding-top:15px;}@media all and (max-width:1199px){.modal-dialog{width:auto; margin: 30px auto;}}span.gutter{padding:0 2px 0 0;}@media all and (max-width:1199px){span.gutter{padding:0 0 2px 0;}}span.gutter:last-of-type{display:none;}",
+    "evergagehtml": "<div class=\"render\"><div id=\"banner_3740\" class=\"banner trigger\" role=\"button\" data-toggle=\"modal\" data-target=\"#modal_3740\" style=\"cursor: pointer;\"><div data-bp=\"bpid_26239\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">FREE </span></strong><span style=\"font-size:24px\">STANDARD </span><strong><span style=\"font-size:24px\">SHIPPING</span></strong><span style=\"font-size:24px\">!</span></span></p></span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\">ON $59 OR MORE</span></p></span><span class=\"text-group\" data-output-index=\"3\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS » DESKTOP</span></span></p></span></div><div data-bp=\"bpid_63041\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">FREE </span></strong><span style=\"font-size:24px\">STANDARD </span><strong><span style=\"font-size:24px\">SHIPPING</span></strong><span style=\"font-size:24px\">!</span></span></p></span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS » MOBILE</span></span></p></span></div></div><span class=\"gutter\"></span><div id=\"banner_1260\" class=\"banner trigger showing\" role=\"button\" target=\"_blank\" onclick=\"window.open('https://www.paulayoung.com#','new_window');\" style=\"cursor: pointer;\"><div data-bp=\"bpid_92209\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">150% </span></strong><span style=\"font-size:24px\">PRICE </span><strong><span style=\"font-size:24px\">GUARANTEE</span></strong><span style=\"font-size:24px\">!</span></span></p></span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS » DESKTOP</span></span></p></span></div><div data-bp=\"bpid_33202\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"color:#ffffff\"><strong><span style=\"font-size:24px\">150% </span></strong><span style=\"font-size:24px\">PRICE </span><strong><span style=\"font-size:24px\">GUARANTEE</span></strong><span style=\"font-size:24px\">!</span></span></p></span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span style=\"font-size:14px\"><span style=\"color:#ffffff\">DETAILS » MOBILE</span></span></p></span></div></div><span class=\"gutter\"></span><div id=\"modal_3740\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\"><div class=\"modal-dialog\" role=\"document\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button><h4 class=\"modal-title\">For free standard shipping on orders of $59+</h4></div><div class=\"modal-body\"><p>Enter coupon code 903055 at checkout.</p>\n\n<p>Free shipping offer excludes personal protective grear and rush or expedited delivery methods and is valid on deliveires to addresses within the Continental U.S. only. No adjustments to prior purchases or orders in progress. Not valid in conjuction with any other offer.</p></div><div class=\"modal-footer\" style=\"text-align:left;\">*Offer expires 8/28/20 at 11:59 pm PDT.</div></div></div></div></div>"
 }

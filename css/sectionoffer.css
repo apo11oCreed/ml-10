@@ -252,6 +252,7 @@ legend {
 	border-bottom:none;
 	padding: 2rem 2rem 0 2rem;
 	margin-bottom:0;
+	width: auto;
 }
 
 #mlTen ::placeholder {
@@ -615,6 +616,7 @@ h2 .tab-visible{
     display: block;
 	margin: 0px 4rem;
 	background-color: #ebebeb;
+	overflow-wrap: normal;
 }
 
 #bpForm div.row:last-child {
@@ -700,6 +702,26 @@ label{
 
 .form-control1.error {
 border:red solid 1px;
+}
+
+.starter {
+	text-align:center;
+	font-size:16px;
+	text-transform:uppercase;
+	margin:0 auto;
+	display:block;
+	padding:16px;
+	width:100%;
+	background-color:#b875ae;
+	position:relative;
+}
+.starter:after{
+	content:'CUSTOMIZE BELOW';
+	display:block;
+	position: absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
 }
 /* span.vertical:after{
 	content:'=====';

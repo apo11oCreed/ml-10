@@ -64,32 +64,131 @@ var globals = {
             for (y in Object.values(breakpoints)) {
 
                 var bpid = Object.keys(breakpoints)[y],
+
+                    // max will store maxwidth media query defined by admin for this specific breakpoint
                     max = Number(Object.values(breakpoints)[y]['maxwidth']) == 0 ? '' : ' and (max-width:' + Object.values(breakpoints)[y]['maxwidth'] + 'px)',
+
+                    // min will store minwidth media query defined by admin for this specific breakpoint
                     min = Number(Object.values(breakpoints)[y]['minwidth']) == 0 ? '' : ' and (min-width:' + Object.values(breakpoints)[y]['minwidth'] + 'px)',
+
+                    // height will store height value defined by admin for this specific breakpoint
                     height = Object.values(breakpoints)[y]['height'],
+
+                    // bgimg will store background image value defined by admin for this specific breakpoint
                     bgImg = Object.values(breakpoints)[y]['background']['img'],
+
+                    // bgposition will store background-position value defined by default 
                     bgPosition = Object.values(breakpoints)[y]['background']['position'],
+
+                    // bgPositionX will store maxwidth value defined by admin for this specific breakpoint
                     bgPositionX = Number(Object.values(breakpoints)[y]['background']['positionx']) == 0 || Object.values(breakpoints)[y]['background']['positionx'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['positionx'] + '%',
+
+                    // bgPositionY will store y axis value defined by admin for this specific breakpoint
                     bgPositionY = Number(Object.values(breakpoints)[y]['background']['positiony']) == 0 || Object.values(breakpoints)[y]['background']['positiony'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['positiony'] + '%',
+
+                    // bgwidth will store the background image width value defined by admin for this specific breakpoint
                     bgwidth = Number(Object.values(breakpoints)[y]['background']['bgwidth']) == 0 || Object.values(breakpoints)[y]['background']['bgwidth'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['bgwidth'] + '%',
+
+                    // bgheight will store the background image width value defined by admin for this specific breakpoint
                     bgheight = Number(Object.values(breakpoints)[y]['background']['bgheight']) == 0 || Object.values(breakpoints)[y]['background']['bgheight'] == 'auto' ? 'auto' : Object.values(breakpoints)[y]['background']['bgheight'] + '%',
-                    //bgState = Object.values(breakpoints)[y]['background']['state'],
-                    media = Number(Object.values(breakpoints)[y]['minwidth']) == 0 && Number(Object.values(breakpoints)[y]['maxwidth']) == 0 ? '[id="banner_' + id + '"] [data-bp="' + bpid + '"]{cursor: ' + cursor + ';display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:' + height + 'px;background-color:' + hex + ';background-image:url("' + bgImg + '");background-position:' + bgPosition + ';background-position-x:' + bgPositionX + ';background-position-y:' + bgPositionY + ';background-repeat:no-repeat;background-size:' + bgwidth + ' ' + bgheight + ';}' : '[id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:none;}@media screen' +
+
+                    // Store media query definitions built from vars above
+                    media = Number(Object.values(breakpoints)[y]['minwidth']) == 0 && Number(Object.values(breakpoints)[y]['maxwidth']) == 0
+
+                        ?
+
+                        // If minwidth & maxwidth both do not exist, exlude media queries altogether
+                        '[id="banner_' + id + '"] [data-bp="' + bpid + '"]' +
+                        '{' +
+                        'cursor: ' + cursor + ';' +
+                        'display:flex;' +
+                        'flex-direction: row;' +
+                        'justify-content: space-evenly;' +
+                        'flex-wrap:wrap;' +
+                        'width:100%;' +
+                        'align-items: center;' +
+                        'height:auto;' +
+                        'min-height:' + height + 'px;' +
+                        'background-color:' + hex + ';' +
+                        'background-image:url("' + bgImg + '");' +
+                        'background-position:' + bgPosition + ';' +
+                        'background-position-x:' + bgPositionX + ';' +
+                        'background-position-y:' + bgPositionY + ';' +
+                        'background-repeat:no-repeat;' +
+                        'background-size:' + bgwidth + ' ' + bgheight + ';' +
+                        '}'
+
+                        :
+
+                        // If either minwidth or maxwidth exist, include the media query
+                        '[id="banner_' + id + '"],[id="banner_' + id + '"] [data-bp="' + bpid + '"]{display:none;}' +
+                        '@media screen' +
                         min +
                         max +
-                        '{ [id="banner_' + id + '"] [data-bp="' + bpid + '"]{ display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:' + height + 'px;background-color:' + hex + ';background-image:url("' + bgImg + '");background-position:' + bgPosition + ';background-position-x:' + bgPositionX + ';background-position-y:' + bgPositionY + ';background-repeat:no-repeat;background-size:' + bgwidth + ' ' + bgheight + ';}}';
+                        '{' +
+                        '[id="banner_' + id + '"]{display:block!important;}' +
+                        '[id="banner_' + id + '"] [data-bp="' + bpid + '"]{' +
+                        'display:flex!important;' +
+                        'flex-direction: row;' +
+                        'justify-content: space-evenly;' +
+                        'flex-wrap:wrap;width:100%;' +
+                        'align-items: center;' +
+                        'height:auto;' +
+                        'min-height:' + height + 'px;' +
+                        'background-color:' + hex + ';' +
+                        'background-image:url("' + bgImg + '");' +
+                        'background-position:' + bgPosition + ';' +
+                        'background-position-x:' + bgPositionX + ';' +
+                        'background-position-y:' + bgPositionY + ';' +
+                        'background-repeat:no-repeat;' +
+                        'background-size:' + bgwidth + ' ' + bgheight + ';' +
+                        '}' +
+                        '}';
 
 
                 styles += media;
             }
         };
-        styles += '[id*="modal_"]{padding-right:0px!important;}[id*="modal_"] p{padding:0;margin:0;}[id*="modal_"] .modal-dialog {width:600px;margin:30px auto;position:relative;}[id*="modal_"] .modal-dialog .modal-body{padding-top:15px;}@media all and (max-width:' + stackbreakpoint + 'px){.modal-dialog{width:auto; margin: 30px auto;}}span.gutter{padding:0 2px 0 0;}@media all and (max-width:' + stackbreakpoint + 'px){span.gutter{padding:0 0 2px 0;}}span.gutter:last-of-type{display:none;}';
+        styles += '[id*="modal_"]{' +
+            'padding-right:0px!important;' +
+            '}' +
+            '[id*="modal_"] p' +
+            '{' +
+            'padding:0;margin:0;' +
+            '}' +
+            '[id*="modal_"] .modal-dialog' +
+            '{' +
+            'width:600px;' +
+            'margin:30px auto;' +
+            'position:relative;' +
+            '}' +
+            '[id*="modal_"] .modal-dialog .modal-body' +
+            '{' +
+            'padding-top:15px;' +
+            '}' +
+            '@media all and (max-width:' + stackbreakpoint + 'px)' +
+            '{' +
+            '.modal-dialog' +
+            '{' +
+            'width:auto; margin: 30px auto;' +
+            '}' +
+            '}' +
+            'span.gutter' +
+            '{' +
+            'padding:0 2px 0 0;' +
+            '}' +
+            '@media all and (max-width:' + stackbreakpoint + 'px)' +
+            '{' +
+            'span.gutter' +
+            '{' +
+            'padding:0 0 2px 0;' +
+            '}' +
+            '}' +
+            'span.gutter:last-of-type' +
+            '{' +
+            'display:none;' +
+            '}';
         return styles;
-    },
-    render: function () {
-        for (banner in this.campaign.bannerObjects) {
-            this.campaign.bannerObjects[banner].render();
-        }
     }
 };
 
@@ -114,7 +213,7 @@ $(document).ready(function () {
             globals.campaign.selectBrand = '';
             globals.campaign.stackbreakpoint = 575;
 
-            $('#campaign .col-xs-12').append(sections);
+            $('#campaign .col-xs-12').append(sections());
 
             // Create new banner object
             idInit = randomId(1000, 9999);
@@ -124,7 +223,9 @@ $(document).ready(function () {
             globals.campaign.bannerObjects['banner_' + idInit] = bannerInit;
 
             // Run the new banner object render function
-            globals.render();
+            for (banner in globals.campaign.bannerObjects) {
+                globals.campaign.bannerObjects[banner].render();
+            }
 
             coreBehaviors();
 
@@ -137,11 +238,9 @@ $(document).ready(function () {
 
                 $('#campaign .col-xs-12').html('');
 
-                $('#campaign .col-xs-12').append(sections);
+                $('#campaign .col-xs-12').append(sections());
 
                 $('#msgBox').modal('hide');
-
-                console.log(globals.campaign);
 
                 jsonRender(globals.campaign);
 
@@ -197,7 +296,7 @@ function jsonRender(obj) {
                 $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
                     name +
                     '</h5>' +
-                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseBpProps_' + bpid + '" class="glyphicon"></span>' +
                     '<dl id="dl_' + bpid + '" class="collapse">' +
                     '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
                     height + 'px</span></dd>' +
@@ -207,7 +306,7 @@ function jsonRender(obj) {
                 $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
                     name +
                     '</h5>' +
-                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseBpProps_' + bpid + '" class="glyphicon"></span>' +
                     '<dl id="dl_' + bpid + '" class="collapse">' +
                     '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
                     maxwidth + 'px</span></dd>' +
@@ -219,7 +318,7 @@ function jsonRender(obj) {
                 $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
                     name +
                     '</h5>' +
-                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseBpProps_' + bpid + '" class="glyphicon"></span>' +
                     '<dl id="dl_' + bpid + '" class="collapse">' +
                     '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
                     minwidth + 'px</span></dd>' +
@@ -231,7 +330,7 @@ function jsonRender(obj) {
                 $('[data-bp="bpid_' + bpid + '"] button[name="copyTab"]', '[id="props_' + id + '"]').html('<h5 style="margin-top:0;margin-bottom:0;">' +
                     name +
                     '</h5>' +
-                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+                    '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseBpProps_' + bpid + '" class="glyphicon"></span>' +
                     '<dl id="dl_' + bpid + '" class="collapse">' +
                     '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
                     minwidth + 'px</span></dd>' +
@@ -433,9 +532,6 @@ function jsonRender(obj) {
 
             }
 
-            // $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').removeClass('showing');
-            // $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').last().addClass('showing');
-
             obj.bannerObjects[banner].thisBannerExtendedBehaviors(id, bpid);
             obj.bannerObjects[banner].thisBannerBaseBehaviors(obj.bannerObjects[banner]);
         }
@@ -538,6 +634,9 @@ function coreBehaviors() {
         $('select#brands').val('');
         $('select#brands:selected').val('-- select --');
 
+        // Reset labeling
+        $('.txtPlaceholder').html('');
+
         // Since embedded styles now removed, disable export buttons
         $('button[name="exportjson"]').prop('disabled', true);
         $('button[name="exporthtml"]').prop('disabled', true);
@@ -621,7 +720,7 @@ function bannerBaseBehaviors(thisBanner) {
         thisBanner.hex = rgbToHex(Number(thisBanner.css.bgColor.r), Number(thisBanner.css.bgColor.g), Number(thisBanner.css.bgColor.b));
 
         // Update embedded stylesheet
-        updateStyles();
+        updateStyles(id);
     });
 
     // When tab is clicked, enable editing and updating UI name
@@ -803,7 +902,7 @@ function checkImageExists1(el, url, banner) {
 
         globals.campaign.bannerObjects['banner_' + banner.id].css.breakpoints['bpid_' + bp].background.img = img.src;
 
-        updateStyles()
+        updateStyles(banner.id)
     };
     img.onerror = function () {
         $(el).parent().addClass('notfound');
@@ -811,7 +910,7 @@ function checkImageExists1(el, url, banner) {
 
         globals.campaign.bannerObjects['banner_' + banner.id].css.breakpoints['bpid_' + bp].background.img = 'none';
 
-        updateStyles()
+        updateStyles(banner.id)
     };
 
     img.src = imgURL1(el, true);
@@ -1129,7 +1228,7 @@ function assignOnClickBehavior(id) {
         globals.campaign.bannerObjects['banner_' + id].cursor = 'none';
 
     }
-    updateStyles();
+    updateStyles(id);
 }
 
 // function linkToPage(id) {
@@ -1360,12 +1459,14 @@ function add(thisButton) {
 
 function removeThis(thisButton) {
 
-    var dataDomain = $(thisButton).closest('[data-domain]').data('domain');
+    var dataDomain = $(thisButton).closest('[data-domain]').data('domain'),
+        id;
 
     if (dataDomain == 'tabs') {
         var seriesParent = $(thisButton).closest('[id*="tabs_"]'),
-            id = $(seriesParent).attr('id').substr(-4),
             series;
+
+        id = $(seriesParent).attr('id').substr(-4);
 
         delete globals.campaign.bannerObjects['banner_' + id];
 
@@ -1384,8 +1485,9 @@ function removeThis(thisButton) {
         var seriesParent = $(thisButton).closest('[data-domain="' + dataDomain + '"]'),
             dataIndex = $(thisButton).closest('[data-input-index]').attr('data-input-index'),
             bpid = $(thisButton).closest('[name*="bpid"]').attr('name').substr(-5),
-            id = $(thisButton).closest('[id*="content"]').attr('id').substr(-4),
             series;
+
+        id = $(thisButton).closest('[id*="content"]').attr('id').substr(-4);
 
         delete globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][dataIndex];
 
@@ -1401,8 +1503,9 @@ function removeThis(thisButton) {
     } else {
         var seriesParent = $(thisButton).closest('[data-domain="breakpoints"]'),
             bpid = $(thisButton).closest('[name*="bpid"]').attr('name').substr(-5),
-            id = $(thisButton).closest('[id*="content"]').attr('id').substr(-4),
             series;
+
+        id = $(thisButton).closest('[id*="content"]').attr('id').substr(-4);
 
         delete globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid];
 
@@ -1423,7 +1526,7 @@ function removeThis(thisButton) {
 
     }
 
-    updateStyles();
+    updateStyles(id);
 }
 
 function edit(thisButton) {
@@ -1475,7 +1578,7 @@ function update(el1, el2) {
         $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
             name +
             '</h5>' +
-            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseBpProps_' + bpid + '" class="glyphicon"></span>' +
             '<dl id="dl_' + bpid + '" class="collapse">' +
             '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
             height + 'px</span></dd>' +
@@ -1485,7 +1588,7 @@ function update(el1, el2) {
         $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
             name +
             '</h5>' +
-            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseBpProps_' + bpid + '" class="glyphicon"></span>' +
             '<dl id="dl_' + bpid + '" class="collapse">' +
             '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
             maxwidth + 'px</span></dd>' +
@@ -1497,7 +1600,7 @@ function update(el1, el2) {
         $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
             name +
             '</h5>' +
-            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseBpProps_' + bpid + '" class="glyphicon"></span>' +
             '<dl id="dl_' + bpid + '" class="collapse">' +
             '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
             minwidth + 'px</span></dd>' +
@@ -1509,7 +1612,7 @@ function update(el1, el2) {
         $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
             name +
             '</h5>' +
-            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseExample" class="glyphicon"></span>' +
+            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseBpProps_' + bpid + '" class="glyphicon"></span>' +
             '<dl id="dl_' + bpid + '" class="collapse">' +
             '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
             minwidth + 'px</span></dd>' +
@@ -1530,7 +1633,7 @@ function update(el1, el2) {
 
     $('[data-bp="bg_' + bpid + '"] b.bpName').html(globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name);
 
-    updateStyles();
+    updateStyles(id);
 
     $('#msgBox').modal('hide');
 }
@@ -1559,8 +1662,13 @@ function copyToClipBoard() {
     document.execCommand('copy');
 }
 
-function updateStyles() {
+function updateStyles(id) {
+
     var embedstyles = $('style#banners');
+
+    if ($('.render [id="banner_' + id + '"] [data-bp]').hasClass('starter')) {
+        $('.render [id="banner_' + id + '"] [data-bp]').removeAttr('class');
+    }
 
     $(embedstyles).html('');
     $(embedstyles).append(globals.buildStyles(globals.campaign.bannerObjects));
@@ -1578,20 +1686,40 @@ function sections() {
         '</div>' +
         '</div>' +
         '<br>' +
+
         '<div class="row">' +
         '<div class="col-xs-12">' +
         '<p>' +
         '<span class="required">*</span> - Required.</p>' +
         '</div>' +
         '</div>' +
+
+        '<div class="row">' +
+        '<fieldset id="bannerTabs" class="col-xs-12">' +
+
+        '<legend>' +
+        '<h2>Banners</h2>' +
+        '</legend>' +
+
+        '<span class="dynamic">' +
+        '<div class="row-fluid flex-it" data-domain="tabs"></div>' +
+        '</span>' +
+
+        '<hr>' +
+
+        '<p>Click on the <b>[ |A]</b> button to edit the name of the banner and to begin customizing the banner in the banner\'s properties form.<span class="required">*</span><br>Hover over <b>[ |A]</b> button(s) to view toolbar.<br>Click on the <b>[ <span style="color:green;">+</span>]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span>]</b> button to remove a banner.</p>' +
+
+        '</fieldset>' +
+        '</div>' +
+
         '<div id="globals" class="row">' +
 
         '<fieldset id="globalProperties" class="col-xs-12">' +
         '<legend>' +
-        '<h2 data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"><span class="txtPlaceholder"></span>Global Attributes <span class="glyphicon glyphicon-menu-hamburger"></span></h2>' +
+        '<h2 data-toggle="collapse" data-target="#collapseGlobals" aria-expanded="true" aria-controls="collapseGlobals"><span class="txtPlaceholder"></span>Global Attributes <span class="glyphicon glyphicon-menu-hamburger"></span></h2>' +
         '</legend>' +
 
-        '<div class="row-fluid collapse" id="collapseExample">' +
+        '<div class="row-fluid collapse" id="collapseGlobals">' +
 
         '<div class="col-xs-12">' +
 
@@ -1659,19 +1787,7 @@ function sections() {
         '</div>' +
         '</div>' +
         '</div>' +
-        '<div class="row-fluid">' +
-        '<fieldset id="bannerTabs" class="col-xs-12">' +
-        '<legend>' +
-        '<h3>Banners</h3>' +
-        '</legend>' +
-        '<p>Click on the <b>[ |A]</b> button to edit the name of the banner and to begin customizing the banner in the banner\'s properties form.<span class="required">*</span><br>Hover over <b>[ |A]</b> button(s) to view toolbar.<br>Click on the <b>[ <span style="color:green;">+</span>]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span>]</b> button to remove a banner.</p>' +
-        '<hr>' +
-        '<span class="dynamic">' +
-        '<div class="row-fluid flex-it" data-domain="tabs"></div>' +
-        '</span>' +
-        '<br>' +
         '</fieldset>' +
-        '</div></fieldset>' +
         '</div>' +
         '<div id="properties" class="row">' +
         '<div class="dynamic"></div>' +
@@ -1823,7 +1939,7 @@ function bannerCreatorForm(el1) {
             '<div class="row-fluid">' +
             '<div class="col-xs-6">' +
             '<div class="row-fluid enter-text-modal flex-it">' +
-            '<label for="modalTitle">Modal Title</label>' +
+            '<label for="modalTitle">Modal Title <small>(max characters: 45)</small></label>' +
             '<br>' +
             '<input id="modalTitle" name="modalTitle" placeholder="For free standard shipping on orders of $59 or more, &hellip;" type="text" size="50" maxlength="50">' +
             '</div>' +
@@ -1835,7 +1951,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '<br>' +
             '<div class="row-fluid enter-text-modal flex-it">' +
-            '<label for="modalFooter">Modal Footer</label>' +
+            '<label for="modalFooter">Modal Footer <small>(max characters: 45)</small></label>' +
             '<br>' +
             '<input id="modalFooter" name="modalFooter" placeholder="*Offer expires 8/7/20 at 11:59 pm PDT." type="text" size="50" maxlength="50">' +
             '</div>' +
@@ -1887,11 +2003,11 @@ function bannerCreatorForm(el1) {
 
         html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties">' +
             '<legend>' +
-            '<h2 data-toggle="collapse" data-target="#collapseExample_' + id + '" aria-expanded="true" aria-controls="collapseExample_' + id + '">' +
+            '<h2 data-toggle="collapse" data-target="#collapseProps_' + id + '" aria-expanded="true" aria-controls="collapseProps_' + id + '">' +
             '<span class="txtPlaceholder"></span>Properties ' +
             '<span class="glyphicon glyphicon-menu-hamburger"></span></h2>' +
             '</legend>' +
-            '<div class="row-fluid collapse" id="collapseExample_' + id + '">' +
+            '<div class="row-fluid collapse" id="collapseProps_' + id + '">' +
 
             '<div class="col-xs-12">' +
             content +
@@ -1920,14 +2036,14 @@ function bannerTab(el1) {
 }
 
 function bannerPreview(banner) {
-    var html = '<div id="banner_' + banner.id + '" class="banner trigger" role="presentation" style="display:block">' +
+    var html = '<div id="banner_' + banner.id + '" class="banner trigger" role="presentation">' +
         '</div><span class="gutter"></span>';
 
     return html;
 }
 
 function bannerPreviewBreakpoint(id, breakpointId) {
-    var html = '<div data-bp="bpid_' + breakpointId + '"><span class="text-group" data-output-index="1"><span style="text-align:center;font-size:16px;text-transform:uppercase;margin:0 auto;display:block;padding:16px;background-color:#b875ae;width:100%;">&nbsp;</span></span></div>';
+    var html = '<div data-bp="bpid_' + breakpointId + '" class="starter"><span class="text-group" data-output-index="1"></span></div>';
 
     return html;
 }
@@ -2345,7 +2461,6 @@ function bannerObj(el1) {
 
             // Initial CKEditor on the first designated text area
             $('textarea.editor').ckeditor();
-
 
             this.thisBannerBgSettingsExtended(this.id, bpid);
 

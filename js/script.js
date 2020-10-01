@@ -273,7 +273,8 @@ function jsonRender(obj) {
     $('#globalProperties > legend > h2 > span.txtPlaceholder').text(obj.name + ' ');
 
     for (banner in obj.bannerObjects) {
-        var id = banner.substr(-4);
+        var id = banner.substr(-4),
+            bptabs;
 
         // For every banner object in the banners object, populate the banner tabs container with output HTML using the banner object as the function argument requires banner id and txtplaceholder props
         $('[id="bannerTabs"] span.dynamic .row-fluid.flex-it').append(bannerTab(obj.bannerObjects[banner]));
@@ -559,7 +560,6 @@ function jsonRender(obj) {
 
             }
 
-
         }
 
         obj.bannerObjects[banner].thisBannerExtendedBehaviors(id, bpid);
@@ -577,31 +577,21 @@ function jsonRender(obj) {
 
         $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').last().addClass('showing');
 
+        bptabs = $('[data-domain="breakpoints"] .subtract-button', '[id="content_' + id + '"]');
 
+        if (bptabs.length > 1) {
+            $('[data-domain="breakpoints"] .subtract-button', '[id="content_' + id + '"]').prop('hidden', false);
+        } else {
+            $('[data-domain="breakpoints"] .subtract-button', '[id="content_' + id + '"]').prop('hidden', true);
+        }
 
     }
-
-    // $('.row.inputs [name*="bpid_"]', '[id*="props_"]').removeClass('showing');
-    // $('.row.inputs [name*="bpid_"]', '[id*="props_"]').last().addClass('showing');
-
-    // $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id*="props_"]').removeClass('showing');
-    // $('.row.backgroundimage > .col-xs-12 > [data-bp]', '[id*="props_"]').last().addClass('showing');
 
     $('[id*="props_"]').removeClass('showing');
     $('[id*="props_"]').last().addClass('showing');
 
     $('[id*="tabs_"] .banner-tab').removeClass('showing');
     $('[id*="tabs_"] .banner-tab').last().addClass('showing');
-
-    var bptabs = $('[data-domain="breakpoints"] .subtract-button', '[id="content_' + id + '"]');
-
-    if (bptabs.length > 1) {
-        $('[data-domain="breakpoints"] .subtract-button', '[id="content_' + id + '"]').prop('hidden', false);
-        console.log('test1');
-    } else {
-        $('[data-domain="breakpoints"] .subtract-button', '[id="content_' + id + '"]').prop('hidden', true);
-        console.log('test2');
-    }
 
     // Initial CKEditor on the first designated text area
     $('textarea.editor').ckeditor();

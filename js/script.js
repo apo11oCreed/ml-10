@@ -244,8 +244,6 @@ $(document).ready(function () {
 
                 jsonRender(globals.campaign);
 
-                coreBehaviors();
-
                 $('button[name="exportjson"]').prop('disabled', false);
                 $('button[name="exporthtml"]').prop('disabled', false);
                 $('button[name="exportcss"]').prop('disabled', false);
@@ -335,7 +333,6 @@ function jsonRender(obj) {
 
         // Bind thisBannerExtendedBehaviors to this banner
         obj.bannerObjects[banner]['thisBannerBgSettingsExtended'] = function (id, bpid) {
-            console.log('thisBannerBgSettingsExtended id=' + id + ' breakpoint id=' + bpid);
 
             // Add new breakpoint tab
             $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid, '|A'));
@@ -364,7 +361,6 @@ function jsonRender(obj) {
 
         // Bind thisBannerExtendedBehaviors to this banner
         obj.bannerObjects[banner]['thisBannerExtendedBehaviors'] = function (id, bpid) {
-            console.log('thisBannerExtendedBehaviors id=' + id + ' breakpoint id=' + bpid);
 
             $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input[name="lorr1_' + bpid + '"]', '[id="props_' + id + '"]').on('change', function () {
 
@@ -609,6 +605,8 @@ function jsonRender(obj) {
     // Initial CKEditor on the first designated text area
     $('textarea.editor').ckeditor();
 
+    coreBehaviors();
+
 }
 
 function coreBehaviors() {
@@ -696,6 +694,42 @@ function coreBehaviors() {
         // Update media query reference to flex in embedded stylesheet
         updateStyles();
 
+    });
+
+    // Interchangeable messaging for help modal
+    $("span.help1").on('click', function () {
+
+        var helpMsg = '';
+        switch ($(this).data('help')) {
+            case 'desktop':
+                helpMsg = '<h4>For breakpoints in which the width is <u>above</u> 575px</h4><ul><li><b>Local</b> Place a 962px wide (desktop,tablet) image in the same directory as this HTML file and enter the filename here.</li><li><b>Remote</b> Place a 962px wide (desktop,tablet) image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"</li></ul><h4>For breakpoints in which the width is <u>below</u> 575px</h4><ul><li><b>Local</b> Place a 575px wide (mobile) image in the same directory as this HTML file and enter the filename here.</li><li><b>Remote</b> Place a 575px wide (mobile) image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"</li></ul>';
+                break;
+            case 'width':
+                helpMsg = 'Enter a number value between the range of 0-100 to fit the image within the breakpoint container. Enter a number value above 100 to scale the image beyond the breakpoint container. To keep dimensions proportional relative to width, set the <b>Height</b> to \'auto\'.';
+                break;
+            case 'height':
+                helpMsg = 'Enter a number value between the range of 0-100 to fit the image within the breakpoint container. Enter a number value above 100 to scale the image beyond the breakpoint container. To keep dimensions proportional relative to height, set the <b>Width</b> to \'auto\'.';
+                break;
+            case 'xpos':
+                helpMsg = 'Enter a number value between the range of 0-100 to position the image within the breakpoint container. Enter a number value above 100 to position the image beyond the breakpoint container. <b>NOTE</b> For positioning to work, make sure the image width is below the width of the breakpoint container.';
+                break;
+            case 'ypos':
+                helpMsg = 'Enter a number value between the range of 0-100 to position the image within the breakpoint container. Enter a number value above 100 to position the image beyond the breakpoint container. <b>NOTE</b> For positioning to work, make sure the image height is below the height of the breakpoint container.';
+                break;
+            case 'rgb':
+                helpMsg = 'Enter a number value between the range of 0-250 for each of the RGB fields.';
+                break;
+            case 'required':
+                helpMsg = 'Whether this text is required for this offer. Certain text cannot be omitted.';
+            default:
+                break;
+        }
+
+        msgBox1(helpMsg, 'Help');
+
+        $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
+            $(this).remove();
+        });
     });
 
 }
@@ -848,39 +882,6 @@ function bannerBaseBehaviors(thisBanner) {
         }
         console.log(globals);
     });
-
-    // Interchangeable messaging for help modal
-    $("span.help1").on('click', function () {
-
-        var helpMsg = '';
-        switch ($(this).data('help')) {
-            case 'desktop':
-                helpMsg = '<h4>For breakpoints in which the width is <u>above</u> 575px</h4><ul><li><b>Local</b> Place a 962px wide (desktop,tablet) image in the same directory as this HTML file and enter the filename here.</li><li><b>Remote</b> Place a 962px wide (desktop,tablet) image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"</li></ul><h4>For breakpoints in which the width is <u>below</u> 575px</h4><ul><li><b>Local</b> Place a 575px wide (mobile) image in the same directory as this HTML file and enter the filename here.</li><li><b>Remote</b> Place a 575px wide (mobile) image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"</li></ul>';
-                break;
-            case 'width':
-                helpMsg = 'Enter a number value between the range of 0-100 to fit the image within the breakpoint container. Enter a number value above 100 to scale the image beyond the breakpoint container. To keep dimensions proportional relative to width, set the <b>Height</b> to \'auto\'.';
-                break;
-            case 'height':
-                helpMsg = 'Enter a number value between the range of 0-100 to fit the image within the breakpoint container. Enter a number value above 100 to scale the image beyond the breakpoint container. To keep dimensions proportional relative to height, set the <b>Width</b> to \'auto\'.';
-                break;
-            case 'xpos':
-                helpMsg = 'Enter a number value between the range of 0-100 to position the image within the breakpoint container. Enter a number value above 100 to position the image beyond the breakpoint container. <b>NOTE</b> For positioning to work, make sure the image width is below the width of the breakpoint container.';
-                break;
-            case 'ypos':
-                helpMsg = 'Enter a number value between the range of 0-100 to position the image within the breakpoint container. Enter a number value above 100 to position the image beyond the breakpoint container. <b>NOTE</b> For positioning to work, make sure the image height is below the height of the breakpoint container.';
-                break;
-            case 'rgb':
-                helpMsg = 'Enter a number value between the range of 0-250 for each of the RGB fields.';
-                break;
-            case 'required':
-                helpMsg = 'Whether this text is required for this offer. Certain text cannot be omitted.';
-            default:
-                break;
-        }
-
-        msgBox1(helpMsg, 'Help');
-    });
-
 }
 
 function websiteURL1() {
@@ -960,9 +961,6 @@ function exportCode1(type) {
                 globals.campaign['evergagehtml'] = $('#rendering .section-offer-content .row-fluid').html();
             }
             htmlExport1();
-            $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
-                $(this).remove();
-            });
             break;
         case 'exportcss':
 
@@ -973,9 +971,6 @@ function exportCode1(type) {
                 globals.campaign['evergagecss'] = $('style#banners').html();
             }
             styleExport1();
-            $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
-                $(this).remove();
-            });
             break;
         case 'exportjs':
 
@@ -986,19 +981,16 @@ function exportCode1(type) {
                 globals.campaign['evergagejs'] = globals.buildScript();
             }
             jsExport1();
-            $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
-                $(this).remove();
-            });
             break;
         case 'exportjson':
             jsonExport1();
-            $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
-                $(this).remove();
-            });
             break;
         default:
             break;
     }
+    $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
+        $(this).remove();
+    });
 }
 
 function jsonExport1() {
@@ -1103,6 +1095,10 @@ function msgBox1(msg, title) {
 
     $('body').append(html);
     $('#msgBox').modal('show');
+
+    $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
+        $(this).remove();
+    });
 }
 
 function reDraw1(el1, el2) {
@@ -2506,6 +2502,8 @@ function bannerObj(el1) {
             globals.campaign.bannerObjects['banner_' + this.id].bpjson[bpid] = {};
 
             globals.campaign.bannerObjects['banner_' + this.id].bpjson[bpid][1] = { 'html': '' };
+
+            coreBehaviors();
         }
     }
 

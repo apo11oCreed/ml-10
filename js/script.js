@@ -170,7 +170,7 @@ var globals = {
             '{' +
             '.modal-dialog' +
             '{' +
-            'width:auto; margin: 30px auto;' +
+            'width:auto!important;' +
             '}' +
             '}' +
             'span.gutter' +
@@ -243,6 +243,13 @@ $(document).ready(function () {
                 $('#msgBox').modal('hide');
 
                 jsonRender(globals.campaign);
+
+                coreBehaviors();
+
+                $('button[name="exportjson"]').prop('disabled', false);
+                $('button[name="exporthtml"]').prop('disabled', false);
+                $('button[name="exportcss"]').prop('disabled', false);
+                $('button[name="exportjs"]').prop('disabled', false);
 
             });
         }
@@ -328,6 +335,7 @@ function jsonRender(obj) {
 
         // Bind thisBannerExtendedBehaviors to this banner
         obj.bannerObjects[banner]['thisBannerBgSettingsExtended'] = function (id, bpid) {
+            console.log('thisBannerBgSettingsExtended id=' + id + ' breakpoint id=' + bpid);
 
             // Add new breakpoint tab
             $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid, '|A'));
@@ -356,6 +364,8 @@ function jsonRender(obj) {
 
         // Bind thisBannerExtendedBehaviors to this banner
         obj.bannerObjects[banner]['thisBannerExtendedBehaviors'] = function (id, bpid) {
+            console.log('thisBannerExtendedBehaviors id=' + id + ' breakpoint id=' + bpid);
+
             $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input[name="lorr1_' + bpid + '"]', '[id="props_' + id + '"]').on('change', function () {
 
                 obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $('input[name="lorr1_' + bpid + '"]:checked').val();
@@ -545,6 +555,8 @@ function jsonRender(obj) {
             // Init breakpoint background image source to local status
             $('[id="content_' + id + '"] [data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
 
+            obj.bannerObjects[banner].thisBannerExtendedBehaviors(id, bpid);
+
 
             for (textgroups in obj.bannerObjects[banner].bpjson[breakpoint]) {
 
@@ -562,7 +574,8 @@ function jsonRender(obj) {
 
         }
 
-        obj.bannerObjects[banner].thisBannerExtendedBehaviors(id, bpid);
+        //obj.bannerObjects[banner].thisBannerBgSettingsExtended(id, bpid);
+        //obj.bannerObjects[banner].thisBannerExtendedBehaviors(id, bpid);
         obj.bannerObjects[banner].thisBannerBaseBehaviors(obj.bannerObjects[banner]);
 
         $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs button.breakpoint-tab', '[id="props_' + id + '"]').removeClass('showing');
@@ -595,8 +608,6 @@ function jsonRender(obj) {
 
     // Initial CKEditor on the first designated text area
     $('textarea.editor').ckeditor();
-
-    coreBehaviors();
 
 }
 
@@ -660,6 +671,7 @@ function coreBehaviors() {
         $('button[name="exportjson"]').prop('disabled', true);
         $('button[name="exporthtml"]').prop('disabled', true);
         $('button[name="exportcss"]').prop('disabled', true);
+        $('button[name="exportjs"]').prop('disabled', true);
 
         // Empty banner objects
         globals.campaign.bannerObjects = {};
@@ -825,8 +837,9 @@ function bannerBaseBehaviors(thisBanner) {
                         $.each(newChildElems, function (index, value) {
                             $(this).css({ 'margin': '0', 'padding': '0' });
                         });
+
+                        $('.render [id="banner_' + id + '"] [data-bp]').removeAttr('class');
                     } else {
-                        console.log('test');
                         // If textgroup instance does not contain anything...
                         $(inputs[p]).addClass('error');
                     }
@@ -1729,7 +1742,7 @@ function sections() {
 
         '<hr>' +
 
-        '<p>Click on the <b>[ |A]</b> button to edit the name of the banner and to begin customizing the banner in the banner\'s properties form.<span class="required">*</span><br>Hover over <b>[ |A]</b> button(s) to view toolbar.<br>Click on the <b>[ <span style="color:green;">+</span>]</b></b> button to add another banner.<br>Click on the <b>[ <span style="color:red;">x</span>]</b> button to remove a banner.</p>' +
+        '<p>Click on the <b>[&nbsp;|A&nbsp;]</b> button to rename the banner and to reveal the banner\'s properties form below.<span class="required">*</span><br>Hover over <b>[&nbsp;|A&nbsp;]</b> button(s) to view toolbar.<br>Click on the <b>[&nbsp;<span style="color:green;">+</span>&nbsp;]</b></b> button to add another banner.<br>Click on the <b>[&nbsp;<span style="color:red;">x</span>&nbsp;]</b> button to remove a banner.</p>' +
 
         '</fieldset>' +
         '</div>' +
@@ -1837,24 +1850,24 @@ function bannerCreatorForm(el1) {
             '<fieldset id="content_' + id + '" class="col-xs-12">' +
 
             '<legend><h3>Banner Breakpoint Settings</h3></legend>' +
-
-            '<div class="row-fluid">' +
-            '<div class="col-xs-12">' +
-            '<p>' +
-            '<br>Hover over <b>[ |A ]</b> button(s) to view breakpoint toolbar.' +
-            '<br>Click on the<b> [ <span style="color:green;">+</span> ]</b> button to add breakpoint.' +
-            '<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove breakpoint.' +
-            '<br>Click on the<b> [ <span class="glyphicon glyphicon-cog" style="color:blue;"></span> ]</b> button to set <b>Name</b>, <b>Min Width</b>, <b>Max Width</b>, <b>Height</b>, and <b>Background Image</b> options of breakpoint.' +
-            '<span class="required">*</span>' +
-            '<br>Click on the <b>[ |A ]</b> button to display the text group form.' +
-            '</p>' +
-            '</div>' +
-            '</div>' +
-
             '<div class="row-fluid content" data-domain="breakpoints">' +
             '<div class="col-xs-12">' +
             '<div class="row flex-it tabs">' +
             '</div>' +
+
+            '<div class="row-fluid">' +
+            '<div class="col-xs-12">' +
+            '<p>' +
+            '<br>Hover over <b>[&nbsp;|A&nbsp;]</b> button(s) to view breakpoint toolbar.' +
+            '<br>Click on the<b> [&nbsp;<span style="color:green;">+</span>&nbsp;]</b> button to add breakpoint.' +
+            '<br>Click on the <b>[&nbsp;<span style="color:red;">x</span>&nbsp;]</b> button to remove breakpoint.' +
+            '<br>Click on the<b> [&nbsp;<span class="glyphicon glyphicon-cog" style="color:blue;"></span>&nbsp;]</b> button to set <b>Name</b>, <b>Min Width</b>, <b>Max Width</b>, <b>Height</b>, and <b>Background Image</b> options of breakpoint.' +
+            '<span class="required">*</span>' +
+            '<br>Click on the <b>[&nbsp;|A&nbsp;]</b> button to display the text group form.' +
+            '</p>' +
+            '</div>' +
+            '</div>' +
+
             '<hr>' +
 
             '<div class="row backgroundimage">' +
@@ -1885,8 +1898,8 @@ function bannerCreatorForm(el1) {
             '<div class="row">' +
             '<div class="col-xs-12">' +
             '<p>' +
-            '<br>Click on the <b>[ <span style="color:green;">+</span> ]</b></b> button to add another text group.' +
-            '<br>Click on the <b>[ <span style="color:red;">x</span> ]</b> button to remove a text group.' +
+            '<br>Click on the <b>[&nbsp;<span style="color:green;">+</span>&nbsp;]</b></b> button to add another text group.' +
+            '<br>Click on the <b>[&nbsp;<span style="color:red;">x</span>&nbsp;]</b> button to remove a text group.' +
             '</p>' +
             '</div>' +
             '</div>' +

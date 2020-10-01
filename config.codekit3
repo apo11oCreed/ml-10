@@ -17,6 +17,14 @@
 		"oAP": "/.gitignore",
 		"oF": 1
 		},
+	"/campaign.json": {
+		"ft": 524288,
+		"oA": 1,
+		"oAP": "/campaign-min.json",
+		"oF": 0,
+		"oO": 0,
+		"oS": 1
+		},
 	"/ckeditor/adapters/jquery.js": {
 		"bF": 0,
 		"ft": 64,

@@ -178,6 +178,10 @@ function jsonRender(obj) {
         $('[name="b"]', '[id="props_' + id + '"]').attr('placeholder', obj.bannerObjects[banner].css.bgColor.b);
         $('[name="g"]', '[id="props_' + id + '"]').attr('placeholder', obj.bannerObjects[banner].css.bgColor.g);
 
+        if ($('select#onClickBehavior_' + id).val()) {
+            $('[id="clickbehavior_' + id + '"] #updateOnClick').css('display', 'block');
+        }
+
         for (breakpoint in obj.bannerObjects[banner].bpjson) {
             var bpid = breakpoint,
                 name = obj.bannerObjects[banner].css.breakpoints['bpid_' + breakpoint].name,
@@ -1564,8 +1568,19 @@ function updateStyles() {
 
 function sections() {
     var html = '<br>' +
+        '<style id="banners"></style>' +
+        '<div id="rendering" class="row">' +
+        '<div class="section-offer-content col-xs-12">' +
+        '<div class="row-fluid">' +
+        '<div class="render">' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<br>' +
         '<div class="row">' +
-        '<p class="col-xs-12">' +
+        '<div class="col-xs-12">' +
+        '<p>' +
         '<span class="required">*</span> - Required.</p>' +
         '</div>' +
         '</div>' +
@@ -1573,12 +1588,16 @@ function sections() {
 
         '<fieldset id="globalProperties" class="col-xs-12">' +
         '<legend>' +
-        '<h2><span class="txtPlaceholder"></span>Global Attributes</h2>' +
+        '<h2 data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"><span class="txtPlaceholder"></span>Global Attributes <span class="glyphicon glyphicon-menu-hamburger"></span></h2>' +
         '</legend>' +
+
+        '<div class="row-fluid collapse" id="collapseExample">' +
+
+        '<div class="col-xs-12">' +
 
         '<div class="row-fluid">' +
 
-        '<fieldset id="brand" class="col-xs-12">' +
+        '<fieldset id="campaign" class="col-xs-12">' +
         '<legend>' +
         '<h3>Campaign</h3>' +
         '</legend>' +
@@ -1654,15 +1673,6 @@ function sections() {
         '</fieldset>' +
         '</div></fieldset>' +
         '</div>' +
-        '<style id="banners"></style>' +
-        '<div id="rendering" class="row">' +
-        '<div class="section-offer-content col-xs-12">' +
-        '<div class="row-fluid">' +
-        '<div class="render">' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
         '<div id="properties" class="row">' +
         '<div class="dynamic"></div>' +
         '</div>' +
@@ -1674,6 +1684,8 @@ function sections() {
         '<button type="button" name="exportcss" disabled>Export CSS</button>' +
         '<button type="button" name="exportjs" disabled>Export Javascript</button>' +
         '<button id="form-reset" type="button" name="resetall">Reset</button>' +
+        '</div>' +
+        '</div>' +
         '</div>' +
         '</div>';
 
@@ -1875,13 +1887,18 @@ function bannerCreatorForm(el1) {
 
         html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties">' +
             '<legend>' +
-            '<h2>' +
-            '<span class="txtPlaceholder"></span>Properties' +
-            '</h2>' +
+            '<h2 data-toggle="collapse" data-target="#collapseExample_' + id + '" aria-expanded="true" aria-controls="collapseExample_' + id + '">' +
+            '<span class="txtPlaceholder"></span>Properties ' +
+            '<span class="glyphicon glyphicon-menu-hamburger"></span></h2>' +
             '</legend>' +
+            '<div class="row-fluid collapse" id="collapseExample_' + id + '">' +
+
+            '<div class="col-xs-12">' +
             content +
             background +
             clickbehavior +
+            '</div>' +
+            '</div>' +
             '</fieldset>';
 
     return html;

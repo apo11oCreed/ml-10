@@ -244,6 +244,9 @@ $(document).ready(function () {
             for (banner in globals.campaign.bannerObjects) {
                 globals.campaign.bannerObjects[banner].render();
             }
+
+            resetShowing(['[id*="props_"]', '.banner-tab', '.render > div']);
+
             // Launch core behaviors. These behaviors will affect all banners.
             coreBehaviors();
 
@@ -1379,10 +1382,6 @@ function add(thisButton) {
         }
 
         $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', false);
-
-        // $('[id*="props_"], .banner-tab, .render > div').removeClass('showing');
-
-        // $('[id="props_' + z.id + '"], [id="tabs_' + z.id + '"] .banner-tab, [id="banner_' + z.id + '"]').addClass('showing');
 
         resetShowing(['[id*="props_"]', '.banner-tab', '.render > div']);
 

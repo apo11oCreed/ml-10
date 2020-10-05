@@ -48,7 +48,7 @@ var globals = {
     },
     buildScript: function () {
         var html = '$(\'${message.cssSelector}\').parents(\'.container\').addClass(\'evergage-campaign-banners\');' +
-        '$(document).on(\'hidden.bs.modal\', \'[id*="modal_"]\', function () {$(this).remove();});' +
+            '$(document).on(\'hidden.bs.modal\', \'[id*="modal_"]\', function () {$(this).remove();});' +
             '$(\'head\').append(\'<style id="evergageCampaignBanners">.container.evergage-campaign-banners{display:flex; flex-direction: row;}@media all and (max-width:' + this.campaign.stackbreakpoint + 'px){.container.evergage-campaign-banners{flex-direction: column;}}}</style>\');';
 
         return html;
@@ -199,7 +199,7 @@ $(document).ready(function () {
     $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
         console.log('document.ready modal has been removed');
         $(this).remove();
-        
+
     });
 
     $("button[name='newcampaign'], button[name='importjson']").on("click", function () {
@@ -228,8 +228,8 @@ $(document).ready(function () {
             for (banner in globals.campaign.bannerObjects) {
                 globals.campaign.bannerObjects[banner].render();
             }
-// Launch core behaviors. These behaviors will affect all banners.
-coreBehaviors();
+            // Launch core behaviors. These behaviors will affect all banners.
+            coreBehaviors();
 
         } else {
 
@@ -339,7 +339,7 @@ function jsonRender(obj) {
         obj.bannerObjects[banner]['thisBannerBgSettingsExtended'] = function (id, bpid) {
             return bannerBgSettingsExtended(id, bpid);
         }
-        
+
         // Bind thisBannerExtendedBehaviors to this banner
         obj.bannerObjects[banner]['thisBannerExtendedBehaviors'] = function (id, bpid) {
             return bannerExtendedBehaviors(id, bpid);
@@ -441,8 +441,6 @@ function jsonRender(obj) {
 
         }
 
-        // obj.bannerObjects[banner].thisBannerBgSettingsExtended(id, bpid);
-        //obj.bannerObjects[banner].thisBannerExtendedBehaviors(id, bpid);
         obj.bannerObjects[banner].thisBannerBaseBehaviors(obj.bannerObjects[banner]);
 
         $('[data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs button.breakpoint-tab', '[id="props_' + id + '"]').removeClass('showing');
@@ -568,42 +566,7 @@ function coreBehaviors() {
 
     });
 
-    // Interchangeable messaging for help modal
-    $("span.help1").on('click', function () {
-
-        var helpMsg = '';
-        switch ($(this).data('help')) {
-            case 'desktop':
-                helpMsg = '<h4>For breakpoints in which the width is <u>above</u> 575px</h4><ul><li><b>Local</b> Place a 962px wide (desktop,tablet) image in the same directory as this HTML file and enter the filename here.</li><li><b>Remote</b> Place a 962px wide (desktop,tablet) image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"</li></ul><h4>For breakpoints in which the width is <u>below</u> 575px</h4><ul><li><b>Local</b> Place a 575px wide (mobile) image in the same directory as this HTML file and enter the filename here.</li><li><b>Remote</b> Place a 575px wide (mobile) image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"</li></ul>';
-                break;
-            case 'width':
-                helpMsg = 'Enter a number value between the range of 0-100 to fit the image within the breakpoint container. Enter a number value above 100 to scale the image beyond the breakpoint container. To keep dimensions proportional relative to width, set the <b>Height</b> to \'auto\'.';
-                break;
-            case 'height':
-                helpMsg = 'Enter a number value between the range of 0-100 to fit the image within the breakpoint container. Enter a number value above 100 to scale the image beyond the breakpoint container. To keep dimensions proportional relative to height, set the <b>Width</b> to \'auto\'.';
-                break;
-            case 'xpos':
-                helpMsg = 'Enter a number value between the range of 0-100 to position the image within the breakpoint container. Enter a number value above 100 to position the image beyond the breakpoint container. <b>NOTE</b> For positioning to work, make sure the image width is below the width of the breakpoint container.';
-                break;
-            case 'ypos':
-                helpMsg = 'Enter a number value between the range of 0-100 to position the image within the breakpoint container. Enter a number value above 100 to position the image beyond the breakpoint container. <b>NOTE</b> For positioning to work, make sure the image height is below the height of the breakpoint container.';
-                break;
-            case 'rgb':
-                helpMsg = 'Enter a number value between the range of 0-250 for each of the RGB fields.';
-                break;
-            case 'required':
-                helpMsg = 'Whether this text is required for this offer. Certain text cannot be omitted.';
-            default:
-                break;
-        }
-
-        msgBox1(helpMsg, 'Help');
-
-        $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
-            $(this).remove();
-        });
-    });
-console.log('coreBehaviors');
+    console.log('coreBehaviors');
 }
 
 function bannerBaseBehaviors(thisBanner) {
@@ -755,153 +718,191 @@ function bannerBaseBehaviors(thisBanner) {
         } else {
             console.log('test2');
         }
-        
+
     });
-    
+
     console.log('thisBannerBaseBehaviors');
 }
 
-function bannerBgSettingsExtended(id, bpid){
+function bannerBgSettingsExtended(id, bpid) {
     // Add new breakpoint tab
     $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs').append(breakpointTab(bpid, '|A'));
-    
+
     // Add new breakpoint textarea
     $('[id="content_' + id + '"] [data-domain="breakpoints"] .inputs > div').append(breakpointInput(1, bpid));
-    
+
     // Add new breakpoint section to banner preview
     $('.render [id="banner_' + id + '"]').append(bannerPreviewBreakpoint(id, bpid));
-    
+
     // Add new breakpoint section to background image fields
     $('[id="content_' + id + '"] .backgroundimage > .col-xs-12').append(breakpointBackgroundImg(bpid, id));
-    
+
     // Remove showing class from all breakpoint tabs
     $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs div, [id="content_' + id + '"] .backgroundimage [data-bp*="bg_"]').removeClass('showing');
-    
+
     // Assign showing class to this new breakpoint tab
     $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs [name="bpid_' + bpid + '"] .breakpoint-tab, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs [name="bpid_' + bpid + '"], [id="content_' + id + '"] .backgroundimage [data-bp="bg_' + bpid + '"]').addClass('showing');
-    
+
     // Init background image source to local
     $('[id="content_' + id + '"] [data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
-    
+
     // Init ckeditor on the initial textarea of this new breakpoint tab
     $('textarea.editor').ckeditor();
-    
+
     console.log('bannerBgSettingsExtended');
-    }
-    
-    function bannerExtendedBehaviors(id, bpid){
-        $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input[name="lorr1_' + bpid + '"]', '[id="props_' + id + '"]').on('change', function () {
-    
-            obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $('input[name="lorr1_' + bpid + '"]:checked').val();
-    
-            if (obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'local') {
-    
-                $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input.form-control1', '[id="props_' + id + '"]').removeClass('error');
-    
+}
+
+function bannerExtendedBehaviors(id, bpid) {
+    $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input[name="lorr1_' + bpid + '"]', '[id="props_' + id + '"]').on('change', function () {
+
+        globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state = $('input[name="lorr1_' + bpid + '"]:checked').val();
+
+        if (globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'local') {
+
+            $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input.form-control1', '[id="props_' + id + '"]').removeClass('error');
+
+            $('[data-bp="bg_' + bpid + '"] input.form-control1').prop('disabled', false);
+
+            $('input[name*="bg"]').each(function () {
+                var curr = $(this).val();
+                if (curr !== '')
+                    $(this).attr('data-remote', curr);
+
+                if ($(this).data('local'))
+                    $(this).val($(this).data("local"));
+
+                $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('Local');
+                if ($(this).attr('name') == 'bpDesktop_' + bpid)
+                    var size = 962;
+                else
+                    var size = 575
+                $(this).val('').attr('placeholder', 'Demo-image-' + size + '.png');
+            });
+
+        } else if (globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'remote') {
+
+            if (globals.campaign.selectBrand == '') {
+
+                $('[data-bp="bg_' + bpid + '"] input.form-control1').prop('disabled', true);
+
+                $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] span.input-group-addon1', '[id="props_' + id + '"]').text('Remote');
+
+                $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input.form-control1', '[id="props_' + id + '"]').attr('placeholder', 'Select a brand');
+
+            } else {
+                $('[data-bp="bg_' + bpid + '"] input.form-control1').removeClass('error');
                 $('[data-bp="bg_' + bpid + '"] input.form-control1').prop('disabled', false);
-    
+
+                $('[data-bp="bg_' + bpid + '"] input.form-control1').text(globals.campaign.brands[globals.campaign.selectBrand].baseUrl);
+
                 $('input[name*="bg"]').each(function () {
                     var curr = $(this).val();
-                    if (curr !== '')
-                        $(this).attr('data-remote', curr);
-    
-                    if ($(this).data('local'))
-                        $(this).val($(this).data("local"));
-    
-                    $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('Local');
-                    if ($(this).attr('name') == 'bpDesktop_' + bpid)
-                        var size = 962;
-                    else
-                        var size = 575
-                    $(this).val('').attr('placeholder', 'Demo-image-' + size + '.png');
+                    if (curr !== '') {
+                        $(this).attr('data-local', curr);
+                    }
+
+                    if ($(this).data('remote')) {
+                        $(this).val($(this).data('remote'));
+                    }
+                    $(this).val('').attr('placeholder', 'Enter Filename...');
+
+                    $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('/images/evergage/' + globals.campaign.selectBrand + '/');
                 });
-    
-            } else if (obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.state == 'remote') {
-    
-                if (obj.selectBrand == '') {
-    
-                    $('[data-bp="bg_' + bpid + '"] input.form-control1').prop('disabled', true);
-    
-                    $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] span.input-group-addon1', '[id="props_' + id + '"]').text('Remote');
-    
-                    $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] input.form-control1', '[id="props_' + id + '"]').attr('placeholder', 'Select a brand');
-    
-                } else {
-                    $('[data-bp="bg_' + bpid + '"] input.form-control1').removeClass('error');
-                    $('[data-bp="bg_' + bpid + '"] input.form-control1').prop('disabled', false);
-    
-                    $('[data-bp="bg_' + bpid + '"] input.form-control1').text(obj.brands[obj.selectBrand].baseUrl);
-    
-                    $('input[name*="bg"]').each(function () {
-                        var curr = $(this).val();
-                        if (curr !== '') {
-                            $(this).attr('data-local', curr);
-                        }
-    
-                        if ($(this).data('remote')) {
-                            $(this).val($(this).data('remote'));
-                        }
-                        $(this).val('').attr('placeholder', 'Enter Filename...');
-    
-                        $('[data-bp="bg_' + bpid + '"] span.input-group-addon1').text('/images/evergage/' + obj.selectBrand + '/');
-                    });
-                }
-    
             }
-    
-            $(".input-group1").removeClass("found notfound");
-            $(".input-group1").next('.error').prop('hidden', true);
-    
-        });
-    
-        // imgaddress
-        $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] .bgimgaddress').on({
-            focus: function () {
-    
-                $(this).parent().removeClass('found notfound');
-                if ($(this).parent().next().prop('hidden', false)) {
-                    $(this).parent().next().prop('hidden', true);
-                }
-            },
-            focusout: function () {
-    
-                if ($(this).val() != '') {
-                    checkImageExists1(this, $(this).val(), bannerObj(id));
-                }
-    
+
+        }
+
+        $(".input-group1").removeClass("found notfound");
+        $(".input-group1").next('.error').prop('hidden', true);
+
+    });
+
+    // imgaddress
+    $('.backgroundimage .row.showing[data-bp="bg_' + bpid + '"] .bgimgaddress').on({
+        focus: function () {
+
+            $(this).parent().removeClass('found notfound');
+            if ($(this).parent().next().prop('hidden', false)) {
+                $(this).parent().next().prop('hidden', true);
             }
-        });
-    
-        $('.backgroundimage .row.showing [data-bp="bgdimensions"] input,.backgroundimage .row.showing [data-bp="bgpos"] input', '[id="props_' + id + '"]').on('focusout', function () {
-            var bpid = $(this).attr('id').substr(-5),
-                id = $(this).parents('[id*="content_"]').attr('id').substr(-4);
-    
-            switch ($(this).attr('name')) {
-                case 'width':
-                    obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.bgwidth = $(this).val();
-                    break;
-                case 'height':
-                    obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.bgheight = $(this).val();
-                    break;
-                case 'x':
-                    obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.positionx = $(this).val();
-                    break;
-                case 'y':
-                    obj.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.positiony = $(this).val();
-                    break;
-                default:
-                    break;
+        },
+        focusout: function () {
+
+            if ($(this).val() != '') {
+                checkImageExists1(this, $(this).val(), bannerObj(id));
             }
-    
-            updateStyles();
-    
+
+        }
+    });
+
+    $('.backgroundimage .row.showing [data-bp="bgdimensions"] input,.backgroundimage .row.showing [data-bp="bgpos"] input', '[id="props_' + id + '"]').on('focusout', function () {
+        var bpid = $(this).attr('id').substr(-5),
+            id = $(this).parents('[id*="content_"]').attr('id').substr(-4);
+
+        switch ($(this).attr('name')) {
+            case 'width':
+                globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.bgwidth = $(this).val();
+                break;
+            case 'height':
+                globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.bgheight = $(this).val();
+                break;
+            case 'x':
+                globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.positionx = $(this).val();
+                break;
+            case 'y':
+                globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].background.positiony = $(this).val();
+                break;
+            default:
+                break;
+        }
+
+        updateStyles();
+
+    });
+
+    $('[id="clickbehavior_' + this.id + '"] [id*="updateOnClick_"]').on('click', function () {
+        assignOnClickBehavior($(this).parents('[id*="clickbehavior_"]').attr('id').substr(-4));
+    });
+
+    // Interchangeable messaging for help modal
+    $("span.help1").on('click', function () {
+
+        var helpMsg = '';
+        switch ($(this).data('help')) {
+            case 'desktop':
+                helpMsg = '<h4>For breakpoints in which the width is <u>above</u> 575px</h4><ul><li><b>Local</b> Place a 962px wide (desktop,tablet) image in the same directory as this HTML file and enter the filename here.</li><li><b>Remote</b> Place a 962px wide (desktop,tablet) image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"</li></ul><h4>For breakpoints in which the width is <u>below</u> 575px</h4><ul><li><b>Local</b> Place a 575px wide (mobile) image in the same directory as this HTML file and enter the filename here.</li><li><b>Remote</b> Place a 575px wide (mobile) image on the "Production" FTP for the brand you are working on and enter the relative path, for example: "E88/test-image.jpg"</li></ul>';
+                break;
+            case 'width':
+                helpMsg = 'Enter a number value between the range of 0-100 to fit the image within the breakpoint container. Enter a number value above 100 to scale the image beyond the breakpoint container. To keep dimensions proportional relative to width, set the <b>Height</b> to \'auto\'.';
+                break;
+            case 'height':
+                helpMsg = 'Enter a number value between the range of 0-100 to fit the image within the breakpoint container. Enter a number value above 100 to scale the image beyond the breakpoint container. To keep dimensions proportional relative to height, set the <b>Width</b> to \'auto\'.';
+                break;
+            case 'xpos':
+                helpMsg = 'Enter a number value between the range of 0-100 to position the image within the breakpoint container. Enter a number value above 100 to position the image beyond the breakpoint container. <b>NOTE</b> For positioning to work, make sure the image width is below the width of the breakpoint container.';
+                break;
+            case 'ypos':
+                helpMsg = 'Enter a number value between the range of 0-100 to position the image within the breakpoint container. Enter a number value above 100 to position the image beyond the breakpoint container. <b>NOTE</b> For positioning to work, make sure the image height is below the height of the breakpoint container.';
+                break;
+            case 'rgb':
+                helpMsg = 'Enter a number value between the range of 0-250 for each of the RGB fields.';
+                break;
+            case 'required':
+                helpMsg = 'Whether this text is required for this offer. Certain text cannot be omitted.';
+            default:
+                break;
+        }
+
+        msgBox1(helpMsg, 'Help');
+
+        $(document).on('hidden.bs.modal', '#msgBox.modal', function () {
+            $(this).remove();
         });
-    
-        $('[id="clickbehavior_' + this.id + '"] [id*="updateOnClick_"]').on('click', function () {
-            assignOnClickBehavior($(this).parents('[id*="clickbehavior_"]').attr('id').substr(-4));
-        });
-        console.log('thisBannerExtendedBehaviors');
-    }
+    });
+
+    console.log('thisBannerExtendedBehaviors');
+
+}
 
 function websiteURL1() {
     var brand = globals.campaign.selectBrand;

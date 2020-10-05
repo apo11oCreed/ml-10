@@ -717,7 +717,7 @@ function bannerBaseBehaviors(thisBanner) {
                 var bpid = $(allBreakpoints[q]).attr('name').substr(-5),
                     inputs = $('[data-input-index]', allBreakpoints[q]);
 
-                console.log(inputs);
+                //console.log(inputs);
 
                 // For each one of these textgroup instances...
                 for (var p = 0; p < inputs.length; p++) {
@@ -737,18 +737,40 @@ function bannerBaseBehaviors(thisBanner) {
                         // Empty contents of all existing textgroup output instances
                         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
 
+
+                        textSizeAdjust($(inputs[p]).val());
+
                         // Insert into the respective textgroup output instance
                         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
 
                         // Add an instance object to the parent breakpoint object
                         globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][p] = { 'html': $('textarea.editor', inputs[p]).val() };
 
+
+
                         // Get all of the children of respective textgroup output instance
                         newChildElems = $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
+
+                        // var childElemsWithFontSize = $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"] [style*="font-size"]');
+
+                        // console.log($(childElemsWithFontSize).css('font-size'));
 
                         // For each child of respective textgroup output instance, define styles
                         $.each(newChildElems, function (index, value) {
                             $(this).css({ 'margin': '0', 'padding': '0' });
+
+                            var styleChilds = $(this).find('[style*="font-size"]');
+
+                            $.each(styleChilds, function (i) {
+                                var fontSize = $(styleChilds[i]).css('font-size'),
+                                    styleAttr = $(styleChilds[i]).attr('style');
+                                $(styleChilds[i]).attr('style', styleAttr + ';font-size: min(' + fontSize + ',10vw);' +
+                                    '-webkit-text-size-adjust:99%;' +
+                                    '-moz-text-size-adjust:99%;' +
+                                    '-ms-text-size-adjust:99%;' +
+                                    'text-size-adjust:99%;');
+
+                            });
                         });
 
                         $('.render [id="banner_' + id + '"] [data-bp]').removeAttr('class');
@@ -768,6 +790,10 @@ function bannerBaseBehaviors(thisBanner) {
     });
 
     console.log('thisBannerBaseBehaviors');
+}
+
+function textSizeAdjust(el) {
+    console.log(el);
 }
 
 function bannerBgSettingsExtended(id, bpid) {

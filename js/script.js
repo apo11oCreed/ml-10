@@ -766,7 +766,10 @@ function bannerBaseBehaviors(thisBanner) {
 
                             $.each(styleChilds, function (i) {
                                 var fontSize = $(styleChilds[i]).css('font-size'),
-                                    styleAttr = $(styleChilds[i]).attr('style');
+                                    styleAttr = $(styleChilds[i]).attr('style'),
+                                    classes = bpid + '_' + styleChilds[i].nodeName + '_' + i;
+
+                                $(styleChilds[i]).attr('class', classes);
                                 $(styleChilds[i]).attr('style', styleAttr + ';font-size: min(' + fontSize + ',10vw);' +
                                     '-webkit-text-size-adjust:99%;' +
                                     '-moz-text-size-adjust:99%;' +
@@ -1429,15 +1432,10 @@ function add(thisButton) {
         }
 
         globals.campaign.bannerObjects['banner_' + id].bp(bpid);
-
         globals.campaign.bannerObjects['banner_' + id].thisBannerBgSettingsExtended(id, bpid);
-
         globals.campaign.bannerObjects['banner_' + id].thisBannerExtendedBehaviors(id, bpid);
-
         globals.campaign.bannerObjects['banner_' + id].thisBannerBaseBehaviors(id, bpid);
-
         globals.campaign.bannerObjects['banner_' + id].bpjson[bpid] = {};
-
         globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][1] = { 'html': '' };
 
         // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
@@ -1765,7 +1763,27 @@ function sections() {
         '<h3>Stacking Breakpoint</h3>' +
         '</legend> <div class="row">' +
         '<div class="col-xs-12">' +
-        '<p>Enter the max width whereby the banners will render as a column stack ( &nbsp;<span class="vertical"><svg width="10" height="2"> <rect width="10" height="2" style="fill:rgb(0,0,0);stroke-width:0;stroke:rbg(0,0,0);"/> </svg><br><svg width="10" height="2"> <rect width="10" height="2" style="fill:rgb(0,0,0);stroke-width:0;stroke:rbg(0,0,0);"/> </svg><br><svg width="10" height="2"> <rect width="10" height="2" style="fill:rgb(0,0,0);stroke-width:0;stroke:rbg(0,0,0);"/> </svg></span>&nbsp;vs&nbsp;<span class="vertical"></span>&nbsp;). By default, banners will render as stacked in screenwidths of up to 575px when there is more than one banner.</p>' +
+        '<p>Enter the max width whereby the banners will render as a column stack ' +
+        '<span class="no-word-break">' +
+        '(&nbsp;&nbsp;' +
+
+        '<svg class="vertical" viewBox="0 0 10 10" width="10" height="10" fill="#000000">' +
+        '<use xlink:href="svgs.svg#stackspan" href="svgs.svg#stackspan">' +
+        '</use>' +
+        '</svg>' +
+
+        '&nbsp;&nbsp;vs&nbsp;&nbsp;' +
+
+
+        '<svg class="horizontal" viewBox="0 0 10 10" width="10" height="10" fill="#000000">' +
+        '<use xlink:href="svgs.svg#stackspan" href="svgs.svg#stackspan">' +
+        '</use>' +
+        '</svg>' +
+
+
+        '&nbsp;&nbsp;). ' +
+        '</span>' +
+        'By default, banners will render as stacked in screenwidths of up to 575px when there is more than one banner.</p>' +
         '</div>' +
         '</div>' +
         '<div class="row">' +

@@ -3,107 +3,6 @@ body {
 	background-color: #efefef;
 }
 
-/* .faux-website-container {
-	width: 100%;
-	background-color: #fff;
-	min-height: 100vh;
-}
-
-.faux-website-container .container {
-	width: 100%;
-}
-
-.instrCont {
-	margin-bottom: 20px;
-}
-
-.instrCont h1 {
-	text-align: center;
-}
-
-.instrCont h4 {
-	margin-top: 4px;
-	text-decoration: underline;
-}
-
-.instrCont select,
-.instrCont select option,
-.instrCont input {
-	border: 1px solid #ddd;
-	padding: 8px;
-}
-
-.instrCont .wide {
-	width: 100%;
-	max-width: 100%;
-}
-
-.instrCont textarea {
-	resize: vertical;
-	padding: 8px;
-}
-
-.instrCont input[type=radio],
-.instrCont label {
-	display: inline;
-}
-
-.optCont {
-	display: table;
-}
-
-.optCont .opt-cell.rightAlign {
-	text-align: right;
-}
-
-.optCont .opt-cell.cntr {
-	text-align: center;
-}
-
-.optCont span.showinghide {
-	font-size: 200%;
-	display: none;
-}
-
-.optCont:first-of-type {
-	border-right: 2px solid #aaa;
-}
-
-.optCont .opt-row {
-	display: table-row;
-}
-
-.optCont .opt-cell {
-	display: table-cell;
-	padding: 4px;
-	vertical-align: middle;
-}
-
-.optCont .opt-cell.clabel {
-	font-weight: bold;
-}
-
-.optCont .opt-cell.cheading span,
-.optCont .opt-cell.clabel span {
-	vertical-align: middle;
-}
-
-.optCont select[disabled],
-.optCont button[disabled] {
-	color: #aaa;
-}
-
-.optCont .opt-cell.disabled {
-	color: #aaa;
-}
-
-.optCont span.help {
-	cursor: pointer;
-	font-size: 150%;
-	margin-top: -3px;
-	margin-left: 6px;
-} */
-
 .input-group.notfound:after {
 	content: "\e014";
 	font-family: "Glyphicons Halflings";
@@ -160,73 +59,13 @@ section.pyh-ad-outer.no-gap {
 	border: 0;
 }
 
-/* @media screen and (min-width:992px) {
-	.faux-website-container {
-		width: 992px;
-		margin: 0 auto;
-	}
-}
-
-@media screen and (max-width:991px) {
-	.optCont:first-of-type {
-		border-right: none;
-	}
-	.optCont:last-of-type h4 {
-		margin-top: 20px;
-	}
-	.optCont .opt-row.chide {
-		display: none;
-	}
-	.optCont span.showinghide {
-		display: inline;
-	}
-}
-
-@media screen and (max-width:575px) {
-	.faux-website-container .container {
-		padding: 0;
-	}
-} */
-
-/* START */
-/* section.section-offer {
-	position: relative;
-	width: 100%;
-}
-
-section.section-offer h2 {
-	margin: 0;
-}
-
-section.section-offer img {
-	height: auto;
-	width: 100%;
-}
-
-@media screen and (min-width:576px) {
-	section.py-shadow-b-lrg {
-		box-shadow: 0 12px 9px -9px #aaa;
-	}
-}
-
-@media screen and (max-width:575px) {
-	section.py-shadow-b-sml {
-		box-shadow: 0 12px 9px -9px #aaa;
-	}
-} */
-
 /* nc styles */
-
-section.section-offer {
-	position: relative;
-	width: auto;
-}
 
 #mlTen {
 	font-family: 'Roboto Condensed', sans-serif;
 }
 
-#mlTen h5{
+#mlTen h5 {
 	font-weight:700;
 }
 
@@ -234,7 +73,7 @@ section.section-offer {
 	font-weight:400;
 }
 
-#mlTen hr{
+#mlTen hr {
 	height: 0px;
     border: 1px transparent solid;
     box-shadow: 0px 1px 0px rgba(0,0,0,0.125);
@@ -244,11 +83,10 @@ section.section-offer {
 	border-style: groove;
 	border-color: threedface;
 	border-image: initial;
-	/* padding: .35em .625em .75em; */
     border: 1px solid silver;
 }
 
-legend {
+#mlTen legend {
 	border-bottom:none;
 	padding: 2rem 2rem 0 2rem;
 	margin-bottom:0;
@@ -259,19 +97,19 @@ legend {
 	opacity:0.5;
 }
 
-.error {
+#mlTen .error {
 	border:1px solid red;
 }
 
-.error:focus {
+#mlTen .error:focus {
 	outline-color:red;
 }
 
-.required {
+#mlTen .required {
 	color:red;
 }
 
-.input-group-addon1 {
+#mlTen .input-group-addon1 {
 	background-color:rgb(238, 238, 238);
 border-bottom-color:rgb(204, 204, 204);
 border-bottom-left-radius:4px;
@@ -297,7 +135,7 @@ border-top-style:solid;
 border-top-width:1px;
 box-sizing:border-box;
 display:table-cell;
-font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+/* font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; */
 font-size:14px;
 font-weight:400;
 height:34px;
@@ -313,7 +151,7 @@ white-space:nowrap;
 width:59px;
 -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
 border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+border-bottom-right-radius: 0;
 }
 
 input[type="text"], input[type="number"] {
@@ -672,12 +510,16 @@ h2 .tab-visible{
     line-height: 100%;
 }
 
-span.vertical{
-	width:20px;
-	display:inline-flex;
-	flex-direction: column;
-	text-align:center;
-	justify-content: center;
+.no-word-break{
+	display:inline-block;
+}
+
+svg.vertical{
+	transform:rotate(0deg);
+}
+
+svg.horizontal{
+	transform:rotate(90deg);
 }
 
 .field-unit{

@@ -55,19 +55,19 @@ var globals = {
     },
     buildStyles: function (elObject) {
         var stackbreakpoint = this.campaign.stackbreakpoint = '' || this.campaign.stackbreakpoint < 1 ? '575' : this.campaign.stackbreakpoint,
-        fontSizeAdjustStyles='',
+            fontSizeAdjustStyles = '',
             styles = '@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap");${message.cssSelector} {background-color: rgb(250, 250, 250);width: 100%!important;font-family: "Roboto Condensed", sans-serif;border-top:solid white 2px;border-bottom:solid white 2px;}.render{display:flex; flex-direction: row;}@media all and (max-width:' + stackbreakpoint + 'px){.render{flex-direction: column;}}.banner{width:100%;}';
         for (x in Object.values(elObject)) {
             var id = Object.values(elObject)[x]['id'],
                 hex = Object.values(elObject)[x]['hex'],
                 cursor = Object.values(elObject)[x]['cursor'],
                 breakpoints = Object.values(elObject)[x]['css']['breakpoints'];
-                
-                if(typeof Object.values(elObject)[x]['css']['fontSizeAdjustStyles']=='undefined'){
-                    fontSizeAdjustStyles+='';
-                } else {
-                    fontSizeAdjustStyles+=Object.values(elObject)[x]['css']['fontSizeAdjustStyles'];
-                }
+
+            if (typeof Object.values(elObject)[x]['css']['fontSizeAdjustStyles'] == 'undefined') {
+                fontSizeAdjustStyles += '';
+            } else {
+                fontSizeAdjustStyles += Object.values(elObject)[x]['css']['fontSizeAdjustStyles'];
+            }
 
             for (y in Object.values(breakpoints)) {
 
@@ -195,7 +195,7 @@ var globals = {
             'span.gutter:last-of-type' +
             '{' +
             'display:none;' +
-            '}' + 
+            '}' +
             fontSizeAdjustStyles;
         //console.log('embedded styles updated');
         return styles;
@@ -238,15 +238,15 @@ $(document).ready(function () {
             // Reset the pixel value of the screen width at which the banners will either stack in column or span in row
             globals.campaign.stackbreakpoint = 575;
 
-            // Insert starter sections
-            $('#campaign .col-xs-12').append(sections());
-
             // Create new banner object
             idInit = randomId(1000, 9999);
             bannerInit = new bannerObj(idInit);
 
             // Add new banner object to global banner objects container
             globals.campaign.bannerObjects['banner_' + idInit] = bannerInit;
+
+            // Insert starter sections
+            $('#campaign .col-xs-12').append(sections());
 
             // Run the new banner object render function
             for (banner in globals.campaign.bannerObjects) {
@@ -378,8 +378,8 @@ function jsonRender(obj) {
                     bgheight: 'auto',
                     state: 'local'
                 },
-                minwidth: 575,
-                maxwidth: 767,
+                minwidth: 0,
+                maxwidth: 0,
                 height: 56
             };
         }
@@ -714,7 +714,7 @@ function bannerBaseBehaviors(thisBanner) {
         var buttonId = $(e.target).attr('id');
 
         if (buttonId.indexOf('textGroups') != -1) {
-            var fontSizeAdjustStyles='';
+            var fontSizeAdjustStyles = '';
             //Text groups specific to breakpoint
 
             // Get all breakpoint instances for this banner
@@ -761,42 +761,40 @@ function bannerBaseBehaviors(thisBanner) {
                         // For each child of respective textgroup output instance, define styles
 
                         $.each(newChildElems, function (index, value) {
-                            var classes='';
+                            var classes = '';
 
                             $(this).css({ 'margin': '0', 'padding': '0' });
 
-                            var styleChilds = $('[style*="font-size"]',this);
-                            
-                            $.each(styleChilds,function(i){
-                                  
+                            var styleChilds = $('[style*="font-size"]', this);
+
+                            $.each(styleChilds, function (i) {
+
                                 var fontSize = $(styleChilds[i]).css('font-size');
-                                
+
                                 classes = 'textgroup_' + id + '_' + bpid + '_' + $(inputs[p]).data('input-index') + '_' + styleChilds[i].nodeName + '_' + i;
-                                
+
                                 $(styleChilds[i]).removeAttr('style');
 
                                 $(styleChilds[i]).attr('class', classes);
 
-                                fontSizeAdjustStyles+='.' + classes + '{font-size:' + fontSize + ';font-size: min(' + fontSize + ',10vw);' +
-                                '-webkit-text-size-adjust:99%;' +
-                                '-moz-text-size-adjust:99%;' +
-                                '-ms-text-size-adjust:99%;' +
-                                'text-size-adjust:99%;}';  
-                                });
-                                
-                                $('.render [id="banner_' + id + '"] [data-bp]').removeAttr('class');
+                                fontSizeAdjustStyles += '.' + classes + '{font-size:' + fontSize + ';font-size: min(' + fontSize + ',10vw);' +
+                                    '-webkit-text-size-adjust:99%;' +
+                                    '-moz-text-size-adjust:99%;' +
+                                    '-ms-text-size-adjust:99%;' +
+                                    'text-size-adjust:99%;}';
                             });
-                            
-                            } else {
+
+                            $('.render [id="banner_' + id + '"] [data-bp]').removeAttr('class');
+                        });
+
+                    } else {
                         // If textgroup instance does not contain anything...
                         $(inputs[p]).addClass('error');
                     }
                 }
             }
 
-                globals.campaign.bannerObjects['banner_' + id].css.fontSizeAdjustStyles=fontSizeAdjustStyles;
-            
-            updateStyles(id);
+            globals.campaign.bannerObjects['banner_' + id].css.fontSizeAdjustStyles = fontSizeAdjustStyles;
         }
 
     });
@@ -1250,9 +1248,9 @@ function assignOnClickBehavior(id) {
             // If a modal exists with the same ID, remove and create a new one
             $('[id="modal_' + id + '"].modal').remove();
 
-            title = $('[id="fireModal_' + id + '"] input[id="modalTitle_' + id + '"]').val() ? $('[id="fireModal_' + id + '"] input[id="modalTitle_' + id + '"]').val() : 'Enter Title text under Click Behavior Settings';
+            title = $('[id="fireModal_' + id + '"] input[id="modalTitle_' + id + '"]').val() ? $('[id="fireModal_' + id + '"] input[id="modalTitle_' + id + '"]').val() : 'Enter Title text under Banner Behavior Settings';
 
-            body = $('[id="fireModal_' + id + '"] textarea[id="modalBody_' + id + '"]').val() ? $('[id="fireModal_' + id + '"] textarea[id="modalBody_' + id + '"]').val() : 'Enter Body text under Click Behavior Settings';
+            body = $('[id="fireModal_' + id + '"] textarea[id="modalBody_' + id + '"]').val() ? $('[id="fireModal_' + id + '"] textarea[id="modalBody_' + id + '"]').val() : 'Enter Body text under Banner Behavior Settings';
 
             footer = $('[id="fireModal_' + id + '"] input[id="modalFooter_' + id + '"]').val() ? $('[id="fireModal_' + id + '"] input[id="modalFooter_' + id + '"]').val() : 'Enter Footer text under Click Behavior Setting';
 
@@ -1551,23 +1549,21 @@ function update(el1, el2) {
 
     $.each(seriesInputs, function () {
         var inputId = $(this).attr('id');
-        if ($(this).val()) {
-            switch (inputId) {
-                case 'bpName':
-                    name = $('input#bpName', el1).val();
-                    break;
-                case 'bpMinWidth':
-                    minwidth = $('input#bpMinWidth', el1).val();
-                    break;
-                case 'bpMaxWidth':
-                    maxwidth = $('input#bpMaxWidth', el1).val();
-                    break;
-                case 'bpHeight':
-                    height = $('input#bpHeight', el1).val();
-                    break;
-                default:
-                    break;
-            }
+        switch (inputId) {
+            case 'bpName':
+                name = $('input#bpName', el1).val() == '' ? name : $('input#bpName', el1).val();
+                break;
+            case 'bpMinWidth':
+                minwidth = $('input#bpMinWidth', el1).val() == '' ? 0 : $('input#bpMinWidth', el1).val();
+                break;
+            case 'bpMaxWidth':
+                maxwidth = $('input#bpMaxWidth', el1).val() == '' ? 0 : $('input#bpMaxWidth', el1).val();
+                break;
+            case 'bpHeight':
+                height = $('input#bpHeight', el1).val() == '' ? height : $('input#bpHeight', el1).val();
+                break;
+            default:
+                break;
         }
     });
 
@@ -1674,11 +1670,12 @@ function updateStyles(id) {
 
 function sections() {
     var html = '<br>' +
-        '<style id="banners"></style>' +
         '<div id="rendering" class="row">' +
         '<div class="section-offer-content col-xs-12">' +
         '<div class="row-fluid">' +
-        '<div class="render">' +
+        '<div class="col-xs-12">' +
+        '<h2>Banner Simulation</h2>' +
+        '<iframe src="http://localhost:7883/simulate.html#ifr" title="Banner Simulation" width="100%"></iframe>' +
         '</div>' +
         '</div>' +
         '</div>' +
@@ -1705,7 +1702,7 @@ function sections() {
 
         '<hr>' +
 
-        '<p>Click on the <b>[&nbsp;|A&nbsp;]</b> button to rename the banner and to reveal the banner\'s properties form below.<span class="required">*</span><br>Hover over <b>[&nbsp;|A&nbsp;]</b> button(s) to view toolbar.<br>Click on the <b>[&nbsp;<span style="color:green;">+</span>&nbsp;]</b></b> button to add another banner.<br>Click on the <b>[&nbsp;<span style="color:red;">x</span>&nbsp;]</b> button to remove a banner.</p>' +
+        '<p>Click on the <b>[&nbsp;BANNER&nbsp;]</b> button(s) above to rename the banner.<span class="required">*</span><br>Hover over the <b>[&nbsp;BANNER&nbsp;]</b> button(s) above to view toolbar.<br>Click on the <b>[&nbsp;<span style="color:green;">+</span>&nbsp;]</b></b> button to add another banner.<br>Click on the <b>[&nbsp;<span style="color:red;">x</span>&nbsp;]</b> button to remove a banner.</p>' +
 
         '</fieldset>' +
         '</div>' +
@@ -1714,7 +1711,7 @@ function sections() {
 
         '<fieldset id="globalProperties" class="col-xs-12">' +
         '<legend>' +
-        '<h2 data-toggle="collapse" data-target="#collapseGlobals" aria-expanded="true" aria-controls="collapseGlobals"><span class="txtPlaceholder"></span>Global Attributes <span class="glyphicon glyphicon-menu-hamburger"></span></h2>' +
+        '<h2 data-toggle="collapse" data-target="#collapseGlobals" aria-expanded="false" aria-controls="collapseGlobals"><span class="txtPlaceholder"></span>Global Attributes <span class="glyphicon glyphicon-chevron-down"></span><span class="glyphicon glyphicon-chevron-up"></span></h2>' +
         '</legend>' +
 
         '<div class="row-fluid collapse" id="collapseGlobals">' +
@@ -1833,20 +1830,22 @@ function bannerCreatorForm(el1) {
             '<fieldset id="content_' + id + '" class="col-xs-12">' +
 
             '<legend><h3>Banner Breakpoint Settings</h3></legend>' +
+            '<hr>' +
             '<div class="row-fluid content" data-domain="breakpoints">' +
             '<div class="col-xs-12">' +
+            '<h4>Breakpoints</h4>' +
             '<div class="row flex-it tabs">' +
             '</div>' +
 
-            '<div class="row-fluid">' +
+            '<div class="row">' +
             '<div class="col-xs-12">' +
             '<p>' +
-            '<br>Hover over <b>[&nbsp;|A&nbsp;]</b> button(s) to view breakpoint toolbar.' +
+            '<br>Hover over the <b>[&nbsp;BREAKPOINT&nbsp;]</b> button(s) above to view breakpoint toolbar.' +
+            '<br>Click on the <b>[&nbsp;BREAKPOINT&nbsp;]</b> button(s) above to display the text group form.' +
+            '<br>Click on the<b> [&nbsp;<span class="glyphicon glyphicon-cog" style="color:blue;"></span>&nbsp;]</b> button to set <b>Name</b>, <b>Min Width</b>, <b>Max Width</b>, and <b>Height</b> options of breakpoint.' +
             '<br>Click on the<b> [&nbsp;<span style="color:green;">+</span>&nbsp;]</b> button to add breakpoint.' +
             '<br>Click on the <b>[&nbsp;<span style="color:red;">x</span>&nbsp;]</b> button to remove breakpoint.' +
-            '<br>Click on the<b> [&nbsp;<span class="glyphicon glyphicon-cog" style="color:blue;"></span>&nbsp;]</b> button to set <b>Name</b>, <b>Min Width</b>, <b>Max Width</b>, and <b>Height</b> options of breakpoint.' +
             '<span class="required">*</span>' +
-            '<br>Click on the <b>[&nbsp;|A&nbsp;]</b> button to display the text group form.' +
             '</p>' +
             '</div>' +
             '</div>' +
@@ -1929,7 +1928,7 @@ function bannerCreatorForm(el1) {
 
         clickbehavior = '<div class="row-fluid">' +
             '<fieldset id="clickbehavior_' + id + '" class="col-xs-12">' +
-            '<legend><h3>Click Behavior Settings</h3></legend>' +
+            '<legend><h3>Banner Behavior Settings</h3></legend>' +
             '<div class="row-fluid">' +
             '<div class="col-xs-3">' +
             '<label for="onClickBehavior_' + id + '">Banner OnClick behavior:</label>' +
@@ -1946,7 +1945,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
-            '<div id="fireModal_' + id + '" class="row-fluid onclickbehavior" name="fireModal">' +
+            '<div id="fireModal_' + id + '" class="row onclickbehavior" name="fireModal">' +
             '<div class="col-xs-12">' +
             '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
@@ -1954,7 +1953,7 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
             '<hr>' +
-            '<div class="row-fluid">' +
+            '<div class="row">' +
             '<div class="col-xs-6">' +
             '<div class="row-fluid enter-text-modal flex-it">' +
             '<label for="modalTitle_' + id + '">Modal Title <small>(max characters: 45)</small></label>' +
@@ -1975,17 +1974,17 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
             '<div class="col-xs-6">' +
-            '<div class="row-fluid">' +
+            '<div class="row">' +
             '<span class="example-modal">' +
             '<h5>Example Modal</h5>' +
-            '<img src="img/test.png" alt="Example modal">' +
+            '<img class="img-responsive" src="img/test.png" alt="Example modal">' +
             '</span>' +
             '</div>' +
             '</div>' +
             '</div>' +
             '</div>' +
             '</div>' +
-            '<div id="linkToPage_' + id + '" class="row-fluid onclickbehavior" name="linkToPage">' +
+            '<div id="linkToPage_' + id + '" class="row onclickbehavior" name="linkToPage">' +
             '<br>' +
             '<div class="col-xs-3">' +
             '<label for="offerLink_' + id + '">Link to another page:</label>' +
@@ -1994,16 +1993,16 @@ function bannerCreatorForm(el1) {
             '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="offerLink_' + id + '" class="form-control1" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
             '</div>' +
             '</div>' +
-            '<div id="linkToAnchor_' + id + '" class="row-fluid onclickbehavior" name="linkToAnchor">' +
+            '<div id="linkToAnchor_' + id + '" class="row onclickbehavior" name="linkToAnchor">' +
             '<br>' +
             '<div class="col-xs-3">' +
             '<label for="anchorLink_' + id + '">Link to point on same page:</label>' +
             '</div>' +
             '<div class="col-xs-9 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="anchorLink_' + id + '" class="form-control1" placeholder="Ex. /home.do#anchor" type="text" required>' +
+            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="anchorLink_' + id + '" class="form-control1" placeholder="Ex. /home.do#anchor" type="text" style="width:100%" required>' +
             '</div>' +
             '</div>' +
-            '<div id="doNothing_' + id + '" class="row-fluid onclickbehavior" name="doNothing">' +
+            '<div id="doNothing_' + id + '" class="row onclickbehavior" name="doNothing">' +
             '<br>' +
             '<div class="col-xs-12">' +
             '<p>This will be a static banner.</p>' +
@@ -2021,9 +2020,9 @@ function bannerCreatorForm(el1) {
 
         html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties">' +
             '<legend>' +
-            '<h2 data-toggle="collapse" data-target="#collapseProps_' + id + '" aria-expanded="true" aria-controls="collapseProps_' + id + '">' +
+            '<h2 data-toggle="collapse" data-target="#collapseProps_' + id + '" aria-expanded="false" aria-controls="collapseProps_' + id + '">' +
             '<span class="txtPlaceholder"></span>Properties ' +
-            '<span class="glyphicon glyphicon-menu-hamburger"></span></h2>' +
+            '<span class="glyphicon glyphicon-chevron-down"></span><span class="glyphicon glyphicon-chevron-up"></span></h2>' +
             '</legend>' +
             '<div class="row-fluid collapse" id="collapseProps_' + id + '">' +
 
@@ -2107,15 +2106,15 @@ function breakpointForm(id, bp) {
             '</div>' +
             '<div class="row">' +
             '<label for="bpMinWidth" class="col-xs-4">Min-width:' +
-            '<br><small style="font-weight:400;">Set to 0 to omit</small>' +
-            '<br><small style="font-weight:400;">Default is 575px</small>' +
+            '<br><small style="font-weight:400;">Set to 0 to omit min-width</small>' +
+            '<br><small style="font-weight:400;">Default is ' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].minwidth + 'px</small>' +
             '</label>' +
             '<input id="bpMinWidth" name="bpMinWidth" class="col-xs-8" type="number" placeholder="' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].minwidth + '">' +
             '</div>' +
             '<div class="row">' +
             '<label for="bpMaxWidth" class="col-xs-4">Max-width:' +
-            '<br><small style="font-weight:400;">Set to 0 to omit</small>' +
-            '<br><small style="font-weight:400;">Default is 767px</small>' +
+            '<br><small style="font-weight:400;">Set to 0 to omit max-width</small>' +
+            '<br><small style="font-weight:400;">Default is ' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth + 'px</small>' +
             '</label>' +
             '<input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth + '">' +
             '</div>' +
@@ -2239,7 +2238,7 @@ function bannerObj(el1) {
                 g: 117,
                 b: 174
             },
-            fontSizeAdjustStyles:''
+            fontSizeAdjustStyles: ''
         },
         bpjson: {},
         breakpointTabs: function (id, name) {
@@ -2311,8 +2310,8 @@ function bannerObj(el1) {
                     bgheight: 'auto',
                     state: 'local'
                 },
-                minwidth: 575,
-                maxwidth: 767,
+                minwidth: 0,
+                maxwidth: 0,
                 height: 56
             };
         },

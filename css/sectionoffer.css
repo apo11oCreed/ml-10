@@ -174,6 +174,10 @@ input[type="text"], input[type="number"] {
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 }
 
+[name="fireModal"] input{
+	width:100%;
+}
+
 textarea {
 	border: 1px solid #ddd;
 	padding: 8px;
@@ -566,6 +570,39 @@ border:red solid 1px;
 	transform:translate(-50%,-50%);
 	text-transform:none;
 	width:100%;
+}
+
+#rendering {
+	position: sticky;
+    left: 0;
+    top: 0;
+    z-index: 999;
+}
+
+[aria-expanded="false"] > .glyphicon.glyphicon-chevron-up{
+	display:none;
+}
+[aria-expanded="false"] > .glyphicon.glyphicon-chevron-down{
+	display:inline;
+}
+[aria-expanded="true"] > .glyphicon.glyphicon-chevron-up{
+	display:inline;
+}
+[aria-expanded="true"] > .glyphicon.glyphicon-chevron-down{
+	display:none;
+}
+
+.glyphicon.glyphicon-chevron-down:before, .glyphicon.glyphicon-chevron-up:before {
+	display: inline-block;
+    transform: translateY(5px);
+}
+
+#ifr {
+	display:none;
+}
+
+iframe #ifr {
+	display:block;
 }
 /* span.vertical:after{
 	content:'=====';

@@ -55,12 +55,19 @@ var globals = {
     },
     buildStyles: function (elObject) {
         var stackbreakpoint = this.campaign.stackbreakpoint = '' || this.campaign.stackbreakpoint < 1 ? '575' : this.campaign.stackbreakpoint,
+        fontSizeAdjustStyles='',
             styles = '@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap");${message.cssSelector} {background-color: rgb(250, 250, 250);width: 100%!important;font-family: "Roboto Condensed", sans-serif;border-top:solid white 2px;border-bottom:solid white 2px;}.render{display:flex; flex-direction: row;}@media all and (max-width:' + stackbreakpoint + 'px){.render{flex-direction: column;}}.banner{width:100%;}';
         for (x in Object.values(elObject)) {
             var id = Object.values(elObject)[x]['id'],
                 hex = Object.values(elObject)[x]['hex'],
                 cursor = Object.values(elObject)[x]['cursor'],
                 breakpoints = Object.values(elObject)[x]['css']['breakpoints'];
+                
+                if(typeof Object.values(elObject)[x]['css']['fontSizeAdjustStyles']=='undefined'){
+                    fontSizeAdjustStyles+='';
+                } else {
+                    fontSizeAdjustStyles+=Object.values(elObject)[x]['css']['fontSizeAdjustStyles'];
+                }
 
             for (y in Object.values(breakpoints)) {
 
@@ -188,7 +195,8 @@ var globals = {
             'span.gutter:last-of-type' +
             '{' +
             'display:none;' +
-            '}';
+            '}' + 
+            fontSizeAdjustStyles;
         //console.log('embedded styles updated');
         return styles;
     }
@@ -706,7 +714,7 @@ function bannerBaseBehaviors(thisBanner) {
         var buttonId = $(e.target).attr('id');
 
         if (buttonId.indexOf('textGroups') != -1) {
-            console.log('test1');
+            var fontSizeAdjustStyles='';
             //Text groups specific to breakpoint
 
             // Get all breakpoint instances for this banner
@@ -740,9 +748,6 @@ function bannerBaseBehaviors(thisBanner) {
                         // Empty contents of all existing textgroup output instances
                         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
 
-
-                        textSizeAdjust($(inputs[p]).val());
-
                         // Insert into the respective textgroup output instance
                         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').append($('textarea.editor', inputs[p]).val());
 
@@ -750,56 +755,57 @@ function bannerBaseBehaviors(thisBanner) {
                         globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][p] = { 'html': $('textarea.editor', inputs[p]).val() };
 
 
-
                         // Get all of the children of respective textgroup output instance
                         newChildElems = $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').children();
 
-                        // var childElemsWithFontSize = $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"] [style*="font-size"]');
-
-                        // console.log($(childElemsWithFontSize).css('font-size'));
-
                         // For each child of respective textgroup output instance, define styles
+
                         $.each(newChildElems, function (index, value) {
+                            var classes='';
+
                             $(this).css({ 'margin': '0', 'padding': '0' });
 
-                            var styleChilds = $(this).find('[style*="font-size"]');
-
-                            $.each(styleChilds, function (i) {
-                                var fontSize = $(styleChilds[i]).css('font-size'),
-                                    styleAttr = $(styleChilds[i]).attr('style'),
-                                    classes = bpid + '_' + styleChilds[i].nodeName + '_' + i;
+                            var styleChilds = $('[style*="font-size"]',this);
+                            
+                            $.each(styleChilds,function(i){
+                                  
+                                var fontSize = $(styleChilds[i]).css('font-size');
+                                
+                                classes = 'textgroup_' + id + '_' + bpid + '_' + $(inputs[p]).data('input-index') + '_' + styleChilds[i].nodeName + '_' + i;
+                                
+                                $(styleChilds[i]).removeAttr('style');
 
                                 $(styleChilds[i]).attr('class', classes);
-                                $(styleChilds[i]).attr('style', styleAttr + ';font-size: min(' + fontSize + ',10vw);' +
-                                    '-webkit-text-size-adjust:99%;' +
-                                    '-moz-text-size-adjust:99%;' +
-                                    '-ms-text-size-adjust:99%;' +
-                                    'text-size-adjust:99%;');
 
+                                fontSizeAdjustStyles+='.' + classes + '{font-size:' + fontSize + ';font-size: min(' + fontSize + ',10vw);' +
+                                '-webkit-text-size-adjust:99%;' +
+                                '-moz-text-size-adjust:99%;' +
+                                '-ms-text-size-adjust:99%;' +
+                                'text-size-adjust:99%;}';  
+                                });
+                                
+                                $('.render [id="banner_' + id + '"] [data-bp]').removeAttr('class');
                             });
-                        });
-
-                        $('.render [id="banner_' + id + '"] [data-bp]').removeAttr('class');
-                    } else {
+                            
+                            } else {
                         // If textgroup instance does not contain anything...
                         $(inputs[p]).addClass('error');
                     }
                 }
             }
+
+                globals.campaign.bannerObjects['banner_' + id].css.fontSizeAdjustStyles=fontSizeAdjustStyles;
+            
+            updateStyles(id);
         }
 
     });
 
     $('[id*="updateOnClick_"]', '[id="clickbehavior_' + id + '"]').on('click', function () {
-        console.log('test');
         assignOnClickBehavior($(this).parents('[id*="clickbehavior_"]').attr('id').substr(-4));
     });
 
     console.log('thisBannerBaseBehaviors');
-}
-
-function textSizeAdjust(el) {
-    console.log(el);
 }
 
 function bannerBgSettingsExtended(id, bpid) {
@@ -2232,7 +2238,8 @@ function bannerObj(el1) {
                 r: 184,
                 g: 117,
                 b: 174
-            }
+            },
+            fontSizeAdjustStyles:''
         },
         bpjson: {},
         breakpointTabs: function (id, name) {

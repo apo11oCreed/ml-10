@@ -255,8 +255,14 @@ $(document).ready(function () {
 
             resetShowing(['[id*="props_"]', '.banner-tab', '.render > div']);
 
+
+
             // Launch core behaviors. These behaviors will affect all banners.
             coreBehaviors();
+
+            simulate();
+
+            updateStyles(idInit);
 
         } else {
 
@@ -289,13 +295,41 @@ $(document).ready(function () {
                 $('button[name="exportjs"]').prop('disabled', false);
 
             });
-
         }
 
     });
 
-
 });
+
+function simulate() {
+    var textareaValue = $('.render').html(),
+        d = frames[0].document,
+        renderHeight = $('.render').height();
+
+    //var render = document.querySelectorAll('.render')[0];
+    var frame = document.querySelectorAll('iframe')[0];
+
+    //frame.style.height = (Number(renderHeight) + 100) + 'px';
+
+    d.open();
+    d.write(
+        '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional //EN" "http://www.w3.org/TR/html4/loose.dtd">' +
+        '<html><head><title>THE SIMULATORRRR</title><meta content="width=device-width,initial-scale=1,maximum-scale=1"name=viewport><script crossorigin=anonymous integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="src=https://code.jquery.com/jquery-3.3.1.min.js></script><link href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css rel=stylesheet crossorigin=anonymous integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u><script crossorigin=anonymous integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script><link href=css/sectionoffer.css rel=stylesheet>' +
+        '<\/head>' +
+        '<body>' +
+        '<div>' +
+        // '<div class="row">' +
+        // '<div class="col-xs-12" style="display:table;">' +
+        // '<\/div>' +
+        // '<\/div>' +
+        '<div class="row">' +
+        '<div class="render">' + textareaValue + '<\/div>' +
+        '<\/div>' +
+        '<\/div>' +
+        '<\/body>' +
+        '<\/html>'
+    );
+}
 
 function jsonRender(obj) {
 
@@ -309,10 +343,11 @@ function jsonRender(obj) {
     $('input#stackingBp').val(obj.stackingBp);
 
     // Populate banners' embedded stylesheet using value from JSON object
-    $('style#banners').append(obj.evergagecss);
+    //$('.row .render').append('<style id="banners">' + obj.evergagecss + '</style>');
 
     // Populate rendering container using value from JSON object
-    $('.row .render').replaceWith(obj.evergagehtml);
+    $('.row .render').html('');
+    $('.row .render').append('<style id="banners">' + obj.evergagecss + '</style>' + obj.evergagehtml);
 
     // Populate global attributes fields using value from JSON object
     $('#globalProperties > legend > h2 > span.txtPlaceholder').text(obj.name + ' ');
@@ -507,7 +542,7 @@ function jsonRender(obj) {
         // Bind thisBannerBaseBehaviors to this banner
         obj.bannerObjects[banner].thisBannerBaseBehaviors(obj.bannerObjects[banner]);
 
-        resetShowing(['[id="props_' + id + '"] [data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs button.breakpoint-tab', '[id="props_' + id + '"] .row.backgroundimage > .col-xs-12 > [data-bp]', '[id="props_' + id + '"] .row.inputs [name="bpid_' + bpid + '"]']);
+        resetShowing(['.render .banner', '[id="props_' + id + '"] [data-domain="breakpoints"] > .col-xs-12 > .row.flex-it.tabs button.breakpoint-tab', '[id="props_' + id + '"] .row.backgroundimage > .col-xs-12 > [data-bp]', '[id="props_' + id + '"] .row.inputs [name="bpid_' + bpid + '"]']);
 
         // Store the series of breakpoint subtract buttons
         bptabs = $('[data-domain="breakpoints"] .subtract-button', '[id="content_' + id + '"]');
@@ -531,9 +566,29 @@ function jsonRender(obj) {
     // Launch core behaviors. These behaviors will affect all banners.
     coreBehaviors();
 
+    simulate();
+
+
 }
 
 function coreBehaviors() {
+
+    $('#simulateWidthSettings').on('click', function () {
+        console.log('test');
+        $('#ifr').css('width', $('#simulateWidth').val());
+
+        console.log(Number($('#simulateWidth').val()));
+        console.log(Number(globals.campaign.stackbreakpoint));
+        console.log($('#ifr').height());
+
+        if (Number($('#simulateWidth').val()) < Number(globals.campaign.stackbreakpoint)) {
+            $('#simulateParent').css('height', $('#ifr').height());
+            console.log($('.render').css('flex-direction'));
+        } else {
+            console.log($('.render').css('flex-direction'));
+        }
+
+    });
 
     // When 'Update Campaign Name' is clicked, update campaign object and Global Attributes label
     $('button#campaignNameUpdate').on('click', function () {
@@ -564,6 +619,20 @@ function coreBehaviors() {
         $('button[name="exportcss"]').prop('disabled', false);
         $('button[name="exportjs"]').prop('disabled', false);
         //https://stackoverflow.com/questions/15657686/jquery-event-detect-changes-to-the-html-text-of-a-div
+
+        simulate();
+
+    });
+
+    $('body').on('DOMSubtreeModified', 'style#banners, .render', function () {
+
+        $('button[name="exportjson"]').prop('disabled', false);
+        $('button[name="exporthtml"]').prop('disabled', false);
+        $('button[name="exportcss"]').prop('disabled', false);
+        $('button[name="exportjs"]').prop('disabled', false);
+        //https://stackoverflow.com/questions/15657686/jquery-event-detect-changes-to-the-html-text-of-a-div
+
+        simulate();
 
     });
 
@@ -713,6 +782,8 @@ function bannerBaseBehaviors(thisBanner) {
 
         var buttonId = $(e.target).attr('id');
 
+        console.log(buttonId);
+
         if (buttonId.indexOf('textGroups') != -1) {
             var fontSizeAdjustStyles = '';
             //Text groups specific to breakpoint
@@ -796,6 +867,8 @@ function bannerBaseBehaviors(thisBanner) {
 
             globals.campaign.bannerObjects['banner_' + id].css.fontSizeAdjustStyles = fontSizeAdjustStyles;
         }
+
+        updateStyles(id);
 
     });
 
@@ -1351,6 +1424,8 @@ function show(thisButton) {
     }
     $(thisButton).addClass('showing');
 
+    simulate();
+
 }
 
 function add(thisButton) {
@@ -1445,6 +1520,8 @@ function add(thisButton) {
         // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
         $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
     }
+
+    updateStyles(id);
 }
 
 function removeThis(thisButton) {
@@ -1670,16 +1747,36 @@ function updateStyles(id) {
 
 function sections() {
     var html = '<br>' +
-        '<div id="rendering" class="row">' +
-        '<div class="section-offer-content col-xs-12">' +
-        '<div class="row-fluid">' +
+        '<div class="row" style="position:sticky;top:0;z-index:999;border: solid #d1d1d1 1px;background-color:#efefef;">' +
         '<div class="col-xs-12">' +
+        '<div class="row">' +
         '<h2>Banner Simulation</h2>' +
-        '<iframe src="http://localhost:7883/simulate.html#ifr" title="Banner Simulation" width="100%"></iframe>' +
+        '<div id="simulateParent" class="col-xs-12">' +
+        '<iframe id="ifr" scrolling="no" frameborder="0" style="width:100%;display:block;margin:0 auto;" title="Banner Simulation"></iframe>' +
+        '</div>' +
+        '</div>' +
+        '<hr>' +
+        '<div class="row">' +
+        '<div class="col-xs-4">' +
+        '<label for="simulateWidth">Enter breakpoint width to preview responsiveness</label>' +
+        '</div>' +
+        '<div class="col-xs-4">' +
+        '<input id="simulateWidth" type="number" placeholder="0" />' +
+        '</div>' +
+        '</div>' +
+        '<div class="row-fluid" style="text-align:right;">' +
+        '<div class="col-xs-12">' +
+        '<button id="simulateWidthSettings" name="update" type="button">Update Simulation Width</button>' +
         '</div>' +
         '</div>' +
         '</div>' +
         '</div>' +
+        '<div class="row" style="height:0px;overflow:hidden;">' +
+        '<div class="render">' +
+        '<style id="banners"></style>' +
+        '</div>' +
+        '</div>' +
+
         '<br>' +
 
         '<div class="row">' +

@@ -510,7 +510,11 @@ h2 .tab-visible{
 	display:none;
 }
 
-.banner-properties.showing, .content p.showing, [id*="content_"] .row.showing, .onclickbehavior.showing {
+.height .col-xs-12.forms .row {
+	display:none;
+}
+
+.banner-properties.showing, .content p.showing, [id*="content_"] .row.showing, .onclickbehavior.showing, .height .col-xs-12.forms .row.showing {
 	display:block;
 }
 

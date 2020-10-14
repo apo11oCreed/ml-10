@@ -253,7 +253,7 @@ $(document).ready(function () {
                 globals.campaign.bannerObjects[banner].render();
             }
 
-            resetShowing(['[id*="props_"]', '.banner-tab', '.render > div']);
+            resetShowing(['[id*="props_"]', '.banner-tab', '.render > div', '.height .col-xs-12.forms .row']);
 
 
 
@@ -511,6 +511,9 @@ function jsonRender(obj) {
             // Add breakpoint background image form
             $('.row.backgroundimage > .col-xs-12', '[id="props_' + id + '"]').append(breakpointBackgroundImg(bpid, id));
 
+            // Add new breakpoint section to background height fields
+            $('[id="content_' + id + '"] .height .col-xs-12.forms').append(breakpointHeight(id, bpid));
+
             // Add breakpoint textgroup container
             $('.row.inputs > .col-xs-12', '[id="props_' + id + '"]').append('<div name="bpid_' + bpid + '" data-domain="inputs" class="row input">' +
                 '</div>');
@@ -567,7 +570,6 @@ function jsonRender(obj) {
     coreBehaviors();
 
     simulate();
-
 
 }
 
@@ -866,6 +868,12 @@ function bannerBaseBehaviors(thisBanner) {
             }
 
             globals.campaign.bannerObjects['banner_' + id].css.fontSizeAdjustStyles = fontSizeAdjustStyles;
+        } else if (buttonId.indexOf('bpHeight') != -1) {
+
+            var bpid = $('.breakpoint-tab.showing').parents('[data-bp]').data('bp').substr(-5);
+
+            globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height = $('input[id="bpHeight_' + bpid + '"]').val();
+
         }
 
         updateStyles(id);
@@ -891,6 +899,9 @@ function bannerBgSettingsExtended(id, bpid) {
 
     // Add new breakpoint section to background image fields
     $('[id="content_' + id + '"] .backgroundimage > .col-xs-12').append(breakpointBackgroundImg(bpid, id));
+
+    // Add new breakpoint section to background height fields
+    $('[id="content_' + id + '"] .height .col-xs-12.forms').append(breakpointHeight(id, bpid));
 
     // Remove showing class from all breakpoint tabs
     $('[id="content_' + id + '"] [data-domain="breakpoints"] .tabs div button, [id="content_' + id + '"] [data-domain="breakpoints"] .inputs div, [id="content_' + id + '"] .backgroundimage [data-bp*="bg_"]').removeClass('showing');
@@ -1056,7 +1067,9 @@ function bannerExtendedBehaviors(id, bpid) {
 }
 
 function resetShowing(series) {
+    console.log(series);
     $.each(series, function (index) {
+
         $(series[index]).removeClass('showing');
         $(series[index]).last().addClass('showing');
     });
@@ -1417,9 +1430,9 @@ function show(thisButton) {
         id = $(thisButton).closest('[id*="props_"]').attr('id').substr(-4);
         var bpid = $(thisButton).closest('[id="props_' + id + '"] [name*="bpid_"]').attr('name').substr(-5);
 
-        $('[data-domain="breakpoints"] .tabs div button.breakpoint-tab, [data-domain="breakpoints"] .inputs .col-xs-12 .input, .backgroundimage [data-bp*="bg_"]', '[id="content_' + id + '"]').removeClass('showing');
+        $('[data-domain="breakpoints"] .tabs div button.breakpoint-tab, [data-domain="breakpoints"] .inputs .col-xs-12 .input, .backgroundimage [data-bp*="bg_"], .height [data-bp*="height_"]', '[id="content_' + id + '"]').removeClass('showing');
 
-        $('[data-domain="breakpoints"] .inputs .col-xs-12 [name="bpid_' + bpid + '"], .backgroundimage [data-bp="bg_' + bpid + '"]', '[id="content_' + id + '"]').addClass('showing');
+        $('[data-domain="breakpoints"] .inputs .col-xs-12 [name="bpid_' + bpid + '"], .backgroundimage [data-bp="bg_' + bpid + '"], .height [data-bp="height_' + bpid + '"]', '[id="content_' + id + '"]').addClass('showing');
 
     }
     $(thisButton).addClass('showing');
@@ -1519,6 +1532,8 @@ function add(thisButton) {
 
         // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
         $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
+
+        resetShowing(['.height .col-xs-12.forms .row']);
     }
 
     updateStyles(id);
@@ -1542,7 +1557,7 @@ function removeThis(thisButton) {
         // Recheck qty of banners
         series = $('[id*="tabs_"]');
 
-        resetShowing(['[id*="props_"]', '.banner-tab', '.render > div']);
+        resetShowing(['[id*="props_"]', '.banner-tab', '.render > div', '.height .col-xs-12.forms .row']);
 
         if (series.length == globals.minBannerNumber) {
             $('[data-domain="' + dataDomain + '"] .subtract-button').prop('hidden', true);
@@ -1584,9 +1599,11 @@ function removeThis(thisButton) {
 
         $('[data-bp="bg_' + bpid + '"]').remove();
 
+        $('[data-bp="height_' + bpid + '"]').remove();
+
         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"]').remove();
 
-        resetShowing([$('[data-domain="bpconfig"]', seriesParent)]);
+        resetShowing([$('[data-domain="bpconfig"] .breakpoint-tab', seriesParent), $('[data-bp*="height_"]', seriesParent), $('[data-bp*="bg_"]', seriesParent)]);
 
         // Recheck qty of breakpoints
         series = $('[data-domain="bpconfig"]', seriesParent);
@@ -1606,7 +1623,7 @@ function edit(thisButton) {
         dataDomain = $(thisButton).closest('[data-domain]').data('domain');
 
     if (dataDomain == 'bpconfig') {
-        msgBox1('<form id="bpForm" class="container-fluid">' + breakpointForm(id, $(bp)) + '</form>', 'Breakpoint Options');
+        msgBox1('<form id="bpForm" class="container-fluid">' + breakpointForm(id, $(bp)) + '</form>', 'Breakpoint Media Query Options');
         $('#bpForm').on('submit', function () {
             event.preventDefault();
             update(event.target, bp);
@@ -1621,8 +1638,8 @@ function update(el1, el2) {
         id = $(el2).parents('[id*="content_"]').attr('id').substr(-4),
         name = globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name,
         minwidth = globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].minwidth,
-        maxwidth = globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth,
-        height = globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height;
+        maxwidth = globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth;
+    // height = globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height;
 
     $.each(seriesInputs, function () {
         var inputId = $(this).attr('id');
@@ -1636,9 +1653,9 @@ function update(el1, el2) {
             case 'bpMaxWidth':
                 maxwidth = $('input#bpMaxWidth', el1).val() == '' ? 0 : $('input#bpMaxWidth', el1).val();
                 break;
-            case 'bpHeight':
-                height = $('input#bpHeight', el1).val() == '' ? height : $('input#bpHeight', el1).val();
-                break;
+            // case 'bpHeight':
+            //     height = $('input#bpHeight', el1).val() == '' ? height : $('input#bpHeight', el1).val();
+            //     break;
             default:
                 break;
         }
@@ -1648,12 +1665,14 @@ function update(el1, el2) {
     if (minwidth == 0 && maxwidth == 0) {
         $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
             name +
-            '</h5>' +
-            '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseBpProps_' + bpid + '" class="glyphicon"></span>' +
-            '<dl id="dl_' + bpid + '" class="collapse">' +
-            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
-            height + 'px</span></dd>' +
-            '</dl>'
+            '</h5>'
+            //+
+            // '<span data-toggle="collapse" href="#dl_' + bpid + '" role="button" aria-expanded="false" aria-controls="collapseBpProps_' + bpid + '" class="glyphicon"></span>'
+            //  +
+            // '<dl id="dl_' + bpid + '" class="collapse">' +
+            // '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            // height + 'px</span></dd>' +
+            // '</dl>'
         );
     } else if (minwidth == 0) {
         $('button[name="copyTab"]', el2).html('<h5 style="margin-top:0;margin-bottom:0;">' +
@@ -1663,8 +1682,8 @@ function update(el1, el2) {
             '<dl id="dl_' + bpid + '" class="collapse">' +
             '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
             maxwidth + 'px</span></dd>' +
-            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
-            height + 'px</span></dd>' +
+            // '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            // height + 'px</span></dd>' +
             '</dl>'
         );
     } else if (maxwidth == 0) {
@@ -1675,8 +1694,8 @@ function update(el1, el2) {
             '<dl id="dl_' + bpid + '" class="collapse">' +
             '<dd><span style="font-weight:400;font-size:smaller;">minwidth:</span> ' +
             minwidth + 'px</span></dd>' +
-            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
-            height + 'px</span></dd>' +
+            // '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            // height + 'px</span></dd>' +
             '</dl>'
         );
     } else {
@@ -1689,8 +1708,8 @@ function update(el1, el2) {
             minwidth + 'px</span></dd>' +
             '<dd><span style="font-weight:400;font-size:smaller;">maxwidth:</span> ' +
             maxwidth + 'px</span></dd>' +
-            '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
-            height + 'px</span></dd>' +
+            // '<dd><span style="font-weight:400;font-size:smaller;">height:</span> ' +
+            // height + 'px</span></dd>' +
             '</dl>'
         );
     }
@@ -1698,11 +1717,13 @@ function update(el1, el2) {
     globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name = name;
     globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].minwidth = minwidth;
     globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth = maxwidth;
-    globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height = height;
+    // globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height = height;
 
 
 
     $('[data-bp="bg_' + bpid + '"] b.bpName').html(globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name);
+
+    $('label[for="bpHeight_' + bpid + '"] b.bpName').html(globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name);
 
     updateStyles(id);
 
@@ -1939,16 +1960,33 @@ function bannerCreatorForm(el1) {
             '<p>' +
             '<br>Hover over the <b>[&nbsp;BREAKPOINT&nbsp;]</b> button(s) above to view breakpoint toolbar.' +
             '<br>Click on the <b>[&nbsp;BREAKPOINT&nbsp;]</b> button(s) above to display the text group form.' +
-            '<br>Click on the<b> [&nbsp;<span class="glyphicon glyphicon-cog" style="color:blue;"></span>&nbsp;]</b> button to set <b>Name</b>, <b>Min Width</b>, <b>Max Width</b>, and <b>Height</b> options of breakpoint.' +
+            '<br>Click on the<b> [&nbsp;<span class="glyphicon glyphicon-cog" style="color:blue;"></span>&nbsp;]</b> button to set <b>Name</b> and <b>Min</b>/<b>Max Width</b> media query options of breakpoint.' +
             '<br>Click on the<b> [&nbsp;<span style="color:green;">+</span>&nbsp;]</b> button to add breakpoint.' +
             '<br>Click on the <b>[&nbsp;<span style="color:red;">x</span>&nbsp;]</b> button to remove breakpoint.' +
             '<span class="required">*</span>' +
             '</p>' +
             '</div>' +
             '</div>' +
-
             '<hr>' +
 
+            // Height section
+            '<div class="row height">' +
+            '<div class="col-xs-12">' +
+            '<div class="row">' +
+            '<div class="col-xs-12">' +
+            '<h4>Breakpoint <b class="bpName"></b> Height</h4>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row">' +
+            '<div class="col-xs-12 forms">' +
+            '</div>' +
+            '</div>' +
+            '<div class="row-fluid" style="text-align:right;"><div class="col-xs-12"><button id="bpHeight" name="update" type="submit">Update Breakpoint Height</button></div></div>' +
+            '</div>' +
+            '</div>' +
+            '<hr>' +
+
+            // Background image section
             '<div class="row backgroundimage">' +
             '<div class="col-xs-12">' +
             '<div class="row">' +
@@ -1956,16 +1994,13 @@ function bannerCreatorForm(el1) {
             '<h4>Breakpoint <b class="bpName"></b> Background Image</h4>' +
             '</div>' +
             '</div>' +
-
             '</div>' +
             '</div>' +
             '<hr>' +
 
-
-
+            // Text groups section
             '<div class="row inputs">' +
             '<div class="col-xs-12">' +
-
             '<div class="row">' +
             '<div class="col-xs-12">' +
             '<h4>' +
@@ -1973,7 +2008,6 @@ function bannerCreatorForm(el1) {
             '</h4>' +
             '</div>' +
             '</div>' +
-
             '<div class="row">' +
             '<div class="col-xs-12">' +
             '<p>' +
@@ -2192,6 +2226,19 @@ function breakpointInput(number, id) {
     return html;
 }
 
+function breakpointHeight(id, bp) {
+
+    var bpid = bp,
+        name = globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].name,
+        html = '<div class="row showing" data-bp="height_' + bpid + '">' +
+            '<label for="bpHeight_' + bpid + '" class="col-xs-3">Breakpoint <b class="bpName">' + name + '</b> Height:' +
+            '</label>' +
+            '<input id="bpHeight_' + bpid + '" name="bpHeight" class="col-xs-1" min="0" type="number" placeholder="' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height + '">' +
+            '</div>';
+
+    return html;
+}
+
 function breakpointForm(id, bp) {
     var bpid = bp.data('bp').substr(-5),
         html = '<div class="row">' +
@@ -2215,9 +2262,9 @@ function breakpointForm(id, bp) {
             '</label>' +
             '<input id="bpMaxWidth" name="bpMaxWidth" class="col-xs-8" type="number" placeholder="' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].maxwidth + '">' +
             '</div>' +
-            '<div class="row">' +
-            '<label for="bpHeight" class="col-xs-4">Height:<br><small style="font-weight:400;">Default is 56px</small></label><input id="bpHeight" name="bpHeight" class="col-xs-8" type="number" placeholder="' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height + '">' +
-            '</div>' +
+            // '<div class="row">' +
+            // '<label for="bpHeight" class="col-xs-4">Height:<br><small style="font-weight:400;">Default is 56px</small></label><input id="bpHeight" name="bpHeight" class="col-xs-8" type="number" placeholder="' + globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height + '">' +
+            // '</div>' +
             '<div class="row">' +
             '<button id="bpUpdate" type="submit" name="bpUpdate">Update Breakpoint</button>' +
             '</div>';

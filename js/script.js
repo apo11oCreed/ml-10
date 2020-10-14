@@ -364,7 +364,7 @@ function jsonRender(obj) {
         $('#properties.row > .dynamic').append(bannerCreatorForm(obj.bannerObjects[banner]));
 
         // Populate the banner global properties header value of banner txtplaceholder prop
-        $('h2 span.txtPlaceholder', '[id="props_' + id + '"]').text(obj.bannerObjects[banner].txtPlaceholder + ' ');
+        $('span.txtPlaceholder', '[id="props_' + id + '"]').text(obj.bannerObjects[banner].txtPlaceholder + ' ');
 
         // Set the value of the onClickbehavior drop down to the value of the banner onclickbehavior prop
         $('select#onClickBehavior_' + id).val(obj.bannerObjects[banner].onClickBehavior.name);
@@ -595,7 +595,7 @@ function coreBehaviors() {
     // When 'Update Campaign Name' is clicked, update campaign object and Global Attributes label
     $('button#campaignNameUpdate').on('click', function () {
         globals.campaign.name = ($('input#campaignName').val());
-        $('#globalProperties > legend > h2 > span.txtPlaceholder').text(globals.campaign.getname + ' ');
+        $('#globalProperties > legend > h2 > span.globalTxtPlaceholder').text(globals.campaign.getname + ' ');
         console.log(globals);
     });
 
@@ -658,6 +658,7 @@ function coreBehaviors() {
         $('select#brands:selected').val('-- select --');
 
         // Reset labeling
+        $('.globalTxtPlaceholder').html('');
         $('.txtPlaceholder').html('');
 
         // Since embedded styles now removed, disable export buttons
@@ -678,6 +679,8 @@ function coreBehaviors() {
 
         // Run the new banner object render function
         globals.campaign.bannerObjects['banner_' + idInit].render();
+
+        resetShowing(['[id*="props_"]', '.banner-tab', '.render > div']);
 
     });
 
@@ -708,45 +711,23 @@ function bannerBaseBehaviors(thisBanner) {
     });
 
     // color events
-    $('input[id*="r_bg"],input[id*="g_bg"],input[id*="b_bg"]', '[id="props_' + id + '"]').on('input', function () {
+    $('input[id*="hex_"]', '[id="props_' + id + '"]').on('input', function () {
 
         var code = $(this).val(),
             id = $(this).attr('id').substr(-4),
-            rgb = $(this).attr('name');
+            codeRegx = /[0-9A-Fa-f]{6}\b/,
+            validCode = codeRegx.exec(code);
 
-        if (Number(code) > 250) {
-            $(this).addClass('error');
-            $(this).parent().next('.error').html('Max value is 250');
-            $(this).parent().next('.error').prop('hidden', false);
-        } else if (Number(code) < 0) {
-            $(this).addClass('error');
-            $(this).parent().next('.error').html('Min value is 0');
-            $(this).parent().next('.error').prop('hidden', false);
-        } else {
-            $(this).removeClass('error');
-            $(this).parent().next('.error').html('');
-            $(this).parent().next('.error').prop('hidden', true);
-
-            switch (rgb) {
-                case "r":
-                    thisBanner.css.bgColor.r = $(this).val();
-                    break;
-                case "g":
-                    thisBanner.css.bgColor.g = $(this).val();;
-                    break;
-                case "b":
-                    thisBanner.css.bgColor.b = $(this).val();;
-                    break;
-                default:
-                    break;
+        if (code.length > 5) {
+            validCode = codeRegx.exec(code);
+            if (validCode != null) {
+                console.log(validCode);
+                thisBanner.hex = '#' + validCode;
+                updateStyles(id);
+            } else {
+                $(this).addClass('error');
             }
         }
-
-        // Convert entered RGB values to HEX and store as banner's property
-        thisBanner.hex = rgbToHex(Number(thisBanner.css.bgColor.r), Number(thisBanner.css.bgColor.g), Number(thisBanner.css.bgColor.b));
-
-        // Update embedded stylesheet
-        updateStyles(id);
     });
 
     // When tab is clicked, enable editing and updating UI name
@@ -765,15 +746,15 @@ function bannerBaseBehaviors(thisBanner) {
             if (newBannerTitle) {
                 if (newBannerTitle != thisBanner.txtPlaceholder) {
                     thisBanner.txtPlaceholder = newBannerTitle;
-                    $('[id="props_' + id + '"] h2 .txtPlaceholder').empty();
-                    $('[id="props_' + id + '"] h2 .txtPlaceholder').html(thisBanner.txtPlaceholder + " ");
+                    $('[id="props_' + id + '"] .txtPlaceholder').empty();
+                    $('[id="props_' + id + '"] .txtPlaceholder').html(thisBanner.txtPlaceholder + " ");
                 } else {
                     $(this).text(thisBanner.txtPlaceholder);
-                    $('[id="props_' + id + '"] h2 .txtPlaceholder').html(thisBannerH2);
+                    $('[id="props_' + id + '"] .txtPlaceholder').html(thisBannerH2);
                 }
             } else {
                 $(this).text(thisBanner.txtPlaceholder);
-                $('[id="props_' + id + '"] h2 .txtPlaceholder').html(thisBannerH2);
+                $('[id="props_' + id + '"] .txtPlaceholder').html(thisBannerH2);
             }
         }
     });
@@ -1048,6 +1029,9 @@ function bannerExtendedBehaviors(id, bpid) {
                 break;
             case 'rgb':
                 helpMsg = 'Enter a number value between the range of 0-250 for each of the RGB fields.';
+                break;
+            case 'hex':
+                helpMsg = 'Enter the six digit string Hex <u>excluding</u> the hash symbol (#).';
                 break;
             case 'required':
                 helpMsg = 'Whether this text is required for this offer. Certain text cannot be omitted.';
@@ -1829,7 +1813,7 @@ function sections() {
 
         '<fieldset id="globalProperties" class="col-xs-12">' +
         '<legend>' +
-        '<h2 data-toggle="collapse" data-target="#collapseGlobals" aria-expanded="false" aria-controls="collapseGlobals"><span class="txtPlaceholder"></span>Global Attributes <span class="glyphicon glyphicon-chevron-down"></span><span class="glyphicon glyphicon-chevron-up"></span></h2>' +
+        '<h2 data-toggle="collapse" data-target="#collapseGlobals" aria-expanded="false" aria-controls="collapseGlobals"><span class="globalTxtPlaceholder"></span>Global Attributes <span class="glyphicon glyphicon-chevron-down"></span><span class="glyphicon glyphicon-chevron-up"></span></h2>' +
         '</legend>' +
 
         '<div class="row-fluid collapse" id="collapseGlobals">' +
@@ -1947,7 +1931,7 @@ function bannerCreatorForm(el1) {
 
             '<fieldset id="content_' + id + '" class="col-xs-12">' +
 
-            '<legend><h3>Banner Breakpoint Settings</h3></legend>' +
+            '<legend><h3><span class="txtPlaceholder"></span>Banner Breakpoint Settings</h3></legend>' +
             '<hr>' +
             '<div class="row-fluid content" data-domain="breakpoints">' +
             '<div class="col-xs-12">' +
@@ -2032,34 +2016,50 @@ function bannerCreatorForm(el1) {
 
         background = '<div class="row-fluid">' +
             '<fieldset id="background_' + id + '" class="col-xs-12">' +
-            '<legend> <h3>Banner Background Settings</h3> </legend>' +
+            '<legend> <h3><span class="txtPlaceholder"></span>Banner Background Settings</h3> </legend>' +
 
             '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
             '<h5>COLOR</h5>' +
             '</div>' +
             '</div>' +
-            '<div class="row-fluid">' +
+
+            // RGB fields
+            // '<div class="row">' +
+            // '<div class="col-xs-3">' +
+            // '<label for="rgb_bg' + id + '">Banner background RGB color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label>' +
+            // '</div>' +
+            // '<div class="col-xs-6 input-group1">' +
+            // '<span class="input-group-addon1">R</span> <input id="r_bg' + id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" min="0" max="250" required>' +
+            // '<span class="input-group-addon1">G</span><input id="g_bg' + id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" min="0" max="250" required>' +
+            // '<span class="input-group-addon1">B</span><input id="b_bg' + id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" min="0" max="250" required>' +
+            // '</div>' +
+            // '<div class="col-xs-3 error" hidden>' +
+            // '</div>' +
+            // '</div>' +
+            // '<br>' +
+
+            // Hex fields
+            '<div class="row">' +
             '<div class="col-xs-3">' +
-            '<label for="bgColor">Banner background color <span class="help1 glyphicon glyphicon-question-sign" data-help="rgb" aria-hidden="true"></span>:</label>' +
+            '<label for="hex_bg' + id + '">Banner background Hex color <span class="help1 glyphicon glyphicon-question-sign" data-help="hex" aria-hidden="true"></span>:</label>' +
             '</div>' +
             '<div class="col-xs-6 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">R</span> <input id="r_bg' + id + '" name="r" class="bgcolor" placeholder="###" type="number" width="10" minlength="3" maxlength="3" min="0" max="250" required>' +
-            '<span class="input-group-addon1" id="img2label">G</span><input id="g_bg' + id + '" name="g" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" min="0" max="250" required>' +
-            '<span class="input-group-addon1" id="img2label">B</span><input id="b_bg' + id + '" name="b" class="bgcolor" placeholder="###" type="number" width="10" maxlength="3" min="0" max="250" required>' +
+            '<span class="input-group-addon1">Hex</span> <input id="hex_bg' + id + '" name="hex" class="bgcolor" placeholder="###" type="text" width="10" minlength="3" maxlength="6" min="0" max="250" required>' +
             '</div>' +
             '<div class="col-xs-3 error" hidden>' +
             '</div>' +
             '</div>' +
+
             '<br>' +
-            '<div class="row-fluid" style="text-align:right;"><div class="col-xs-12"><button id="backgroundSettings_' + id + '" name="update" type="submit">Update Background Settings</button></div></div>' +
+            '<div class="row" style="text-align:right;"><div class="col-xs-12"><button id="backgroundSettings_' + id + '" name="update" type="submit">Update Background Settings</button></div></div>' +
             '<br>' +
             '</fieldset>' +
             '</div>',
 
         clickbehavior = '<div class="row-fluid">' +
             '<fieldset id="clickbehavior_' + id + '" class="col-xs-12">' +
-            '<legend><h3>Banner Behavior Settings</h3></legend>' +
+            '<legend><h3><span class="txtPlaceholder"></span>Banner Behavior Settings</h3></legend>' +
             '<div class="row-fluid">' +
             '<div class="col-xs-3">' +
             '<label for="onClickBehavior_' + id + '">Banner OnClick behavior:</label>' +
@@ -2152,7 +2152,7 @@ function bannerCreatorForm(el1) {
         html = '<fieldset id="props_' + id + '" class="col-xs-12 banner-properties">' +
             '<legend>' +
             '<h2 data-toggle="collapse" data-target="#collapseProps_' + id + '" aria-expanded="false" aria-controls="collapseProps_' + id + '">' +
-            '<span class="txtPlaceholder"></span>Properties ' +
+            '<span class="txtPlaceholder"></span>Banner Properties ' +
             '<span class="glyphicon glyphicon-chevron-down"></span><span class="glyphicon glyphicon-chevron-up"></span></h2>' +
             '</legend>' +
             '<div class="row-fluid collapse" id="collapseProps_' + id + '">' +

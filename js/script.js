@@ -575,20 +575,21 @@ function jsonRender(obj) {
 
 function coreBehaviors() {
 
-    $('#simulateWidthSettings').on('click', function () {
+    $('#simulateWidthHeightSettings').on('click', function () {
         console.log('test');
         $('#ifr').css('width', $('#simulateWidth').val());
+        $('#ifr').css('height', $('#simulateHeight').val());
 
-        console.log(Number($('#simulateWidth').val()));
-        console.log(Number(globals.campaign.stackbreakpoint));
-        console.log($('#ifr').height());
+        // console.log(Number($('#simulateWidth').val()));
+        // console.log(Number(globals.campaign.stackbreakpoint));
+        // console.log($('#ifr').height());
 
-        if (Number($('#simulateWidth').val()) < Number(globals.campaign.stackbreakpoint)) {
-            $('#simulateParent').css('height', $('#ifr').height());
-            console.log($('.render').css('flex-direction'));
-        } else {
-            console.log($('.render').css('flex-direction'));
-        }
+        // if (Number($('#simulateWidth').val()) < Number(globals.campaign.stackbreakpoint)) {
+        //     $('#simulateParent').css('height', $('#ifr').height());
+        //     console.log($('.render').css('flex-direction'));
+        // } else {
+        //     console.log($('.render').css('flex-direction'));
+        // }
 
     });
 
@@ -1762,16 +1763,22 @@ function sections() {
         '</div>' +
         '<hr>' +
         '<div class="row">' +
-        '<div class="col-xs-4">' +
-        '<label for="simulateWidth">Enter breakpoint width to preview responsiveness</label>' +
+        '<div class="col-xs-3">' +
+        '<label for="simulateWidth">Preview responsiveness. Enter width:</label>' +
         '</div>' +
-        '<div class="col-xs-4">' +
-        '<input id="simulateWidth" type="number" placeholder="0" />' +
+        '<div class="col-xs-2 field-unit">' +
+        '<input id="simulateWidth" min="0" type="number" placeholder="auto" style="width:100%;" /><span>px</span>' +
+        '</div>' +
+        '<div class="col-xs-2">' +
+        '<label for="simulateHeight">Enter height:</label>' +
+        '</div>' +
+        '<div class="col-xs-2 field-unit">' +
+        '<input id="simulateHeight" min="0" type="number" placeholder="150" style="width:100%;" /><span>px</span>' +
         '</div>' +
         '</div>' +
         '<div class="row-fluid" style="text-align:right;">' +
         '<div class="col-xs-12">' +
-        '<button id="simulateWidthSettings" name="update" type="button">Update Simulation Width</button>' +
+        '<button id="simulateWidthHeightSettings" name="update" type="button">Update Simulation</button>' +
         '</div>' +
         '</div>' +
         '</div>' +

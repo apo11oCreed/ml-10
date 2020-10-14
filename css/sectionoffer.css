@@ -619,6 +619,10 @@ border:red solid 1px;
     transform: translateY(5px);
 }
 
+#simulateParent {
+	background-color: #ececec;
+}
+
 /* #ifr {
 	display:none;
 }

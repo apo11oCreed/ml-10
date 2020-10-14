@@ -1753,7 +1753,7 @@ function updateStyles(id) {
 
 function sections() {
     var html = '<br>' +
-        '<div class="row" style="position:sticky;top:0;z-index:999;border: solid #d1d1d1 1px;background-color:#efefef;">' +
+        '<div class="row" style="position:sticky;top:0;z-index:999;border: solid #d1d1d1 1px;background-color:#efefef;box-shadow: 0px 12px 2px rgba(0,0,0,0.125);">' +
         '<div class="col-xs-12">' +
         '<div class="row">' +
         '<h2>Banner Simulation</h2>' +

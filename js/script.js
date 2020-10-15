@@ -71,9 +71,8 @@ var globals = {
 
             for (y in Object.values(breakpoints)) {
 
+                // max will store maxwidth media query defined by admin for this specific breakpoint
                 var bpid = Object.keys(breakpoints)[y],
-
-                    // max will store maxwidth media query defined by admin for this specific breakpoint
                     max = Number(Object.values(breakpoints)[y]['maxwidth']) == 0 ? '' : ' and (max-width:' + Object.values(breakpoints)[y]['maxwidth'] + 'px)',
 
                     // min will store minwidth media query defined by admin for this specific breakpoint
@@ -151,9 +150,24 @@ var globals = {
                         'background-repeat:no-repeat;' +
                         'background-size:' + bgwidth + ' ' + bgheight + ';' +
                         '}' +
-                        '}';
+                        '}',
+                    textgroups,
+                    textgroupsstyles = '';
 
+                if (typeof Object.values(breakpoints)[y]['textgroups'] === 'undefined') {
+                    textgroupsstyles = '';
+                } else {
+                    textgroups = Object.values(breakpoints)[y]['textgroups'];
 
+                    for (var q = 0; q < Object.values(textgroups).length; q++) {
+                        textgroupsstyles += '[id="banner_' + id + '"] [data-bp="' + bpid + '"] .text-group[data-output-index="' + textgroups[q] + '"]{display:block;}';
+                    };
+
+                    textgroupsstyles += '[id="banner_' + id + '"] [data-bp="' + bpid + '"] .text-group{max-width:' + 100 / Number(Object.values(breakpoints)[y]['textgroups'].length) + '%;}';
+                }
+
+                console.log(textgroupsstyles);
+                styles += textgroupsstyles;
                 styles += media;
             }
         };
@@ -197,7 +211,6 @@ var globals = {
             'display:none;' +
             '}' +
             fontSizeAdjustStyles;
-        //console.log('embedded styles updated');
         return styles;
     }
 };
@@ -322,7 +335,7 @@ function simulate() {
         // '<div class="col-xs-12" style="display:table;">' +
         // '<\/div>' +
         // '<\/div>' +
-        '<div class="row">' +
+        '<div class="row-fluid">' +
         '<div class="render">' + textareaValue + '<\/div>' +
         '<\/div>' +
         '<\/div>' +
@@ -331,44 +344,45 @@ function simulate() {
     );
 }
 
-function simulateCheck(){
-    var series=$('[style="height:0px;overflow:hidden;"] .render [data-bp*="bpid_"]'),
-    breakpointHeight,
-    breakpointHeightRegx=/[0-9]{1,}/,
-    breakpointTexts,
-    breakpointTextHeight;
+function simulateCheck() {
+    var series = $('[style="height:0px;overflow:hidden;"] .render [data-bp*="bpid_"]'),
+        breakpointHeight,
+        breakpointHeightRegx = /[0-9]{1,}/,
+        breakpointTexts,
+        breakpointTextHeight;
 
-    $.each(series,function(i){
-        breakpointHeight=Number(breakpointHeightRegx.exec($(series[i]).css('min-height'))[0]);
+    $.each(series, function (i) {
+        breakpointHeight = Number(breakpointHeightRegx.exec($(series[i]).css('min-height'))[0]);
         //console.log(breakpointHeight);
-        breakpointTexts=$('span',series[i]).children();
+        breakpointTexts = $('span', series[i]).children();
 
-        console.log(breakpointTexts);
+        //console.log(breakpointTexts);
 
-        $.each(breakpointTexts,function(j){
-            breakpointTextHeight=$(breakpointTexts[j])[0].clientHeight;
-            console.log($(breakpointTexts[j])[0].clientHeight);
-            console.log($(breakpointTexts[j])[0].offsetHeight);
-            console.log($(breakpointTexts[j])[0].scrollHeight);
+        $.each(breakpointTexts, function (j) {
+            breakpointTextHeight = $(breakpointTexts[j])[0].clientHeight;
+            // console.log($(breakpointTexts[j])[0].clientHeight);
+            // console.log($(breakpointTexts[j])[0].offsetHeight);
+            // console.log($(breakpointTexts[j])[0].scrollHeight);
 
-            if(breakpointTextHeight>breakpointHeight){
+            if (breakpointTextHeight > breakpointHeight) {
 
-                console.log($(breakpointTexts[j]));
+                //console.log($(breakpointTexts[j]));
 
-                console.log(breakpointTextHeight + ' > ' + breakpointHeight);
+                // console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n>\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
 
                 $(breakpointTexts[j]).addClass('error');
 
             } else {
 
-                console.log($(breakpointTexts[j]));
+                //console.log($(breakpointTexts[j]));
 
-                console.log(breakpointTextHeight + ' < ' + breakpointHeight);
+                //console.log(breakpointTextHeight + ' < ' + breakpointHeight);
+                // console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n<\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
 
-                $(breakpointTexts).removeClass('error');
+                $(breakpointTexts[j]).removeAttr('class');
 
             }
-            
+
         });
     });
 
@@ -737,6 +751,11 @@ function coreBehaviors() {
 
     });
 
+    $('[style="height:0px;overflow:hidden;"] .render').resize(function () {
+        console.log('checking');
+        simulateCheck();
+    });
+
     console.log('coreBehaviors');
 }
 
@@ -808,7 +827,7 @@ function bannerBaseBehaviors(thisBanner) {
 
         var buttonId = $(e.target).attr('id');
 
-        console.log(buttonId);
+        //console.log(buttonId);
 
         if (buttonId.indexOf('textGroups') != -1) {
             var fontSizeAdjustStyles = '';
@@ -827,6 +846,8 @@ function bannerBaseBehaviors(thisBanner) {
 
                 //console.log(inputs);
 
+                globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid]['textgroups'] = [];
+
                 // For each one of these textgroup instances...
                 for (var p = 0; p < inputs.length; p++) {
 
@@ -838,9 +859,17 @@ function bannerBaseBehaviors(thisBanner) {
                     var index = $(inputs[p]).data('input-index'),
                         newChildElems;
 
+                    // If textgroup instance does not contain anything...
+                    if (!$('textarea.editor', inputs[p]).val()) {
 
-                    // If textgroup instance contains anything...
-                    if ($('textarea.editor', inputs[p]).val()) {
+
+                        $(inputs[p]).addClass('error');
+
+                        return;
+
+                    } else {
+                        // If textgroup instance contains anything...
+                        globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid]['textgroups'].push($(inputs[p]).data('input-index'));
 
                         // Empty contents of all existing textgroup output instances
                         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
@@ -884,16 +913,13 @@ function bannerBaseBehaviors(thisBanner) {
                             $('.render [id="banner_' + id + '"] [data-bp]').removeAttr('class');
                         });
 
-                        //updateStyles(id);
+                        globals.campaign.bannerObjects['banner_' + id].css.fontSizeAdjustStyles = fontSizeAdjustStyles;
 
-                    } else {
-                        // If textgroup instance does not contain anything...
-                        $(inputs[p]).addClass('error');
+                        updateStyles(id);
+                        simulateCheck();
                     }
                 }
             }
-
-            globals.campaign.bannerObjects['banner_' + id].css.fontSizeAdjustStyles = fontSizeAdjustStyles;
 
         } else if (buttonId.indexOf('bpHeight') != -1) {
 
@@ -901,11 +927,10 @@ function bannerBaseBehaviors(thisBanner) {
 
             globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height = $('input[id="bpHeight_' + bpid + '"]').val();
 
-            //simulateCheck();
-            //updateStyles(id);
-        }
 
-        updateStyles(id);
+            updateStyles(id);
+            simulateCheck();
+        }
 
     });
 
@@ -1512,6 +1537,8 @@ function add(thisButton) {
 
         resetShowing(['[id*="props_"]', '.banner-tab', '.render > div']);
 
+        updateStyles(id);
+
     } else if (dataDomain == 'inputs') {
 
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
@@ -1538,6 +1565,8 @@ function add(thisButton) {
         $(series).last().ckeditor();
 
         globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][$(seriesParent).children('[data-input-index]').last().data('input-index')];
+
+        updateStyles(id);
 
     } else {
         id = $(thisButton).parents('[id*="content"]').attr('id').substr(-4);
@@ -1567,8 +1596,6 @@ function add(thisButton) {
 
         resetShowing(['.height .col-xs-12.forms .row']);
     }
-
-    updateStyles(id);
 }
 
 function removeThis(thisButton) {

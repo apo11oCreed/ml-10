@@ -623,6 +623,15 @@ border:red solid 1px;
 	background-color: #ececec;
 }
 
+.text-group{
+	flex-wrap: wrap;
+    max-width: calc(100% - 30px);
+}
+
+.render .text-group{
+	display:none;
+}
+
 /* #ifr {
 	display:none;
 }

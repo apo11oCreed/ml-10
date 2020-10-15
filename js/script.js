@@ -159,8 +159,14 @@ var globals = {
                 } else {
                     textgroups = Object.values(breakpoints)[y]['textgroups'];
 
-                    for (var q = 0; q < Object.values(textgroups).length; q++) {
-                        textgroupsstyles += '[id="banner_' + id + '"] [data-bp="' + bpid + '"] .text-group[data-output-index="' + textgroups[q] + '"]{display:block;}';
+                    for (q in Object.values(textgroups)) {
+
+                        console.log(Object.values(textgroups));
+                        console.log(Object.values(textgroups)[q]);
+
+                        var maxwidth = Object.values(textgroups)[q]['maxwidth'] == '' ? '' : 'max-width:' + Object.values(textgroups)[q]['maxwidth'] + '%;';
+
+                        textgroupsstyles += '[id="banner_' + id + '"] [data-bp="' + bpid + '"] .text-group[data-output-index="' + Object.values(textgroups)[q].index + '"]{display:block;' + maxwidth + '}';
                     };
 
                     textgroupsstyles += '[id="banner_' + id + '"] [data-bp="' + bpid + '"] .text-group{max-width:' + 100 / Number(Object.values(breakpoints)[y]['textgroups'].length) + '%;}';
@@ -875,7 +881,7 @@ function bannerBaseBehaviors(thisBanner) {
 
                     } else {
                         // If textgroup instance contains anything...
-                        globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid]['textgroups'].push($(inputs[p]).data('input-index'));
+
 
                         // Empty contents of all existing textgroup output instances
                         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
@@ -885,6 +891,18 @@ function bannerBaseBehaviors(thisBanner) {
 
                         // Add an instance object to the parent breakpoint object
                         globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][p] = { 'html': $('textarea.editor', inputs[p]).val() };
+
+                        console.log($(inputs[p]).data('input-index'));
+
+                        globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid]['textgroups'][$(inputs[p]).data('input-index')];
+
+                        globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].textgroups[$(inputs[p]).data('input-index')] = {
+                            'index': $(inputs[p]).data('input-index'),
+                            'maxwidth':
+                                $('[data-input-index="' + $(inputs[p]).data('input-index') + '"] input[id="maxWidthInput_' + $(inputs[p]).data('input-index') + '"]').val()
+                        };
+
+
 
 
                         // Get all of the children of respective textgroup output instance
@@ -2307,6 +2325,7 @@ function breakpointTab(bpid, name) {
 function breakpointInput(number, id) {
     var html = '<div name="bpid_' + id + '" data-domain="inputs" class="row input showing">' +
         '<span data-input-index="' + number + '">' +
+        '<span class="max-width-input field-unit"><label for="maxWidthInput_' + number + '" style="display:inline-block;">max-width&nbsp;</label><input id="maxWidthInput_' + number + '" style="width:60px;" type="number" placeholder="---" min="0" />&nbsp;%</span>' +
         '<span class="controls-add-subtract">' +
         '<button type="button" class="subtract-button" onClick="removeThis(this)" style="color:red;" hidden>x</button>' +
         '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
@@ -2487,6 +2506,7 @@ function bannerObj(el1) {
         },
         copyInput: function (number) {
             var html = '<span data-input-index="' + number + '">' +
+                '<span class="max-width-input field-unit"><label for="maxWidthInput_' + number + '" style="display:inline-block;">max-width&nbsp;</label><input id="maxWidthInput_' + number + '" style="width:60px;" type="number" placeholder="---" min="0" />&nbsp;%</span>' +
                 '<span class="controls-add-subtract">' +
                 '<button type="button" class="subtract-button" onClick="removeThis(this)" style="color:red;">x</button>' +
                 '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +

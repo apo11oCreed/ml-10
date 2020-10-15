@@ -316,12 +316,11 @@ $(document).ready(function () {
 
 function simulate() {
     var textareaValue = $('.render').html(),
+        textAreaStyles = $('style#banners').html(),
         d = frames[0].document;
 
     //var render = document.querySelectorAll('.render')[0];
-    var frame = document.querySelectorAll('iframe')[0];
-
-    //frame.style.height = (Number(renderHeight) + 100) + 'px';
+    $('#simulateParent').css('height', 70 + $('iframe#ifr')[0].clientHeight + 'px');
 
     d.open();
     d.write(
@@ -329,13 +328,16 @@ function simulate() {
         '<html><head><title>THE SIMULATORRRR</title><meta content="width=device-width,initial-scale=1,maximum-scale=1"name=viewport><script crossorigin=anonymous integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="src=https://code.jquery.com/jquery-3.3.1.min.js></script><link href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css rel=stylesheet crossorigin=anonymous integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u><script crossorigin=anonymous integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script><link href=css/sectionoffer.css rel=stylesheet>' +
         '<\/head>' +
         '<body>' +
-        '<div>' +
+        '<div class="container">' +
         // '<div class="row">' +
         // '<div class="col-xs-12" style="display:table;">' +
         // '<\/div>' +
         // '<\/div>' +
-        '<div class="row-fluid">' +
+        '<div class="row">' +
+        '<div class="col-xs-12">' +
+        '<style id="banners">' + textAreaStyles + '</style>' +
         '<div class="render">' + textareaValue + '<\/div>' +
+        '<\/div>' +
         '<\/div>' +
         '<\/div>' +
         '<\/body>' +
@@ -402,8 +404,10 @@ function jsonRender(obj) {
     //$('.row .render').append('<style id="banners">' + obj.evergagecss + '</style>');
 
     // Populate rendering container using value from JSON object
-    $('.row .render').html('');
-    $('.row .render').append('<style id="banners">' + obj.evergagecss + '</style>' + obj.evergagehtml);
+    $('style#banners,[data-domain="production"]').html('');
+    $('style#banners').append(obj.evergagecss);
+    $('[data-domain="production"]').append(obj.evergagehtml);
+
 
     // Populate global attributes fields using value from JSON object
     $('#globalProperties > legend > h2 > span.txtPlaceholder').text(obj.name + ' ');
@@ -633,8 +637,11 @@ function coreBehaviors() {
 
     $('#simulateWidthHeightSettings').on('click', function () {
         console.log('test');
+
         $('#ifr').css('width', $('#simulateWidth').val() == '' ? 768 : $('#simulateWidth').val());
         $('#ifr').css('height', $('#simulateHeight').val() == '' ? 72 : $('#simulateHeight').val());
+
+        $('#simulateParent').css('height', 70 + $('iframe#ifr')[0].clientHeight + 'px');
 
         // console.log(Number($('#simulateWidth').val()));
         // console.log(Number(globals.campaign.stackbreakpoint));
@@ -1204,9 +1211,9 @@ function exportCode1(type) {
 
             if (globals.campaign.evergagehtml) {
                 delete globals.campaign.evergagehtml;
-                globals.campaign['evergagehtml'] = $('#rendering .section-offer-content .row-fluid').html();
+                globals.campaign['evergagehtml'] = $('[data-domain="production"]').html();
             } else {
-                globals.campaign['evergagehtml'] = $('#rendering .section-offer-content .row-fluid').html();
+                globals.campaign['evergagehtml'] = $('[data-domain="production"]').html();
             }
             htmlExport1();
             break;
@@ -1245,7 +1252,7 @@ function exportCode1(type) {
 function jsonExport1() {
     // Form the CSS
     globals.campaign.evergagecss = $('style#banners').html();
-    globals.campaign.evergagehtml = $('#rendering .section-offer-content .row-fluid').html();
+    globals.campaign.evergagehtml = $('[data-domain="production"]').html();
     var html = "<textarea id='export'>" + JSON.stringify(globals.campaign) + "</textarea>";
     html += '<div class="faux-footer"><button onClick="copyToClipBoard();" class="copy btn btn-default">Copy To Clipboard</button><button onClick="saveToJson();" class="save btn btn-default">Save as JSON</button></div>';
     console.log(globals.campaign);
@@ -1832,9 +1839,9 @@ function sections() {
         '<div class="row" style="position:sticky;top:0;z-index:999;border: solid #d1d1d1 1px;background-color:#efefef;box-shadow: 0px 12px 2px rgba(0,0,0,0.125);">' +
         '<div class="col-xs-12">' +
         '<div class="row">' +
-        '<div id="simulateParent" class="col-xs-12">' +
+        '<div id="simulateParent" class="col-xs-12" style="position:relative;">' +
         '<h2>Banner Simulation</h2>' +
-        '<iframe id="ifr" scrolling="no" frameborder="0" style="width:768px;height:72px;display:block;margin:0 auto;box-shadow: 0px 0px 11px rgba(0,0,0,0.25);" title="Banner Simulation"></iframe>' +
+        '<iframe id="ifr" scrolling="no" frameborder="0" style="width:768px;height:72px;display:block;margin:0 auto;box-shadow: 0px 0px 11px rgba(0,0,0,0.25);position:absolute;left: 50%;top: 65px;transform: translateX(-50%);" title="Banner Simulation"></iframe>' +
         '</div>' +
         '</div>' +
         '<br>' +
@@ -1861,9 +1868,11 @@ function sections() {
         '<br>' +
         '</div>' +
         '</div>' +
-        '<div class="row" style="height:0px;overflow:hidden;">' +
-        '<div class="render">' +
         '<style id="banners"></style>' +
+        '<div class="row" data-domain="production" style="height:0px;overflow:hidden;">' +
+
+        '<div class="render">' +
+
         '</div>' +
         '</div>' +
 

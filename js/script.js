@@ -166,7 +166,7 @@ var globals = {
                     textgroupsstyles += '[id="banner_' + id + '"] [data-bp="' + bpid + '"] .text-group{max-width:' + 100 / Number(Object.values(breakpoints)[y]['textgroups'].length) + '%;}';
                 }
 
-                console.log(textgroupsstyles);
+                //console.log(textgroupsstyles);
                 styles += textgroupsstyles;
                 styles += media;
             }
@@ -316,8 +316,7 @@ $(document).ready(function () {
 
 function simulate() {
     var textareaValue = $('.render').html(),
-        d = frames[0].document,
-        renderHeight = $('.render').height();
+        d = frames[0].document;
 
     //var render = document.querySelectorAll('.render')[0];
     var frame = document.querySelectorAll('iframe')[0];
@@ -634,8 +633,8 @@ function coreBehaviors() {
 
     $('#simulateWidthHeightSettings').on('click', function () {
         console.log('test');
-        $('#ifr').css('width', $('#simulateWidth').val());
-        $('#ifr').css('height', $('#simulateHeight').val());
+        $('#ifr').css('width', $('#simulateWidth').val() == '' ? 768 : $('#simulateWidth').val());
+        $('#ifr').css('height', $('#simulateHeight').val() == '' ? 72 : $('#simulateHeight').val());
 
         // console.log(Number($('#simulateWidth').val()));
         // console.log(Number(globals.campaign.stackbreakpoint));
@@ -924,6 +923,7 @@ function bannerBaseBehaviors(thisBanner) {
         } else if (buttonId.indexOf('bpHeight') != -1) {
 
             var bpid = $('.breakpoint-tab.showing').parents('[data-bp]').data('bp').substr(-5);
+            console.log(bpid);
 
             globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].height = $('input[id="bpHeight_' + bpid + '"]').val();
 
@@ -1594,7 +1594,7 @@ function add(thisButton) {
         // Since there is more than one breakpoint now, disable hidden attribute for all breakpoint subtract buttons
         $('[id="content_' + id + '"] [data-domain="bpconfig"] .subtract-button').prop('hidden', false);
 
-        resetShowing(['.height .col-xs-12.forms .row']);
+        resetShowing(['[id*="content_' + id + '"] .height .col-xs-12.forms .row']);
     }
 }
 
@@ -1832,24 +1832,24 @@ function sections() {
         '<div class="row" style="position:sticky;top:0;z-index:999;border: solid #d1d1d1 1px;background-color:#efefef;box-shadow: 0px 12px 2px rgba(0,0,0,0.125);">' +
         '<div class="col-xs-12">' +
         '<div class="row">' +
-        '<h2>Banner Simulation</h2>' +
         '<div id="simulateParent" class="col-xs-12">' +
-        '<iframe id="ifr" scrolling="no" frameborder="0" style="width:100%;display:block;margin:0 auto;" title="Banner Simulation"></iframe>' +
+        '<h2>Banner Simulation</h2>' +
+        '<iframe id="ifr" scrolling="no" frameborder="0" style="width:768px;height:72px;display:block;margin:0 auto;box-shadow: 0px 0px 11px rgba(0,0,0,0.25);" title="Banner Simulation"></iframe>' +
         '</div>' +
         '</div>' +
-        '<hr>' +
+        '<br>' +
         '<div class="row">' +
         '<div class="col-xs-3">' +
         '<label for="simulateWidth">Preview responsiveness. Enter width:</label>' +
         '</div>' +
         '<div class="col-xs-2 field-unit">' +
-        '<input id="simulateWidth" min="0" type="number" placeholder="auto" style="width:100%;" /><span>px</span>' +
+        '<input id="simulateWidth" min="0" type="number" placeholder="768" style="width:100%;" /><span>px</span>' +
         '</div>' +
         '<div class="col-xs-2">' +
         '<label for="simulateHeight">Enter height:</label>' +
         '</div>' +
         '<div class="col-xs-2 field-unit">' +
-        '<input id="simulateHeight" min="0" type="number" placeholder="150" style="width:100%;" /><span>px</span>' +
+        '<input id="simulateHeight" min="0" type="number" placeholder="72" style="width:100%;" /><span>px</span>' +
         '</div>' +
         '</div>' +
         '<div class="row-fluid" style="text-align:right;">' +
@@ -1857,6 +1857,8 @@ function sections() {
         '<button id="simulateWidthHeightSettings" name="update" type="button">Update Simulation</button>' +
         '</div>' +
         '</div>' +
+        '<br>' +
+        '<br>' +
         '</div>' +
         '</div>' +
         '<div class="row" style="height:0px;overflow:hidden;">' +

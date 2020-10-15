@@ -101,11 +101,11 @@ section.pyh-ad-outer.no-gap {
 	opacity:0.5;
 }
 
-#mlTen .error {
+.error {
 	border:1px solid red;
 }
 
-#mlTen .error:focus {
+.error:focus {
 	outline-color:red;
 }
 

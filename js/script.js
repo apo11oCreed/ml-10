@@ -161,8 +161,8 @@ var globals = {
 
                     for (q in Object.values(textgroups)) {
 
-                        console.log(Object.values(textgroups));
-                        console.log(Object.values(textgroups)[q]);
+                        // console.log(Object.values(textgroups));
+                        // console.log(Object.values(textgroups)[q]);
 
                         var maxwidth = Object.values(textgroups)[q]['maxwidth'] == '' ? '' : 'max-width:' + Object.values(textgroups)[q]['maxwidth'] + '%;';
 
@@ -375,7 +375,7 @@ function simulateCheck() {
 
                 //console.log($(breakpointTexts[j]));
 
-                // console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n>\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
+                console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n>\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
 
                 $(breakpointTexts[j]).addClass('error');
 
@@ -384,7 +384,8 @@ function simulateCheck() {
                 //console.log($(breakpointTexts[j]));
 
                 //console.log(breakpointTextHeight + ' < ' + breakpointHeight);
-                // console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n<\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
+
+                console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n<\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
 
                 $(breakpointTexts[j]).removeAttr('class');
 
@@ -892,7 +893,7 @@ function bannerBaseBehaviors(thisBanner) {
                         // Add an instance object to the parent breakpoint object
                         globals.campaign.bannerObjects['banner_' + id].bpjson[bpid][p] = { 'html': $('textarea.editor', inputs[p]).val() };
 
-                        console.log($(inputs[p]).data('input-index'));
+                        //console.log($(inputs[p]).data('input-index'));
 
                         globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid]['textgroups'][$(inputs[p]).data('input-index')];
 
@@ -990,6 +991,15 @@ function bannerBgSettingsExtended(id, bpid) {
 
     // Init background image source to local
     $('[id="content_' + id + '"] [data-bp="bg_' + bpid + '"] input:radio[value="local"]').prop('checked', true);
+
+    // Init banner behavior linkTo pageAnchor to page
+    $('[id="linkTo_' + id + '"] input[name="pageAnchor_' + id + '"]:radio[value="page"]').prop('checked', true);
+
+    // Init banner behavior linkTo relativeAbsolute to relative
+    $('[id="linkTo_' + id + '"] input[name="relativeAbsolute_' + id + '"]:radio[value="relative"]').prop('checked', true);
+
+    // Init banner behavior linkTo relativeAbsolute to relative
+    $('[id="linkTo_' + id + '"] input[name="sameNewTab_' + id + '"]:radio[value="sameTab"]').prop('checked', true);
 
     // Init ckeditor on the initial textarea of this new breakpoint tab
     $('textarea.editor').ckeditor();
@@ -1365,8 +1375,8 @@ function displayOnClickBehavior(behaviorSelected, id) {
             $('[id="fireModal_' + id + '"]').addClass('showing');
             $('[id="clickbehavior_' + id + '"] [id*="updateOnClick_"]').css('display', 'block');
             break;
-        case 'linkToPage':
-            $('[id="linkToPage_' + id + '"]').addClass('showing');
+        case 'linkTo':
+            $('[id="linkTo_' + id + '"]').addClass('showing');
             $('[id="clickbehavior_' + id + '"] [id*="updateOnClick_"]').css('display', 'block');
             if (globals.campaign.selectBrand == '') {
                 $('[id*="linkToAnchor_"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
@@ -2130,6 +2140,8 @@ function bannerCreatorForm(el1) {
             '<fieldset id="background_' + id + '" class="col-xs-12">' +
             '<legend> <h3><span class="txtPlaceholder"></span>Banner Background Settings</h3> </legend>' +
 
+            '<hr>' +
+
             '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
             '<h5>COLOR</h5>' +
@@ -2180,12 +2192,14 @@ function bannerCreatorForm(el1) {
             '<select name="onClickBehavior" id="onClickBehavior_' + id + '" required>' +
             '<option value="">-- select --</option>' +
             '<option value="fireModal">Fire modal</option>' +
-            '<option value="linkToPage">Link to page</option>' +
-            '<option value="linkToAnchor">Link to anchor</option>' +
+            '<option value="linkTo">Link to</option>' +
+            // '<option value="linkToAnchor">Link to anchor</option>' +
             '<option value="doNothing">Do nothing </option>' +
             '</select>' +
             '</div>' +
             '</div>' +
+
+            // Fire modal
             '<div class="row-fluid">' +
             '<div class="col-xs-12">' +
             '<div id="fireModal_' + id + '" class="row onclickbehavior" name="fireModal">' +
@@ -2227,24 +2241,141 @@ function bannerCreatorForm(el1) {
             '</div>' +
             '</div>' +
             '</div>' +
-            '<div id="linkToPage_' + id + '" class="row onclickbehavior" name="linkToPage">' +
+
+            // Link
+            '<div id="linkTo_' + id + '" class="row onclickbehavior" name="linkTo">' +
+
+            
+
+            '<div class="col-xs-12">' +
+            '<div class="row-fluid"><div class="col-xs-12"><h4>Link To</h4></div></div>' +
+            '<hr>' +
+            '<div class="row">' +
+
+            '<div class="col-xs-4">' + 
+            '<div class="row">' +
+            '<div class="col-xs-12">' + 
+            '<h5>PAGE OR ANCHOR LINK</h5>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row">' +
+            '<div class="col-xs-2">' + 
+            '<label for="pageLink_' + id + '" >Page</label>' +
+            '</div>' +
+            '<div class="col-xs-4">' + 
+            '<input id="pageLink_' + id + '" type="radio" name="pageAnchor_' + id + '" value="page" />' +
+            '</div>' +
+            '<div class="col-xs-2">' + 
+            '<label for="anchorLink_' + id + '" >Anchor</label>' +
+            '</div>' +
+            '<div class="col-xs-4">' + 
+            '<input id="anchorLink_' + id + '" type="radio" name="pageAnchor_' + id + '" value="anchor" />' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+
+
+            //'<div class="row">' +
+            '<div class="col-xs-4">' + 
+            '<div class="row">' +
+            '<div class="col-xs-12">' + 
+            '<h5>ABSOLUTE OR RELATIVE URI</h5>' +
+            '</div>' +
+            '</div>' +
+            
+
+            '<div class="row">' +  
+            '<div class="col-xs-2">' + 
+            '<label for="relativeLink_' + id + '" >Relative</label>' +
+            '</div>' +
+            '<div class="col-xs-4">' + 
+            '<input id="relativeLink_' + id + '" type="radio" name="relativeAbsolute_' + id + '" value="relative" />' +
+            '</div>' +
+            '<div class="col-xs-2">' + 
+            '<label for="absoluteLink_' + id + '" >Absolute</label>' +
+            '</div>' +
+            '<div class="col-xs-4">' + 
+            '<input id="absoluteLink_' + id + '" type="radio" name="relativeAbsolute_' + id + '" value="absolute" />' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+
+            //'<div class="row">' +
+            '<div class="col-xs-4">' + 
+            '<div class="row">' +
+            '<div class="col-xs-12">' + 
+            '<h5>OPEN IN SAME OR NEW TAB</h5>' +
+            '</div>' +
+            '</div>' +
+            
+
+            '<div class="row">' +
+            
+            '<div class="col-xs-2">' + 
+            '<label for="sameTab_' + id + '" >Same</label>' +
+            '</div>' +
+            '<div class="col-xs-4">' + 
+            '<input id="sameTab_' + id + '" type="radio" name="sameNewTab_' + id + '" value="sameTab" />' +
+            '</div>' +
+            '<div class="col-xs-2">' + 
+            '<label for="newTab_' + id + '" >New</label>' +
+            '</div>' +
+            '<div class="col-xs-4">' + 
+            '<input id="newTab_' + id + '" type="radio" name="sameNewTab_' + id + '" value="newTab" />' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
             '<br>' +
+
+
+
+
+
+
+
+
+
+            '<div class="row">' +
+
             '<div class="col-xs-3">' +
             '<label for="offerLink_' + id + '">Link to another page:</label>' +
             '</div>' +
+
+
+
+
+
+
             '<div class="col-xs-9 input-group1">' +
             '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="offerLink_' + id + '" class="form-control1" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
             '</div>' +
-            '</div>' +
-            '<div id="linkToAnchor_' + id + '" class="row onclickbehavior" name="linkToAnchor">' +
-            '<br>' +
+
+            // '</div>' +
+
+            // '<div id="linkToAnchor_' + id + '" class="row onclickbehavior" name="linkToAnchor">' +
+
+            // '<br>' +
+
+
+
+
             '<div class="col-xs-3">' +
             '<label for="anchorLink_' + id + '">Link to point on same page:</label>' +
             '</div>' +
+
             '<div class="col-xs-9 input-group1">' +
             '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="anchorLink_' + id + '" class="form-control1" placeholder="Ex. /home.do#anchor" type="text" style="width:100%" required>' +
             '</div>' +
+
             '</div>' +
+            '</div>' +
+            '</div>' +
+
+            // Static
             '<div id="doNothing_' + id + '" class="row onclickbehavior" name="doNothing">' +
             '<br>' +
             '<div class="col-xs-12">' +

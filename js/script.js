@@ -219,7 +219,8 @@ var globals = {
             fontSizeAdjustStyles;
         return styles;
     }
-};
+},
+    originalLocation;
 
 $(document).ready(function () {
 
@@ -283,6 +284,8 @@ $(document).ready(function () {
 
             updateStyles(idInit);
 
+            originalLocation = $('#ifr')[0].contentWindow.location.origin;
+
         } else {
 
             // If the value of the init button name is 'importjson'
@@ -313,6 +316,8 @@ $(document).ready(function () {
                 $('button[name="exportcss"]').prop('disabled', false);
                 $('button[name="exportjs"]').prop('disabled', false);
 
+                originalLocation = $('#ifr')[0].contentWindow.location.origin;
+
             });
         }
 
@@ -321,6 +326,7 @@ $(document).ready(function () {
 });
 
 function simulate() {
+    //$('#ifr')[0].contentWindow.location.reload();
     var textareaValue = $('.render').html(),
         textAreaStyles = $('style#banners').html(),
         d = frames[0].document;
@@ -1438,8 +1444,12 @@ function assignOnClickBehavior(id) {
             $('.render #banner_' + id).attr('data-target', '#modal_' + id);
         }
 
-    } else if (type == 'linkToPage') {
-        var link = '#';
+    } else if (type == 'linkTo') {
+
+
+        var link = '#',
+            relativeAbsolute = $('[id="clickbehavior_' + id + '"] input:radio[name="relativeAbsolute_' + id + '"]:checked').val(),
+            sameNew = $('[id="clickbehavior_' + id + '"] input:radio[name="sameNewTab_' + id + '"]:checked').val();
 
         $('.render #banner_' + id).removeAttr('data-toggle');
         $('.render #banner_' + id).removeAttr('data-target');
@@ -1447,47 +1457,75 @@ function assignOnClickBehavior(id) {
         $('.render #banner_' + id).attr('target', '_blank');
         $('.render #banner_' + id).css('cursor', 'pointer');
 
-        globals.campaign.bannerObjects['banner_' + id].onClickBehavior.name = 'linkToPage';
+
+
+        globals.campaign.bannerObjects['banner_' + id].onClickBehavior.name = 'linkTo';
         globals.campaign.bannerObjects['banner_' + id].cursor = 'pointer';
 
         link = $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"]').val() ? $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"]').val() : '#';
 
-        if (globals.campaign.selectBrand == '') {
-            $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"].form-control1').addClass('error');
-            $('[id="linkToAnchor_' + id + '"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
+        //relative
+        //absolute
+        //same
+        //new
+
+        if (relativeAbsolute == 'relative') {
+
+            if (globals.campaign.selectBrand == '') {
+
+                $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"].form-control1').addClass('error');
+
+                console.log('test1');
+
+            } else {
+
+                $('#ifr')[0].contentWindow.location.reload();
+                updateStyles(id);
+                simulate();
+
+                $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"].form-control1').removeClass('error');
+
+                $('[id="linkToAnchor_' + id + '"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
+
+                globals.campaign.bannerObjects['banner_' + id].onClickBehavior.link.uri = globals.campaign.brands[globals.campaign.selectBrand].baseUrl + link;
+
+                console.log('test2');
+
+                if (sameNew == 'sameTab') {
+
+                    $('.render #banner_' + id).attr('onclick', 'window.location.replace(\'' + globals.campaign.bannerObjects['banner_' + id].onClickBehavior.link.uri + '\')');
+
+                    console.log('test3');
+
+                } else {
+
+                    $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.campaign.bannerObjects['banner_' + id].onClickBehavior.link.uri + '\',\'new_window\');');
+
+                    console.log('test4');
+
+                }
+
+            }
+
         } else {
-            $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"].form-control1').removeClass('error');
-            $('[id="linkToAnchor_' + id + '"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
 
-            globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.campaign.brands[globals.campaign.selectBrand].baseUrl + link;
+            $('#ifr')[0].contentWindow.location.reload();
+            updateStyles(id);
+            simulate();
 
-            $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.campaign.brands[globals.campaign.selectBrand].baseUrl + link + '\',\'new_window\');');
-        }
+            if (sameNew == 'sameTab') {
 
-    } else if (type == 'linkToAnchor') {
-        var link = '#';
+                $('.render #banner_' + id).attr('onclick', 'window.location.replace(\'' + globals.campaign.bannerObjects['banner_' + id].onClickBehavior.link.uri + '\'');
 
-        $('.render #banner_' + id).removeAttr('data-toggle');
-        $('.render #banner_' + id).removeAttr('data-target');
-        $('.render #banner_' + id).attr('role', 'button');
-        $('.render #banner_' + id).attr('target', '_blank');
-        $('.render #banner_' + id).css('cursor', 'pointer');
+                console.log('test5');
 
-        globals.campaign.bannerObjects['banner_' + id].onClickBehavior.name = 'linkToAnchor';
-        globals.campaign.bannerObjects['banner_' + id].cursor = 'pointer';
+            } else {
 
-        link = $('[id="clickbehavior_' + id + '"] input#anchorLink').val() ? $('[id="clickbehavior_' + id + '"] input#anchorLink').val() : 'mlTen';
+                $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.campaign.bannerObjects['banner_' + id].onClickBehavior.link.uri + '\',\'new_window\');');
 
-        if (globals.campaign.selectBrand == '') {
-            $('[id="clickbehavior_' + id + '"] input#anchorLink.form-control1').addClass('error');
-            $('[id="linkToAnchor_' + id + '"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
-        } else {
-            $('[id="clickbehavior_' + id + '"] input#anchorLink.form-control1').removeClass('error');
-            $('[id="linkToAnchor_' + id + '"] span.input-group-addon1, [id*="linkToPage_"] span.input-group-addon1').html(globals.selectBrandPath);
+                console.log('test6');
 
-            globals.campaign.bannerObjects['banner_' + id].onClickBehavior.anchor = globals.campaign.brands[globals.campaign.selectBrand].baseUrl + link;
-
-            $('.render #banner_' + id).attr('onclick', 'window.open(\'' + globals.campaign.brands[globals.campaign.selectBrand].baseUrl + link + '\',\'new_window\');');
+            }
         }
 
     } else {
@@ -1869,7 +1907,7 @@ function sections() {
         '<div class="row">' +
         '<div id="simulateParent" class="col-xs-12" style="position:relative;">' +
         '<h2>Banner Simulation</h2>' +
-        '<iframe id="ifr" scrolling="no" frameborder="0" style="width:768px;height:72px;display:block;margin:0 auto;box-shadow: 0px 0px 11px rgba(0,0,0,0.25);position:absolute;left: 50%;top: 65px;transform: translateX(-50%);" title="Banner Simulation"></iframe>' +
+        '<iframe id="ifr" scrolling="no" name="simulation" frameborder="0" style="width:768px;height:72px;display:block;margin:0 auto;box-shadow: 0px 0px 11px rgba(0,0,0,0.25);position:absolute;left: 50%;top: 65px;transform: translateX(-50%);" title="Banner Simulation"></iframe>' +
         '</div>' +
         '</div>' +
         '<br>' +
@@ -2245,57 +2283,33 @@ function bannerCreatorForm(el1) {
             // Link
             '<div id="linkTo_' + id + '" class="row onclickbehavior" name="linkTo">' +
 
-            
+
 
             '<div class="col-xs-12">' +
             '<div class="row-fluid"><div class="col-xs-12"><h4>Link To</h4></div></div>' +
             '<hr>' +
             '<div class="row">' +
 
-            '<div class="col-xs-4">' + 
-            '<div class="row">' +
-            '<div class="col-xs-12">' + 
-            '<h5>PAGE OR ANCHOR LINK</h5>' +
-            '</div>' +
-            '</div>' +
-            '<div class="row">' +
-            '<div class="col-xs-2">' + 
-            '<label for="pageLink_' + id + '" >Page</label>' +
-            '</div>' +
-            '<div class="col-xs-4">' + 
-            '<input id="pageLink_' + id + '" type="radio" name="pageAnchor_' + id + '" value="page" />' +
-            '</div>' +
-            '<div class="col-xs-2">' + 
-            '<label for="anchorLink_' + id + '" >Anchor</label>' +
-            '</div>' +
-            '<div class="col-xs-4">' + 
-            '<input id="anchorLink_' + id + '" type="radio" name="pageAnchor_' + id + '" value="anchor" />' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-
-
-
             //'<div class="row">' +
-            '<div class="col-xs-4">' + 
+            '<div class="col-xs-6" style="border-right: 1px solid #d1d1d1;">' +
             '<div class="row">' +
-            '<div class="col-xs-12">' + 
-            '<h5>ABSOLUTE OR RELATIVE URI</h5>' +
+            '<div class="col-xs-12">' +
+            '<h5>Relative OR Absolute URI</h5>' +
             '</div>' +
             '</div>' +
-            
 
-            '<div class="row">' +  
-            '<div class="col-xs-2">' + 
+
+            '<div class="row">' +
+            '<div class="col-xs-2">' +
             '<label for="relativeLink_' + id + '" >Relative</label>' +
             '</div>' +
-            '<div class="col-xs-4">' + 
+            '<div class="col-xs-4">' +
             '<input id="relativeLink_' + id + '" type="radio" name="relativeAbsolute_' + id + '" value="relative" />' +
             '</div>' +
-            '<div class="col-xs-2">' + 
+            '<div class="col-xs-2">' +
             '<label for="absoluteLink_' + id + '" >Absolute</label>' +
             '</div>' +
-            '<div class="col-xs-4">' + 
+            '<div class="col-xs-4">' +
             '<input id="absoluteLink_' + id + '" type="radio" name="relativeAbsolute_' + id + '" value="absolute" />' +
             '</div>' +
             '</div>' +
@@ -2303,26 +2317,26 @@ function bannerCreatorForm(el1) {
 
 
             //'<div class="row">' +
-            '<div class="col-xs-4">' + 
+            '<div class="col-xs-6">' +
             '<div class="row">' +
-            '<div class="col-xs-12">' + 
-            '<h5>OPEN IN SAME OR NEW TAB</h5>' +
+            '<div class="col-xs-12">' +
+            '<h5>Open link in same OR new tab</h5>' +
             '</div>' +
             '</div>' +
-            
+
 
             '<div class="row">' +
-            
-            '<div class="col-xs-2">' + 
+
+            '<div class="col-xs-2">' +
             '<label for="sameTab_' + id + '" >Same</label>' +
             '</div>' +
-            '<div class="col-xs-4">' + 
+            '<div class="col-xs-4">' +
             '<input id="sameTab_' + id + '" type="radio" name="sameNewTab_' + id + '" value="sameTab" />' +
             '</div>' +
-            '<div class="col-xs-2">' + 
+            '<div class="col-xs-2">' +
             '<label for="newTab_' + id + '" >New</label>' +
             '</div>' +
-            '<div class="col-xs-4">' + 
+            '<div class="col-xs-4">' +
             '<input id="newTab_' + id + '" type="radio" name="sameNewTab_' + id + '" value="newTab" />' +
             '</div>' +
             '</div>' +
@@ -2341,8 +2355,8 @@ function bannerCreatorForm(el1) {
 
             '<div class="row">' +
 
-            '<div class="col-xs-3">' +
-            '<label for="offerLink_' + id + '">Link to another page:</label>' +
+            '<div class="col-xs-1">' +
+            '<label for="offerLink_' + id + '">Enter link:</label>' +
             '</div>' +
 
 
@@ -2352,23 +2366,6 @@ function bannerCreatorForm(el1) {
 
             '<div class="col-xs-9 input-group1">' +
             '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="offerLink_' + id + '" class="form-control1" placeholder="Ex. /category/wigs/all-wigs.do" type="text" style="width:100%" required>' +
-            '</div>' +
-
-            // '</div>' +
-
-            // '<div id="linkToAnchor_' + id + '" class="row onclickbehavior" name="linkToAnchor">' +
-
-            // '<br>' +
-
-
-
-
-            '<div class="col-xs-3">' +
-            '<label for="anchorLink_' + id + '">Link to point on same page:</label>' +
-            '</div>' +
-
-            '<div class="col-xs-9 input-group1">' +
-            '<span class="input-group-addon1" id="img2label">' + globals.selectBrandPath + '</span><input id="anchorLink_' + id + '" class="form-control1" placeholder="Ex. /home.do#anchor" type="text" style="width:100%" required>' +
             '</div>' +
 
             '</div>' +
@@ -2684,8 +2681,11 @@ function bannerObj(el1) {
                     return modal;
                 }
             },
-            link: '#',
-            anchor: '#'
+            link: {
+                relativeAbsolute: 'relative',
+                sameNew: 'same',
+                uri: '#'
+            }
         },
         bp: function (number) {
             this.css.breakpoints['bpid_' + number] = {

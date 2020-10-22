@@ -1,5 +1,5 @@
 {
-    "getname": "campaign",
+    "getname": "Sitewide",
     "brands": {
         "py": {
             "baseUrl": "https://www.paulayoung.com",
@@ -27,19 +27,21 @@
             "brandColor": "rgb(255, 97, 84)"
         }
     },
-    "name": "campaign",
+    "name": "Sitewide",
     "stackbreakpoint": 575,
     "selectBrand": "py",
-    "evergagejs": "$('${message.cssSelector}').parents('.container').addClass('evergage-campaign-banners');$(document).on('hidden.bs.modal', '[id*=\"modal_\"]', function () {$(this).remove();});$('head').append('<style id=\"evergageCampaignBanners\">.container.evergage-campaign-banners{display:flex; flex-direction: row;}@media all and (max-width:575px){.container.evergage-campaign-banners{flex-direction: column;}}}</style>');",
+    "evergagehtml": "<div class=\"render\"><div id=\"banner_1939\" class=\"banner trigger\" role=\"button\" style=\"cursor: pointer;\" data-toggle=\"modal\" data-target=\"#modal_1939\"><div data-bp=\"bpid_61713\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span class=\"textgroup_1939_61713_1_SPAN_0\"><strong>FREE</strong> STANDARD <strong>SHIPPING!</strong></span></p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span class=\"textgroup_1939_61713_2_SPAN_0\">DETAILS »</span></p>\n</span></div><div data-bp=\"bpid_73098\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span class=\"textgroup_1939_73098_1_SPAN_0\"><strong>FREE</strong> STANDARD <strong>SHIPPING!</strong></span></p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span class=\"textgroup_1939_73098_2_SPAN_0\">ON $59 OR MORE</span></p>\n</span><span class=\"text-group\" data-output-index=\"3\"><p style=\"margin: 0px; padding: 0px;\"><span class=\"textgroup_1939_73098_3_SPAN_0\">DETAILS »</span></p>\n</span></div></div><span class=\"gutter\"></span><div id=\"banner_7729\" class=\"banner trigger showing\" role=\"button\" target=\"_blank\" onclick=\"window.location.replace('https://www.paulayoung.com/category/about-us/low-price-wigs-guarantee.do')\" style=\"cursor: pointer;\"><div data-bp=\"bpid_19669\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span class=\"textgroup_7729_19669_1_SPAN_0\"><strong>150%</strong> PRICE <strong>GUARANTEE!</strong></span></p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span class=\"textgroup_7729_19669_2_SPAN_0\">DETAILS »</span></p>\n</span></div><div data-bp=\"bpid_54444\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\"><span class=\"textgroup_7729_54444_1_SPAN_0\"><strong>150%</strong> PRICE <strong>GUARANTEE!</strong></span></p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\"><span class=\"textgroup_7729_54444_2_SPAN_0\">DETAILS »</span></p>\n</span></div></div><span class=\"gutter\"></span><div id=\"modal_1939\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\"><div class=\"modal-dialog\" role=\"document\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button><h4 class=\"modal-title\">Enter Title text under Banner Behavior Settings</h4></div><div class=\"modal-body\"><p><span style=\"font-size:20px\">For free shipping</span></p>\n\n<p> </p>\n\n<p><span style=\"font-size:12px\">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span></p>\n\n<p> </p>\n\n<p><span style=\"font-size:12px\">*Offer expires...</span></p>\n</div><div class=\"modal-footer\" style=\"text-align:left;\">Enter Footer text under Click Behavior Setting</div></div></div></div></div>",
+    "evergagecss": "@import url(\"https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap\");${message.cssSelector} {background-color: rgb(250, 250, 250);width: 100%!important;font-family: \"Roboto Condensed\", sans-serif;border-top:solid white 2px;border-bottom:solid white 2px;}.render{display:flex; flex-direction: row;}@media all and (max-width:575px){.render{flex-direction: column;}}.banner{width:100%;}[id=\"banner_1939\"] [data-bp=\"bpid_61713\"] .text-group[data-output-index=\"1\"]{display:block;}[id=\"banner_1939\"] [data-bp=\"bpid_61713\"] .text-group[data-output-index=\"2\"]{display:block;}[id=\"banner_1939\"] [data-bp=\"bpid_61713\"] .text-group{max-width:NaN%;}[id=\"banner_1939\"],[id=\"banner_1939\"] [data-bp=\"bpid_61713\"]{display:none;}@media screen and (max-width:574px){[id=\"banner_1939\"]{display:block!important;}[id=\"banner_1939\"] [data-bp=\"bpid_61713\"]{display:flex!important;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:56px;background-color:#f40977;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id=\"banner_1939\"] [data-bp=\"bpid_73098\"] .text-group[data-output-index=\"1\"]{display:block;}[id=\"banner_1939\"] [data-bp=\"bpid_73098\"] .text-group[data-output-index=\"2\"]{display:block;}[id=\"banner_1939\"] [data-bp=\"bpid_73098\"] .text-group[data-output-index=\"3\"]{display:block;}[id=\"banner_1939\"] [data-bp=\"bpid_73098\"] .text-group{max-width:NaN%;}[id=\"banner_1939\"],[id=\"banner_1939\"] [data-bp=\"bpid_73098\"]{display:none;}@media screen and (min-width:575px){[id=\"banner_1939\"]{display:block!important;}[id=\"banner_1939\"] [data-bp=\"bpid_73098\"]{display:flex!important;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:56px;background-color:#f40977;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id=\"banner_7729\"] [data-bp=\"bpid_19669\"] .text-group[data-output-index=\"1\"]{display:block;}[id=\"banner_7729\"] [data-bp=\"bpid_19669\"] .text-group[data-output-index=\"2\"]{display:block;}[id=\"banner_7729\"] [data-bp=\"bpid_19669\"] .text-group{max-width:NaN%;}[id=\"banner_7729\"],[id=\"banner_7729\"] [data-bp=\"bpid_19669\"]{display:none;}@media screen and (max-width:574px){[id=\"banner_7729\"]{display:block!important;}[id=\"banner_7729\"] [data-bp=\"bpid_19669\"]{display:flex!important;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:30px;background-color:#921c56;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id=\"banner_7729\"] [data-bp=\"bpid_54444\"] .text-group[data-output-index=\"1\"]{display:block;}[id=\"banner_7729\"] [data-bp=\"bpid_54444\"] .text-group[data-output-index=\"2\"]{display:block;}[id=\"banner_7729\"] [data-bp=\"bpid_54444\"] .text-group{max-width:NaN%;}[id=\"banner_7729\"],[id=\"banner_7729\"] [data-bp=\"bpid_54444\"]{display:none;}@media screen and (min-width:575px){[id=\"banner_7729\"]{display:block!important;}[id=\"banner_7729\"] [data-bp=\"bpid_54444\"]{display:flex!important;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:60px;background-color:#921c56;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}}[id*=\"modal_\"]{padding-right:0px!important;}[id*=\"modal_\"] p{padding:0;margin:0;}[id*=\"modal_\"] .modal-dialog{width:600px;margin:30px auto;position:relative;}[id*=\"modal_\"] .modal-dialog .modal-body{padding-top:15px;}@media all and (max-width:575px){.modal-dialog{width:auto!important;}}span.gutter{padding:0 2px 0 0;}@media all and (max-width:575px){span.gutter{padding:0 0 2px 0;}}span.gutter:last-of-type{display:none;}.textgroup_1939_61713_1_SPAN_0{font-size:20px;font-size: min(20px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_1939_61713_2_SPAN_0{font-size:10px;font-size: min(10px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_1939_73098_1_SPAN_0{font-size:20px;font-size: min(20px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_1939_73098_2_SPAN_0{font-size:12px;font-size: min(12px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_1939_73098_3_SPAN_0{font-size:10px;font-size: min(10px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_7729_19669_1_SPAN_0{font-size:20px;font-size: min(20px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_7729_19669_2_SPAN_0{font-size:10px;font-size: min(10px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_7729_54444_1_SPAN_0{font-size:20px;font-size: min(20px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_7729_54444_2_SPAN_0{font-size:10px;font-size: min(10px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}",
+    "evergagejs": "",
     "bannerObjects": {
-        "banner_2498": {
-            "id": 2498,
-            "txtPlaceholder": "|A",
-            "hex": "#b875ae",
+        "banner_1939": {
+            "id": 1939,
+            "txtPlaceholder": "1",
+            "hex": "#f40977",
             "cursor": "pointer",
             "css": {
                 "breakpoints": {
-                    "bpid_76774": {
+                    "bpid_61713": {
                         "name": "mobile",
                         "background": {
                             "img": "none",
@@ -51,21 +53,20 @@
                             "state": "local"
                         },
                         "minwidth": 0,
-                        "maxwidth": 0,
+                        "maxwidth": "574",
                         "height": 56,
-                        "textgroups": [
-                            null,
-                            {
+                        "textgroups": {
+                            "1": {
                                 "index": 1,
                                 "maxwidth": ""
                             },
-                            {
+                            "2": {
                                 "index": 2,
                                 "maxwidth": ""
                             }
-                        ]
+                        }
                     },
-                    "bpid_51683": {
+                    "bpid_73098": {
                         "name": "desktop",
                         "background": {
                             "img": "none",
@@ -76,20 +77,23 @@
                             "bgheight": "auto",
                             "state": "local"
                         },
-                        "minwidth": 0,
+                        "minwidth": "575",
                         "maxwidth": 0,
                         "height": 56,
-                        "textgroups": [
-                            null,
-                            {
+                        "textgroups": {
+                            "1": {
                                 "index": 1,
                                 "maxwidth": ""
                             },
-                            {
+                            "2": {
                                 "index": 2,
                                 "maxwidth": ""
+                            },
+                            "3": {
+                                "index": 3,
+                                "maxwidth": ""
                             }
-                        ]
+                        }
                     }
                 },
                 "bgColor": {
@@ -97,23 +101,26 @@
                     "g": 117,
                     "b": 174
                 },
-                "fontSizeAdjustStyles": ""
+                "fontSizeAdjustStyles": ".textgroup_1939_61713_1_SPAN_0{font-size:20px;font-size: min(20px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_1939_61713_2_SPAN_0{font-size:10px;font-size: min(10px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_1939_73098_1_SPAN_0{font-size:20px;font-size: min(20px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_1939_73098_2_SPAN_0{font-size:12px;font-size: min(12px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_1939_73098_3_SPAN_0{font-size:10px;font-size: min(10px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}"
             },
             "bpjson": {
-                "51683": {
+                "61713": {
                     "0": {
-                        "html": "<p>banner 1 desktop1</p>\n"
+                        "html": "<p><span style=\"font-size:20px\"><strong>FREE</strong> STANDARD <strong>SHIPPING!</strong></span></p>\n"
                     },
                     "1": {
-                        "html": "<p>banner 1 desktop2</p>\n"
+                        "html": "<p><span style=\"font-size:10px\">DETAILS »</span></p>\n"
                     }
                 },
-                "76774": {
+                "73098": {
                     "0": {
-                        "html": "<p>banner 1 mobile1</p>\n"
+                        "html": "<p><span style=\"font-size:20px\"><strong>FREE</strong> STANDARD <strong>SHIPPING!</strong></span></p>\n"
                     },
                     "1": {
-                        "html": "<p>banner 1 mobile2</p>\n"
+                        "html": "<p><span style=\"font-size:12px\">ON $59 OR MORE</span></p>\n"
+                    },
+                    "2": {
+                        "html": "<p><span style=\"font-size:10px\">DETAILS »</span></p>\n"
                     }
                 }
             },
@@ -128,14 +135,14 @@
                 }
             }
         },
-        "banner_9492": {
-            "id": 9492,
-            "txtPlaceholder": "|A",
-            "hex": "#b875ae",
+        "banner_7729": {
+            "id": 7729,
+            "txtPlaceholder": "2",
+            "hex": "#921c56",
             "cursor": "pointer",
             "css": {
                 "breakpoints": {
-                    "bpid_69409": {
+                    "bpid_19669": {
                         "name": "mobile",
                         "background": {
                             "img": "none",
@@ -147,21 +154,20 @@
                             "state": "local"
                         },
                         "minwidth": 0,
-                        "maxwidth": 0,
-                        "height": 56,
-                        "textgroups": [
-                            null,
-                            {
+                        "maxwidth": "574",
+                        "height": "30",
+                        "textgroups": {
+                            "1": {
                                 "index": 1,
                                 "maxwidth": ""
                             },
-                            {
+                            "2": {
                                 "index": 2,
                                 "maxwidth": ""
                             }
-                        ]
+                        }
                     },
-                    "bpid_10051": {
+                    "bpid_54444": {
                         "name": "desktop",
                         "background": {
                             "img": "none",
@@ -172,20 +178,19 @@
                             "bgheight": "auto",
                             "state": "local"
                         },
-                        "minwidth": 0,
+                        "minwidth": "575",
                         "maxwidth": 0,
-                        "height": 56,
-                        "textgroups": [
-                            null,
-                            {
+                        "height": "60",
+                        "textgroups": {
+                            "1": {
                                 "index": 1,
                                 "maxwidth": ""
                             },
-                            {
+                            "2": {
                                 "index": 2,
                                 "maxwidth": ""
                             }
-                        ]
+                        }
                     }
                 },
                 "bgColor": {
@@ -193,23 +198,23 @@
                     "g": 117,
                     "b": 174
                 },
-                "fontSizeAdjustStyles": ""
+                "fontSizeAdjustStyles": ".textgroup_7729_19669_1_SPAN_0{font-size:20px;font-size: min(20px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_7729_19669_2_SPAN_0{font-size:10px;font-size: min(10px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_7729_54444_1_SPAN_0{font-size:20px;font-size: min(20px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}.textgroup_7729_54444_2_SPAN_0{font-size:10px;font-size: min(10px,10vw);-webkit-text-size-adjust:99%;-moz-text-size-adjust:99%;-ms-text-size-adjust:99%;text-size-adjust:99%;}"
             },
             "bpjson": {
-                "10051": {
+                "19669": {
                     "0": {
-                        "html": "<p>banner 2 desktop1</p>\n"
+                        "html": "<p><span style=\"font-size:20px\"><strong>150%</strong> PRICE <strong>GUARANTEE!</strong></span></p>\n"
                     },
                     "1": {
-                        "html": "<p>banner 2 desktop2</p>\n"
+                        "html": "<p><span style=\"font-size:10px\">DETAILS »</span></p>\n"
                     }
                 },
-                "69409": {
+                "54444": {
                     "0": {
-                        "html": "<p>banner 2 mobile1</p>\n"
+                        "html": "<p><span style=\"font-size:20px\"><strong>150%</strong> PRICE <strong>GUARANTEE!</strong></span></p>\n"
                     },
                     "1": {
-                        "html": "<p>banner 2 mobile2</p>\n"
+                        "html": "<p><span style=\"font-size:10px\">DETAILS »</span></p>\n"
                     }
                 }
             },
@@ -220,11 +225,9 @@
                 "link": {
                     "relativeAbsolute": "relative",
                     "sameNew": "same",
-                    "uri": "https://www.paulayoung.com#"
+                    "uri": "https://www.paulayoung.com/category/about-us/low-price-wigs-guarantee.do"
                 }
             }
         }
-    },
-    "evergagecss": "@import url(\"https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap\");${message.cssSelector} {background-color: rgb(250, 250, 250);width: 100%!important;font-family: \"Roboto Condensed\", sans-serif;border-top:solid white 2px;border-bottom:solid white 2px;}.render{display:flex; flex-direction: row;}@media all and (max-width:575px){.render{flex-direction: column;}}.banner{width:100%;}[id=\"banner_2498\"] [data-bp=\"bpid_76774\"] .text-group[data-output-index=\"1\"]{display:block;}[id=\"banner_2498\"] [data-bp=\"bpid_76774\"] .text-group[data-output-index=\"2\"]{display:block;}[id=\"banner_2498\"] [data-bp=\"bpid_76774\"] .text-group{max-width:33.333333333333336%;}[id=\"banner_2498\"] [data-bp=\"bpid_76774\"]{cursor: pointer;display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:56px;background-color:#b875ae;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}[id=\"banner_2498\"] [data-bp=\"bpid_51683\"] .text-group[data-output-index=\"1\"]{display:block;}[id=\"banner_2498\"] [data-bp=\"bpid_51683\"] .text-group[data-output-index=\"2\"]{display:block;}[id=\"banner_2498\"] [data-bp=\"bpid_51683\"] .text-group{max-width:33.333333333333336%;}[id=\"banner_2498\"] [data-bp=\"bpid_51683\"]{cursor: pointer;display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:56px;background-color:#b875ae;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}[id=\"banner_9492\"] [data-bp=\"bpid_69409\"] .text-group[data-output-index=\"1\"]{display:block;}[id=\"banner_9492\"] [data-bp=\"bpid_69409\"] .text-group[data-output-index=\"2\"]{display:block;}[id=\"banner_9492\"] [data-bp=\"bpid_69409\"] .text-group{max-width:33.333333333333336%;}[id=\"banner_9492\"] [data-bp=\"bpid_69409\"]{cursor: pointer;display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:56px;background-color:#b875ae;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}[id=\"banner_9492\"] [data-bp=\"bpid_10051\"] .text-group[data-output-index=\"1\"]{display:block;}[id=\"banner_9492\"] [data-bp=\"bpid_10051\"] .text-group[data-output-index=\"2\"]{display:block;}[id=\"banner_9492\"] [data-bp=\"bpid_10051\"] .text-group{max-width:33.333333333333336%;}[id=\"banner_9492\"] [data-bp=\"bpid_10051\"]{cursor: pointer;display:flex;flex-direction: row;justify-content: space-evenly;flex-wrap:wrap;width:100%;align-items: center;height:auto;min-height:56px;background-color:#b875ae;background-image:url(\"none\");background-position:center center;background-position-x:50%;background-position-y:50%;background-repeat:no-repeat;background-size:100% auto;}[id*=\"modal_\"]{padding-right:0px!important;}[id*=\"modal_\"] p{padding:0;margin:0;}[id*=\"modal_\"] .modal-dialog{width:600px;margin:30px auto;position:relative;}[id*=\"modal_\"] .modal-dialog .modal-body{padding-top:15px;}@media all and (max-width:575px){.modal-dialog{width:auto!important;}}span.gutter{padding:0 2px 0 0;}@media all and (max-width:575px){span.gutter{padding:0 0 2px 0;}}span.gutter:last-of-type{display:none;}",
-    "evergagehtml": "<div class=\"render\"><div id=\"banner_2498\" class=\"banner trigger showing\" role=\"button\" style=\"cursor: pointer;\" data-toggle=\"modal\" data-target=\"#modal_2498\"><div data-bp=\"bpid_76774\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\">banner 1 mobile1</p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\">banner 1 mobile2</p>\n</span></div><div data-bp=\"bpid_51683\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\">banner 1 desktop1</p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\">banner 1 desktop2</p>\n</span></div></div><span class=\"gutter\"></span><div id=\"banner_9492\" class=\"banner trigger\" role=\"button\" target=\"_blank\" onclick=\"window.location.replace('https://www.paulayoung.com#')\" style=\"cursor: pointer;\"><div data-bp=\"bpid_69409\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\">banner 2 mobile1</p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\">banner 2 mobile2</p>\n</span></div><div data-bp=\"bpid_10051\"><span class=\"text-group\" data-output-index=\"1\"><p style=\"margin: 0px; padding: 0px;\">banner 2 desktop1</p>\n</span><span class=\"text-group\" data-output-index=\"2\"><p style=\"margin: 0px; padding: 0px;\">banner 2 desktop2</p>\n</span></div></div><span class=\"gutter\"></span><div id=\"modal_2498\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\"><div class=\"modal-dialog\" role=\"document\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button><h4 class=\"modal-title\">Enter Title text under Banner Behavior Settings</h4></div><div class=\"modal-body\"><p><span style=\"font-size:20px\">For free standard shipping</span></p>\n\n<p><span style=\"font-size:12px\">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span></p>\n\n<p><span style=\"font-size:12px\">*Offer expires</span></p>\n</div><div class=\"modal-footer\" style=\"text-align:left;\">Enter Footer text under Click Behavior Setting</div></div></div></div></div>"
+    }
 }

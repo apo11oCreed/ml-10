@@ -173,7 +173,10 @@ var globals = {
                         textgroupsstyles += '[id="banner_' + id + '"] [data-bp="' + bpid + '"] .text-group[data-output-index="' + Object.values(textgroups)[q].index + '"]{display:block;' + maxwidth + '}';
                     };
 
+
                     textgroupsstyles += '[id="banner_' + id + '"] [data-bp="' + bpid + '"] .text-group{max-width:' + 100 / Number(Object.values(breakpoints)[y]['textgroups'].length) + '%;}';
+
+
                 }
 
                 //console.log(textgroupsstyles);
@@ -597,9 +600,10 @@ function jsonRender(obj) {
 
                 // Insert a CK Editor textarea
                 $('.row.inputs [name="bpid_' + bpid + '"]', '[id="props_' + id + '"]').append('<span data-input-index="' + (Number(textgroups) + 1) + '">' +
+                    '<span class="max-width-input field-unit"><label for="maxWidthInput_' + (Number(textgroups) + 1) + '" style="display:inline-block;">max-width&nbsp;</label><input id="maxWidthInput_' + (Number(textgroups) + 1) + '" style="width:60px;" type="number" placeholder="---" min="0" />&nbsp;%</span>' +
                     '<span class="controls-add-subtract">' +
-                    '<button type="button" class="subtract-button" onClick="removeThis(this)" style="color:red;">x</button>' +
-                    '<button type="button" class="add-button" onClick="add(this)" style="color:green;">+</button>' +
+                    '<button type="button" class="subtract-button" onClick="removeThis(this)" style="color:red;" hidden>x</button>' +
+                    '<button type="button" class="add-button" onClick="add(this)"style="color:green;">+</button>' +
                     '</span>' +
                     '<span class="editablecontainer">' +
                     '<textarea id="ckeditor_' + (Number(textgroups) + 1) + '" class="editor"></textarea>' +
@@ -858,11 +862,12 @@ function bannerBaseBehaviors(thisBanner) {
                 // Get the bpid of this breakpoint
                 // Get all of the textgroup instances of this breakpoint
                 var bpid = $(allBreakpoints[q]).attr('name').substr(-5),
-                    inputs = $('[data-input-index]', allBreakpoints[q]);
+                    inputs = $('[data-input-index]', allBreakpoints[q]),
+                    maxwidthEls;
 
                 //console.log(inputs);
 
-                globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid]['textgroups'] = [];
+                globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid]['textgroups'] = {};
 
                 // For each one of these textgroup instances...
                 for (var p = 0; p < inputs.length; p++) {
@@ -873,7 +878,9 @@ function bannerBaseBehaviors(thisBanner) {
                     // Get the index number of this textgroup instance
                     // Create new variable to store children of textgroup output instance
                     var index = $(inputs[p]).data('input-index'),
-                        newChildElems;
+                        newChildElems,
+                        maxwidth;
+
 
                     // If textgroup instance does not contain anything...
                     if (!$('textarea.editor', inputs[p]).val()) {
@@ -885,7 +892,6 @@ function bannerBaseBehaviors(thisBanner) {
 
                     } else {
                         // If textgroup instance contains anything...
-
 
                         // Empty contents of all existing textgroup output instances
                         $('.render [id="banner_' + id + '"] [data-bp="bpid_' + bpid + '"] [data-output-index="' + index + '"]').empty();
@@ -902,11 +908,8 @@ function bannerBaseBehaviors(thisBanner) {
 
                         globals.campaign.bannerObjects['banner_' + id].css.breakpoints['bpid_' + bpid].textgroups[$(inputs[p]).data('input-index')] = {
                             'index': $(inputs[p]).data('input-index'),
-                            'maxwidth':
-                                $('[data-input-index="' + $(inputs[p]).data('input-index') + '"] input[id="maxWidthInput_' + $(inputs[p]).data('input-index') + '"]').val()
+                            'maxwidth': $('[data-input-index="' + $(inputs[p]).data('input-index') + '"] input[id="maxWidthInput_' + $(inputs[p]).data('input-index') + '"]').val()
                         };
-
-
 
 
                         // Get all of the children of respective textgroup output instance
@@ -945,6 +948,11 @@ function bannerBaseBehaviors(thisBanner) {
 
                         updateStyles(id);
                         simulateCheck();
+
+                        // Look for any textgroups that do not have maxwidth prop
+                        maxwidthEls = $('[data-output-index="' + [p] + '"]').css('max-width');
+
+                        console.log(maxwidthEls);
                     }
                 }
             }
@@ -2455,6 +2463,7 @@ function breakpointTab(bpid, name) {
 
 function breakpointInput(number, id) {
     var html = '<div name="bpid_' + id + '" data-domain="inputs" class="row input showing">' +
+
         '<span data-input-index="' + number + '">' +
         '<span class="max-width-input field-unit"><label for="maxWidthInput_' + number + '" style="display:inline-block;">max-width&nbsp;</label><input id="maxWidthInput_' + number + '" style="width:60px;" type="number" placeholder="---" min="0" />&nbsp;%</span>' +
         '<span class="controls-add-subtract">' +
@@ -2465,6 +2474,7 @@ function breakpointInput(number, id) {
         '<textarea id="ckeditor_' + number + '" class="editor"></textarea>' +
         '</span>' +
         '</span>' +
+
         '</div>';
 
     return html;

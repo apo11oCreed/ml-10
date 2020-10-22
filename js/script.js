@@ -319,6 +319,8 @@ $(document).ready(function () {
                 originalLocation = $('#ifr')[0].contentWindow.location.origin;
 
             });
+
+
         }
 
     });
@@ -329,7 +331,8 @@ function simulate() {
     //$('#ifr')[0].contentWindow.location.reload();
     var textareaValue = $('.render').html(),
         textAreaStyles = $('style#banners').html(),
-        d = frames[0].document;
+        d = document.getElementById('ifr');
+    d = d.contentDocument.document || d.contentDocument;
 
     //var render = document.querySelectorAll('.render')[0];
     $('#simulateParent').css('height', 70 + $('iframe#ifr')[0].clientHeight + 'px');
@@ -366,30 +369,18 @@ function simulateCheck() {
 
     $.each(series, function (i) {
         breakpointHeight = Number(breakpointHeightRegx.exec($(series[i]).css('min-height'))[0]);
-        //console.log(breakpointHeight);
         breakpointTexts = $('span', series[i]).children();
-
-        //console.log(breakpointTexts);
 
         $.each(breakpointTexts, function (j) {
             breakpointTextHeight = $(breakpointTexts[j])[0].clientHeight;
-            // console.log($(breakpointTexts[j])[0].clientHeight);
-            // console.log($(breakpointTexts[j])[0].offsetHeight);
-            // console.log($(breakpointTexts[j])[0].scrollHeight);
 
             if (breakpointTextHeight > breakpointHeight) {
-
-                //console.log($(breakpointTexts[j]));
 
                 console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n>\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
 
                 $(breakpointTexts[j]).addClass('error');
 
             } else {
-
-                //console.log($(breakpointTexts[j]));
-
-                //console.log(breakpointTextHeight + ' < ' + breakpointHeight);
 
                 console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n<\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
 
@@ -967,7 +958,16 @@ function bannerBaseBehaviors(thisBanner) {
     });
 
     $('[id*="updateOnClick_"]', '[id="clickbehavior_' + id + '"]').on('click', function () {
-        assignOnClickBehavior($(this).parents('[id*="clickbehavior_"]').attr('id').substr(-4));
+
+        var iframeLocationIsLocal = iframeSetToLocal('ifr');
+
+        if (iframeLocationIsLocal) {
+            assignOnClickBehavior($(this).parents('[id*="clickbehavior_"]').attr('id').substr(-4));
+        } else {
+            simulate();
+            assignOnClickBehavior($(this).parents('[id*="clickbehavior_"]').attr('id').substr(-4));
+        }
+
     });
 
     console.log('thisBannerBaseBehaviors');
@@ -1411,6 +1411,17 @@ function displayOnClickBehavior(behaviorSelected, id) {
     }
 }
 
+function iframeSetToLocal(iframe) {
+    try {
+        document.getElementById(iframe).contentWindow.location.href;
+        return true;
+    } catch (e) {
+        $('#' + iframe).remove();
+
+        $('#simulateParent').append('<iframe id="ifr" scrolling="no" name="simulation" frameborder="0" style="width:768px;height:72px;display:block;margin:0 auto;box-shadow: 0px 0px 11px rgba(0,0,0,0.25);position:absolute;left: 50%;top: 65px;transform: translateX(-50%);" title="Banner Simulation"></iframe>');
+    }
+}
+
 function assignOnClickBehavior(id) {
     var type = $('[id="clickbehavior_' + id + '"] .showing').attr('name');
 
@@ -1425,7 +1436,6 @@ function assignOnClickBehavior(id) {
 
         globals.campaign.bannerObjects['banner_' + id].onClickBehavior.name = 'fireModal';
         globals.campaign.bannerObjects['banner_' + id].cursor = 'pointer';
-
 
         if ($('[id="modal_' + id + '"].modal')) {
 
@@ -1446,8 +1456,7 @@ function assignOnClickBehavior(id) {
 
     } else if (type == 'linkTo') {
 
-
-        var link = '#',
+        var link = $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"]').val() ? $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"]').val() : '#',
             relativeAbsolute = $('[id="clickbehavior_' + id + '"] input:radio[name="relativeAbsolute_' + id + '"]:checked').val(),
             sameNew = $('[id="clickbehavior_' + id + '"] input:radio[name="sameNewTab_' + id + '"]:checked').val();
 
@@ -1457,12 +1466,8 @@ function assignOnClickBehavior(id) {
         $('.render #banner_' + id).attr('target', '_blank');
         $('.render #banner_' + id).css('cursor', 'pointer');
 
-
-
         globals.campaign.bannerObjects['banner_' + id].onClickBehavior.name = 'linkTo';
         globals.campaign.bannerObjects['banner_' + id].cursor = 'pointer';
-
-        link = $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"]').val() ? $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"]').val() : '#';
 
         //relative
         //absolute
@@ -1478,10 +1483,6 @@ function assignOnClickBehavior(id) {
                 console.log('test1');
 
             } else {
-
-                $('#ifr')[0].contentWindow.location.reload();
-                updateStyles(id);
-                simulate();
 
                 $('[id="clickbehavior_' + id + '"] input[id="offerLink_' + id + '"].form-control1').removeClass('error');
 
@@ -1508,10 +1509,6 @@ function assignOnClickBehavior(id) {
             }
 
         } else {
-
-            $('#ifr')[0].contentWindow.location.reload();
-            updateStyles(id);
-            simulate();
 
             if (sameNew == 'sameTab') {
 

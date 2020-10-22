@@ -3,6 +3,10 @@ var globals = {
     bgMobilePlaceholder: 'Demo-image-575.png',
     maxBannerNumber: 4,
     minBannerNumber: 1,
+    simulation: {
+        width: 768,
+        height: 72
+    },
     campaign: {
         get getname() {
             return this.name == '' ? 'Campaign' : this.name;
@@ -376,13 +380,13 @@ function simulateCheck() {
 
             if (breakpointTextHeight > breakpointHeight) {
 
-                console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n>\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
+                // console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n>\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
 
                 $(breakpointTexts[j]).addClass('error');
 
             } else {
 
-                console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n<\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
+                // console.log('breakpointTextHeight\n' + $(breakpointTexts[j])[0].outerHTML + '\n' + breakpointTextHeight + 'px\n===\n<\n===\n' + 'breakpointHeight\n' + $(series[i])[0].outerHTML + '\n' + breakpointHeight + 'px');
 
                 $(breakpointTexts[j]).removeAttr('class');
 
@@ -640,10 +644,12 @@ function jsonRender(obj) {
 function coreBehaviors() {
 
     $('#simulateWidthHeightSettings').on('click', function () {
-        console.log('test');
 
-        $('#ifr').css('width', $('#simulateWidth').val() == '' ? 768 : $('#simulateWidth').val());
-        $('#ifr').css('height', $('#simulateHeight').val() == '' ? 72 : $('#simulateHeight').val());
+        globals.simulation.width = $('#simulateWidth').val() == '' ? globals.simulation.width : $('#simulateWidth').val();
+        globals.simulation.height = $('#simulateHeight').val() == '' ? globals.simulation.height : $('#simulateHeight').val();
+
+        $('#ifr').css('width', globals.simulation.width + 'px');
+        $('#ifr').css('height', globals.simulation.height + 'px');
 
         $('#simulateParent').css('height', 70 + $('iframe#ifr')[0].clientHeight + 'px');
 
@@ -1418,7 +1424,7 @@ function iframeSetToLocal(iframe) {
     } catch (e) {
         $('#' + iframe).remove();
 
-        $('#simulateParent').append('<iframe id="ifr" scrolling="no" name="simulation" frameborder="0" style="width:768px;height:72px;display:block;margin:0 auto;box-shadow: 0px 0px 11px rgba(0,0,0,0.25);position:absolute;left: 50%;top: 65px;transform: translateX(-50%);" title="Banner Simulation"></iframe>');
+        $('#simulateParent').append('<iframe id="ifr" scrolling="no" name="simulation" frameborder="0" style="width:' + globals.simulation.width + 'px;height:' + globals.simulation.height + 'px;display:block;margin:0 auto;box-shadow: 0px 0px 11px rgba(0,0,0,0.25);position:absolute;left: 50%;top: 65px;transform: translateX(-50%);" title="Banner Simulation"></iframe>');
     }
 }
 
